@@ -1,0 +1,12 @@
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\bin\Debug\net10.0\Utilities.deps.json
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\bin\Debug\net10.0\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\bin\Debug\net10.0\Utilities.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\Utilities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\Utilities.AssemblyInfoInputs.cache
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\Utilities.AssemblyInfo.cs
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\Utilities.csproj.CoreCompileInputs.cache
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\Utilities.sourcelink.json
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\refint\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\Utilities.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net10.0\ref\Utilities.dll

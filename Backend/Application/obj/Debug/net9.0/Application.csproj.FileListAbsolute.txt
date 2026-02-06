@@ -1,0 +1,38 @@
+D:\Backend\Backend\Application\obj\Debug\net9.0\Application.csproj.AssemblyReference.cache
+D:\Backend\Backend\Application\obj\Debug\net9.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Backend\Backend\Application\obj\Debug\net9.0\Application.AssemblyInfoInputs.cache
+D:\Backend\Backend\Application\obj\Debug\net9.0\Application.AssemblyInfo.cs
+D:\Backend\Backend\Application\obj\Debug\net9.0\Application.csproj.CoreCompileInputs.cache
+D:\Backend\Backend\Application\bin\Debug\net9.0\Application.deps.json
+D:\Backend\Backend\Application\bin\Debug\net9.0\Application.dll
+D:\Backend\Backend\Application\bin\Debug\net9.0\Application.pdb
+D:\Backend\Backend\Application\bin\Debug\net9.0\Domain.dll
+D:\Backend\Backend\Application\bin\Debug\net9.0\Infrastructure.dll
+D:\Backend\Backend\Application\bin\Debug\net9.0\Utilities.dll
+D:\Backend\Backend\Application\bin\Debug\net9.0\Domain.pdb
+D:\Backend\Backend\Application\bin\Debug\net9.0\Infrastructure.pdb
+D:\Backend\Backend\Application\bin\Debug\net9.0\Utilities.pdb
+D:\Backend\Backend\Application\obj\Debug\net9.0\Applicat.44B5EDA2.Up2Date
+D:\Backend\Backend\Application\obj\Debug\net9.0\Application.dll
+D:\Backend\Backend\Application\obj\Debug\net9.0\refint\Application.dll
+D:\Backend\Backend\Application\obj\Debug\net9.0\Application.pdb
+D:\Backend\Backend\Application\obj\Debug\net9.0\ref\Application.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Application.deps.json
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Application.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Application.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Domain.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Infrastructure.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Domain.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Infrastructure.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Application\bin\Debug\net9.0\Utilities.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Application.csproj.AssemblyReference.cache
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Application.AssemblyInfoInputs.cache
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Application.AssemblyInfo.cs
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Application.csproj.CoreCompileInputs.cache
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Applicat.44B5EDA2.Up2Date
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Application.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\refint\Application.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\Application.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Application\obj\Debug\net9.0\ref\Application.dll

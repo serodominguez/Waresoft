@@ -1,0 +1,22 @@
+D:\Backend\Backend\Utilities\bin\Debug\net9.0\Utilities.deps.json
+D:\Backend\Backend\Utilities\bin\Debug\net9.0\Utilities.dll
+D:\Backend\Backend\Utilities\bin\Debug\net9.0\Utilities.pdb
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\Utilities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\Utilities.AssemblyInfoInputs.cache
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\Utilities.AssemblyInfo.cs
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\Utilities.csproj.CoreCompileInputs.cache
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\Utilities.dll
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\refint\Utilities.dll
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\Utilities.pdb
+D:\Backend\Backend\Utilities\obj\Debug\net9.0\ref\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\bin\Debug\net9.0\Utilities.deps.json
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\bin\Debug\net9.0\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\bin\Debug\net9.0\Utilities.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\Utilities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\Utilities.AssemblyInfoInputs.cache
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\Utilities.AssemblyInfo.cs
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\Utilities.csproj.CoreCompileInputs.cache
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\refint\Utilities.dll
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\Utilities.pdb
+D:\Projects\IT Solutions\WareSoft\Backend\Utilities\obj\Debug\net9.0\ref\Utilities.dll
