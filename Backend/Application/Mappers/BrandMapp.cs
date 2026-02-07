@@ -24,7 +24,7 @@ namespace Application.Mappers
                 BrandName = entity.BrandName.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusBrand = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusBrand = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
 

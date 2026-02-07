@@ -89,6 +89,7 @@ namespace Application.Services
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
+                    return response;
                 }
 
                 string? userName = null;
@@ -200,7 +201,6 @@ namespace Application.Services
                 foreach (var item in details)
                 {
                     var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, issue.IdStore);
-
                     if (currentStock is null)
                     {
                         transaction.Rollback();

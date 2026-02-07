@@ -45,7 +45,7 @@ namespace Application.Mappers
                 AuditCreateUser = entity.AuditCreateUser,
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusIssue = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusIssue = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
 
@@ -65,7 +65,7 @@ namespace Application.Mappers
                 AuditCreateUser = entity.AuditCreateUser,
                 AuditCreateName = userName,
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusIssue = ((StateTypes)(entity.Status ? 1 : 0)).ToString(),
+                StatusIssue = ((States)(entity.Status ? 1 : 0)).ToString(),
                 GoodsIssueDetails = entity.GoodsIssueDetails
                         .Select(d => new GoodsIssueDetailsResponseDto
                         {

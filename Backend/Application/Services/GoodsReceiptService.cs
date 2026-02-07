@@ -90,6 +90,7 @@ namespace Application.Services
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
+                    return response;
                 }
 
                 string? userName = null;
@@ -162,6 +163,7 @@ namespace Application.Services
                             IdProduct = item.IdProduct,
                             IdStore = requestDto.IdStore,
                             StockAvailable = item.Quantity,
+                            StockInTransit = 0,
                             Price = 0
                         };
                         await _unitOfWork.StoreInventory.RegisterStockByProductsAsync(newStock);
@@ -211,7 +213,6 @@ namespace Application.Services
                 foreach (var item in details)
                 {
                     var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, receipt.IdStore);
-
                     if (currentStock is null)
                     {
                         transaction.Rollback();

@@ -37,7 +37,7 @@
               :loading="downloadingSheet" title="Descargar Planilla">
             </v-btn>
             <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar Planilla"></v-btn>
+              :loading="downloadingPdf" title="Descargar Pdf"></v-btn>
             <v-btn v-if="canDownload" icon="mdi:mdi-microsoft-excel" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>

@@ -40,7 +40,7 @@ namespace Application.Mappers
                 StoreName = entity.Store?.StoreName.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusUser = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusUser = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
 

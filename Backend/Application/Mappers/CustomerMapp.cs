@@ -30,7 +30,7 @@ namespace Application.Mappers
                 PhoneNumber = entity.PhoneNumber,
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusCustomer = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusCustomer = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
     }

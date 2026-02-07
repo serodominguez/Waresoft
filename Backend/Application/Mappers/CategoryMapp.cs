@@ -26,7 +26,7 @@ namespace Application.Mappers
                 Description = entity.Description.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusCategory = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusCategory = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
 

@@ -57,7 +57,7 @@ namespace Application.Services
 
                     if (permission.Status != existing.Status)
                     {
-                        var permissionToUpdate = PermissionMap.PermissionsMapping(permission);
+                        var permissionToUpdate = PermissionMapp.PermissionsMapping(permission);
                         permissionToUpdate.AuditUpdateUser = authenticatedUserId;
                         permissionToUpdate.AuditUpdateDate = DateTime.Now;
                         listPermissionsUpdate.Add(permissionToUpdate);
@@ -115,7 +115,7 @@ namespace Application.Services
                 {
                     response.Data = permissions
                                 .Where(p => p.Status && p.Module!.Status && p.Action!.Status)
-                                .Select(PermissionMap.PermissionsByUserResponseDtoMapping);
+                                .Select(PermissionMapp.PermissionsByUserResponseDtoMapping);
 
                     response.IsSuccess = true;
                     response.Message = ReplyMessage.MESSAGE_QUERY;
@@ -153,7 +153,7 @@ namespace Application.Services
                 {
                     response.Data = permissions
                                 .Where(p => p.Module!.Status && p.Action!.Status)
-                                .Select(PermissionMap.PermissionsByRoleResponseDtoMapping);
+                                .Select(PermissionMapp.PermissionsByRoleResponseDtoMapping);
 
                     response.IsSuccess = true;
                     response.Message = ReplyMessage.MESSAGE_QUERY;

@@ -38,7 +38,7 @@ namespace Application.Mappers
                 CategoryName = entity.Category?.CategoryName.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusProduct = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusProduct = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
     }

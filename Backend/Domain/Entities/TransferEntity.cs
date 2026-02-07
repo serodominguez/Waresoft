@@ -16,7 +16,7 @@
         public DateTime? AuditUpdateDate { get; set; }
         public int? AuditDeleteUser { get; set; }
         public DateTime? AuditDeleteDate { get; set; }
-        public string? Status { get; set; }
+        public int Status { get; set; }
         public virtual StoreEntity StoreOrigin { get; set; } = null!;
         public virtual StoreEntity StoreDestination { get; set; } = null!;
         public ICollection<TransferDetailsEntity> TransferDetails { get; set; } = new List<TransferDetailsEntity>();

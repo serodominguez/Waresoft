@@ -30,7 +30,9 @@
               <td>{{ item.categoryName }}</td>
               <td>{{ item.brandName }}</td>
               <td class="text-center">{{ item.price }}</td>
-              <td class="text-center">{{ item.stockAvailable }}</td>
+              <td class="text-center" :class="{ 'text-red': (item.stockAvailable ?? 0) < 0 }">
+                {{ item.stockAvailable }}
+              </td>
               <td class="text-center">
                 <v-btn color="blue" icon="add" variant="text" @click="handleProductAdd(item)" size="small"
                   title="Agregar" />

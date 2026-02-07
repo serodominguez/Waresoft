@@ -21,6 +21,7 @@ namespace Infrastructure.Persistences.Interfaces
         IProductRepository Product { get; }
         IRoleRepository Role { get; }
         IStoreInventoryRepository StoreInventory { get; }
+        ITransferDetailsRepository TransferDetails { get; }
         ITransferRepository Transfer { get; }
         IUserRepository User { get; }
 

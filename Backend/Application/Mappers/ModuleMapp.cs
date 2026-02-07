@@ -23,7 +23,7 @@ namespace Application.Mappers
                 ModuleName = entity.ModuleName,
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusModule = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusModule = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
     }

@@ -45,6 +45,7 @@ namespace Application.Extensions
             services.AddScoped<IStoreInventoryService, StoreInventoryService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<ITransferService, TransferService>();
             services.AddScoped<IUserService, UserService>();
 
             return services;

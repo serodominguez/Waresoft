@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Application.Mappers
 {
-    public static class PermissionMap
+    public static class PermissionMapp
     {
         public static PermissionEntity PermissionsMapping(PermissionRequestDto dto)
         {

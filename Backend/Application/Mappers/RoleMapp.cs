@@ -24,7 +24,7 @@ namespace Application.Mappers
                 RoleName = entity.RoleName.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
-                StatusRole = ((StateTypes)(entity.Status ? 1 : 0)).ToString()
+                StatusRole = ((States)(entity.Status ? 1 : 0)).ToString()
             };
         }
 

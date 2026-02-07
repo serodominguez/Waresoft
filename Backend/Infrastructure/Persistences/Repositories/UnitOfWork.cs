@@ -26,6 +26,7 @@ namespace Infrastructure.Persistences.Repositories
         public IProductRepository _product = null!;
         public IRoleRepository _role = null!;
         public IStoreInventoryRepository _storeInventory = null!;
+        public ITransferDetailsRepository _transferDetails = null!;
         public ITransferRepository _transfer = null!;
         public IUserRepository _user = null!;
 
@@ -50,6 +51,7 @@ namespace Infrastructure.Persistences.Repositories
         public IProductRepository Product => _product ?? new ProductRepository(_context);   
         public IRoleRepository Role => _role ?? new RoleRepository(_context);
         public IStoreInventoryRepository StoreInventory => _storeInventory ?? new StoreInventoryRepository(_context);
+        public ITransferDetailsRepository TransferDetails => _transferDetails ?? new TransferDetailsRepository(_context);
         public ITransferRepository Transfer => _transfer ?? new TransferRepository(_context);
         public IUserRepository User => _user ?? new UserRepository(_context);
 
