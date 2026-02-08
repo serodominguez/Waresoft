@@ -96,7 +96,7 @@ namespace Application.Services
                 if (issue!.AuditCreateUser.HasValue)
                 {
                     var user = await _unitOfWork.User.GetByIdAsync(issue.AuditCreateUser.Value);
-                    userName = user?.UserName;
+                    userName = user?.Names+' '+ user?.LastNames;
                 }
 
                 var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsAsync(issue!.IdIssue);

@@ -33,7 +33,7 @@ namespace Api.Controllers
             {
                 if (downloadType?.ToLower() == "pdf")
                 {
-                    var columnNames = PdfColumnNames.GetColumnsGoodsIssue();
+                    var columnNames = PdfColumnNames.GetColumnsTransfer();
                     var fileBytes = _generatePdfService.GenerateListPdf(
                         response.Data!,
                         columnNames,
@@ -44,7 +44,7 @@ namespace Api.Controllers
                 }
                 else
                 {
-                    var columnNames = ExcelColumnNames.GetColumnsGoodsIssue();
+                    var columnNames = ExcelColumnNames.GetColumnsTransfer();
                     var fileBytes = _generateExcelService.GenerateToExcel(
                         response!.Data!,
                         columnNames,
@@ -88,6 +88,18 @@ namespace Api.Controllers
         {
             var response = await _transferService.CancelTransfer(AuthenticatedUserId, transferId);
             return Ok(response);
+        }
+
+        [HttpGet("ExportPdf/{transferId:int}")]
+        [RequirePermission("Traspaso de Productos", "Descargar")]
+        [Produces("application/pdf")]
+        public async Task<IActionResult> ExportPdfTransfer(int transferId)
+        {
+            var response = await _transferService.TransferById(transferId);
+            var fileBytes = _generatePdfService.TransferGeneratePdf(response.Data!);
+
+            var fileName = $"Traspaso_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            return File(fileBytes, "application/pdf", fileName);
         }
     }
 }

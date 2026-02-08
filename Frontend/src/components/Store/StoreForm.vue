@@ -2,7 +2,7 @@
   <v-dialog v-model="isOpen" max-width="500px" persistent>
     <v-card>
       <v-card-title class="bg-surface-light pt-4">
-        <span>{{ localStore.idStore ? 'Editar Tienda' : 'Agregar Tienda' }}</span>
+        <span>{{ localStore.idStore ? 'Editar Establecimiento' : 'Agregar Establecimiento' }}</span>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -11,7 +11,7 @@
             <v-row>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localStore.storeName"
-                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Tienda" required />
+                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Establecimiento" required />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localStore.manager"
@@ -154,8 +154,8 @@ const saveStore = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Tienda actualizada con éxito!'
-        : 'Tienda registrada con éxito!';
+        ? 'Establecimiento actualizado con éxito!'
+        : 'Establecimiento registrado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localStore.value });
@@ -165,8 +165,8 @@ const saveStore = async () => {
   } catch (error: any) {
     const isEditing = !!localStore.value.idStore;
     const customMessage = isEditing
-      ? 'Error en actualizar la tienda'
-      : 'Error en guardar la tienda';
+      ? 'Error en actualizar el establecimiento'
+      : 'Error en guardar el establecimiento';
 
     handleApiError(error, customMessage);
   } finally {

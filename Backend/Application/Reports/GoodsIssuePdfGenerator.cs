@@ -41,14 +41,12 @@ namespace Application.Reports
             {
                 column.Item().AlignCenter().Text(text =>
                 {
-                    text.Span("Sucursal: ").Style(titleStyle);
-                    text.Span(_issue.StoreName).Style(titleStyle);
+                    text.Span("Salida de Productos").Style(titleStyle);
                 });
 
                 column.Item().AlignCenter().Text(text =>
                 {
-                    text.Span("Documento: ").Style(titleStyle);
-                    text.Span(_issue.Code).Style(titleStyle);
+                    text.Span(_issue.StoreName).Style(titleStyle); ;
                 });
 
                 column.Item().PaddingTop(15);
@@ -57,6 +55,15 @@ namespace Application.Reports
                 {
                     row.RelativeItem().Column(leftColumn =>
                     {
+                        leftColumn.Item().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Código: ").SemiBold();
+                            text.Span($"{_issue.Code}");
+                        });
+
+                        leftColumn.Spacing(5);
+
                         leftColumn.Item().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
@@ -70,12 +77,21 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Fecha de Registro: ").SemiBold();
-                            text.Span($"{_issue.AuditCreateDate:d}");
+                            text.Span($"{_issue.AuditCreateDate}");
                         });
                     });
 
                     row.RelativeItem().Column(rightColumn =>
                     {
+                        rightColumn.Item().AlignRight().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Estado: ").SemiBold();
+                            text.Span($"{_issue.StatusIssue}");
+                        });
+
+                        rightColumn.Spacing(5);
+
                         rightColumn.Item().AlignRight().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));

@@ -2016,6 +2016,22 @@
   },
   {
     "ContainingType": "Api.Controllers.TransferController",
+    "Method": "ExportPdfTransfer",
+    "RelativePath": "api/Transfer/ExportPdf/{transferId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transferId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.TransferController",
     "Method": "ReceiveTransfer",
     "RelativePath": "api/Transfer/Receive/{transferId}",
     "HttpMethod": "POST",

@@ -63,7 +63,7 @@ namespace Application.Mappers
                 IdStore = entity.IdStore,
                 StoreName = entity.Store.StoreName.ToTitleCase(),
                 AuditCreateUser = entity.AuditCreateUser,
-                AuditCreateName = userName,
+                AuditCreateName = userName.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 StatusIssue = ((States)(entity.Status ? 1 : 0)).ToString(),
                 GoodsIssueDetails = entity.GoodsIssueDetails

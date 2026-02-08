@@ -76,7 +76,7 @@ interface Props extends Omit<BaseListProps<Store>, 'items' | 'totalItems'> {
 
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
-  selectedFilter: 'Tienda',
+  selectedFilter: 'Establecimiento',
   state: 'Activos',
   startDate: null,
   endDate: null,
@@ -120,12 +120,12 @@ const emit = defineEmits<{
   'update:endDate': [value: Date | null];
 }>();
 
-const pages = ref("Tiendas por Página");
+const pages = ref("Establecimientos por Página");
 const search = ref<string | null>(null);
-const filterOptions = ref(['Tienda', 'Encargado', 'Dirección', 'Ciudad']);
+const filterOptions = ref(['Establecimiento', 'Encargado', 'Dirección', 'Ciudad']);
 
 const headers = computed(() => [
-  { title: 'Tienda', key: 'storeName', sortable: false },
+  { title: 'Establecimiento', key: 'storeName', sortable: false },
   { title: 'Encargado', key: 'manager', sortable: false },
   { title: 'Dirección', key: 'address', sortable: false },
   { title: 'Ciudad', key: 'city', sortable: false },

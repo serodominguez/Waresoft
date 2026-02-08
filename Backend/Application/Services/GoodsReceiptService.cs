@@ -97,7 +97,7 @@ namespace Application.Services
                 if (receipt!.AuditCreateUser.HasValue)
                 {
                     var user = await _unitOfWork.User.GetByIdAsync(receipt.AuditCreateUser.Value);
-                    userName = user?.UserName;
+                    userName = user?.Names + ' ' + user?.LastNames;
                 }
 
                 var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsAsync(receipt!.IdReceipt);

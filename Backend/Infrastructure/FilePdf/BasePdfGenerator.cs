@@ -62,7 +62,7 @@ namespace Infrastructure.FilePdf
                     leftColumn.Item().Text("Entregado por:").FontSize(10).SemiBold();
                     leftColumn.Item().PaddingTop(40);
                     leftColumn.Item().BorderTop(1).BorderColor(Colors.Black).Text("").FontSize(9);
-                    leftColumn.Item().AlignCenter().Text("Nombre y Firma").FontSize(8);
+                    leftColumn.Item().AlignCenter().Text("Firma").FontSize(8);
                 });
 
                 row.ConstantItem(50);
@@ -72,7 +72,7 @@ namespace Infrastructure.FilePdf
                     rightColumn.Item().Text("Recibido por:").FontSize(10).SemiBold();
                     rightColumn.Item().PaddingTop(40);
                     rightColumn.Item().BorderTop(1).BorderColor(Colors.Black).Text("").FontSize(9);
-                    rightColumn.Item().AlignCenter().Text("Nombre y Firma").FontSize(8);
+                    rightColumn.Item().AlignCenter().Text("Firma").FontSize(8);
                 });
             });
         }

@@ -1,8 +1,9 @@
 ﻿using Application.Dtos.Response.GoodsIssue;
 using Application.Dtos.Response.GoodsReceipt;
 using Application.Dtos.Response.StoreInventory;
-using Application.Reports;
+using Application.Dtos.Response.Transfer;
 using Application.Interfaces;
+using Application.Reports;
 using Infrastructure.FilePdf;
 using Microsoft.Extensions.Configuration;
 using Utilities.Static;
@@ -29,6 +30,12 @@ namespace Application.Services
         public byte[] GoodsReceiptGeneratePdf(GoodsReceiptWithDetailsResponseDto receipt)
         {
             var generator = new GoodsReceiptPdfGenerator(receipt);
+            return generator.GeneratePdf();
+        }
+
+        public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer)
+        {
+            var generator = new TransferPdfGenerator(transfer);
             return generator.GeneratePdf();
         }
 

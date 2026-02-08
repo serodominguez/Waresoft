@@ -11,7 +11,7 @@
     <StoreForm v-model="form" :store="selectedStore" @saved="handleSaved" />
 
     <CommonModal v-model="modal" :itemId="selectedStore?.idStore || 0" :item="selectedStore?.storeName || ''"
-      :action="action" moduleName="store" entityName="Store" name="Tienda" gender="female"
+      :action="action" moduleName="store" entityName="Store" name="Establecimiento" gender="male"
       @action-completed="handleActionCompleted" />
   </div>
 </template>
@@ -34,12 +34,12 @@ const authStore = useAuthStore();
 const toast = useToast();
 
 const filterMap: Record<string, number> = {
-  "Tienda": 1,
+  "Establecimiento": 1,
   "Encargado": 2,
   "Dirección": 3,
   "Ciudad": 4
 };
-const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Tienda', filterMap);
+const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Establecimiento', filterMap);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
@@ -112,7 +112,7 @@ const searchStores = async (params: any) => {
     });
     currentPage.value = 1;
   } catch (error) {
-    handleApiError(error, 'Error al buscar tiendas');
+    handleApiError(error, 'Error al buscar establecimientos');
   }
 };
 

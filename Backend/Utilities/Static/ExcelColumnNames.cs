@@ -206,6 +206,23 @@
         }
         #endregion
 
+        #region ColumnsTransfer
+        public static List<(string ColumnName, string PropertyName)> GetColumnsTransfer()
+        {
+            var columnsProperties = new List<(string ColumnName, string PropertyName)>
+            {
+                ("CÓDIGO", "Code"),
+                ("FECHA ENVIO", "SendDate"),
+                ("FECHA RECEPCIÓN", "ReceiveDate"),
+                ("ORIGEN", "StoreOrigin"),
+                ("DESTINO", "StoreDestination"),
+                ("ESTADO", "StatusTransfer")
+            };
+
+            return columnsProperties;
+        }
+        #endregion
+
         #region ColumnsUser
         public static List<(string ColumnName, string PropertyName)> GetColumnsUsers()
         {
