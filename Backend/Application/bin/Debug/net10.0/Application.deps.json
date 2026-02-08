@@ -11,7 +11,7 @@
           "Domain": "1.0.0",
           "FluentValidation": "12.1.1",
           "Infrastructure": "1.0.0",
-          "QuestPDF": "2025.7.4",
+          "QuestPDF": "2025.12.4",
           "Utilities": "1.0.0"
         },
         "runtime": {
@@ -460,11 +460,11 @@
           }
         }
       },
-      "QuestPDF/2025.7.4": {
+      "QuestPDF/2025.12.4": {
         "runtime": {
-          "lib/net8.0/QuestPDF.dll": {
-            "assemblyVersion": "2025.7.4.0",
-            "fileVersion": "2025.7.4.0"
+          "lib/net10.0/QuestPDF.dll": {
+            "assemblyVersion": "2025.12.4.0",
+            "fileVersion": "2025.12.4.0"
           }
         },
         "runtimeTargets": {
@@ -717,6 +717,7 @@
         "dependencies": {
           "ClosedXML": "0.105.0",
           "Domain": "1.0.0",
+          "QuestPDF": "2025.12.4",
           "System.Linq.Dynamic.Core": "1.7.1",
           "Utilities": "1.0.0"
         },
@@ -981,12 +982,12 @@
       "path": "microsoft.sqlserver.server/1.0.0",
       "hashPath": "microsoft.sqlserver.server.1.0.0.nupkg.sha512"
     },
-    "QuestPDF/2025.7.4": {
+    "QuestPDF/2025.12.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-XeiWilwLnqP2BIvDG+vh1+fjUoNWczPee5qifw8VppVOH7+vmxgoxG/KANcKftgqAfXiRQ++sXOSLPZRvXxD2g==",
-      "path": "questpdf/2025.7.4",
-      "hashPath": "questpdf.2025.7.4.nupkg.sha512"
+      "sha512": "sha512-dDeLlrj/7dxZFUDzmGYqmWW9VWrD30+6SztusBMvDGlz0w2MaA9WVW2ISLGL8ufUjinJr97yHDkdIl3ueMgmow==",
+      "path": "questpdf/2025.12.4",
+      "hashPath": "questpdf.2025.12.4.nupkg.sha512"
     },
     "RBush.Signed/4.0.0": {
       "type": "package",

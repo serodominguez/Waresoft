@@ -640,15 +640,15 @@
           }
         }
       },
-      "QuestPDF/2025.7.4": {
+      "QuestPDF/2025.12.4": {
         "type": "package",
         "compile": {
-          "lib/net8.0/QuestPDF.dll": {
+          "lib/net10.0/QuestPDF.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/QuestPDF.dll": {
+          "lib/net10.0/QuestPDF.dll": {
             "related": ".xml"
           }
         },
@@ -954,6 +954,7 @@
         "dependencies": {
           "ClosedXML": "0.105.0",
           "Domain": "1.0.0",
+          "QuestPDF": "2025.12.4",
           "System.Linq.Dynamic.Core": "1.7.1",
           "Utilities": "1.0.0"
         },
@@ -1872,10 +1873,10 @@
         "microsoft.sqlserver.server.nuspec"
       ]
     },
-    "QuestPDF/2025.7.4": {
-      "sha512": "XeiWilwLnqP2BIvDG+vh1+fjUoNWczPee5qifw8VppVOH7+vmxgoxG/KANcKftgqAfXiRQ++sXOSLPZRvXxD2g==",
+    "QuestPDF/2025.12.4": {
+      "sha512": "dDeLlrj/7dxZFUDzmGYqmWW9VWrD30+6SztusBMvDGlz0w2MaA9WVW2ISLGL8ufUjinJr97yHDkdIl3ueMgmow==",
       "type": "package",
-      "path": "questpdf/2025.7.4",
+      "path": "questpdf/2025.12.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1885,7 +1886,7 @@
         "ExternalDependencyLicenses/emsdk.txt",
         "ExternalDependencyLicenses/expat.txt",
         "ExternalDependencyLicenses/harfbuzz.txt",
-        "ExternalDependencyLicenses/icu.txt",
+        "ExternalDependencyLicenses/libgrapheme.txt",
         "ExternalDependencyLicenses/libjpeg-turbo.txt",
         "ExternalDependencyLicenses/libpng.txt",
         "ExternalDependencyLicenses/libwebp.txt",
@@ -1924,13 +1925,15 @@
         "build/net4/QuestPDF.targets",
         "buildTransitive/QuestPDF.targets",
         "buildTransitive/net4/QuestPDF.targets",
+        "lib/net10.0/QuestPDF.dll",
+        "lib/net10.0/QuestPDF.xml",
         "lib/net6.0/QuestPDF.dll",
         "lib/net6.0/QuestPDF.xml",
         "lib/net8.0/QuestPDF.dll",
         "lib/net8.0/QuestPDF.xml",
         "lib/netstandard2.0/QuestPDF.dll",
         "lib/netstandard2.0/QuestPDF.xml",
-        "questpdf.2025.7.4.nupkg.sha512",
+        "questpdf.2025.12.4.nupkg.sha512",
         "questpdf.nuspec",
         "runtimes/linux-arm64/native/libQuestPdfSkia.so",
         "runtimes/linux-arm64/native/libqpdf.so",
@@ -2308,7 +2311,7 @@
       "Domain >= 1.0.0",
       "FluentValidation >= 12.1.1",
       "Infrastructure >= 1.0.0",
-      "QuestPDF >= 2025.7.4",
+      "QuestPDF >= 2025.12.4",
       "Utilities >= 1.0.0"
     ]
   },
@@ -2378,7 +2381,7 @@
           },
           "QuestPDF": {
             "target": "Package",
-            "version": "[2025.7.4, )"
+            "version": "[2025.12.4, )"
           }
         },
         "imports": [

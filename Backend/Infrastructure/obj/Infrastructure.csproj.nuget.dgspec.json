@@ -412,6 +412,10 @@
               "target": "Package",
               "version": "[0.105.0, )"
             },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.12.4, )"
+            },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
               "version": "[1.7.1, )"

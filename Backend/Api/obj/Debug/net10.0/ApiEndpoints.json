@@ -1983,6 +1983,70 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Api.Controllers.TransferController",
+    "Method": "TransferById",
+    "RelativePath": "api/Transfer/{transferId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transferId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.TransferController",
+    "Method": "CancelGoodsIssue",
+    "RelativePath": "api/Transfer/Disable/{transferId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transferId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.TransferController",
+    "Method": "ReceiveTransfer",
+    "RelativePath": "api/Transfer/Receive/{transferId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "transferId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.TransferController",
+    "Method": "SendTransfer",
+    "RelativePath": "api/Transfer/Send",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestDto",
+        "Type": "Application.Dtos.Request.Transfer.TransferRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Api.Controllers.UserController",
     "Method": "ListUsers",
     "RelativePath": "api/User",

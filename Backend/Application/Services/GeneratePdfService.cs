@@ -1,8 +1,9 @@
 ﻿using Application.Dtos.Response.GoodsIssue;
 using Application.Dtos.Response.GoodsReceipt;
 using Application.Dtos.Response.StoreInventory;
-using Application.Generators.Pdf;
+using Application.Reports;
 using Application.Interfaces;
+using Infrastructure.FilePdf;
 using Microsoft.Extensions.Configuration;
 using Utilities.Static;
 
@@ -11,10 +12,12 @@ namespace Application.Services
     public class GeneratePdfService : IGeneratePdfService
     {
         private readonly IConfiguration _configuration;
+        private readonly IListPdfGeneratorFactory _listPdfFactory;
 
-        public GeneratePdfService(IConfiguration configuration)
+        public GeneratePdfService(IConfiguration configuration, IListPdfGeneratorFactory listPdfFactory)
         {
             _configuration = configuration;
+            _listPdfFactory = listPdfFactory;
         }
 
         public byte[] GoodsIssueGeneratePdf(GoodsIssueWithDetailsResponseDto issue)
@@ -38,7 +41,7 @@ namespace Application.Services
         public byte[] GenerateListPdf<T>(IEnumerable<T> data, List<(string ColumnName, string PropertyName)> columns, string title, string subtitle = "") where T : class
         {
             var pdfColumns = PdfColumnNames.GetColumns(columns);
-            var generator = new ListPdfGenerator<T>(data, pdfColumns, title, subtitle);
+            var generator = _listPdfFactory.CreateGenerator(data, pdfColumns, title, subtitle);
             return generator.GeneratePdf();
         }
     }

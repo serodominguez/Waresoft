@@ -1,4 +1,5 @@
 ﻿using Infrastructure.FileExcel;
+using Infrastructure.FilePdf;
 using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Repositories;
@@ -21,19 +22,10 @@ namespace Infrastructure.Extensions
             ;
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IGenerateExcel, GenerateExcel>();
+            services.AddTransient<IListPdfGeneratorFactory, ListPdfGeneratorFactory>();
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             //services.AddScoped<IActionRepository, ActionRepository>();
-            //services.AddScoped<IGoodsIssueDetailsRepository, GoodsIssueDetailsRepository>();
-            //services.AddScoped<IGoodsIssueRepository, GoodsIssueRepository>();
-            //services.AddScoped<IGoodsReceiptDetailsRepository, GoodsReceiptDetailsRepository>();
-            //services.AddScoped<IGoodsReceiptRepository, GoodsReceiptRepository>();
-            //services.AddScoped<IInventoryRepository, InventoryRepository>();
-            //services.AddScoped<IModuleRepository, ModuleRepository>();
-            //services.AddScoped<IPermissionRepository, PermissionRepository>();
-            //services.AddScoped<IProductRepository, ProductRepository>();
-            //services.AddScoped<IRoleRepository, RoleRepository>();
-            //services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

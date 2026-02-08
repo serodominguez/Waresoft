@@ -38,10 +38,7 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.AspNet
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Bcl.Cryptography.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Build.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Build.Framework.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Build.Tasks.Core.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Build.Utilities.Core.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
@@ -63,9 +60,9 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Identi
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.NET.StringTools.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.OpenApi.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.SqlServer.Server.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.VisualStudio.SolutionPersistence.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Mono.TextTemplating.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Newtonsoft.Json.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\QuestPDF.dll
@@ -82,16 +79,11 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Compositi
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Composition.Runtime.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Composition.TypedParts.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Configuration.ConfigurationManager.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Formats.Nrbf.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.IO.Packaging.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Linq.Dynamic.Core.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Memory.Data.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Reflection.MetadataLoadContext.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Resources.Extensions.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Security.Cryptography.ProtectedData.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Security.Permissions.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Windows.Extensions.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.resources.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.resources.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.resources.dll
@@ -197,7 +189,6 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x86
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x86\native\libwinpthread-1.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x86\native\qpdf.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x86\native\zlib1.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win\lib\net9.0\System.Windows.Extensions.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Application.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Domain.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Infrastructure.dll

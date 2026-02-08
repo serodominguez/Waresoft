@@ -62,21 +62,21 @@
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[10.0.0, )"
+              "version": "[10.0.2, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[10.0.0, )"
+              "version": "[10.0.2, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.0, )"
+              "version": "[10.0.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.0.1, )"
+              "version": "[10.1.2, )"
             }
           },
           "imports": [
@@ -578,7 +578,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2025.7.4, )"
+              "version": "[2025.12.4, )"
             }
           },
           "imports": [
@@ -1282,6 +1282,10 @@
             "ClosedXML": {
               "target": "Package",
               "version": "[0.105.0, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.12.4, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
