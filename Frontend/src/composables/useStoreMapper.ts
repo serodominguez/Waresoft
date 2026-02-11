@@ -1,11 +1,14 @@
 import { useBrandStore } from '@/stores/brandStore';
 import { useCategoryStore } from '@/stores/categoryStore';
 import { useCustomerStore } from '@/stores/customerStore';
+import { useGoodsIssueStore } from '@/stores/goodsIssueStore';
+import { useGoodsReceiptStore } from '@/stores/goodsReceiptStore';
 import { useModuleStore } from '@/stores/moduleStore';
 import { useProductStore } from '@/stores/productStore';
 import { useRoleStore } from '@/stores/roleStore';
 import { useStoreStore } from '@/stores/storeStore';
 import { useSupplierStore } from '@/stores/supplierStore';
+import { useTransferStore } from '@/stores/transferStore'
 import { useUserStore } from '@/stores/userStore';
 // ... importa los demás stores
 
@@ -15,11 +18,14 @@ export const useStoreMapper = () => {
         brand: useBrandStore(),
         category: useCategoryStore(),
         customer: useCustomerStore(),
+        goodsissue: useGoodsIssueStore(),
+        goodsreceipt: useGoodsReceiptStore(),
         module: useModuleStore(),
         product: useProductStore(),
         role: useRoleStore(),
         store: useStoreStore(),
         supplier: useSupplierStore(),
+        transfer: useTransferStore(),
         user: useUserStore(),
         // ... agrega los demás módulos
     };

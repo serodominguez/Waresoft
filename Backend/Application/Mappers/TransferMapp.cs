@@ -28,7 +28,7 @@ namespace Application.Mappers
             };
         }
 
-        public static TransferResponseDto TransferResponseDtoMapping(TransferEntity entity)
+        public static TransferResponseDto TransferResponseDtoMapping(TransferEntity entity, Dictionary<int, string> userNames)
         {
             return new TransferResponseDto
             {
@@ -42,10 +42,10 @@ namespace Application.Mappers
                 StoreOrigin = entity.StoreOrigin.StoreName.ToTitleCase(),
                 IdStoreDestination = entity.IdStoreDestination,
                 StoreDestination = entity.StoreDestination.StoreName.ToTitleCase(),
-                AuditCreateUser = entity.AuditCreateUser,
+                UserName = entity.AuditCreateUser.HasValue && userNames.TryGetValue(entity.AuditCreateUser.Value, out var name) ? name : string.Empty,
                 Status = entity.Status,
                 StatusTransfer = ((Transfers)entity.Status).ToString()
-            };
+            };  
         }
 
         public static TransferWithDetailsResponseDto TransferWithDetailsResponseDtoMapping(TransferEntity entity, string? userSend = null, string? userReceive = null)

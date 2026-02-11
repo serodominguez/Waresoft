@@ -62,12 +62,12 @@ namespace Api.Controllers
         [RequirePermission("Traspaso de Productos", "Leer")]
         public async Task<IActionResult> TransferById(int transferId)
         {
-            var response = await _transferService.TransferById(transferId);
+            var response = await _transferService.TransferById(AuthenticatedUserStoreId, transferId);
             return Ok(response);
         }
 
         [HttpPost("Send")]
-        [RequirePermission("Traspaso de Productos", "Enviar")]
+        [RequirePermission("Traspaso de Productos", "Crear")]
         public async Task<IActionResult> SendTransfer([FromBody] TransferRequestDto requestDto)
         {
             var response = await _transferService.SendTransfer(AuthenticatedUserId, requestDto);
@@ -75,7 +75,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("Receive/{transferId:int}")]
-        [RequirePermission("Traspaso de Productos", "Recibir")]
+        [RequirePermission("Traspaso de Productos", "Editar")]
         public async Task<IActionResult> ReceiveTransfer(int transferId)
         {
             var response = await _transferService.ReceiveTransfer(AuthenticatedUserId, transferId);
@@ -95,7 +95,7 @@ namespace Api.Controllers
         [Produces("application/pdf")]
         public async Task<IActionResult> ExportPdfTransfer(int transferId)
         {
-            var response = await _transferService.TransferById(transferId);
+            var response = await _transferService.TransferById(AuthenticatedUserId, transferId);
             var fileBytes = _generatePdfService.TransferGeneratePdf(response.Data!);
 
             var fileName = $"Traspaso_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";

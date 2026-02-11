@@ -130,6 +130,7 @@ const linkDirectStore: Link[] = [
 const linkMovements: Link[] = [
   { icon: 'add_shopping_cart', text: 'Entradas', route: '/entradas', module: 'entrada de productos' },
   { icon: 'remove_shopping_cart', text: 'Salidas', route: '/salidas', module: 'salida de productos' },
+  { icon: 'shopping_cart_checkout', text: 'Traspasos', route: '/traspasos', module: 'traspaso de productos' },
 ];
 
 // Enlaces del menú de Accesos (gestión de usuarios y roles)

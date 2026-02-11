@@ -12,7 +12,7 @@
         public string? StoreOrigin { get; set; }
         public int IdStoreDestination { get; set; }
         public string? StoreDestination { get; set; }
-        public int? AuditCreateUser { get; set; }
+        public string? UserName { get; set; }
         public int Status { get; set; }
         public string? StatusTransfer { get; set; }
     }

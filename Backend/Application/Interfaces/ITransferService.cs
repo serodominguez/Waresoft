@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface ITransferService
     {
         Task<BaseResponse<IEnumerable<TransferResponseDto>>> ListTransferByStore(int authenticatedStoreId, BaseFiltersRequest filters);
-        Task<BaseResponse<TransferWithDetailsResponseDto>> TransferById(int transferId);
+        Task<BaseResponse<TransferWithDetailsResponseDto>> TransferById(int authenticatedStoreId, int transferId);
         Task<BaseResponse<bool>> SendTransfer(int authenticatedUserId, TransferRequestDto requestDto);
         Task<BaseResponse<bool>> ReceiveTransfer(int authenticatedUserId, int transferId);
         Task<BaseResponse<bool>> CancelTransfer(int authenticatedUserId, int transferId);

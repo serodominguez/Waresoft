@@ -9,6 +9,7 @@ using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -65,8 +66,14 @@ namespace Application.Services
 
                 TransferStatusLogic(items, authenticatedStoreId);
 
+                var users = await _unitOfWork.User.GetSelectAsync();
+                var userDictionary = users.ToDictionary(
+                    u => u.Id,
+                    u => $"{u.Names} {u.LastNames}".Trim().ToTitleCase()
+                );
+
                 response.IsSuccess = true;
-                response.Data = items.Select(TransferMapp.TransferResponseDtoMapping);
+                response.Data = items.Select(x => TransferMapp.TransferResponseDtoMapping(x, userDictionary));
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception ex)
@@ -78,7 +85,7 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<TransferWithDetailsResponseDto>> TransferById(int trasnferId)
+        public async Task<BaseResponse<TransferWithDetailsResponseDto>> TransferById(int authenticatedStoreId, int trasnferId)
         {
             var response = new BaseResponse<TransferWithDetailsResponseDto>();
 
@@ -107,8 +114,12 @@ namespace Application.Services
                 }
 
                 var details = await _unitOfWork.TransferDetails.GetTransferDetailsAsync(transfer!.IdTransfer);
-
                 transfer.TransferDetails = details.ToList();
+
+                if (transfer.IdStoreDestination == authenticatedStoreId && transfer.Status == 1)
+                {
+                    transfer.Status = 3;
+                }
 
                 response.IsSuccess = true;
                 response.Data = TransferMapp.TransferWithDetailsResponseDtoMapping(transfer, userSend, userReceive);
@@ -143,6 +154,7 @@ namespace Application.Services
             {
                 var entity = TransferMapp.TransferMapping(requestDto);
                 entity.Code = await _unitOfWork.Transfer.GenerateCodeAsync();
+                entity.SendDate = DateTime.Now;
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = 1;
@@ -199,6 +211,7 @@ namespace Application.Services
 
                 var details = await _unitOfWork.TransferDetails.GetTransferDetailsAsync(transfer!.IdTransfer);
 
+                transfer.ReceiveDate = DateTime.Now;
                 transfer.AuditDeleteUser = authenticatedUserId;
                 transfer.AuditDeleteDate = DateTime.Now;
                 transfer.Status = 2;

@@ -138,6 +138,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/traspasos",
+    name: "transfer",
+    component: () => import("@/views/TransferView.vue"),
+    meta: {
+      requiresAuth: true,
+      module: "traspaso de productos",
+    },
+  },
+  {
     path: "/usuarios",
     name: "user",
     component: () => import("@/views/UserView.vue"),
