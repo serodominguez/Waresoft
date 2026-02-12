@@ -10,32 +10,27 @@
             <td>{{ (item as Transfer).code }}</td>
             <td>{{ (item as Transfer).storeOrigin }}</td>
             <td>{{ (item as Transfer).sendDate }}</td>
+            <td>{{ (item as Transfer).sendUser }}</td>
             <td>{{ (item as Transfer).storeDestination }}</td>
             <td>{{ (item as Transfer).receiveDate }}</td>
-            <td>{{ (item as Transfer).userName }}</td>
+            <td>{{ (item as Transfer).receiveUser }}</td>
             <td>
-              <v-chip 
-                :color="getStatusColor((item as Transfer).statusTransfer)" 
-                variant="flat"
-                size="small"
-              >
+              <v-chip :color="getStatusColor((item as Transfer).statusTransfer)" variant="flat" size="small">
                 {{ (item as Transfer).statusTransfer }}
               </v-chip>
             </td>
             <td class="text-center">
               <template v-if="canRead">
-                <v-btn icon="preview" variant="text" @click="$emit('view-transfer', item)" size="small"
-                  title="Ver">
+                <v-btn icon="preview" variant="text" @click="$emit('view-transfer', item)" size="small" title="Ver">
                 </v-btn>
               </template>
               <template v-if="canRead && (item as Transfer).statusTransfer != 'Cancelado'">
-                <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small"
-                  title="Imprimir">
+                <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small" title="Imprimir">
                 </v-btn>
               </template>
               <template v-if="canDelete && (item as Transfer).statusTransfer != 'Cancelado'">
-                <v-btn icon="block" variant="text"
-                  @click="$emit('open-modal', { transfer: item, action: 2 })" size="small" title="Desactivar">
+                <v-btn icon="block" variant="text" @click="$emit('open-modal', { transfer: item, action: 2 })"
+                  size="small" title="Desactivar">
                 </v-btn>
               </template>
             </td>
@@ -45,11 +40,12 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Traspasos</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar PDF">
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
+              title="Descargar PDF">
             </v-btn>
             <v-btn v-if="canDownload" icon="mdi:mdi-microsoft-excel" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
+            <v-btn v-if="canRead" icon="refresh" @click="handleSearch" title="Actualizar"></v-btn>
             <v-btn v-if="canRead" icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
             <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Registrar"></v-btn>
             <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
@@ -65,9 +61,9 @@
         </template>
       </v-data-table-server>
     </v-card>
-    <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
-      v-model:state="stateModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
-      @apply-filters="handleSearch" />
+    <TransferFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
+      v-model:status="statusModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
+      @apply-filters="handleSearch" @clear-filters="handleClearFilters" />
   </div>
 </template>
 
@@ -75,17 +71,18 @@
 import { ref, computed } from 'vue';
 import { Transfer } from '@/interfaces/transferInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
-import CommonFilters from '@/components/Common/CommonFilters.vue';
+import TransferFilters from '@/components/Transfer/TransferFilters.vue';
 
-interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
+interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems' | 'state'> {
   transfers: Transfer[];
   totalTransfers: number;
+  status?: string; 
 }
 
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
   selectedFilter: 'Código',
-  state: 'Activos',
+  status: 'Todos',
   startDate: null,
   endDate: null,
   downloadingExcel: false,
@@ -101,7 +98,7 @@ const emit = defineEmits<{
   'search-transfer': [params: {
     search: string | null;
     selectedFilter: string;
-    state: string;
+    status: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
@@ -110,23 +107,24 @@ const emit = defineEmits<{
   'download-excel': [params: {
     search: string | null;
     selectedFilter: string;
-    stateFilter: string;
+    status: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
   'download-pdf': [params: {
     search: string | null;
     selectedFilter: string;
-    stateFilter: string;
+    status: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
   'print-pdf': [item: Transfer];
   'update:drawer': [value: boolean];
   'update:selectedFilter': [value: string];
-  'update:state': [value: string];
+  'update:status': [value: string];
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
+  'clear-filters': [];
 }>();
 
 const pages = "Traspasos por Página";
@@ -137,9 +135,10 @@ const headers = computed(() => [
   { title: 'Código', key: 'code', sortable: false },
   { title: 'Origen', key: 'storeOrigin', sortable: false },
   { title: 'Fecha envio', key: 'sendDate', sortable: false },
+  { title: 'Enviado por', key: 'sendUser', sortable: false },
   { title: 'Destino', key: 'storeDestination', sortable: false },
   { title: 'Fecha recepcion', key: 'receiveDate', sortable: false },
-  { title: 'Usuario', key: 'userName', sortable: false },
+  { title: 'Recibido por', key: 'receiveUser', sortable: false },
   { title: 'Estado', key: 'statusTransfer', sortable: false },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
@@ -154,9 +153,9 @@ const selectedFilterModel = computed({
   set: (value: string) => emit('update:selectedFilter', value)
 });
 
-const stateModel = computed({
-  get: () => props.state,
-  set: (value: string) => emit('update:state', value)
+const statusModel = computed({
+  get: () => props.status,
+  set: (value: string) => emit('update:status', value)
 });
 
 const startDateModel = computed({
@@ -178,26 +177,33 @@ const getStatusColor = (status: string): string => {
     return 'red';
   } else if (statusLower === 'recibido') {
     return 'green';
+  } else if (statusLower === 'cancelado') {
+    return 'red';
   }
   
-  return 'grey'; // Color por defecto para otros estados
+  return 'grey'; 
 };
 
 const handleSearch = () => {
   emit('search-transfer', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    state: stateModel.value,
+    status: statusModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });
+};
+
+const handleClearFilters = () => {
+  search.value = null; 
+  emit('clear-filters');
 };
 
 const handleDownloadExcel = () => {
   emit('download-excel', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    stateFilter: stateModel.value,
+    status: statusModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });
@@ -207,7 +213,7 @@ const handleDownloadPdf = () => {
   emit('download-pdf', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    stateFilter: stateModel.value,
+    status: statusModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });

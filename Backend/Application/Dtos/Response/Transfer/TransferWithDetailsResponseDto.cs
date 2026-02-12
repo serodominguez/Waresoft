@@ -15,9 +15,9 @@ namespace Application.Dtos.Response.Transfer
         public int IdStoreDestination { get; set; }
         public string? StoreDestination { get; set; }
         public int? AuditCreateUser { get; set; }
-        public string? AuditCreateName { get; set; }
+        public string? SendUser { get; set; }
         public int? AuditUpdateUser { get; set; }
-        public string? AuditUpdateName { get; set; }
+        public string? ReceiveUser { get; set; }
         public string? StatusTransfer { get; set; }
 
         public ICollection<TransferDetailsResponseDto> TransferDetails { get; set; } = new List<TransferDetailsResponseDto>();

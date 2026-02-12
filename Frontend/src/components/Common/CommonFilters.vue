@@ -7,25 +7,27 @@
                     <v-btn icon="close" variant="text" size="small" @click="drawerModel = false"></v-btn>
                 </div>
             </v-list-item>
-            <v-list-item>
-                <v-select v-model="selectedFilterModel" :items="filters" variant="outlined" density="compact"
-                    hide-details></v-select>
-            </v-list-item>
-            <v-list-item>
+            <div class="px-4 pt-4 pb-2">
+                <v-select v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="outlined"
+                    density="compact" hide-details></v-select>
+            </div>
+            <div class="px-4 py-2">
                 <v-switch v-model="stateModel" :label="`Estado: ${stateModel}`" false-value="Inactivos"
                     true-value="Activos" color="indigo" hide-details></v-switch>
-            </v-list-item>
-            <v-list-item>
+            </div>
+            <div class="px-4 py-2">
                 <v-date-input v-model="startDateModel" label="Desde:" prepend-icon="" variant="underlined"
-                    persistent-placeholder></v-date-input>
-            </v-list-item>
-            <v-list-item>
+                    persistent-placeholder hide-details></v-date-input>
+            </div>
+            <div class="px-4 py-2">
                 <v-date-input v-model="endDateModel" label="Hasta:" prepend-icon="" variant="underlined"
-                    persistent-placeholder></v-date-input>
-                <v-btn color="indigo" block @click="emit('apply-filters')"> Aplicar </v-btn>
+                    persistent-placeholder hide-details></v-date-input>
+            </div>
+            <v-list-item class="pt-6">
+                <v-btn color="indigo" block @click="emit('apply-filters')">APLICAR</v-btn>
             </v-list-item>
             <v-list-item>
-                <v-btn color="indigo" block @click="clearFilters"> Limpiar </v-btn>
+                <v-btn color="indigo" block @click="clearFilters">LIMPIAR</v-btn>
             </v-list-item>
         </v-list>
     </v-navigation-drawer>

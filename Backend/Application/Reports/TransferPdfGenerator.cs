@@ -89,7 +89,7 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Enviado por: ").SemiBold();
-                            text.Span($"{_transfer.AuditCreateName}");
+                            text.Span($"{_transfer.SendUser}");
                         });
                     });
 
@@ -117,7 +117,7 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Destino: ").SemiBold();
-                            text.Span($"{_transfer.AuditUpdateName}");
+                            text.Span($"{_transfer.StoreDestination}");
                         });
 
                         rightColumn.Spacing(5);
@@ -126,7 +126,7 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Recibido por: ").SemiBold();
-                            text.Span($"{_transfer.AuditUpdateName}");
+                            text.Span($"{_transfer.ReceiveUser}");
                         });
                     });
                 });
@@ -149,7 +149,7 @@ namespace Application.Reports
                 });
 
                 column.Item().PaddingTop(25).Element(container =>
-                    ComposeObservations(container, _transfer.Annotations ?? string.Empty));
+                    ComposeObservationsWithSingleSignature(container, _transfer.Annotations ?? string.Empty, "Responsable:"));
             });
         }
 

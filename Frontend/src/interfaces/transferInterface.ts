@@ -9,7 +9,8 @@ export interface Transfer {
   storeOrigin: string;
   idStoreDestination: number | null;
   storeDestination: string;
-  userName: string;
+  sendUser: string;
+  receiveUser: string,
   statusTransfer: string;
 }
 

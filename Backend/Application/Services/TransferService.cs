@@ -50,7 +50,29 @@ namespace Application.Services
                 if (filters.StateFilter.HasValue)
                 {
                     var stateValue = Convert.ToInt32(filters.StateFilter);
-                    transfers = transfers.Where(x => x.Status == stateValue);
+
+                    switch (stateValue)
+                    {
+                        case 0: //Cancelado
+                            transfers = transfers.Where(x => x.Status == 0);
+                            break;
+
+                        case 1: //Enviado (los que YO envié a otros)
+                            transfers = transfers.Where(x => x.Status == 1 && x.IdStoreOrigin == authenticatedStoreId);
+                            break;
+
+                        case 2: //Recibido
+                            transfers = transfers.Where(x => x.Status == 2);
+                            break;
+
+                        case 3: //Pendiente (enviados a MÍ que no he recibido)
+                            transfers = transfers.Where(x => x.Status == 1 && x.IdStoreDestination == authenticatedStoreId);
+                            break;
+
+                        case 4: //Todos excepto Cancelado
+                            transfers = transfers.Where(x => x.Status != 0);
+                            break;
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -64,12 +86,12 @@ namespace Application.Services
                 filters.Sort ??= "IdTransfer";
                 var items = await _orderingQuery.Ordering(filters, transfers, !(bool)filters.Download!).ToListAsync();
 
-                TransferStatusLogic(items, authenticatedStoreId);
+                DisplayStatusLogic(items, authenticatedStoreId);
 
                 var users = await _unitOfWork.User.GetSelectAsync();
                 var userDictionary = users.ToDictionary(
                     u => u.Id,
-                    u => $"{u.Names} {u.LastNames}".Trim().ToTitleCase()
+                    u => $"{u.Names} {u.LastNames}".Trim().ToTitleCase() ?? string.Empty
                 );
 
                 response.IsSuccess = true;
@@ -212,8 +234,8 @@ namespace Application.Services
                 var details = await _unitOfWork.TransferDetails.GetTransferDetailsAsync(transfer!.IdTransfer);
 
                 transfer.ReceiveDate = DateTime.Now;
-                transfer.AuditDeleteUser = authenticatedUserId;
-                transfer.AuditDeleteDate = DateTime.Now;
+                transfer.AuditUpdateUser = authenticatedUserId;
+                transfer.AuditUpdateDate = DateTime.Now;
                 transfer.Status = 2;
 
                 response.Data = await _unitOfWork.Transfer.ReceiveTransferAsync(transfer);
@@ -330,13 +352,14 @@ namespace Application.Services
             return user?.UserName;
         }
 
-        private void TransferStatusLogic(List<TransferEntity> transfers, int authenticatedStoreId)
+        private void DisplayStatusLogic(List<TransferEntity> transfers, int authenticatedStoreId)
         {
             foreach (var transfer in transfers)
             {
+                //Convertir "Enviado" a "Pendiente" solo para mostrar en la UI
                 if (transfer.IdStoreDestination == authenticatedStoreId && transfer.Status == 1)
                 {
-                    transfer.Status = 3;
+                    transfer.Status = 3; //Cambiar a Pendiente solo para display
                 }
             }
         }

@@ -212,10 +212,12 @@
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
                 ("CÓDIGO", "Code"),
-                ("FECHA ENVIO", "SendDate"),
-                ("FECHA RECEPCIÓN", "ReceiveDate"),
                 ("ORIGEN", "StoreOrigin"),
+                ("FECHA ENVIO", "SendDate"),
+                ("ENVIADO POR", "SendUser"),
                 ("DESTINO", "StoreDestination"),
+                ("FECHA RECEPCIÓN", "ReceiveDate"),
+                ("RECIBIDO POR", "ReceiveUser"),
                 ("ESTADO", "StatusTransfer")
             };
 

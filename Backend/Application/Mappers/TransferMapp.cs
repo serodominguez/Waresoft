@@ -42,7 +42,8 @@ namespace Application.Mappers
                 StoreOrigin = entity.StoreOrigin.StoreName.ToTitleCase(),
                 IdStoreDestination = entity.IdStoreDestination,
                 StoreDestination = entity.StoreDestination.StoreName.ToTitleCase(),
-                UserName = entity.AuditCreateUser.HasValue && userNames.TryGetValue(entity.AuditCreateUser.Value, out var name) ? name : string.Empty,
+                SendUser = entity.AuditCreateUser.HasValue && userNames.TryGetValue(entity.AuditCreateUser.Value, out var nameSend) ? nameSend : string.Empty,
+                ReceiveUser = entity.AuditUpdateUser.HasValue && userNames.TryGetValue(entity.AuditUpdateUser.Value, out var nameReceive) ? nameReceive : string.Empty,
                 Status = entity.Status,
                 StatusTransfer = ((Transfers)entity.Status).ToString()
             };  
@@ -63,9 +64,9 @@ namespace Application.Mappers
                 IdStoreDestination = entity.IdStoreDestination,
                 StoreDestination = entity.StoreDestination.StoreName.ToTitleCase(),
                 AuditCreateUser = entity.AuditCreateUser,
-                AuditCreateName = userSend,
+                SendUser = userSend,
                 AuditUpdateUser = entity.AuditUpdateUser,
-                AuditUpdateName = userReceive,
+                ReceiveUser = userReceive,
                 StatusTransfer = ((Transfers)entity.Status).ToString(),
                 TransferDetails = entity.TransferDetails
                         .Select(d => new TransferDetailsResponseDto

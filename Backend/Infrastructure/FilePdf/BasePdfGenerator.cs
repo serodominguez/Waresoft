@@ -76,6 +76,19 @@ namespace Infrastructure.FilePdf
                 });
             });
         }
+        protected void ComposeSingleSignatureSection(IContainer container, string signatureLabel)
+        {
+            container.Column(column =>
+            {
+                column.Item().AlignCenter().Column(centerColumn =>
+                {
+                    centerColumn.Item().Text(signatureLabel).FontSize(10).SemiBold();
+                    centerColumn.Item().PaddingTop(40);
+                    centerColumn.Item().Width(250).BorderTop(1).BorderColor(Colors.Black).Text("").FontSize(9);
+                    centerColumn.Item().AlignCenter().Text("Firma").FontSize(8);
+                });
+            });
+        }
 
         protected void ComposeObservations(IContainer container, string annotations)
         {
@@ -93,6 +106,24 @@ namespace Infrastructure.FilePdf
 
                 column.Item().PaddingTop(30);
                 column.Item().Element(ComposeSignatureSection);
+            });
+        }
+        protected void ComposeObservationsWithSingleSignature(IContainer container, string annotations, string signatureLabel)
+        {
+            container.Column(column =>
+            {
+                column.Item()
+                    .Background(Colors.Grey.Lighten3)
+                    .Padding(10)
+                    .Column(innerColumn =>
+                    {
+                        innerColumn.Spacing(5);
+                        innerColumn.Item().Text("Observaciones:").FontSize(10);
+                        innerColumn.Item().Text(annotations ?? "").FontSize(9);
+                    });
+
+                column.Item().PaddingTop(30);
+                column.Item().Element(c => ComposeSingleSignatureSection(c, signatureLabel));
             });
         }
 

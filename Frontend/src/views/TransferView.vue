@@ -3,11 +3,11 @@
     <TransferList v-if="!form" :transfers="transfers" :loading="loading" :totalTransfers="totalTransfers"
       :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf" :canCreate="canCreate" :canRead="canRead"
       :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage"
-      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
+      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:status="status"
       v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
       @view-transfer="openForm" @fetch-transfer="fetchTransfers" @search-transfer="searchTransfers"
       @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
-      @download-pdf="downloadPdf" @print-pdf="printPdf" />
+      @download-pdf="downloadPdf" @print-pdf="printPdf"  @clear-filters="clearFilters" />
 
     <TransferForm v-if="form" v-model="form" :transfer="selectedTransfer" :transferDetails="selectedTransferDetails"
       @saved="handleSaved" @close="closeForm" />
@@ -25,8 +25,8 @@ import { storeToRefs } from 'pinia';
 import { useTransferStore } from '@/stores/transferStore';
 import { useAuthStore } from '@/stores/auth';
 import { Transfer } from '@/interfaces/transferInterface';
+import { formatDate } from '@/utils/date';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
-import { useFilters } from '@/composables/useFilters';
 import TransferList from '@/components/Transfer/TransferList.vue';
 import TransferForm from '@/components/Transfer/TransferForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
@@ -37,12 +37,23 @@ const toast = useToast();
 
 const { transfers, selectedTransfer, selectedTransferDetails, loading, totalTransfers } = storeToRefs(transferStore);
 
-const filterMap = {
+const filterMap: Record<string, number> = {
   "Código": 1,
-  "Tienda": 2
+  "Establecimiento": 2 
 };
 
-const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Código', filterMap);
+const statusMap: Record<string, number> = {
+  'Cancelado': 0,
+  'Enviado': 1,
+  'Recibido': 2,
+  'Pendiente': 3,
+  'Todos': 4
+}
+
+const selectedFilter = ref('Código');
+const status = ref('Todos');
+const startDate = ref<Date | null>(null);
+const endDate = ref<Date | null>(null);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
@@ -55,14 +66,29 @@ const action = ref<0 | 1 | 2>(0);
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
 
-const stateFilter = computed(() => state.value === 'Activos' ? 1 : 0);
-
+const getFilterParams = (searchText: string | null) => ({
+  textFilter: searchText?.trim() || null,
+  numberFilter: filterMap[selectedFilter.value],
+  stateFilter: statusMap[status.value],
+  startDate: formatDate(startDate.value),
+  endDate: formatDate(endDate.value)
+})
 
 const canCreate = computed(() => authStore.hasPermission('traspaso de productos', 'crear'));
 const canRead = computed(() => authStore.hasPermission('traspaso de productos', 'leer'));
 const canEdit = computed(() => authStore.hasPermission('traspaso de productos', 'editar'));
 const canDelete = computed(() => authStore.hasPermission('traspaso de productos', 'eliminar'));
 const canDownload = computed(() => authStore.hasPermission('traspaso de productos', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  status.value = 'Todos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchTransfers();
+};
 
 const openModal = (payload: { transfer: Transfer, action: 0 | 1 | 2 }) => {
   transferStore.selectedItem = payload.transfer;
@@ -90,7 +116,8 @@ const openForm = async (transfer?: Transfer) => {
       storeDestination: '',
       totalAmount: 0,
       annotations: '',
-      userName: '',
+      sendUser: '',
+      receiveUser: '',
       statusTransfer: ''
     };
   }
@@ -109,9 +136,9 @@ const fetchTransfers = async (params?: any) => {
     await transferStore.fetchTransfers(params || {
       pageNumber: currentPage.value,
       pageSize: itemsPerPage.value,
-      stateFilter: stateFilter.value,
       sort: 'IdTransfer',
-      order: 'desc'
+      order: 'desc',
+      ...getFilterParams(null)
     });
   } catch (error) {
     handleSilentError(error);
@@ -121,7 +148,7 @@ const fetchTransfers = async (params?: any) => {
 const searchTransfers = async (params: any) => {
   search.value = params.search;
   selectedFilter.value = params.selectedFilter;
-  state.value = params.state;
+  status.value = params.status; // ⭐ CAMBIO: state → status
   startDate.value = params.startDate;
   endDate.value = params.endDate;
 
@@ -144,7 +171,7 @@ const refreshTransfers = () => {
     searchTransfers({
       search: search.value,
       selectedFilter: selectedFilter.value,
-      state: state.value,
+      status: status.value,
       startDate: startDate.value,
       endDate: endDate.value
     });

@@ -2034,7 +2034,7 @@
     "ContainingType": "Api.Controllers.TransferController",
     "Method": "ReceiveTransfer",
     "RelativePath": "api/Transfer/Receive/{transferId}",
-    "HttpMethod": "POST",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [

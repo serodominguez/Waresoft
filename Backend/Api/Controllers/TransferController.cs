@@ -74,7 +74,7 @@ namespace Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Receive/{transferId:int}")]
+        [HttpPut("Receive/{transferId:int}")]
         [RequirePermission("Traspaso de Productos", "Editar")]
         public async Task<IActionResult> ReceiveTransfer(int transferId)
         {

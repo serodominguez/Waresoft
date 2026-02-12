@@ -72,7 +72,7 @@
         Enviar
       </v-btn>
       <v-btn v-if="localTransfer.statusTransfer === 'Pendiente'" color="indigo" dark class="mb-2" elevation="4"
-        @click="downloadPdf" :loading="downloading">
+        @click="receiveTransfer" :loading="downloading">
         Recibir
       </v-btn>
       <v-btn color="red" dark class="mb-2" elevation="4" @click="close">
@@ -186,15 +186,6 @@ watch(isOpen, (newValue) => {
   emit('update:modelValue', newValue);
 });
 
-watch(() => localTransfer.value, (newValue) => {
-  console.log('=== DEBUG localTransfer ===');
-  console.log('idTransfer:', newValue.idTransfer);
-  console.log('statusTransfer:', newValue.statusTransfer);
-  console.log('¿Tiene idTransfer?:', !!newValue.idTransfer);
-  console.log('¿Es Pendiente?:', newValue.statusTransfer === 'Pendiente');
-  console.log('¿Debería mostrar botón?:', !!newValue.idTransfer && newValue.statusTransfer === 'Pendiente');
-}, { deep: true, immediate: true });
-
 watch(() => props.transfer, (newTransfer) => {
   if (newTransfer) {
     localTransfer.value = { ...newTransfer };
@@ -276,15 +267,26 @@ const saveTransfer = async () => {
   }
 };
 
-const downloadPdf = async () => {
-  if (!localTransfer.value.idTransfer) return;
+const receiveTransfer = async () => {
+  if (!localTransfer.value.idTransfer) {
+    toast.warning('No se puede recibir un traspaso sin ID');
+    return;
+  }
 
   downloading.value = true;
+
   try {
-    await transferStore.exportTransferPdf(localTransfer.value.idTransfer);
-    toast.success('PDF descargado correctamente');
+    const result = await transferStore.receiveTransfer(localTransfer.value.idTransfer);
+
+    if (result.isSuccess) {
+      toast.success('Traspaso recibido con éxito');
+      emit('saved');
+      close();
+    } else {
+      toast.error(result.message || 'Error al recibir el traspaso');
+    }
   } catch (error) {
-    handleApiError(error, 'Error al descargar el PDF');
+    handleApiError(error, 'Error al recibir el traspaso');
   } finally {
     downloading.value = false;
   }
