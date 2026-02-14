@@ -197,8 +197,8 @@ const saveUser = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Usuario actualizado con éxito!'
-        : 'Usuario registrado con éxito!';
+        ? 'Usuario editado con éxito!'
+        : 'Usuario agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localUser.value });
@@ -208,8 +208,8 @@ const saveUser = async () => {
   } catch (error: any) {
     const isEditing = !!localUser.value.idUser;
     const customMessage = isEditing
-      ? 'Error en actualizar el usuario'
-      : 'Error en guardar el usuario';
+      ? 'Error en editar el usuario'
+      : 'Error en agregar el usuario';
 
     handleApiError(error, customMessage);
   } finally {

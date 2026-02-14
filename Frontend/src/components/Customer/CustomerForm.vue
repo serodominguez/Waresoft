@@ -11,16 +11,16 @@
             <v-row>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localCustomer.names"
-                  :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25"
-                  label="Nombre del cliente" required />
+                  :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25" label="Nombre del cliente"
+                  required />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localCustomer.lastNames"
                   :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Apellidos" />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localCustomer.identificationNumber" counter="8"
-                  :maxlength="8" label="Carnet" />
+                <v-text-field color="indigo" variant="underlined" v-model="localCustomer.identificationNumber"
+                  counter="8" :maxlength="8" label="Carnet" />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localCustomer.phoneNumber" counter="8"
@@ -142,8 +142,8 @@ const saveCustomer = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Cliente actualizado con éxito!'
-        : 'Cliente registrado con éxito!';
+        ? 'Cliente editado con éxito!'
+        : 'Cliente agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localCustomer.value });
@@ -153,8 +153,8 @@ const saveCustomer = async () => {
   } catch (error: any) {
     const isEditing = !!localCustomer.value.idCustomer;
     const customMessage = isEditing
-      ? 'Error en actualizar al cliente'
-      : 'Error en guardar al cliente';
+      ? 'Error en editar al cliente'
+      : 'Error en agregar al cliente';
 
     handleApiError(error, customMessage);
   } finally {

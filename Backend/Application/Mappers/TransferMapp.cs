@@ -64,9 +64,9 @@ namespace Application.Mappers
                 IdStoreDestination = entity.IdStoreDestination,
                 StoreDestination = entity.StoreDestination.StoreName.ToTitleCase(),
                 AuditCreateUser = entity.AuditCreateUser,
-                SendUser = userSend,
+                SendUser = userSend.ToTitleCase(),
                 AuditUpdateUser = entity.AuditUpdateUser,
-                ReceiveUser = userReceive,
+                ReceiveUser = userReceive.ToTitleCase(),
                 StatusTransfer = ((Transfers)entity.Status).ToString(),
                 TransferDetails = entity.TransferDetails
                         .Select(d => new TransferDetailsResponseDto

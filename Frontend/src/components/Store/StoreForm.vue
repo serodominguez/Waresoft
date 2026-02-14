@@ -11,7 +11,8 @@
             <v-row>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localStore.storeName"
-                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Establecimiento" required />
+                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Establecimiento"
+                  required />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localStore.manager"
@@ -19,8 +20,8 @@
                   required />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localStore.address"
-                  :rules="[rules.required]" counter="60" :maxlength="60" label="Dirección" required />
+                <v-text-field color="indigo" variant="underlined" v-model="localStore.address" :rules="[rules.required]"
+                  counter="60" :maxlength="60" label="Dirección" required />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localStore.phoneNumber" counter="8"
@@ -154,8 +155,8 @@ const saveStore = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Establecimiento actualizado con éxito!'
-        : 'Establecimiento registrado con éxito!';
+        ? 'Establecimiento editado con éxito!'
+        : 'Establecimiento agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localStore.value });
@@ -165,8 +166,8 @@ const saveStore = async () => {
   } catch (error: any) {
     const isEditing = !!localStore.value.idStore;
     const customMessage = isEditing
-      ? 'Error en actualizar el establecimiento'
-      : 'Error en guardar el establecimiento';
+      ? 'Error en editar el establecimiento'
+      : 'Error en agregar el establecimiento';
 
     handleApiError(error, customMessage);
   } finally {

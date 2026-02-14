@@ -171,8 +171,8 @@ const saveProduct = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Producto actualizado con éxito!'
-        : 'Producto registrado con éxito!';
+        ? 'Producto editado con éxito!'
+        : 'Producto agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localProduct.value });
@@ -182,8 +182,8 @@ const saveProduct = async () => {
   } catch (error: any) {
     const isEditing = !!localProduct.value.idProduct;
     const customMessage = isEditing
-      ? 'Error en actualizar el producto'
-      : 'Error en guardar el producto';
+      ? 'Error en editar el producto'
+      : 'Error en agregar el producto';
 
     handleApiError(error, customMessage);
   } finally {

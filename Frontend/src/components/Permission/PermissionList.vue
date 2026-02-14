@@ -12,10 +12,12 @@
       <v-checkbox v-model="item.permissions.editar" color="indigo" hide-details @change="$emit('permission-changed')" />
     </template>
     <template v-slot:item.permissions.eliminar="{ item }">
-      <v-checkbox v-model="item.permissions.eliminar" color="indigo" hide-details @change="$emit('permission-changed')" />
+      <v-checkbox v-model="item.permissions.eliminar" color="indigo" hide-details
+        @change="$emit('permission-changed')" />
     </template>
     <template v-slot:item.permissions.descargar="{ item }">
-      <v-checkbox v-model="item.permissions.descargar" color="indigo" hide-details @change="$emit('permission-changed')" />
+      <v-checkbox v-model="item.permissions.descargar" color="indigo" hide-details
+        @change="$emit('permission-changed')" />
     </template>
   </v-data-table>
 </template>

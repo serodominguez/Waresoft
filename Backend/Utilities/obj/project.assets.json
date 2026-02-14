@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\IT Solutions\\WareSoft\\Backend\\Utilities\\Utilities.csproj",
+      "projectUniqueName": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\Utilities.csproj",
       "projectName": "Utilities",
-      "projectPath": "D:\\Projects\\IT Solutions\\WareSoft\\Backend\\Utilities\\Utilities.csproj",
+      "projectPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\Utilities.csproj",
       "packagesPath": "C:\\Users\\Sergio\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\IT Solutions\\WareSoft\\Backend\\Utilities\\obj\\",
+      "outputPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -72,7 +72,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

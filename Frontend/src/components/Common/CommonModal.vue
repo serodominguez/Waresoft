@@ -11,7 +11,7 @@
             <v-card-actions class="d-flex justify-space-between">
                 <div class="d-flex">
                     <v-btn color="green" dark class="mr-2" elevation="4" @click="handleAction" :loading="processing">
-                        {{ actionButton }}
+                        Aceptar
                     </v-btn>
                     <v-btn color="red" elevation="4" @click="close" :disabled="processing">
                         Cancelar
@@ -33,7 +33,7 @@ interface Props {
     modelValue: boolean;
     itemId: number;
     item: string;
-    action: 0 | 1 | 2;
+    action: 0 | 1 | 2 | 3;
     moduleName: string;
     entityName: string;
     name: string;
@@ -68,7 +68,8 @@ const actionTitle = computed(() => {
     const titles = {
         0: 'Eliminar Item?',
         1: 'Activar Item?',
-        2: 'Desactivar Item?'
+        2: 'Inactivar Item?',
+        3: 'Cancelar Item?'
     };
     return titles[props.action];
 });
@@ -77,18 +78,10 @@ const actionVerb = computed(() => {
     const verbs = {
         0: 'eliminar',
         1: 'activar',
-        2: 'desactivar'
+        2: 'inactivar',
+        3: 'cancelar'
     };
     return verbs[props.action];
-});
-
-const actionButton = computed(() => {
-    const buttons = {
-        0: 'Eliminar',
-        1: 'Activar',
-        2: 'Desactivar'
-    };
-    return buttons[props.action];
 });
 
 /**
@@ -113,14 +106,19 @@ const handleAction = async () => {
             errorMsg: `Error al eliminar ${props.name.toLowerCase()}`
         },
         1: {
-            actionType: 'habilitar' as const,
-            successMsg: `${props.name} habilitad${genderSuffix} con éxito!`,
-            errorMsg: `Error al habilitar ${props.name.toLowerCase()}`
+            actionType: 'activar' as const,
+            successMsg: `${props.name} activad${genderSuffix} con éxito!`,
+            errorMsg: `Error al activar ${props.name.toLowerCase()}`
         },
         2: {
-            actionType: 'deshabilitar' as const,
-            successMsg: `${props.name} deshabilitad${genderSuffix} con éxito!`,
-            errorMsg: `Error al deshabilitar ${props.name.toLowerCase()}`
+            actionType: 'inactivar' as const,
+            successMsg: `${props.name} inactivad${genderSuffix} con éxito!`,
+            errorMsg: `Error al inactivar ${props.name.toLowerCase()}`
+        },
+        3: { 
+            actionType: 'cancelar' as const,
+            successMsg: `${props.name} cancelad${genderSuffix} con éxito!`,
+            errorMsg: `Error al cancelar ${props.name.toLowerCase()}`
         }
     };
 

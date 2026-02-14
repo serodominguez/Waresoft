@@ -122,8 +122,8 @@ const saveModule = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Módulo actualizado con éxito!'
-        : 'Módulo registrado con éxito!';
+        ? 'Módulo editado con éxito!'
+        : 'Módulo agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localModule.value });
@@ -133,8 +133,8 @@ const saveModule = async () => {
   } catch (error: any) {
     const isEditing = !!localModule.value.idModule;
     const customMessage = isEditing
-      ? 'Error en actualizar el módulo'
-      : 'Error en guardar el módulo';
+      ? 'Error en editar el módulo'
+      : 'Error en agregar el módulo';
 
     handleApiError(error, customMessage);
   } finally {

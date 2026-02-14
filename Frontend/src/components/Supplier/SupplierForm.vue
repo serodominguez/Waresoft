@@ -11,8 +11,8 @@
             <v-row>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localSupplier.companyName"
-                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50"
-                  label="Nombre de la empresa" required />
+                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Nombre de la empresa"
+                  required />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localSupplier.contact"
@@ -138,8 +138,8 @@ const saveSupplier = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Proveedor actualizado con éxito!'
-        : 'Proveedor registrado con éxito!';
+        ? 'Proveedor editado con éxito!'
+        : 'Proveedor agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localSupplier.value });
@@ -149,8 +149,8 @@ const saveSupplier = async () => {
   } catch (error: any) {
     const isEditing = !!localSupplier.value.idSupplier;
     const customMessage = isEditing
-      ? 'Error en actualizar al proveedor'
-      : 'Error en guardar al proveedor';
+      ? 'Error en editar al proveedor'
+      : 'Error en agregar al proveedor';
 
     handleApiError(error, customMessage);
   } finally {

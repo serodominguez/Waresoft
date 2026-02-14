@@ -10,29 +10,36 @@
           <v-container>
             <v-row>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localInventory.code" label="Código" readonly />
+                <v-text-field color="indigo" variant="underlined" v-model="localInventory.code" label="Código"
+                  readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localInventory.description" label="Descripción" readonly />
+                <v-text-field color="indigo" variant="underlined" v-model="localInventory.description"
+                  label="Descripción" readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localInventory.material" label="Material" readonly />
+                <v-text-field color="indigo" variant="underlined" v-model="localInventory.material" label="Material"
+                  readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localInventory.unitMeasure" label="Unidad de Medida" readonly />
+                <v-text-field color="indigo" variant="underlined" v-model="localInventory.unitMeasure"
+                  label="Unidad de Medida" readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localInventory.brandName" label="Marca" readonly />
+                <v-text-field color="indigo" variant="underlined" v-model="localInventory.brandName" label="Marca"
+                  readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localInventory.categoryName" label="Categoría" readonly />
+                <v-text-field color="indigo" variant="underlined" v-model="localInventory.categoryName"
+                  label="Categoría" readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localInventory.stockAvailable" label="Cantidad" readonly />
+                <v-text-field color="indigo" variant="underlined" v-model="localInventory.stockAvailable"
+                  label="Cantidad" readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model.number="localInventory.price" counter="5" type="number"
-                  :rules="[rules.required]" :maxlength="5" label="Precio" ref="priceFieldRef" 
+                <v-text-field color="indigo" variant="underlined" v-model.number="localInventory.price" counter="5"
+                  type="number" :rules="[rules.required]" :maxlength="5" label="Precio" ref="priceFieldRef"
                   @focus="($event.target as HTMLInputElement).select()" required />
               </v-col>
             </v-row>

@@ -349,7 +349,7 @@ namespace Application.Services
             if (!userId.HasValue) return null;
 
             var user = await _unitOfWork.User.GetByIdAsync(userId.Value);
-            return user?.UserName;
+            return user?.Names+' '+user?.LastNames;
         }
 
         private void DisplayStatusLogic(List<TransferEntity> transfers, int authenticatedStoreId)

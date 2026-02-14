@@ -8,8 +8,8 @@
         </div>
       </v-list-item>
       <div class="px-4 pt-4 pb-2">
-        <v-select v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="outlined" density="compact"
-          hide-details></v-select>
+        <v-select v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="outlined"
+          density="compact" hide-details></v-select>
       </div>
       <div class="px-4 py-2">
         <v-select v-model="statusModel" :items="statusOptions" label="Estado" variant="outlined" density="compact"

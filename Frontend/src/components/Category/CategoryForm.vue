@@ -11,12 +11,11 @@
             <v-row>
               <v-col cols="12" md="12" lg="12" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localCategory.categoryName"
-                  :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25"
+                  :rules="[rules.required]" counter="25" :maxlength="25"
                   label="Nombre de la Categoría" required />
               </v-col>
               <v-col cols="12" md="12" lg="12" xl="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localCategory.description"
-                  :rules="[rules.onlyLetters]" counter="50" :maxlength="50" label="Descripción" />
+                <v-text-field color="indigo" variant="underlined" v-model="localCategory.description" counter="50" :maxlength="50" label="Descripción" />
               </v-col>
             </v-row>
           </v-container>

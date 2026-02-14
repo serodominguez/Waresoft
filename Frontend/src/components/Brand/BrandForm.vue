@@ -139,8 +139,8 @@ const saveBrand = async () => {
     // Si la operación fue exitosa
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Marca actualizada con éxito!'
-        : 'Marca registrada con éxito!';
+        ? 'Marca editada con éxito!'
+        : 'Marca agregada con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localBrand.value });
@@ -151,8 +151,8 @@ const saveBrand = async () => {
     // Manejo de errores
     const isEditing = !!localBrand.value.idBrand;
     const customMessage = isEditing
-      ? 'Error al actualizar la marca'
-      : 'Error al guardar la marca';
+      ? 'Error al editar la marca'
+      : 'Error al agregar la marca';
 
     handleApiError(error, customMessage);
   } finally {

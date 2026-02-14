@@ -24,8 +24,8 @@
                 </v-btn>
               </template>
               <template v-if="canDelete && (item as GoodsIssue).statusIssue == 'Activo'">
-                <v-btn icon="block" variant="text"
-                  @click="$emit('open-modal', { goodsissue: item, action: 2 })" size="small" title="Desactivar">
+                <v-btn icon="cancel" variant="text"
+                  @click="$emit('open-modal', { goodsissue: item, action: 3 })" size="small" title="Cancelar">
                 </v-btn>
               </template>
             </td>
@@ -38,10 +38,10 @@
             <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf"
               :loading="downloadingPdf" title="Descargar PDF">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-microsoft-excel" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn v-if="canRead" icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Registrar"></v-btn>
+            <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Agregar"></v-btn>
             <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
               <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
                 hide-details single-line v-model="search" @click:append-inner="handleSearch()"
@@ -85,7 +85,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { goodsissue: GoodsIssue; action: 0 | 1 | 2 }];
+  'open-modal': [payload: { goodsissue: GoodsIssue; action: 0 | 1 | 2 | 3 }];
   'view-goodsissue': [item: GoodsIssue];
   'fetch-goodsissue': [];
   'search-goodsissue': [params: {

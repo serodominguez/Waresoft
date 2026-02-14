@@ -121,8 +121,8 @@ const saveRole = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Rol actualizado con éxito!'
-        : 'Rol registrado con éxito!';
+        ? 'Rol editado con éxito!'
+        : 'Rol agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved', { ...localRole.value });
@@ -132,8 +132,8 @@ const saveRole = async () => {
   } catch (error: any) {
     const isEditing = !!localRole.value.idRole;
     const customMessage = isEditing
-      ? 'Error en actualizar el rol'
-      : 'Error en guardar el rol';
+      ? 'Error en editar el rol'
+      : 'Error en agregar el rol';
 
     handleApiError(error, customMessage);
   } finally {

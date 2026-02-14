@@ -33,12 +33,12 @@ export const useStoreMapper = () => {
     /**
      * Obtiene la acción correspondiente del store
      * @param moduleName - Nombre del módulo (ej: 'brand', 'category')
-     * @param actionType - Tipo de acción ('eliminar', 'habilitar', 'deshabilitar')
+     * @param actionType - Tipo de acción ('eliminar', 'activa', 'inactiva', 'cancelar')
      * @param entityName - Nombre de la entidad (ej: 'Brand', 'Category')
      */
     const getStoreAction = (
         moduleName: string,
-        actionType: 'eliminar' | 'habilitar' | 'deshabilitar',
+        actionType: 'eliminar' | 'activar' | 'inactivar' | 'cancelar',
         entityName: string
     ) => {
         const store = storeMap[moduleName];
@@ -50,8 +50,9 @@ export const useStoreMapper = () => {
         // Mapeo de acción a prefijo del método
         const actionPrefix: Record<string, string> = {
             eliminar: 'remove',
-            habilitar: 'enable',
-            deshabilitar: 'disable'
+            activar: 'enable',
+            inactivar: 'disable',
+            cancelar: 'disable'
         };
 
         // Construir el nombre del método (ej: 'removeBrand', 'enableCategory')

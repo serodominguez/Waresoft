@@ -14,7 +14,7 @@
             <td>{{ (item as Transfer).storeDestination }}</td>
             <td>{{ (item as Transfer).receiveDate }}</td>
             <td>{{ (item as Transfer).receiveUser }}</td>
-            <td>
+            <td class="text-center">
               <v-chip :color="getStatusColor((item as Transfer).statusTransfer)" variant="flat" size="small">
                 {{ (item as Transfer).statusTransfer }}
               </v-chip>
@@ -28,9 +28,9 @@
                 <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small" title="Imprimir">
                 </v-btn>
               </template>
-              <template v-if="canDelete && (item as Transfer).statusTransfer != 'Cancelado'">
-                <v-btn icon="block" variant="text" @click="$emit('open-modal', { transfer: item, action: 2 })"
-                  size="small" title="Desactivar">
+              <template v-if="canDelete && !['Cancelado', 'Recibido'].includes((item as Transfer).statusTransfer)"">
+                <v-btn icon="cancel" variant="text" @click="$emit('open-modal', { transfer: item, action: 3 })"
+                  size="small" title="Cancelar">
                 </v-btn>
               </template>
             </td>
@@ -43,11 +43,11 @@
             <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
               title="Descargar PDF">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-microsoft-excel" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn v-if="canRead" icon="refresh" @click="handleSearch" title="Actualizar"></v-btn>
             <v-btn v-if="canRead" icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Registrar"></v-btn>
+            <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Agregar"></v-btn>
             <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
               <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
                 hide-details single-line v-model="search" @click:append-inner="handleSearch()"
@@ -76,7 +76,7 @@ import TransferFilters from '@/components/Transfer/TransferFilters.vue';
 interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems' | 'state'> {
   transfers: Transfer[];
   totalTransfers: number;
-  status?: string; 
+  status?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -92,7 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { transfer: Transfer; action: 0 | 1 | 2 }];
+  'open-modal': [payload: { transfer: Transfer; action: 0 | 1 | 2 | 3 }];
   'view-transfer': [item: Transfer];
   'fetch-transfer': [];
   'search-transfer': [params: {
@@ -139,7 +139,7 @@ const headers = computed(() => [
   { title: 'Destino', key: 'storeDestination', sortable: false },
   { title: 'Fecha recepcion', key: 'receiveDate', sortable: false },
   { title: 'Recibido por', key: 'receiveUser', sortable: false },
-  { title: 'Estado', key: 'statusTransfer', sortable: false },
+  { title: 'Estado', key: 'statusTransfer', sortable: false, align: 'center' as const },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
@@ -170,18 +170,18 @@ const endDateModel = computed({
 
 const getStatusColor = (status: string): string => {
   const statusLower = status.toLowerCase();
-  
+
   if (statusLower === 'enviado') {
     return 'blue';
   } else if (statusLower === 'pendiente') {
-    return 'red';
+    return 'yellow';
   } else if (statusLower === 'recibido') {
     return 'green';
   } else if (statusLower === 'cancelado') {
     return 'red';
   }
-  
-  return 'grey'; 
+
+  return 'grey';
 };
 
 const handleSearch = () => {
@@ -195,7 +195,7 @@ const handleSearch = () => {
 };
 
 const handleClearFilters = () => {
-  search.value = null; 
+  search.value = null;
   emit('clear-filters');
 };
 

@@ -16,15 +16,15 @@
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockAvailable ?? 0) <= 0 }">
               {{ (item as Inventory).stockAvailable }}
             </td>
-           <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockInTransit ?? 0) > 0 }">
+            <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockInTransit ?? 0) > 0 }">
               {{ (item as Inventory).stockInTransit }}
             </td>
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).price ?? 0) <= 0 }">
               {{ (item as Inventory).price }}
             </td>
             <td class="text-center">
-              <v-btn v-if="canEdit" icon="currency_exchange" variant="text"
-                @click="$emit('edit-inventory', item)" size="small" title="Precio">
+              <v-btn v-if="canEdit" icon="currency_exchange" variant="text" @click="$emit('edit-inventory', item)"
+                size="small" title="Editar">
               </v-btn>
             </td>
           </tr>
@@ -36,9 +36,9 @@
             <v-btn v-if="canDownload" icon="mdi:mdi-file-document" @click="handleDownloadInventorySheet"
               :loading="downloadingSheet" title="Descargar Planilla">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar Pdf"></v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-microsoft-excel" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
+              title="Descargar Pdf"></v-btn>
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
             <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">

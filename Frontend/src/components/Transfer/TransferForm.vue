@@ -10,12 +10,24 @@
       <v-form ref="formRef" v-model="valid">
         <v-row>
           <v-col cols="12" md="2">
-            <v-autocomplete v-if="!localTransfer.idTransfer" color="indigo" variant="underlined" :items="storesArray"
+            <v-autocomplete v-if="!localTransfer.idTransfer" color="indigo" variant="underlined" :items="filteredStores"
               v-model="localTransfer.idStoreDestination" item-title="storeName" item-value="idStore"
               :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Establecimiento"
               :loading="loadingStores" />
             <v-text-field v-else color="indigo" variant="underlined" v-model="localTransfer.storeDestination"
-              label="Establecimiento" readonly />
+              label="Destino" readonly />
+          </v-col>
+          <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
+            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.sendDate"
+              label="Fecha envio" readonly />
+          </v-col>
+         <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
+            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.sendUser" label="Enviado por"
+              readonly />
+          </v-col>
+         <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
+            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.statusTransfer" label="Estado"
+              readonly />
           </v-col>
           <v-col class="px-2" cols="12" md="2">
             <v-btn v-if="!localTransfer.idTransfer" fab dark color="indigo" class="mt-3" @click="openProductModal">
@@ -40,14 +52,14 @@
               <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
                 :rules="[rules.required, rules.minValue]"></v-text-field>
             </td>
-            <td v-else>{{ item.quantity }}</td>
+            <td class="text-center" v-else>{{ item.quantity }}</td>
             <td v-if="!localTransfer.idTransfer">
               <v-text-field v-model.number="item.unitPrice" variant="underlined" type="number" min="0"
                 :rules="[rules.required, rules.minValueOrZero]"></v-text-field>
             </td>
-            <td v-else>{{ formatCurrency(item.unitPrice) }}</td>
-            <td v-if="!localTransfer.idTransfer">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
-            <td v-else>{{ formatCurrency(item.totalPrice) }}</td>
+            <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
+            <td class="text-center" v-if="!localTransfer.idTransfer">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
+            <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
             <td v-if="!localTransfer.idTransfer" class="text-center">
               <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
                 title="Quitar" />
@@ -115,7 +127,7 @@ const props = withDefaults(defineProps<Props>(), {
     storeDestination: '',
     totalAmount: 0,
     annotations: '',
-    userName: '',
+    sendUser: '',
     statusTransfer: ''
   } as Transfer),
   transferDetails: () => []
@@ -152,7 +164,7 @@ const rules = {
 };
 
 const headers = computed(() => {
-  const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center' }> = [
+  const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center', width?: string; }> = [
     { title: 'Item', key: 'item', sortable: false, align: 'center' },
     { title: 'Código', key: 'code', sortable: false },
     { title: 'Descripción', key: 'description', sortable: false },
@@ -160,16 +172,21 @@ const headers = computed(() => {
     { title: 'Color', key: 'color', sortable: false },
     { title: 'Categoría', key: 'categoryName', sortable: false },
     { title: 'Marca', key: 'brandName', sortable: false },
-    { title: 'Cantidad', key: 'quantity', sortable: false },
-    { title: 'Precio U.', key: 'price', sortable: false },
-    { title: 'SubTotal', key: 'subtotal', sortable: false }
+    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '100px' },
+    { title: 'Precio', key: 'price', sortable: false, align: 'center', width: '100px' },
+    { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '100px' }
   ];
 
   if (!localTransfer.value.idTransfer) {
-    baseHeaders.push({ title: 'Acciones', key: 'actions', sortable: false, align: 'center' });
+    baseHeaders.push({ title: 'Acciones', key: 'actions', sortable: false, align: 'center', width: '100px' });
   }
 
   return baseHeaders;
+});
+
+const filteredStores = computed(() => {
+  const currentStoreId = authStore.currentUser?.storeId;
+  return storesArray.value.filter(store => store.idStore !== currentStoreId);
 });
 
 const totalPrice = computed(() => {
