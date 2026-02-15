@@ -7,7 +7,7 @@
       v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
       @view-goodsissue="openForm" @fetch-goodsissue="fetchGoodsIssue" @search-goodsissue="searchGoodsIssue"
       @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
-      @download-pdf="downloadPdf" @print-pdf="printPdf" />
+      @download-pdf="downloadPdf" @print-pdf="printPdf" @clear-filters="clearFilters" />
 
     <GoodsIssueForm v-if="form" v-model="form" :issue="selectedGoodsIssue" :issueDetails="selectedIssueDetails"
       @saved="handleSaved" @close="closeForm" />
@@ -67,6 +67,16 @@ const canRead = computed(() => authStore.hasPermission('salida de productos', 'l
 const canEdit = computed(() => authStore.hasPermission('salida de productos', 'editar'));
 const canDelete = computed(() => authStore.hasPermission('salida de productos', 'eliminar'));
 const canDownload = computed(() => authStore.hasPermission('salida de productos', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value = 'Completado';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchGoodsIssue();
+};
 
 const openModal = (payload: { goodsissue: GoodsIssue, action: 0 | 1 | 2 | 3 }) => {
   goodsIssueStore.selectedItem = payload.goodsissue;

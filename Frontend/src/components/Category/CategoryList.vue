@@ -125,7 +125,7 @@ const filterOptions = ref(['Categoría', 'Descripción']);
 const headers = computed(() => [
   { title: 'Categoría', key: 'categoryName', sortable: false },
   { title: 'Descripción', key: 'description', sortable: false },
-  { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
+  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
   { title: 'Estado', key: 'statusCategory', sortable: false },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);

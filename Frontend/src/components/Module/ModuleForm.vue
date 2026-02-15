@@ -11,7 +11,7 @@
             <v-row>
               <v-col cols="12" md="12" lg="12" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localModule.moduleName"
-                  :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25" label="Nombre del Módulo"
+                  :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25" label="Nombre del módulo"
                   required />
               </v-col>
             </v-row>

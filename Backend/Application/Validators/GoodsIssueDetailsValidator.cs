@@ -19,11 +19,11 @@ namespace Application.Validators
                 .GreaterThan(0).WithMessage("La cantidad debe ser mayor a 0!");
 
             RuleFor(x => x.UnitPrice)
-                .NotEmpty().WithMessage("El precio unitario es requerido!")
+                .NotNull().WithMessage("El precio unitario es requerido!")
                 .GreaterThanOrEqualTo(0).WithMessage("El precio unitario no puede ser negativo!");
 
             RuleFor(x => x.TotalPrice)
-                .NotEmpty().WithMessage("El precio total es requerido!")
+                .NotNull().WithMessage("El precio total es requerido!")
                 .GreaterThanOrEqualTo(0).WithMessage("El precio total no puede ser negativo!");
 
             RuleFor(x => x)

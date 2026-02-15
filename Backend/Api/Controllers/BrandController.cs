@@ -37,7 +37,7 @@ namespace Api.Controllers
                         response.Data!,
                         columnNames,
                         "Reporte de Marcas",
-                        "Centro Optico" + " " + AuthenticatedUserStoreName.ToTitleCase()
+                        AuthenticatedUserStoreName?.ToTitleCase() ?? ""
                     );
                     return File(fileBytes, "application/pdf", $"Marcas_{DateTime.Now:yyyyMMdd}.pdf");
                 }
@@ -48,7 +48,7 @@ namespace Api.Controllers
                         response.Data!,
                         columnNames,
                         "Reporte de Marcas",
-                        "Centro Optico " + AuthenticatedUserStoreName.ToTitleCase()
+                        AuthenticatedUserStoreName?.ToTitleCase() ?? ""
                     );
                     return File(fileBytes, ContentType.ContentTypeExcel);
                 }

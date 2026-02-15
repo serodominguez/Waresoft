@@ -42,12 +42,12 @@
         <template v-slot:item="{ item, index }">
           <tr>
             <td class="text-center">{{ index + 1 }}</td>
-            <td>{{ item.code }}</td>
-            <td>{{ item.description }}</td>
-            <td>{{ item.material }}</td>
-            <td>{{ item.color }}</td>
-            <td>{{ item.categoryName }}</td>
-            <td>{{ item.brandName }}</td>
+            <td class="text-center">{{ item.code }}</td>
+            <td class="text-center">{{ item.description }}</td>
+            <td class="text-center">{{ item.material }}</td>
+            <td class="text-center">{{ item.color }}</td>
+            <td class="text-center">{{ item.categoryName }}</td>
+            <td class="text-center">{{ item.brandName }}</td>
             <td v-if="!localTransfer.idTransfer">
               <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
                 :rules="[rules.required, rules.minValue]"></v-text-field>
@@ -164,19 +164,19 @@ const rules = {
 const headers = computed(() => {
   const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center', width?: string; }> = [
     { title: 'Item', key: 'item', sortable: false, align: 'center' },
-    { title: 'Código', key: 'code', sortable: false },
-    { title: 'Descripción', key: 'description', sortable: false },
-    { title: 'Material', key: 'material', sortable: false },
-    { title: 'Color', key: 'color', sortable: false },
-    { title: 'Categoría', key: 'categoryName', sortable: false },
-    { title: 'Marca', key: 'brandName', sortable: false },
+    { title: 'Código', key: 'code', sortable: false, align: 'center' },
+    { title: 'Descripción', key: 'description', sortable: false, align: 'center' },
+    { title: 'Material', key: 'material', sortable: false, align: 'center' },
+    { title: 'Color', key: 'color', sortable: false, align: 'center' },
+    { title: 'Categoría', key: 'categoryName', sortable: false, align: 'center' },
+    { title: 'Marca', key: 'brandName', sortable: false, align: 'center' },
     { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '100px' },
     { title: 'Precio', key: 'price', sortable: false, align: 'center', width: '100px' },
     { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '100px' }
   ];
 
   if (!localTransfer.value.idTransfer) {
-    baseHeaders.push({ title: 'Acciones', key: 'actions', sortable: false, align: 'center', width: '100px' });
+    baseHeaders.push({ title: 'Acciones', key: 'actions', sortable: false, align: 'center', width: '150px' });
   }
 
   return baseHeaders;

@@ -132,8 +132,8 @@ const headers = computed(() => [
   { title: 'Apellidos', key: 'lastNames', sortable: false },
   { title: 'Teléfono', key: 'phoneNumber', sortable: false },
   { title: 'Rol', key: 'roleName', sortable: false },
-  { title: 'Sucursal', key: 'storeName', sortable: false },
-  { title: 'Fecha registro', key: 'auditCreateDate', sortable: false },
+  { title: 'Establecimiento', key: 'storeName', sortable: false },
+  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
   { title: 'Estado', key: 'statusUser', sortable: false },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);

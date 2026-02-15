@@ -123,7 +123,7 @@ const filterOptions = ref(['Módulo']);
 
 const headers = computed(() => [
   { title: 'Módulo', key: 'moduleName', sortable: false },
-  { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
+  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
   { title: 'Estado', key: 'statusModule', sortable: false },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);

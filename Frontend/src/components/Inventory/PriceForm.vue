@@ -23,7 +23,7 @@
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localInventory.unitMeasure"
-                  label="Unidad de Medida" readonly />
+                  label="Unidad de medida" readonly />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localInventory.brandName" label="Marca"
@@ -82,6 +82,7 @@ const props = withDefaults(defineProps<Props>(), {
     stockAvailable: null,
     stockInTransit: null,
     price: null,
+    availability: '',
     brandName: '',
     categoryName: ''
   })

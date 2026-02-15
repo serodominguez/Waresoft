@@ -17,7 +17,7 @@ namespace Application.Mappers
                 Address = dto.Address.NormalizeString(),
                 PhoneNumber = dto.PhoneNumber,
                 City = dto.City.NormalizeString(),
-                Email = dto.Email.NormalizeString(),
+                Email = dto.Email,
                 Type = dto.Type.NormalizeString()
             };
         }
@@ -28,12 +28,12 @@ namespace Application.Mappers
             {
                 IdStore = entity.Id,
                 StoreName = entity.StoreName.ToTitleCase(),
-                Manager = entity.Manager.ToTitleCase(),
-                Address = entity.Address.ToTitleCase(),
+                Manager = entity.Manager.ToSentenceCase(),
+                Address = entity.Address.ToSentenceCase(),
                 PhoneNumber = entity.PhoneNumber,
                 City = entity.City.ToTitleCase(),
-                Email = entity.Email?.ToLower(),
-                Type = entity.Type.ToTitleCase(),
+                Email = entity.Email,
+                Type = entity.Type.ToSentenceCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
                 StatusStore = ((States)(entity.Status ? 1 : 0)).ToString()

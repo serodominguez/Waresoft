@@ -19,11 +19,11 @@ namespace Application.Validators
                 .GreaterThan(0).WithMessage("La cantidad debe ser mayor a 0!");
 
             RuleFor(x => x.UnitCost)
-                .NotEmpty().WithMessage("El costo unitario es requerido!")
+                .NotNull().WithMessage("El costo unitario es requerido!")
                 .GreaterThanOrEqualTo(0).WithMessage("El costo unitario no puede ser negativo!");
 
             RuleFor(x => x.TotalCost)
-                .NotEmpty().WithMessage("El costo total es requerido!")
+                .NotNull().WithMessage("El costo total es requerido!")
                 .GreaterThanOrEqualTo(0).WithMessage("El costo total no puede ser negativo!");
 
             //Validación custom: TotalCost debe ser igual a Quantity * UnitCost

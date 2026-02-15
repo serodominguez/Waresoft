@@ -12,7 +12,7 @@
           <v-col cols="12" md="2">
             <v-select v-if="!localIssue.idIssue" color="indigo" variant="underlined" v-model="localIssue.type"
               :items="issueTypes" label="Tipo de Salida" :rules="[rules.required]" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localIssue.type" label="Tipo de Salida"
+            <v-text-field v-else color="indigo" variant="underlined" v-model="localIssue.type" label="Tipo de salida"
               readonly />
           </v-col>
           <v-col cols="12" md="2">
@@ -29,48 +29,52 @@
             </v-btn>
           </v-col>
         </v-row>
+        
+        <v-divider class="my-4"></v-divider>
+        
+        <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
+          :no-data-text="'No hay productos agregados'">
+          <template v-slot:item="{ item, index }">
+            <tr>
+              <td class="text-center">{{ index + 1 }}</td>
+              <td class="text-center">{{ item.code }}</td>
+              <td class="text-center">{{ item.description }}</td>
+              <td class="text-center">{{ item.material }}</td>
+              <td class="text-center">{{ item.color }}</td>
+              <td class="text-center">{{ item.categoryName }}</td>
+              <td class="text-center">{{ item.brandName }}</td>
+              <td v-if="!localIssue.idIssue">
+                <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
+                  :rules="[rules.requiredNumber, rules.minValue]"></v-text-field>
+              </td>
+              <td class="text-center" v-else>{{ item.quantity }}</td>
+              <td v-if="!localIssue.idIssue">
+                <v-text-field v-model.number="item.unitPrice" variant="underlined" type="number" min="0"
+                  :rules="localIssue.type === 'REGULARIZACIÓN' ? [rules.requiredNumber, rules.minValueOrZero] : [rules.requiredNumber, rules.minValue]"></v-text-field>
+              </td>
+              <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
+              <td class="text-center" v-if="!localIssue.idIssue">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
+              <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
+              <td v-if="!localIssue.idIssue" class="text-center">
+                <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
+                  title="Quitar" />
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+        
+        <v-col v-if="!localIssue.idIssue" cols="12" class="d-flex justify-end">
+          <strong>Total Bs.</strong>{{ formatCurrency(total) }}
+        </v-col>
+        <v-col v-else cols="12" class="d-flex justify-end">
+          <strong>Total Bs.</strong>{{ formatCurrency(localIssue.totalAmount) }}
+        </v-col>
+        
+        <v-col cols="12" md="12" lg="12" xl="12">
+          <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
+            v-model="localIssue.annotations" :readonly="!!localIssue.idIssue"></v-text-field>
+        </v-col>
       </v-form>
-      <v-divider class="my-4"></v-divider>
-      <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
-        :no-data-text="'No hay productos agregados'">
-        <template v-slot:item="{ item, index }">
-          <tr>
-            <td class="text-center">{{ index + 1 }}</td>
-            <td>{{ item.code }}</td>
-            <td>{{ item.description }}</td>
-            <td>{{ item.material }}</td>
-            <td>{{ item.color }}</td>
-            <td>{{ item.categoryName }}</td>
-            <td>{{ item.brandName }}</td>
-            <td v-if="!localIssue.idIssue">
-              <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
-                :rules="[rules.required, rules.minValue]"></v-text-field>
-            </td>
-            <td v-else>{{ item.quantity }}</td>
-            <td v-if="!localIssue.idIssue">
-              <v-text-field v-model.number="item.unitPrice" variant="underlined" type="number" min="0"
-                :rules="localIssue.type === 'REGULARIZACIÓN' ? [rules.required, rules.minValueOrZero] : [rules.required, rules.minValue]"></v-text-field>
-            </td>
-            <td v-else>{{ formatCurrency(item.unitPrice) }}</td>
-            <td v-if="!localIssue.idIssue">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
-            <td v-else>{{ formatCurrency(item.totalPrice) }}</td>
-            <td v-if="!localIssue.idIssue" class="text-center">
-              <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
-                title="Quitar" />
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
-      <v-col v-if="!localIssue.idIssue" cols="12" class="d-flex justify-end">
-        <strong>Total Bs.</strong>{{ formatCurrency(totalPrice) }}
-      </v-col>
-     <v-col v-else cols="12" class="d-flex justify-end">
-        <strong>Total Bs.</strong>{{ formatCurrency(localIssue.totalAmount) }}
-      </v-col>
-      <v-col cols="12" md="12" lg="12" xl="12">
-        <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
-          v-model="localIssue.annotations" :readonly="!!localIssue.idIssue"></v-text-field>
-      </v-col>
     </v-card-text>
     <v-card-actions>
       <v-btn v-if="!localIssue.idIssue" color="green" dark class="mb-2" elevation="4" @click="saveIssue"
@@ -156,32 +160,33 @@ const issueTypes = ['CONSIGNACIÓN', 'REGULARIZACIÓN'];
 
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',
+  requiredNumber: (value: any) => (value !== null && value !== undefined && value !== '') || 'Este campo es requerido',
   minValue: (value: number) => value > 0 || 'Debe ser mayor a 0',
   minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0) || 'Debe ser mayor o igual a 0'
 };
 
 const headers = computed(() => {
-  const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center' }> = [
-    { title: 'Item', key: 'item', sortable: false, align: 'center' },
-    { title: 'Código', key: 'code', sortable: false },
-    { title: 'Descripción', key: 'description', sortable: false },
-    { title: 'Material', key: 'material', sortable: false },
-    { title: 'Color', key: 'color', sortable: false },
-    { title: 'Categoría', key: 'categoryName', sortable: false },
-    { title: 'Marca', key: 'brandName', sortable: false },
-    { title: 'Cantidad', key: 'quantity', sortable: false },
-    { title: 'Precio U.', key: 'price', sortable: false },
-    { title: 'SubTotal', key: 'subtotal', sortable: false }
+  const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center', width?: string }> = [
+    { title: 'Item', key: 'item', sortable: false, align: 'center', width: '100px' },
+    { title: 'Código', key: 'code', sortable: false, align: 'center' },
+    { title: 'Descripción', key: 'description', sortable: false, align: 'center' },
+    { title: 'Material', key: 'material', sortable: false, align: 'center' },
+    { title: 'Color', key: 'color', sortable: false, align: 'center' },
+    { title: 'Categoría', key: 'categoryName', sortable: false, align: 'center' },
+    { title: 'Marca', key: 'brandName', sortable: false, align: 'center' },
+    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '100px' },
+    { title: 'Precio', key: 'price', sortable: false, align: 'center', width: '100px' },
+    { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '100px' }
   ];
 
   if (!localIssue.value.idIssue) {
-    baseHeaders.push({ title: 'Acciones', key: 'actions', sortable: false, align: 'center' });
+    baseHeaders.push({ title: 'Acciones', key: 'actions', sortable: false, align: 'center', width: '150px' });
   }
 
   return baseHeaders;
 });
 
-const totalPrice = computed(() => {
+const total = computed(() => {
   return details.value.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
 });
 
@@ -245,29 +250,12 @@ const saveIssue = async () => {
     return;
   }
 
-  const invalidProducts = details.value.filter(d => {
-    if (localIssue.value.type === 'REGULARIZACIÓN') {
-      return d.quantity <= 0 || d.unitPrice === null || d.unitPrice === undefined || d.unitPrice < 0;
-    } else {
-      return d.quantity <= 0 || d.unitPrice <= 0;
-    }
-  });
-
-  if (invalidProducts.length > 0) {
-    if (localIssue.value.type === 'REGULARIZACIÓN') {
-      toast.warning('Todos los productos deben tener cantidad mayor a 0 y precio mayor o igual a 0');
-    } else {
-      toast.warning('Todos los productos deben tener cantidad y precio válidos mayores a 0');
-    }
-    return;
-  }
-
   saving.value = true;
 
   try {
     const issueData = {
       type: localIssue.value.type,
-      totalAmount: totalPrice.value,
+      totalAmount: total.value,
       annotations: localIssue.value.annotations || '',
       idUser: localIssue.value.idUser,
       idStore: authStore.currentUser?.storeId,

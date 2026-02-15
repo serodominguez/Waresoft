@@ -3,21 +3,26 @@
     <v-card elevation="2">
       <v-toolbar>
         <v-toolbar-title>Gestión de Permisos</v-toolbar-title>
+        <v-spacer></v-spacer>
       </v-toolbar>
       <v-card-text>
         <v-row>
-          <v-col cols="4" md="4" lg="2" xl="2">
+          <v-col cols="12" md="2">
             <v-autocomplete color="indigo" variant="underlined" :items="roles" v-model="selectedRoleId"
               item-title="roleName" item-value="idRole" no-data-text="No hay datos disponibles" label="Rol"
               :loading="loadingRoles" />
           </v-col>
-          <v-col cols="4" md="4" lg="4" xl="4" class="d-flex align-center">
+          <v-col cols="4" md="9" class="d-flex align-center gap-2">
             <v-btn color="indigo" @click="loadPermissions" :disabled="!selectedRoleId || loading" :loading="loading">
               Cargar
             </v-btn>
             <v-btn color="green" @click="savePermissions" :disabled="!hasChanges || saving" :loading="saving"
               class="ml-2">
               Guardar
+            </v-btn>
+            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading"
+              class="ml-2">
+              Limpiar
             </v-btn>
           </v-col>
         </v-row>
@@ -143,6 +148,14 @@ const savePermissions = async () => {
   } finally {
     saving.value = false;
   }
+};
+
+const clearPermissions = () => {
+  selectedRoleId.value = null;
+  localPermissions.value = [];
+  originalPermissions.value = [];
+  hasChanges.value = false;
+  permissionStore.clearPermissions();
 };
 
 // Lifecycle hooks

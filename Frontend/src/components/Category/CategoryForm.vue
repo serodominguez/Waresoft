@@ -12,7 +12,7 @@
               <v-col cols="12" md="12" lg="12" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localCategory.categoryName"
                   :rules="[rules.required]" counter="25" :maxlength="25"
-                  label="Nombre de la Categoría" required />
+                  label="Nombre de la categoría" required />
               </v-col>
               <v-col cols="12" md="12" lg="12" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localCategory.description" counter="50" :maxlength="50" label="Descripción" />

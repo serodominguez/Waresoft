@@ -25,9 +25,9 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("MARCA", "BrandName"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusBrand")
+                ("Marca", "BrandName"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusBrand")
             };
 
             return columnsProperties;
@@ -39,10 +39,10 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("CATEGORÍA", "CategoryName"),
-                ("DESCRIPCIÓN", "Description"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusCategory")
+                ("Categoría", "CategoryName"),
+                ("Descripción", "Description"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusCategory")
             };
 
             return columnsProperties;
@@ -54,12 +54,11 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("NOMBRE", "Names"),
-                ("APELLIDOS", "LastNames"),
-                ("CARNET", "IdentificationNumber"),
-                ("TELÉFONO", "PhoneNumber"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusCustomer")
+                ("Nombre", "Names"),
+                ("Apellidos", "LastNames"),
+                ("Teléfono", "PhoneNumber"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusCustomer")
             };
 
             return columnsProperties;
@@ -71,11 +70,11 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("CÓDIGO", "Code"),
-                ("TIPO", "Type"),
-                ("PERSONAL", "UserName"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusIssue")
+                ("Código", "Code"),
+                ("Tipo", "Type"),
+                ("Personal", "UserName"),
+                ("Fecha de registro", "AuditCreateDate"),
+                ("Estado", "StatusIssue")
             };
 
             return columnsProperties;
@@ -87,14 +86,14 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("CÓDIGO", "Code"),
-                ("TIPO", "Type"),
-                ("PROVEEDOR", "CompanyName"),
-                ("FECHA DEL DOCUMENTO", "DocumentDate"),
-                ("TIPO DE DOCUMENTO", "DocumentType"),
-                ("NÚMERO DE DOCUMENTO", "DocumentNumber"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusReceipt")
+                ("Código", "Code"),
+                ("Tipo", "Type"),
+                ("Proveedor", "CompanyName"),
+                ("Tipo doc.", "DocumentType"),
+                ("Fecha doc.", "DocumentDate"),
+                ("Número doc.", "DocumentNumber"),
+                ("Fecha de registro", "AuditCreateDate"),
+                ("Estado", "StatusReceipt")
             };
 
             return columnsProperties;
@@ -106,16 +105,17 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("CÓDIGO", "Code"),
-                ("DESCRIPCIÓN", "Description"),
-                ("MATERIAL", "Material"),
-                ("COLOR", "Color"),
-                ("UNIDAD DE MEDIDA", "UnitMeasure"),
-                ("CATEGORÍA", "CategoryName"),
-                ("MARCA", "BrandName"),
-                ("CANT. DISPONIBLE", "StockAvailable"),
-                ("CANT. EN TRANSITO", "StockInTransit"),
-                ("PRECIO", "Price")
+                ("Código", "Code"),
+                ("Descripción", "Description"),
+                ("Material", "Material"),
+                ("Color", "Color"),
+                ("Categoría", "CategoryName"),
+                ("Marca", "BrandName"),
+                ("Unidad", "UnitMeasure"),
+                ("Existencias", "StockAvailable"),
+                ("En transito", "StockInTransit"),
+                ("Precio", "Price"),
+                ("Disponibilidad", "Availibity")
             };
 
             return columnsProperties;
@@ -127,9 +127,9 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("MÓDULO", "ModuleName"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusModule")
+                ("Módulo", "ModuleName"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusModule")
             };
 
             return columnsProperties;
@@ -141,15 +141,14 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("CÓDIGO", "Code"),
-                ("DESCRIPCIÓN", "Description"),
-                ("MATERIAL", "Material"),
-                ("COLOR", "Color"),
-                ("UNIDAD DE MEDIDA", "UnitMeasure"),
-                ("CATEGORÍA", "CategoryName"),
-                ("MARCA", "BrandName"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusProduct")
+                ("Código", "Code"),
+                ("Descripción", "Description"),
+                ("Material", "Material"),
+                ("Color", "Color"),
+                ("Categoría", "CategoryName"),
+                ("Marca", "BrandName"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusProduct")
             };
 
             return columnsProperties;
@@ -161,9 +160,9 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("ROL", "RoleName"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusRole")
+                ("Rol", "RoleName"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusRole")
             };
 
             return columnsProperties;
@@ -175,14 +174,12 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("TIENDA", "StoreName"),
-                ("ENCARGADO", "Manager"),
-                ("DIRECCIÓN", "Address"),
-                ("TELÉFONO", "PhoneNumber"),
-                ("CORREO", "Email"),
-                ("TIPO", "Type"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusStore")
+                ("Establecimiento", "StoreName"),
+                ("Encargado", "Manager"),
+                ("Dirección", "Address"),
+                ("Ciudad", "City"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusStore")
             };
 
             return columnsProperties;
@@ -194,12 +191,11 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("EMPRESA", "CompanyName"),
-                ("CONTACTO", "Contact"),
-                ("TELÉFONO", "PhoneNumber"),
-                ("CORREO", "Email"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusSupplier")
+                ("Empresa", "CompanyName"),
+                ("Contacto", "Contact"),
+                ("Teléfono", "PhoneNumber"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusSupplier")
             };
 
             return columnsProperties;
@@ -211,14 +207,14 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("CÓDIGO", "Code"),
-                ("ORIGEN", "StoreOrigin"),
-                ("FECHA ENVIO", "SendDate"),
-                ("ENVIADO POR", "SendUser"),
-                ("DESTINO", "StoreDestination"),
-                ("FECHA RECEPCIÓN", "ReceiveDate"),
-                ("RECIBIDO POR", "ReceiveUser"),
-                ("ESTADO", "StatusTransfer")
+                ("Código", "Code"),
+                ("Origen", "StoreOrigin"),
+                ("Fecha envio", "SendDate"),
+                ("Enviado por", "SendUser"),
+                ("Destino", "StoreDestination"),
+                ("Fecha recepción", "ReceiveDate"),
+                ("Recibido por", "ReceiveUser"),
+                ("Estado", "StatusTransfer")
             };
 
             return columnsProperties;
@@ -230,15 +226,14 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("USUARIO", "UserName"),
-                ("NOMBRES", "Names"),
-                ("APELLIDOS", "LastNames"),
-                ("CARNET", "IdentificationNumber"),
-                ("TELÉFONO", "PhoneNumber"),
-                ("ROL", "RoleName"),
-                ("TIENDA", "StoreName"),
-                ("FECHA DE CREACIÓN", "AuditCreateDate"),
-                ("ESTADO", "StatusUser")
+                ("Usuario", "UserName"),
+                ("Nombres", "Names"),
+                ("Apellidos", "LastNames"),
+                ("Teléfono", "PhoneNumber"),
+                ("Rol", "RoleName"),
+                ("Establecimiento", "StoreName"),
+                ("Fecha de creación", "AuditCreateDate"),
+                ("Estado", "StatusUser")
             };
 
             return columnsProperties;

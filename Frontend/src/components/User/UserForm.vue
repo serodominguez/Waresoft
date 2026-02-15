@@ -14,7 +14,13 @@
                   :rules="[rules.required, rules.onlyLetters]" counter="20" :maxlength="20" @keyup="uppercase"
                   label="Usuario" required />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col v-if="!localUser.idUser" cols="6" md="6" lg="6" xl="12">
+                <v-text-field v-model="localUser.passwordHash"
+                  :append-inner-icon="show ? 'visibility' : 'visibility_off'" :type="show ? 'text' : 'password'"
+                  :rules="[rules.required]" label="Contraseña" color="indigo" variant="underlined"
+                  @click:append-inner="show = !show"></v-text-field>
+              </v-col>
+              <v-col v-else cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localUser.passwordHash" type="password"
                   :rules="[rules.required]" label="Contraseña" clearable required />
               </v-col>
@@ -43,7 +49,7 @@
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-autocomplete color="indigo" variant="underlined" :items="storesArray" v-model="localUser.idStore"
                   item-title="storeName" item-value="idStore" :rules="[rules.required]"
-                  no-data-text="No hay datos disponibles" label="Tienda" required :loading="loadingStores" />
+                  no-data-text="No hay datos disponibles" label="Establecimiento" required :loading="loadingStores" />
               </v-col>
             </v-row>
           </v-container>
@@ -116,6 +122,7 @@ const formRef = ref<FormRef | null>(null);
 const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
+const show = ref(false);
 const localUser = ref<User>({ ...props.user } as User);
 const oldPassword = ref('');
 

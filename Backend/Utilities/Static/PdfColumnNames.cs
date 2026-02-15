@@ -36,6 +36,7 @@
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
                 ("Categoría", "CategoryName"),
+                ("Descripción", "Description"),
                 ("Fecha de creación", "AuditCreateDate"),
                 ("Estado", "StatusCategory")
             };
@@ -50,7 +51,6 @@
             {
                 ("Nombre", "Names"),
                 ("Apellidos", "LastNames"),
-                ("Carnet", "IdentificationNumber"),
                 ("Teléfono", "PhoneNumber"),
                 ("Fecha de creación", "AuditCreateDate"),
                 ("Estado", "StatusCustomer")
@@ -67,7 +67,7 @@
                 ("Código", "Code"),
                 ("Tipo", "Type"),
                 ("Personal", "UserName"),
-                ("Fecha de creación", "AuditCreateDate"),
+                ("Fecha de registro", "AuditCreateDate"),
                 ("Estado", "StatusIssue")
             };
             return columnsProperties;
@@ -82,10 +82,10 @@
                 ("Código", "Code"),
                 ("Tipo", "Type"),
                 ("Proveedor", "CompanyName"),
-                ("Fecha doc.", "DocumentDate"),
                 ("Tipo doc.", "DocumentType"),
+                ("Fecha doc.", "DocumentDate"),
                 ("Número doc.", "DocumentNumber"),
-                ("Fecha de creación", "AuditCreateDate"),
+                ("Fecha de registro", "AuditCreateDate"),
                 ("Estado", "StatusReceipt")
             };
             return columnsProperties;
@@ -101,12 +101,13 @@
                 ("Descripción", "Description"),
                 ("Material", "Material"),
                 ("Color", "Color"),
-                ("Uni. de medida", "UnitMeasure"),
                 ("Categoría", "CategoryName"),
                 ("Marca", "BrandName"),
-                ("Cant. disponible", "StockAvailable"),
-                ("Cant. transito", "StockInTransit"),
-                ("Precio", "Price")
+                ("Unidad", "UnitMeasure"),
+                ("Existencias", "StockAvailable"),
+                ("En transito", "StockInTransit"),
+                ("Precio", "Price"),
+                ("Disponibilidad", "Availibity")
             };
             return columnsProperties;
         }
@@ -135,7 +136,6 @@
                 ("Descripción", "Description"),
                 ("Material", "Material"),
                 ("Color", "Color"),
-                ("U. de medida", "UnitMeasure"),
                 ("Categoría", "CategoryName"),
                 ("Marca", "BrandName"),
                 ("Fecha de creación", "AuditCreateDate"),
@@ -165,12 +165,10 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("Tienda", "StoreName"),
+                ("Establecimiento", "StoreName"),
                 ("Encargado", "Manager"),
-                ("Direcciósn", "Address"),
-                ("Teléfono", "PhoneNumber"),
-                ("Correo", "Email"),
-                ("Tipo", "Type"),
+                ("Dirección", "Address"),
+                ("Ciudad", "City"),
                 ("Fecha de creación", "AuditCreateDate"),
                 ("Estado", "StatusStore")
 
@@ -187,7 +185,6 @@
                 ("Empresa", "CompanyName"),
                 ("Contacto", "Contact"),
                 ("Teléfono", "PhoneNumber"),
-                ("Correo", "Email"),
                 ("Fecha de creación", "AuditCreateDate"),
                 ("Estado", "StatusSupplier")
 
@@ -201,14 +198,14 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("CÓDIGO", "Code"),
-                ("ORIGEN", "StoreOrigin"),
-                ("FECHA ENVIO", "SendDate"),
-                ("ENVIADO POR", "SendUser"),
-                ("DESTINO", "StoreDestination"),
-                ("FECHA RECEPCIÓN", "ReceiveDate"),
-                ("RECIBIDO POR", "ReceiveUser"),
-                ("ESTADO", "StatusTransfer")
+                ("Código", "Code"),
+                ("Origen", "StoreOrigin"),
+                ("Fecha envio", "SendDate"),
+                ("Enviado por", "SendUser"),
+                ("Destino", "StoreDestination"),
+                ("Fecha recepción", "ReceiveDate"),
+                ("Recibido por", "ReceiveUser"),
+                ("Estado", "StatusTransfer")
             };
             return columnsProperties;
         }
@@ -222,10 +219,9 @@
                 ("Usuario", "UserName"),
                 ("Nombres", "Names"),
                 ("Apellidos", "LastNames"),
-                ("Carnet", "IdentificationNumber"),
                 ("Teléfono", "PhoneNumber"),
                 ("Rol", "RoleName"),
-                ("Tienda", "StoreName"),
+                ("Establecimiento", "StoreName"),
                 ("Fecha de creación", "AuditCreateDate"),
                 ("Estado", "StatusUser")
 

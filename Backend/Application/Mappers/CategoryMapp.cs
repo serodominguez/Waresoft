@@ -22,8 +22,8 @@ namespace Application.Mappers
             return new CategoryResponseDto
             {
                 IdCategory = entity.Id,
-                CategoryName = entity.CategoryName.ToTitleCase(),
-                Description = entity.Description.ToTitleCase(),
+                CategoryName = entity.CategoryName.ToSentenceCase(),
+                Description = entity.Description.ToSentenceCaseMultiple(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
                 StatusCategory = ((States)(entity.Status ? 1 : 0)).ToString()
@@ -35,7 +35,7 @@ namespace Application.Mappers
             return new CategorySelectResponseDto
             {
                 IdCategory = entity.Id,
-                CategoryName = entity.CategoryName.ToTitleCase()
+                CategoryName = entity.CategoryName.ToSentenceCase()
             };
         }
     }

@@ -16,7 +16,7 @@ namespace Application.Mappers
                 CompanyName = dto.CompanyName.NormalizeString(),
                 Contact = dto.Contact.NormalizeString(),
                 PhoneNumber = dto.PhoneNumber,
-                Email = dto.Email.NormalizeString(),
+                Email = dto.Email,
             };
         }
         public static SupplierResponseDto SuppliersResponseDtoMapping(SupplierEntity entity)
@@ -25,8 +25,8 @@ namespace Application.Mappers
             {
                 IdSupplier = entity.Id,
                 CompanyName = entity.CompanyName.ToTitleCase(),
-                Contact = entity.Contact.ToTitleCase(),
-                Email = entity.Email?.ToLower(),
+                Contact = entity.Contact.ToSentenceCase(),
+                Email = entity.Email,
                 PhoneNumber = entity.PhoneNumber,
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,

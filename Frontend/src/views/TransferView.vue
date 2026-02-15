@@ -48,7 +48,7 @@ const { selectedFilter, state, startDate, endDate, getFilterParams } = useMoveme
   'Código',
   filterMap,
   TRANSFER_STATE_MAP,
-  'Pendiente'
+  'Todos'
 );
 
 
@@ -71,7 +71,7 @@ const canDownload = computed(() => authStore.hasPermission('traspaso de producto
 
 const clearFilters = () => {
   selectedFilter.value = 'Código';
-  state.value = 'Pendiente';
+  state.value = 'Todos';
   startDate.value = null;
   endDate.value = null;
   search.value = null;

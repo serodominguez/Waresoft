@@ -10,8 +10,8 @@ namespace Application.Validators
             RuleFor(x => x.Type)
                 .NotEmpty().WithMessage("El tipo es requerido!")
                 .MaximumLength(15).WithMessage("El tipo no puede tener más de 15 caracteres!")
-                .Must(type => type == "ADQUISICIÓN" || type == "REGULARIZACIÓN")
-                .WithMessage("El tipo debe ser 'ADQUISICIÓN' o 'REGULARIZACIÓN'!");
+                .Must(type => type == "Adquisición" || type == "Regularización")
+                .WithMessage("El tipo debe ser 'Adquisición' o 'Regularización'!");
 
             RuleFor(x => x.DocumentDate)
                 .NotEmpty().WithMessage("La fecha del documento es requerida!")
@@ -21,14 +21,14 @@ namespace Application.Validators
                 .NotEmpty().WithMessage("El tipo de documento es requerido!")
                 .MaximumLength(15).WithMessage("El tipo de documento no puede tener más de 15 caracteres!");
 
-            //Validación condicional: DocumentNumber requerido solo para ADQUISICIÓN
+            //Validación condicional: DocumentNumber requerido solo para Adquisición
             RuleFor(x => x.DocumentNumber)
-                .NotEmpty().WithMessage("El número de documento es requerido para tipo ADQUISICIÓN!")
+                .NotEmpty().WithMessage("El número de documento es requerido para tipo Adquisición!")
                 .MaximumLength(30).WithMessage("El número de documento no puede tener más de 30 caracteres!")
-                .When(x => x.Type == "ADQUISICIÓN");
+                .When(x => x.Type == "Adquisición");
 
             RuleFor(x => x.TotalAmount)
-                .NotEmpty().WithMessage("El monto total es requerido!");
+                .NotNull().WithMessage("El monto total es requerido!");
 
             RuleFor(x => x.Annotations)
                 .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres!");

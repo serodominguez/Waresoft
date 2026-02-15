@@ -27,15 +27,15 @@ namespace Application.Mappers
             return new ProductResponseDto
             {
                 IdProduct = entity.Id,
-                Code = entity.Code.ToTitleCase(),
-                Description = entity.Description.ToTitleCase(),
-                Material = entity.Material.ToTitleCase(),
-                Color = entity.Color.ToTitleCase(),
-                UnitMeasure = entity.UnitMeasure.ToTitleCase(),
+                Code = entity.Code,
+                Description = entity.Description.ToSentenceCase(),
+                Material = entity.Material.ToSentenceCase(),
+                Color = entity.Color.ToSentenceCase(),
+                UnitMeasure = entity.UnitMeasure.ToSentenceCase(),
                 IdBrand = entity.IdBrand,
-                BrandName = entity.Brand?.BrandName.ToTitleCase(),
+                BrandName = entity.Brand?.BrandName.ToSentenceCase(),
                 IdCategory = entity.IdCategory,
-                CategoryName = entity.Category?.CategoryName.ToTitleCase(),
+                CategoryName = entity.Category?.CategoryName.ToSentenceCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
                 StatusProduct = ((States)(entity.Status ? 1 : 0)).ToString()

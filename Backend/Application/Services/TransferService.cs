@@ -201,6 +201,8 @@ namespace Application.Services
                     {
                         currentStock.StockAvailable -= item.Quantity;
                         currentStock.StockInTransit += item.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                 }
@@ -251,6 +253,8 @@ namespace Application.Services
                     if (destinationStock is not null)
                     {
                         destinationStock.StockAvailable += item.Quantity;
+                        destinationStock.AuditUpdateUser = authenticatedUserId;
+                        destinationStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(destinationStock);
                     }
                     else
@@ -334,6 +338,8 @@ namespace Application.Services
                     {
                         currentStock.StockAvailable += item.Quantity;
                         currentStock.StockInTransit -= item.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                 }

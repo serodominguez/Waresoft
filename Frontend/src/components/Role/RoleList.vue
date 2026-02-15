@@ -123,7 +123,7 @@ const filterOptions = ref(['Rol']);
 
 const headers = computed(() => [
   { title: 'Rol', key: 'roleName', sortable: false },
-  { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
+  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
   { title: 'Estado', key: 'statusRole', sortable: false },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);

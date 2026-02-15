@@ -85,5 +85,10 @@ export const usePermissionStore = defineStore('permission', {
         throw error
       }
     },
+
+    clearPermissions() {
+      this.permissions = []
+      this.error = null
+    },
   },
 })

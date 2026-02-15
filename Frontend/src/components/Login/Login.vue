@@ -10,8 +10,8 @@
             <v-text-field v-model="user" color="indigo" label="Usuario" variant="underlined" @keyup="uppercase"
               :disabled="loading" required></v-text-field>
             <v-text-field v-model="password" color="indigo" label="Contraseña" variant="underlined"
-              :append-icon="show ? 'visibility' : 'visibility_off'" :type="show ? 'text' : 'password'"
-              @click:append="show = !show" @keyup.enter="login()" :disabled="loading" required></v-text-field>
+              :append-inner-icon="show ? 'visibility' : 'visibility_off'" :type="show ? 'text' : 'password'"
+              @click:append-inner="show = !show" @keyup.enter="login()" :disabled="loading" required></v-text-field>
             <v-alert v-if="errorMessage" type="error">{{ errorMessage }}</v-alert>
           </v-card-text>
           <v-card-actions class="px-3 pb-3">

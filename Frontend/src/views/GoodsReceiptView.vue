@@ -7,7 +7,7 @@
       v-model:state="state" v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm"
       @open-modal="openModal" @view-goodsreceipt="openForm" @fetch-goodsreceipt="fetchGoodsReceipt"
       @search-goodsreceipt="searchGoodsReceipt" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
-      @download-excel="downloadExcel" @download-pdf="downloadPdf" @print-pdf="printPdf" />
+      @download-excel="downloadExcel" @download-pdf="downloadPdf" @print-pdf="printPdf" @clear-filters="clearFilters" />
 
     <GoodsReceiptForm v-if="form" v-model="form" :receipt="selectedGoodsReceipt"
       :receiptDetails="selectedReceiptDetails" @saved="handleSaved" @close="closeForm" />
@@ -71,6 +71,16 @@ const canRead = computed(() => authStore.hasPermission('entrada de productos', '
 const canEdit = computed(() => authStore.hasPermission('entrada de productos', 'editar'));
 const canDelete = computed(() => authStore.hasPermission('entrada de productos', 'eliminar'));
 const canDownload = computed(() => authStore.hasPermission('entrada de productos', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value = 'Completado';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchGoodsReceipt();
+};
 
 // Methods
 const openModal = (payload: { goodsreceipt: GoodsReceipt, action: 0 | 1 | 2 | 3 }) => {

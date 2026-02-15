@@ -133,7 +133,7 @@ const filterOptions = ref(['Marca']);
 // Define las columnas/encabezados de la tabla
 const headers = computed(() => [
   { title: 'Marca', key: 'brandName', sortable: false },
-  { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
+  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
   { title: 'Estado', key: 'statusBrand', sortable: false },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);

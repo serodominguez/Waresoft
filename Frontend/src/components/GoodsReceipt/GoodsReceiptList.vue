@@ -10,11 +10,15 @@
             <td>{{ (item as GoodsReceipt).code }}</td>
             <td>{{ (item as GoodsReceipt).type }}</td>
             <td>{{ (item as GoodsReceipt).companyName }}</td>
-            <td>{{ (item as GoodsReceipt).documentDate }}</td>
             <td>{{ (item as GoodsReceipt).documentType }}</td>
+            <td>{{ (item as GoodsReceipt).documentDate }}</td>
             <td>{{ (item as GoodsReceipt).documentNumber }}</td>
             <td>{{ (item as GoodsReceipt).auditCreateDate }}</td>
-            <td>{{ (item as GoodsReceipt).statusReceipt }}</td>
+            <td class="text-center">
+              <v-chip :color="getStatusColor((item as GoodsReceipt).statusReceipt)" variant="flat" size="small">
+                {{ (item as GoodsReceipt).statusReceipt }}
+              </v-chip>
+            </td>
             <td class="text-center">
               <template v-if="canRead">
                 <v-btn icon="preview" variant="text" @click="$emit('view-goodsreceipt', item)" size="small" title="Ver">
@@ -58,7 +62,7 @@
     </v-card>
     <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
       :status-options="GOODS_STATUS_OPTIONS" v-model:state="stateModel" v-model:start-date="startDateModel"
-      v-model:end-date="endDateModel" @apply-filters="applyFilters" @clear-filters="clearFilters" />
+      v-model:end-date="endDateModel" @apply-filters="handleSearch" @clear-filters="handleClearFilters" />
   </div>
 </template>
 
@@ -119,6 +123,7 @@ const emit = defineEmits<{
   'update:state': [value: string];
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
+  'clear-filters': [];
 }>();
 
 // Data
@@ -131,11 +136,11 @@ const headers = computed(() => [
   { title: 'Código', key: 'code', sortable: false },
   { title: 'Tipo', key: 'type', sortable: false },
   { title: 'Proveedor', key: 'companyName', sortable: false },
-  { title: 'Fecha del Documento', key: 'documentDate', sortable: false },
-  { title: 'Tipo de Documento', key: 'documentType', sortable: false },
-  { title: 'Número de Documento', key: 'documenNumber', sortable: false },
+  { title: 'Tipo de documento', key: 'documentType', sortable: false },
+  { title: 'Fecha del documento', key: 'documentDate', sortable: false },
+  { title: 'Número de documento', key: 'documenNumber', sortable: false },
   { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusReceipt', sortable: false },
+  { title: 'Estado', key: 'statusReceipt', sortable: false, align: 'center' as const  },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
@@ -164,23 +169,18 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
-const applyFilters = () => {
-  drawerModel.value = false;
-  emit('search-goodsreceipt', {
-    search: null,
-    selectedFilter: selectedFilterModel.value,
-    state: stateModel.value,
-    startDate: startDateModel.value,
-    endDate: endDateModel.value
-  });
+const getStatusColor = (status: string): string => {
+  const statusLower = status.toLowerCase();
+
+  if (statusLower === 'completado') {
+    return 'green';
+  } else if (statusLower === 'cancelado') {
+    return 'red';
+  } 
+
+  return 'grey';
 };
 
-const clearFilters = () => {
-  selectedFilterModel.value = 'Código';
-  stateModel.value = 'Completado';
-  startDateModel.value = null;
-  endDateModel.value = null;
-};
 
 // Methods
 const handleSearch = () => {
@@ -192,6 +192,11 @@ const handleSearch = () => {
     endDate: endDateModel.value
   });
 };
+
+const handleClearFilters = () => {
+  search.value = null;
+  emit('clear-filters');
+}
 
 const handleDownloadExcel = () => {
   emit('download-excel', {

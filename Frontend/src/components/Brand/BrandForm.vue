@@ -11,7 +11,7 @@
             <v-row>
               <v-col cols="12" md="12" lg="12" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localBrand.brandName"
-                  :rules="[rules.required]" counter="25" :maxlength="25" label="Nombre de la Marca" required />
+                  :rules="[rules.required]" counter="25" :maxlength="25" label="Nombre de la marca" required />
               </v-col>
             </v-row>
           </v-container>

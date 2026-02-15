@@ -82,7 +82,7 @@ interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
   selectedFilter: 'Código',
-  state: 'Pendiente',
+  state: 'Todos',
   startDate: null,
   endDate: null,
   downloadingExcel: false,
@@ -134,10 +134,10 @@ const filterOptions = ['Código', 'Origen', 'Destino'];
 const headers = computed(() => [
   { title: 'Código', key: 'code', sortable: false },
   { title: 'Origen', key: 'storeOrigin', sortable: false },
-  { title: 'Fecha envio', key: 'sendDate', sortable: false },
+  { title: 'Fecha de envio', key: 'sendDate', sortable: false },
   { title: 'Enviado por', key: 'sendUser', sortable: false },
   { title: 'Destino', key: 'storeDestination', sortable: false },
-  { title: 'Fecha recepcion', key: 'receiveDate', sortable: false },
+  { title: 'Fecha de recepción ', key: 'receiveDate', sortable: false },
   { title: 'Recibido por', key: 'receiveUser', sortable: false },
   { title: 'Estado', key: 'statusTransfer', sortable: false, align: 'center' as const },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },

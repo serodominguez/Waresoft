@@ -24,9 +24,9 @@ namespace Application.Mappers
             return new CustomerResponseDto
             {
                 IdCustomer = entity.Id,
-                Names = entity.Names.ToTitleCase(),
-                LastNames = entity.LastNames.ToTitleCase(),
-                IdentificationNumber = entity.IdentificationNumber.ToTitleCase(),
+                Names = entity.Names.ToSentenceCase(),
+                LastNames = entity.LastNames.ToSentenceCase(),
+                IdentificationNumber = entity.IdentificationNumber.ToSentenceCase(),
                 PhoneNumber = entity.PhoneNumber,
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,

@@ -28,12 +28,12 @@ namespace Application.Mappers
                 Price = entity.Price,
                 Availability = ((Availability)(entity.Product.Availability)).ToString().ReplaceUnderscoresWithSpace(),
                 Code = entity.Product?.Code,
-                Description = entity.Product?.Description.ToTitleCase(),
-                Material = entity.Product?.Material.ToTitleCase(),
-                Color = entity.Product?.Color.ToTitleCase(),
-                UnitMeasure = entity.Product?.UnitMeasure.ToTitleCase(),
-                BrandName = entity.Product?.Brand?.BrandName.ToTitleCase(),
-                CategoryName = entity.Product?.Category?.CategoryName.ToTitleCase()
+                Description = entity.Product?.Description.ToSentenceCase(),
+                Material = entity.Product?.Material.ToSentenceCase(),
+                Color = entity.Product?.Color.ToSentenceCase(),
+                UnitMeasure = entity.Product?.UnitMeasure.ToSentenceCase(),
+                BrandName = entity.Product?.Brand?.BrandName.ToSentenceCase(),
+                CategoryName = entity.Product?.Category?.CategoryName.ToSentenceCase()
             };
         }
     }

@@ -21,7 +21,7 @@ namespace Application.Mappers
             return new RoleResponseDto
             {
                 IdRole = entity.Id,
-                RoleName = entity.RoleName.ToTitleCase(),
+                RoleName = entity.RoleName.ToSentenceCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,
                 StatusRole = ((States)(entity.Status ? 1 : 0)).ToString()
@@ -33,7 +33,7 @@ namespace Application.Mappers
             return new RoleSelectResponseDto
             {
                 IdRole = entity.Id,
-                RoleName = entity.RoleName.ToTitleCase()
+                RoleName = entity.RoleName.ToSentenceCase()
             };
         }
     }

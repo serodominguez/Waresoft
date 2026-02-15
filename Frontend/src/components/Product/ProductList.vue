@@ -133,7 +133,7 @@ const headers = computed(() => [
   { title: 'Color', key: 'color', sortable: false },
   { title: 'Categoría', key: 'categoryName', sortable: false },
   { title: 'Marca', key: 'brandName', sortable: false },
-  { title: 'Fecha registro', key: 'auditCreateDate', sortable: false },
+  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
   { title: 'Estado', key: 'statusProduct', sortable: false },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);

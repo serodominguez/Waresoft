@@ -5,7 +5,6 @@ using Application.Dtos.Request.GoodsReceipt;
 using Application.Dtos.Response.GoodsReceipt;
 using Application.Interfaces;
 using Application.Mappers;
-using DocumentFormat.OpenXml.Bibliography;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
@@ -153,7 +152,7 @@ namespace Application.Services
                 var entity = GoodsReceiptMapp.GoodsReceiptMapping(requestDto);
                 entity.Code = await _unitOfWork.GoodsReceipt.GenerateCodeAsync();
                 
-                if (requestDto.Type == "REGULARIZACIÓN")
+                if (requestDto.Type == "Regularización")
                 {
                     entity.DocumentNumber = entity.Code;
                 }
@@ -171,6 +170,8 @@ namespace Application.Services
                     if (currentStock is not null)
                     {
                         currentStock.StockAvailable += item.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                     else 
@@ -243,6 +244,8 @@ namespace Application.Services
                     else
                     {
                         currentStock.StockAvailable -= item.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                 }

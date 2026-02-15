@@ -1,6 +1,5 @@
 ﻿using Application.Dtos.Request.User;
 using Application.Dtos.Response.User;
-using DocumentFormat.OpenXml.Bibliography;
 using Domain.Entities;
 using Utilities.Extensions;
 using Utilities.Static;
@@ -30,12 +29,12 @@ namespace Application.Mappers
                 IdUser = entity.Id,
                 UserName = entity.UserName,
                 PasswordHash = entity.PasswordHash,
-                Names = entity.Names.ToTitleCase(),
-                LastNames = entity.LastNames.ToTitleCase(),
+                Names = entity.Names.ToSentenceCase(),
+                LastNames = entity.LastNames.ToSentenceCase(),
                 IdentificationNumber = entity.IdentificationNumber.ToTitleCase(),
                 PhoneNumber = entity.PhoneNumber,
                 IdRole = entity.IdRole,
-                RoleName = entity.Role?.RoleName.ToTitleCase(),
+                RoleName = entity.Role?.RoleName.ToSentenceCase(),
                 IdStore = entity.IdStore,
                 StoreName = entity.Store?.StoreName.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
@@ -49,7 +48,7 @@ namespace Application.Mappers
             return new UserSelectResponseDto
             {
                 IdUser = entity.Id,
-                UserName = entity.Names.ToTitleCase() + " " + entity.LastNames.ToTitleCase(),
+                UserName = (entity.Names + " " + entity.LastNames).ToTitleCase(),
             };
         }
     }

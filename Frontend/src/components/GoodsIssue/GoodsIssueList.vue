@@ -59,7 +59,7 @@
     </v-card>
     <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
       :status-options="GOODS_STATUS_OPTIONS" v-model:state="stateModel" v-model:start-date="startDateModel"
-      v-model:end-date="endDateModel" @apply-filters="applyFilters" @clear-filters="clearFilters" />
+      v-model:end-date="endDateModel" @apply-filters="handleSearch" @clear-filters="handleClearFilters" />
   </div>
 </template>
 
@@ -120,6 +120,7 @@ const emit = defineEmits<{
   'update:state': [value: string];
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
+  'clear-filters': [];
 }>();
 
 const pages = "Salidas por Página";
@@ -172,24 +173,6 @@ const getStatusColor = (status: string): string => {
   return 'grey';
 };
 
-const applyFilters = () => {
-  drawerModel.value = false;
-  emit('search-goodsissue', {
-    search: null,
-    selectedFilter: selectedFilterModel.value,
-    state: stateModel.value,
-    startDate: startDateModel.value,
-    endDate: endDateModel.value
-  });
-};
-
-const clearFilters = () => {
-  selectedFilterModel.value = 'Código';
-  stateModel.value = 'Completado';
-  startDateModel.value = null;
-  endDateModel.value = null;
-};
-
 const handleSearch = () => {
   emit('search-goodsissue', {
     search: search.value,
@@ -199,6 +182,11 @@ const handleSearch = () => {
     endDate: endDateModel.value
   });
 };
+
+const handleClearFilters = () => {
+  search.value = null;
+  emit('clear-filters');
+}
 
 const handleDownloadExcel = () => {
   emit('download-excel', {

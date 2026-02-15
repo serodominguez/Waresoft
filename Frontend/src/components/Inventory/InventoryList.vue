@@ -13,6 +13,7 @@
             <td>{{ (item as Inventory).color }}</td>
             <td>{{ (item as Inventory).categoryName }}</td>
             <td>{{ (item as Inventory).brandName }}</td>
+            <td>{{ (item as Inventory).unitMeasure }}</td>
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockAvailable ?? 0) <= 0 }">
               {{ (item as Inventory).stockAvailable }}
             </td>
@@ -147,6 +148,7 @@ const headers = computed(() => [
   { title: 'Color', key: 'color', sortable: false },
   { title: 'Categoría', key: 'categoryName', sortable: false },
   { title: 'Marca', key: 'brandName', sortable: false },
+  { title: 'Unidad', key: 'unitMeasure', sortable: false },
   { title: 'Existencias', key: 'stockAvailable', sortable: false, align: 'center' as const },
   { title: 'En transito', key: 'stockInTransit', sortable: false, align: 'center' as const },
   { title: 'Precio', key: 'price', sortable: false, align: 'center' as const },

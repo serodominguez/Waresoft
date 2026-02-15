@@ -169,6 +169,8 @@ namespace Application.Services
                     else
                     {
                         currentStock.StockAvailable -= item.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                 }
@@ -227,6 +229,8 @@ namespace Application.Services
                     else
                     {
                         currentStock.StockAvailable += item.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                 }

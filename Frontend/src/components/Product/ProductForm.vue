@@ -27,7 +27,7 @@
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localProduct.unitMeasure" counter="15"
-                  :rules="[rules.required]" :maxlength="15" label="Unidad de Medida" required />
+                  :rules="[rules.required]" :maxlength="15" label="Unidad de medida" required />
               </v-col>
               <v-col cols="6" md="6" lg="6" xl="12">
                 <v-autocomplete color="indigo" variant="underlined" :items="brandsArray" v-model="localProduct.idBrand"
