@@ -7,6 +7,8 @@
         public int StockAvailable { get; set; }
         public int StockInTransit { get; set; }
         public decimal Price { get; set; }
+        public int? AuditCreateUser { get; set; }
+        public DateTime? AuditCreateDate { get; set; }
         public int? AuditUpdateUser { get; set; }
         public DateTime? AuditUpdateDate { get; set; }
         public virtual ProductEntity Product { get; set; } = null!;

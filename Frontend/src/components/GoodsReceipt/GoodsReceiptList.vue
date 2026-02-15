@@ -17,18 +17,16 @@
             <td>{{ (item as GoodsReceipt).statusReceipt }}</td>
             <td class="text-center">
               <template v-if="canRead">
-                <v-btn icon="preview" variant="text" @click="$emit('view-goodsreceipt', item)"
-                  size="small" title="Ver">
+                <v-btn icon="preview" variant="text" @click="$emit('view-goodsreceipt', item)" size="small" title="Ver">
                 </v-btn>
               </template>
-              <template v-if="canRead && (item as GoodsReceipt).statusReceipt == 'Activo'">
-                <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small"
-                  title="Imprimir">
+              <template v-if="canRead && (item as GoodsReceipt).statusReceipt == 'Completado'">
+                <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small" title="Imprimir">
                 </v-btn>
               </template>
-              <template v-if="canDelete && (item as GoodsReceipt).statusReceipt == 'Activo'">
-                <v-btn icon="block" variant="text"
-                  @click="$emit('open-modal', { goodsreceipt: item, action: 2 })" size="small" title="Desactivar">
+              <template v-if="canDelete && (item as GoodsReceipt).statusReceipt != 'Cancelar'">
+                <v-btn icon="cancel" variant="text" @click="$emit('open-modal', { goodsreceipt: item, action: 3 })"
+                  size="small" title="Cancelar">
                 </v-btn>
               </template>
             </td>
@@ -38,10 +36,10 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Entradas</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar PDF">
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
+              title="Descargar PDF">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-microsoft-excel" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn v-if="canRead" icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
             <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Registrar"></v-btn>
@@ -59,8 +57,8 @@
       </v-data-table-server>
     </v-card>
     <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
-      v-model:state="stateModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
-      @apply-filters="handleSearch" />
+      :status-options="GOODS_STATUS_OPTIONS" v-model:state="stateModel" v-model:start-date="startDateModel"
+      v-model:end-date="endDateModel" @apply-filters="applyFilters" @clear-filters="clearFilters" />
   </div>
 </template>
 
@@ -68,7 +66,8 @@
 import { ref, computed } from 'vue';
 import { GoodsReceipt } from '@/interfaces/goodsReceiptInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
-import CommonFilters from '@/components/Common/CommonFilters.vue';
+import CommonFilters from '@/components/Common/CommonFiltersMovements.vue'
+import { GOODS_STATUS_OPTIONS } from '@/constants/goodsStatus';
 
 interface Props extends Omit<BaseListProps<GoodsReceipt>, 'items' | 'totalItems'> {
   goodsreceipt: GoodsReceipt[];
@@ -78,7 +77,7 @@ interface Props extends Omit<BaseListProps<GoodsReceipt>, 'items' | 'totalItems'
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
   selectedFilter: 'Código',
-  state: 'Activos',
+  state: 'Completado',
   startDate: null,
   endDate: null,
   downloadingExcel: false,
@@ -88,7 +87,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { goodsreceipt: GoodsReceipt; action: 0 | 1 | 2 }];
+  'open-modal': [payload: { goodsreceipt: GoodsReceipt; action: 0 | 1 | 2 | 3 }];
   'view-goodsreceipt': [item: GoodsReceipt];
   'fetch-goodsreceipt': [];
   'search-goodsreceipt': [params: {
@@ -164,6 +163,24 @@ const endDateModel = computed({
   get: () => props.endDate,
   set: (value: Date | null) => emit('update:endDate', value)
 });
+
+const applyFilters = () => {
+  drawerModel.value = false;
+  emit('search-goodsreceipt', {
+    search: null,
+    selectedFilter: selectedFilterModel.value,
+    state: stateModel.value,
+    startDate: startDateModel.value,
+    endDate: endDateModel.value
+  });
+};
+
+const clearFilters = () => {
+  selectedFilterModel.value = 'Código';
+  stateModel.value = 'Completado';
+  startDateModel.value = null;
+  endDateModel.value = null;
+};
 
 // Methods
 const handleSearch = () => {

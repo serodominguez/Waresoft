@@ -2,6 +2,7 @@
 using Application.Dtos.Response.StoreInventory;
 using Domain.Entities;
 using Utilities.Extensions;
+using Utilities.Static;
 
 namespace Application.Mappers
 {
@@ -25,6 +26,7 @@ namespace Application.Mappers
                 StockAvailable = entity.StockAvailable,
                 StockInTransit = entity.StockInTransit,
                 Price = entity.Price,
+                Availability = ((Availability)(entity.Product.Availability)).ToString().ReplaceUnderscoresWithSpace(),
                 Code = entity.Product?.Code,
                 Description = entity.Product?.Description.ToTitleCase(),
                 Material = entity.Product?.Material.ToTitleCase(),

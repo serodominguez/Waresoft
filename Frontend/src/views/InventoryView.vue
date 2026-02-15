@@ -95,8 +95,10 @@ const openForm = (inventory?: Inventory) => {
     material: '',
     color: '',
     unitMeasure: '',
-    stock: null,
+    stockAvailable: null,
+    stockInTransit: null,
     price: null,
+    availability: '',
     brandName: '',
     categoryName: ''
   };

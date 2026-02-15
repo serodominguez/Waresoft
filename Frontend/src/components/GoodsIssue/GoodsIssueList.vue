@@ -11,21 +11,23 @@
             <td>{{ (item as GoodsIssue).type }}</td>
             <td>{{ (item as GoodsIssue).userName }}</td>
             <td>{{ (item as GoodsIssue).auditCreateDate }}</td>
-            <td>{{ (item as GoodsIssue).statusIssue }}</td>
+            <td class="text-center">
+              <v-chip :color="getStatusColor((item as GoodsIssue).statusIssue)" variant="flat" size="small">
+                {{ (item as GoodsIssue).statusIssue }}
+              </v-chip>
+            </td>
             <td class="text-center">
               <template v-if="canRead">
-                <v-btn icon="preview" variant="text" @click="$emit('view-goodsissue', item)" size="small"
-                  title="Ver">
+                <v-btn icon="preview" variant="text" @click="$emit('view-goodsissue', item)" size="small" title="Ver">
                 </v-btn>
               </template>
-              <template v-if="canRead && (item as GoodsIssue).statusIssue == 'Activo'">
-                <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small"
-                  title="Imprimir">
+              <template v-if="canRead && (item as GoodsIssue).statusIssue == 'Completado'">
+                <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small" title="Imprimir">
                 </v-btn>
               </template>
-              <template v-if="canDelete && (item as GoodsIssue).statusIssue == 'Activo'">
-                <v-btn icon="cancel" variant="text"
-                  @click="$emit('open-modal', { goodsissue: item, action: 3 })" size="small" title="Cancelar">
+              <template v-if="canDelete && (item as GoodsIssue).statusIssue != 'Cancelado'">
+                <v-btn icon="cancel" variant="text" @click="$emit('open-modal', { goodsissue: item, action: 3 })"
+                  size="small" title="Cancelar">
                 </v-btn>
               </template>
             </td>
@@ -35,8 +37,8 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Salidas</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar PDF">
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
+              title="Descargar PDF">
             </v-btn>
             <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
@@ -56,8 +58,8 @@
       </v-data-table-server>
     </v-card>
     <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
-      v-model:state="stateModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
-      @apply-filters="handleSearch" />
+      :status-options="GOODS_STATUS_OPTIONS" v-model:state="stateModel" v-model:start-date="startDateModel"
+      v-model:end-date="endDateModel" @apply-filters="applyFilters" @clear-filters="clearFilters" />
   </div>
 </template>
 
@@ -65,7 +67,8 @@
 import { ref, computed } from 'vue';
 import { GoodsIssue } from '@/interfaces/goodsIssueInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
-import CommonFilters from '@/components/Common/CommonFilters.vue';
+import CommonFilters from '@/components/Common/CommonFiltersMovements.vue';
+import { GOODS_STATUS_OPTIONS } from '@/constants/goodsStatus';
 
 interface Props extends Omit<BaseListProps<GoodsIssue>, 'items' | 'totalItems'> {
   goodsissue: GoodsIssue[];
@@ -75,7 +78,7 @@ interface Props extends Omit<BaseListProps<GoodsIssue>, 'items' | 'totalItems'> 
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
   selectedFilter: 'Código',
-  state: 'Activos',
+  state: 'Completado',
   startDate: null,
   endDate: null,
   downloadingExcel: false,
@@ -128,7 +131,7 @@ const headers = computed(() => [
   { title: 'Tipo', key: 'type', sortable: false },
   { title: 'Personal', key: 'userName', sortable: false },
   { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusIssue', sortable: false },
+  { title: 'Estado', key: 'statusIssue', sortable: false, align: 'center' as const },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
@@ -156,6 +159,36 @@ const endDateModel = computed({
   get: () => props.endDate,
   set: (value: Date | null) => emit('update:endDate', value)
 });
+
+const getStatusColor = (status: string): string => {
+  const statusLower = status.toLowerCase();
+
+  if (statusLower === 'completado') {
+    return 'green';
+  } else if (statusLower === 'cancelado') {
+    return 'red';
+  } 
+
+  return 'grey';
+};
+
+const applyFilters = () => {
+  drawerModel.value = false;
+  emit('search-goodsissue', {
+    search: null,
+    selectedFilter: selectedFilterModel.value,
+    state: stateModel.value,
+    startDate: startDateModel.value,
+    endDate: endDateModel.value
+  });
+};
+
+const clearFilters = () => {
+  selectedFilterModel.value = 'Código';
+  stateModel.value = 'Completado';
+  startDateModel.value = null;
+  endDateModel.value = null;
+};
 
 const handleSearch = () => {
   emit('search-goodsissue', {

@@ -42,6 +42,9 @@ namespace Application.Services
                             transfers = transfers.Where(x => x.Code!.Contains(filters.TextFilter));
                             break;
                         case 2:
+                            transfers = transfers.Where(x => x.StoreOrigin.StoreName!.Contains(filters.TextFilter));
+                            break;
+                        case 3:
                             transfers = transfers.Where(x => x.StoreDestination.StoreName!.Contains(filters.TextFilter));
                             break;
                     }
@@ -69,8 +72,8 @@ namespace Application.Services
                             transfers = transfers.Where(x => x.Status == 1 && x.IdStoreDestination == authenticatedStoreId);
                             break;
 
-                        case 4: //Todos excepto Cancelado
-                            transfers = transfers.Where(x => x.Status != 0);
+                        case 4: //Todos (incluyendo Cancelado)
+                            transfers = transfers.Where(x => x.Status >= 0);
                             break;
                     }
                 }
@@ -180,6 +183,8 @@ namespace Application.Services
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = 1;
+                entity.IsActive = true;
+
                 await _unitOfWork.Transfer.SendTransferAsync(entity);
 
                 foreach (var item in entity.TransferDetails)
@@ -256,7 +261,9 @@ namespace Application.Services
                             IdStore = transfer.IdStoreDestination,
                             StockAvailable = item.Quantity,
                             StockInTransit = 0,
-                            Price = 0
+                            Price = 0,
+                            AuditCreateUser = authenticatedUserId,
+                            AuditCreateDate = DateTime.Now
                         };
                         await _unitOfWork.StoreInventory.RegisterStockByProductsAsync(newStock);
                     }
@@ -309,6 +316,7 @@ namespace Application.Services
                 transfer.AuditDeleteUser = authenticatedUserId;
                 transfer.AuditDeleteDate = DateTime.Now;
                 transfer.Status = 0;
+                transfer.IsActive = false;
 
                 response.Data = await _unitOfWork.Transfer.CancelTransferAsync(transfer);
 

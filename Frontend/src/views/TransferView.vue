@@ -3,7 +3,7 @@
     <TransferList v-if="!form" :transfers="transfers" :loading="loading" :totalTransfers="totalTransfers"
       :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf" :canCreate="canCreate" :canRead="canRead"
       :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage"
-      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:status="status"
+      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
       v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
       @view-transfer="openForm" @fetch-transfer="fetchTransfers" @search-transfer="searchTransfers"
       @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
@@ -25,7 +25,8 @@ import { storeToRefs } from 'pinia';
 import { useTransferStore } from '@/stores/transferStore';
 import { useAuthStore } from '@/stores/auth';
 import { Transfer } from '@/interfaces/transferInterface';
-import { formatDate } from '@/utils/date';
+import { useMovementFilters } from '@/composables/useMovementFilters';
+import { TRANSFER_STATE_MAP } from '@/constants/transferStatus';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import TransferList from '@/components/Transfer/TransferList.vue';
 import TransferForm from '@/components/Transfer/TransferForm.vue';
@@ -39,21 +40,17 @@ const { transfers, selectedTransfer, selectedTransferDetails, loading, totalTran
 
 const filterMap: Record<string, number> = {
   "Código": 1,
-  "Establecimiento": 2 
+  "Origen": 2,
+  "Destino": 3
 };
 
-const statusMap: Record<string, number> = {
-  'Cancelado': 0,
-  'Enviado': 1,
-  'Recibido': 2,
-  'Pendiente': 3,
-  'Todos': 4
-}
+const { selectedFilter, state, startDate, endDate, getFilterParams } = useMovementFilters(
+  'Código',
+  filterMap,
+  TRANSFER_STATE_MAP,
+  'Pendiente'
+);
 
-const selectedFilter = ref('Código');
-const status = ref('Todos');
-const startDate = ref<Date | null>(null);
-const endDate = ref<Date | null>(null);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
@@ -61,18 +58,10 @@ const search = ref<string | null>(null);
 const drawer = ref(false);
 const form = ref(false);
 const modal = ref(false);
-const action = ref<0 | 1 | 2>(0);
+const action = ref<0 | 1 | 2 | 3>(0);
 
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
-
-const getFilterParams = (searchText: string | null) => ({
-  textFilter: searchText?.trim() || null,
-  numberFilter: filterMap[selectedFilter.value],
-  stateFilter: statusMap[status.value],
-  startDate: formatDate(startDate.value),
-  endDate: formatDate(endDate.value)
-})
 
 const canCreate = computed(() => authStore.hasPermission('traspaso de productos', 'crear'));
 const canRead = computed(() => authStore.hasPermission('traspaso de productos', 'leer'));
@@ -82,7 +71,7 @@ const canDownload = computed(() => authStore.hasPermission('traspaso de producto
 
 const clearFilters = () => {
   selectedFilter.value = 'Código';
-  status.value = 'Todos';
+  state.value = 'Pendiente';
   startDate.value = null;
   endDate.value = null;
   search.value = null;
@@ -90,7 +79,7 @@ const clearFilters = () => {
   fetchTransfers();
 };
 
-const openModal = (payload: { transfer: Transfer, action: 0 | 1 | 2 }) => {
+const openModal = (payload: { transfer: Transfer, action: 0 | 1 | 2 | 3 }) => {
   transferStore.selectedItem = payload.transfer;
   action.value = payload.action;
   modal.value = true;
@@ -148,7 +137,7 @@ const fetchTransfers = async (params?: any) => {
 const searchTransfers = async (params: any) => {
   search.value = params.search;
   selectedFilter.value = params.selectedFilter;
-  status.value = params.status; // ⭐ CAMBIO: state → status
+  state.value = params.state;
   startDate.value = params.startDate;
   endDate.value = params.endDate;
 
@@ -171,7 +160,7 @@ const refreshTransfers = () => {
     searchTransfers({
       search: search.value,
       selectedFilter: selectedFilter.value,
-      status: status.value,
+      state: state.value,
       startDate: startDate.value,
       endDate: endDate.value
     });

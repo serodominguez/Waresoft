@@ -28,7 +28,7 @@
                 <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small" title="Imprimir">
                 </v-btn>
               </template>
-              <template v-if="canDelete && !['Cancelado', 'Recibido'].includes((item as Transfer).statusTransfer)"">
+              <template v-if="canDelete && !['Cancelado', 'Recibido'].includes((item as Transfer).statusTransfer)">
                 <v-btn icon="cancel" variant="text" @click="$emit('open-modal', { transfer: item, action: 3 })"
                   size="small" title="Cancelar">
                 </v-btn>
@@ -61,9 +61,9 @@
         </template>
       </v-data-table-server>
     </v-card>
-    <TransferFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
-      v-model:status="statusModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
-      @apply-filters="handleSearch" @clear-filters="handleClearFilters" />
+    <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
+      :status-options="TRANSFER_STATUS_OPTIONS" v-model:state="stateModel" v-model:start-date="startDateModel"
+      v-model:end-date="endDateModel" @apply-filters="handleSearch" @clear-filters="handleClearFilters" />
   </div>
 </template>
 
@@ -71,18 +71,18 @@
 import { ref, computed } from 'vue';
 import { Transfer } from '@/interfaces/transferInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
-import TransferFilters from '@/components/Transfer/TransferFilters.vue';
+import CommonFilters from '@/components/Common/CommonFiltersMovements.vue';
+import { TRANSFER_STATUS_OPTIONS } from '@/constants/transferStatus';
 
-interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems' | 'state'> {
+interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
   transfers: Transfer[];
   totalTransfers: number;
-  status?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
   selectedFilter: 'Código',
-  status: 'Todos',
+  state: 'Pendiente',
   startDate: null,
   endDate: null,
   downloadingExcel: false,
@@ -98,7 +98,7 @@ const emit = defineEmits<{
   'search-transfer': [params: {
     search: string | null;
     selectedFilter: string;
-    status: string;
+    state: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
@@ -107,21 +107,21 @@ const emit = defineEmits<{
   'download-excel': [params: {
     search: string | null;
     selectedFilter: string;
-    status: string;
+    state: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
   'download-pdf': [params: {
     search: string | null;
     selectedFilter: string;
-    status: string;
+    state: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
   'print-pdf': [item: Transfer];
   'update:drawer': [value: boolean];
   'update:selectedFilter': [value: string];
-  'update:status': [value: string];
+  'update:state': [value: string]; 
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
   'clear-filters': [];
@@ -129,7 +129,7 @@ const emit = defineEmits<{
 
 const pages = "Traspasos por Página";
 const search = ref<string | null>(null);
-const filterOptions = ['Código', 'Establecimiento'];
+const filterOptions = ['Código', 'Origen', 'Destino'];
 
 const headers = computed(() => [
   { title: 'Código', key: 'code', sortable: false },
@@ -153,9 +153,9 @@ const selectedFilterModel = computed({
   set: (value: string) => emit('update:selectedFilter', value)
 });
 
-const statusModel = computed({
-  get: () => props.status,
-  set: (value: string) => emit('update:status', value)
+const stateModel = computed({
+  get: () => props.state,
+  set: (value: string) => emit('update:state', value)
 });
 
 const startDateModel = computed({
@@ -188,7 +188,7 @@ const handleSearch = () => {
   emit('search-transfer', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    status: statusModel.value,
+    state: stateModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });
@@ -203,7 +203,7 @@ const handleDownloadExcel = () => {
   emit('download-excel', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    status: statusModel.value,
+    state: stateModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });
@@ -213,7 +213,7 @@ const handleDownloadPdf = () => {
   emit('download-pdf', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    status: statusModel.value,
+    state: stateModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });

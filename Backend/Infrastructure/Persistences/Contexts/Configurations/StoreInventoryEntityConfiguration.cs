@@ -32,6 +32,12 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
+            builder.Property(i => i.AuditCreateUser)
+                .HasColumnName("AUDIT_CREATE_USER");
+
+            builder.Property(i => i.AuditCreateDate)
+                .HasColumnName("AUDIT_CREATE_DATE");
+
             builder.Property(i => i.AuditUpdateUser)
                 .HasColumnName("AUDIT_UPDATE_USER");
 

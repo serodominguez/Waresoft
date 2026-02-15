@@ -60,11 +60,11 @@ namespace Application.Services
                     }
                 }
 
-                if (filters.StateFilter is not null)
-                {
-                    var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    inventory = inventory.Where(x => x.Product.Status == stateValue);
-                }
+                //if (filters.StateFilter is not null)
+                //{
+                //    var stateValue = Convert.ToBoolean(filters.StateFilter);
+                //    inventory = inventory.Where(x => x.Product.Status == stateValue);
+                //}
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
                 {

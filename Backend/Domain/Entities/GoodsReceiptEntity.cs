@@ -16,7 +16,8 @@
         public DateTime? AuditCreateDate { get; set; }
         public int? AuditDeleteUser { get; set; }
         public DateTime? AuditDeleteDate { get; set; }
-        public bool Status { get; set; }
+        public int Status { get; set; }
+        public bool IsActive { get; set; }
         public virtual StoreEntity Store { get; set; } = null!;
         public virtual SupplierEntity Supplier { get; set; } = null!;
         public virtual ICollection<GoodsReceiptDetailsEntity> GoodsReceiptDetails { get; set; } = null!;

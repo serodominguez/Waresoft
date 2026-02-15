@@ -44,7 +44,6 @@ namespace Application.Mappers
                 StoreDestination = entity.StoreDestination.StoreName.ToTitleCase(),
                 SendUser = entity.AuditCreateUser.HasValue && userNames.TryGetValue(entity.AuditCreateUser.Value, out var nameSend) ? nameSend : string.Empty,
                 ReceiveUser = entity.AuditUpdateUser.HasValue && userNames.TryGetValue(entity.AuditUpdateUser.Value, out var nameReceive) ? nameReceive : string.Empty,
-                Status = entity.Status,
                 StatusTransfer = ((Transfers)entity.Status).ToString()
             };  
         }

@@ -144,8 +144,6 @@ const storeStore = useStoreStore();
 const authStore = useAuthStore();
 const toast = useToast();
 
-const canDownload = computed(() => authStore.hasPermission('traspaso de productos', 'descargar'));
-
 const { stores, loading: loadingStores } = storeToRefs(storeStore);
 
 const formRef = ref<FormRef | null>(null);

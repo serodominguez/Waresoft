@@ -13,7 +13,6 @@
         public string? StoreName { get; set; }
         public int? AuditCreateUser { get; set; }
         public string? AuditCreateDate { get; set; }
-        public bool Status { get; set; }
         public string? StatusIssue { get; set; }
     }
 }

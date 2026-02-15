@@ -48,10 +48,24 @@ namespace Application.Services
                     }
                 }
 
-                if (filters.StateFilter is not null)
+                if (filters.StateFilter.HasValue)
                 {
-                    var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    issues = issues.Where(x => x.Status == stateValue);
+                    var stateValue = Convert.ToInt32(filters.StateFilter);
+
+                    switch (stateValue)
+                    {
+                        case 0:
+                            issues = issues.Where(x => x.Status == 0);
+                            break;
+
+                        case 1:
+                            issues = issues.Where(x => x.Status == 1);
+                            break;
+
+                        case 2:
+                            issues = issues.Where(x => x.Status >= 0);
+                            break;
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -138,7 +152,8 @@ namespace Application.Services
                 entity.Code = await _unitOfWork.GoodsIssue.GenerateCodeAsync();
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
-                entity.Status = true;
+                entity.Status = 1;
+                entity.IsActive = true;
                 await _unitOfWork.GoodsIssue.RegisterGoodsIssueAsync(entity);
 
                 foreach (var item in entity.GoodsIssueDetails)
@@ -194,7 +209,8 @@ namespace Application.Services
 
                 issue.AuditDeleteUser = authenticatedUserId;
                 issue.AuditDeleteDate = DateTime.Now;
-                issue.Status = false;
+                issue.Status = 0;
+                issue.IsActive = false;
 
                 response.Data = await _unitOfWork.GoodsIssue.CancelGoodsIssueAsync(issue);
 

@@ -5,6 +5,7 @@ using Application.Dtos.Request.GoodsReceipt;
 using Application.Dtos.Response.GoodsReceipt;
 using Application.Interfaces;
 using Application.Mappers;
+using DocumentFormat.OpenXml.Bibliography;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
@@ -49,10 +50,24 @@ namespace Application.Services
                     }
                 }
 
-                if (filters.StateFilter is not null)
+                if (filters.StateFilter.HasValue)
                 {
-                    var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    receipts = receipts.Where(x => x.Status == stateValue);
+                    var stateValue = Convert.ToInt32(filters.StateFilter);
+
+                    switch (stateValue)
+                    {
+                        case 0:
+                            receipts = receipts.Where(x => x.Status == 0);
+                            break;
+
+                        case 1:
+                            receipts = receipts.Where(x => x.Status == 1);
+                            break;
+
+                        case 2:
+                            receipts = receipts.Where(x => x.Status >= 0);
+                            break;
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -145,7 +160,9 @@ namespace Application.Services
 
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
-                entity.Status = true;
+                entity.Status = 1;
+                entity.IsActive = true;
+
                 await _unitOfWork.GoodsReceipt.RegisterGoodsReceiptAsync(entity);
 
                 foreach (var item in entity.GoodsReceiptDetails)
@@ -164,7 +181,9 @@ namespace Application.Services
                             IdStore = requestDto.IdStore,
                             StockAvailable = item.Quantity,
                             StockInTransit = 0,
-                            Price = 0
+                            Price = 0,
+                            AuditCreateUser = authenticatedUserId,
+                            AuditCreateDate = DateTime.Now
                         };
                         await _unitOfWork.StoreInventory.RegisterStockByProductsAsync(newStock);
                     }
@@ -206,7 +225,8 @@ namespace Application.Services
 
                 receipt.AuditDeleteUser = authenticatedUserId;
                 receipt.AuditDeleteDate = DateTime.Now;
-                receipt.Status = false;
+                receipt.Status = 0;
+                receipt.IsActive = false;
 
                 response.Data = await _unitOfWork.GoodsReceipt.CancelGoodsReceiptAsync(receipt);
 

@@ -14,7 +14,6 @@
         public string? StoreDestination { get; set; }
         public string? SendUser { get; set; }
         public string? ReceiveUser { get; set; }
-        public int Status { get; set; }
         public string? StatusTransfer { get; set; }
     }
 }

@@ -26,7 +26,8 @@ import { useGoodsIssueStore } from '@/stores/goodsIssueStore';
 import { useAuthStore } from '@/stores/auth';
 import { GoodsIssue } from '@/interfaces/goodsIssueInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
-import { useFilters } from '@/composables/useFilters';
+import { useMovementFilters } from '@/composables/useMovementFilters';
+import { GOODS_STATE_MAP } from '@/constants/goodsStatus';
 import GoodsIssueList from '@/components/GoodsIssue/GoodsIssueList.vue';
 import GoodsIssueForm from '@/components/GoodsIssue/GoodsIssueForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
@@ -43,7 +44,12 @@ const filterMap = {
   "Personal": 3
 };
 
-const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Código', filterMap);
+const { selectedFilter, state, startDate, endDate, getFilterParams } = useMovementFilters(
+  'Código', 
+  filterMap,
+  GOODS_STATE_MAP,
+  'Completado'
+)
 
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
@@ -51,13 +57,10 @@ const search = ref<string | null>(null);
 const drawer = ref(false);
 const form = ref(false);
 const modal = ref(false);
-const action = ref<0 | 1 | 2>(0);
+const action = ref<0 | 1 | 2 | 3>(0);
 
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
-
-const stateFilter = computed(() => state.value === 'Activos' ? 1 : 0);
-
 
 const canCreate = computed(() => authStore.hasPermission('salida de productos', 'crear'));
 const canRead = computed(() => authStore.hasPermission('salida de productos', 'leer'));
@@ -65,7 +68,7 @@ const canEdit = computed(() => authStore.hasPermission('salida de productos', 'e
 const canDelete = computed(() => authStore.hasPermission('salida de productos', 'eliminar'));
 const canDownload = computed(() => authStore.hasPermission('salida de productos', 'descargar'));
 
-const openModal = (payload: { goodsissue: GoodsIssue, action: 0 | 1 | 2 }) => {
+const openModal = (payload: { goodsissue: GoodsIssue, action: 0 | 1 | 2 | 3 }) => {
   goodsIssueStore.selectedItem = payload.goodsissue;
   action.value = payload.action;
   modal.value = true;
@@ -108,9 +111,9 @@ const fetchGoodsIssue = async (params?: any) => {
     await goodsIssueStore.fetchGoodsIssue(params || {
       pageNumber: currentPage.value,
       pageSize: itemsPerPage.value,
-      stateFilter: stateFilter.value,
       sort: 'IdIssue',
-      order: 'desc'
+      order: 'desc',
+      ...getFilterParams(null)
     });
   } catch (error) {
     handleSilentError(error);

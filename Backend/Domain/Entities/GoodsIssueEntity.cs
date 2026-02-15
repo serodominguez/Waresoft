@@ -13,7 +13,8 @@
         public DateTime? AuditCreateDate { get; set; }
         public int? AuditDeleteUser { get; set; }
         public DateTime? AuditDeleteDate { get; set; }
-        public bool Status { get; set; }
+        public int Status { get; set; }
+        public bool IsActive { get; set; }
         public virtual UserEntity User { get; set; } = null!;
         public virtual StoreEntity Store { get; set; } = null!;
         public virtual ICollection<GoodsIssueDetailsEntity> GoodsIssueDetails { get; set; } = null!;

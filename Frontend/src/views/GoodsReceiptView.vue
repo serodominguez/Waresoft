@@ -26,7 +26,8 @@ import { useGoodsReceiptStore } from '@/stores/goodsReceiptStore';
 import { useAuthStore } from '@/stores/auth';
 import { GoodsReceipt } from '@/interfaces/goodsReceiptInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
-import { useFilters } from '@/composables/useFilters';
+import { useMovementFilters } from '@/composables/useMovementFilters';
+import { GOODS_STATE_MAP } from '@/constants/goodsStatus';
 import GoodsReceiptList from '@/components/GoodsReceipt/GoodsReceiptList.vue';
 import GoodsReceiptForm from '@/components/GoodsReceipt/GoodsReceiptForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
@@ -45,7 +46,12 @@ const filterMap = {
   "Proveedor": 3
 };
 
-const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Código', filterMap);
+const { selectedFilter, state, startDate, endDate, getFilterParams } = useMovementFilters(
+  'Código',
+  filterMap,
+  GOODS_STATE_MAP,
+  'Completado'
+);
 
 // Data
 const currentPage = ref(1);
@@ -54,14 +60,12 @@ const search = ref<string | null>(null);
 const drawer = ref(false);
 const form = ref(false);
 const modal = ref(false);
-const action = ref<0 | 1 | 2>(0);
+const action = ref<0 | 1 | 2| 3>(0);
   
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
 
 // Computed
-const stateFilter = computed(() => state.value === 'Activos' ? 1 : 0);
-
 const canCreate = computed(() => authStore.hasPermission('entrada de productos', 'crear'));
 const canRead = computed(() => authStore.hasPermission('entrada de productos', 'leer'));
 const canEdit = computed(() => authStore.hasPermission('entrada de productos', 'editar'));
@@ -69,7 +73,7 @@ const canDelete = computed(() => authStore.hasPermission('entrada de productos',
 const canDownload = computed(() => authStore.hasPermission('entrada de productos', 'descargar'));
 
 // Methods
-const openModal = (payload: { goodsreceipt: GoodsReceipt, action: 0 | 1 | 2 }) => {
+const openModal = (payload: { goodsreceipt: GoodsReceipt, action: 0 | 1 | 2 | 3 }) => {
   goodsReceiptStore.selectedItem = payload.goodsreceipt;
   action.value = payload.action;
   modal.value = true;
@@ -115,9 +119,9 @@ const fetchGoodsReceipt = async (params?: any) => {
     await goodsReceiptStore.fetchGoodsReceipt(params || {
       pageNumber: currentPage.value,
       pageSize: itemsPerPage.value,
-      stateFilter: stateFilter.value,
       sort: 'IdReceipt',
-      order: 'desc'
+      order: 'desc',
+      ...getFilterParams(null),
     });
   } catch (error) {
     handleSilentError(error);
