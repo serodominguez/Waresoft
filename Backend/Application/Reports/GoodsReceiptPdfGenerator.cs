@@ -175,7 +175,7 @@ namespace Application.Reports
                     header.Cell().Element(HeaderCellStyle).Text("Material").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).Text("Color").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Cantidad").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignRight().Text("Costo U.").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignRight().Text("Costo").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Subtotal").FontSize(10);
                 });
 

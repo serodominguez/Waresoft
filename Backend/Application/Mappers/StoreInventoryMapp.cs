@@ -26,7 +26,7 @@ namespace Application.Mappers
                 StockAvailable = entity.StockAvailable,
                 StockInTransit = entity.StockInTransit,
                 Price = entity.Price,
-                Availability = ((Availability)(entity.Product.Availability)).ToString().ReplaceUnderscoresWithSpace(),
+                Replenishment = ((Replenishment)(entity.Product.Replenishment)).ToString().ReplaceUnderscoresWithSpace(),
                 Code = entity.Product?.Code,
                 Description = entity.Product?.Description.ToSentenceCase(),
                 Material = entity.Product?.Material.ToSentenceCase(),

@@ -82,7 +82,7 @@ const props = withDefaults(defineProps<Props>(), {
     stockAvailable: null,
     stockInTransit: null,
     price: null,
-    availability: '',
+    replenishment: '',
     brandName: '',
     categoryName: ''
   })

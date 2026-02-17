@@ -46,8 +46,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasColumnName("PK_CATEGORY")
                 .IsRequired();
 
-            builder.Property(p => p.Availability)
-                .HasColumnName("AVAILABILITY");
+            builder.Property(p => p.Replenishment)
+                .HasColumnName("REPLENISHMENT");
 
             builder.HasOne(b => b.Brand)
                 .WithMany(p => p.Product)

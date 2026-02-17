@@ -35,48 +35,52 @@
             </v-btn>
           </v-col>
         </v-row>
+        
+        <v-divider class="my-4"></v-divider>
+        
+        <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
+          :no-data-text="'No hay productos agregados'">
+          <template v-slot:item="{ item, index }">
+            <tr>
+              <td class="text-center">{{ index + 1 }}</td>
+              <td class="text-center">{{ item.code }}</td>
+              <td class="text-center">{{ item.description }}</td>
+              <td class="text-center">{{ item.material }}</td>
+              <td class="text-center">{{ item.color }}</td>
+              <td class="text-center">{{ item.categoryName }}</td>
+              <td class="text-center">{{ item.brandName }}</td>
+              <td v-if="!localTransfer.idTransfer">
+                <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
+                  :rules="[rules.requiredNumber, rules.minValue]"></v-text-field>
+              </td>
+              <td class="text-center" v-else>{{ item.quantity }}</td>
+              <td v-if="!localTransfer.idTransfer">
+                <v-text-field v-model.number="item.unitPrice" variant="underlined" type="number" min="0"
+                  :rules="[rules.requiredNumber, rules.minValueOrZero]"></v-text-field>
+              </td>
+              <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
+              <td class="text-center" v-if="!localTransfer.idTransfer">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
+              <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
+              <td v-if="!localTransfer.idTransfer" class="text-center">
+                <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
+                  title="Quitar" />
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+        
+        <v-col v-if="!localTransfer.idTransfer" cols="12" class="d-flex justify-end">
+          <strong>Total Bs.</strong>{{ formatCurrency(totalPrice) }}
+        </v-col>
+        <v-col v-else cols="12" class="d-flex justify-end">
+          <strong>Total Bs.</strong>{{ formatCurrency(localTransfer.totalAmount) }}
+        </v-col>
+        
+        <v-col cols="12" md="12" lg="12" xl="12">
+          <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
+            v-model="localTransfer.annotations" :readonly="!!localTransfer.idTransfer"></v-text-field>
+        </v-col>
       </v-form>
-      <v-divider class="my-4"></v-divider>
-      <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
-        :no-data-text="'No hay productos agregados'">
-        <template v-slot:item="{ item, index }">
-          <tr>
-            <td class="text-center">{{ index + 1 }}</td>
-            <td class="text-center">{{ item.code }}</td>
-            <td class="text-center">{{ item.description }}</td>
-            <td class="text-center">{{ item.material }}</td>
-            <td class="text-center">{{ item.color }}</td>
-            <td class="text-center">{{ item.categoryName }}</td>
-            <td class="text-center">{{ item.brandName }}</td>
-            <td v-if="!localTransfer.idTransfer">
-              <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
-                :rules="[rules.required, rules.minValue]"></v-text-field>
-            </td>
-            <td class="text-center" v-else>{{ item.quantity }}</td>
-            <td v-if="!localTransfer.idTransfer">
-              <v-text-field v-model.number="item.unitPrice" variant="underlined" type="number" min="0"
-                :rules="[rules.required, rules.minValueOrZero]"></v-text-field>
-            </td>
-            <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
-            <td class="text-center" v-if="!localTransfer.idTransfer">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
-            <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
-            <td v-if="!localTransfer.idTransfer" class="text-center">
-              <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
-                title="Quitar" />
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
-      <v-col v-if="!localTransfer.idTransfer" cols="12" class="d-flex justify-end">
-        <strong>Total Bs.</strong>{{ formatCurrency(totalPrice) }}
-      </v-col>
-     <v-col v-else cols="12" class="d-flex justify-end">
-        <strong>Total Bs.</strong>{{ formatCurrency(localTransfer.totalAmount) }}
-      </v-col>
-      <v-col cols="12" md="12" lg="12" xl="12">
-        <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
-          v-model="localTransfer.annotations" :readonly="!!localTransfer.idTransfer"></v-text-field>
-      </v-col>
     </v-card-text>
     <v-card-actions>
       <v-btn v-if="!localTransfer.idTransfer" color="green" dark class="mb-2" elevation="4" @click="saveTransfer"
@@ -157,6 +161,7 @@ const details = ref<TransferDetail[]>([]);
 
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',
+  requiredNumber: (value: any) => (value !== null && value !== undefined && value !== '') || 'Este campo es requerido',
   minValue: (value: number) => value > 0 || 'Debe ser mayor a 0',
   minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0) || 'Debe ser mayor o igual a 0'
 };

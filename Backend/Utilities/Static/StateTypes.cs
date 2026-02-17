@@ -20,7 +20,7 @@
         Pendiente = 3
     }
 
-    public enum Availability
+    public enum Replenishment
     {
         Disponible = 1,
         No_Disponible = 2,

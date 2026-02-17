@@ -9,7 +9,7 @@ namespace Application.Validators
         {
 
             RuleFor(x => x.TotalAmount)
-                .NotEmpty().WithMessage("El monto total es requerido!");
+                .NotNull().WithMessage("El monto total es requerido!");
 
             RuleFor(x => x.Annotations)
                 .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres!");

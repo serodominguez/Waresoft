@@ -115,7 +115,7 @@
                 ("Existencias", "StockAvailable"),
                 ("En transito", "StockInTransit"),
                 ("Precio", "Price"),
-                ("Disponibilidad", "Availibity")
+                ("Reposición", "Replenishment")
             };
 
             return columnsProperties;

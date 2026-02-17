@@ -9,7 +9,7 @@ export interface Inventory {
   stockAvailable: number | null;
   stockInTransit: number | null;
   price: number | null;
-  availability: string;
+  replenishment: string;
   brandName: string;
   categoryName: string;
 }

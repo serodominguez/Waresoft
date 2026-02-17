@@ -23,9 +23,9 @@
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).price ?? 0) <= 0 }">
               {{ (item as Inventory).price }}
             </td>
-            <td class="text-center"><v-chip :color="getStatusColor((item as Inventory).availability)" variant="flat"
+            <td class="text-center"><v-chip :color="getStatusColor((item as Inventory).replenishment)" variant="flat"
                 size="small">
-                {{ (item as Inventory).availability }}
+                {{ (item as Inventory).replenishment }}
               </v-chip></td>
             <td class="text-center">
               <v-btn v-if="canEdit" icon="currency_exchange" variant="text" @click="$emit('edit-inventory', item)"
@@ -152,7 +152,7 @@ const headers = computed(() => [
   { title: 'Existencias', key: 'stockAvailable', sortable: false, align: 'center' as const },
   { title: 'En transito', key: 'stockInTransit', sortable: false, align: 'center' as const },
   { title: 'Precio', key: 'price', sortable: false, align: 'center' as const },
-  { title: 'Disponibilidad', key: 'availability', sortable: false, align: 'center' as const },
+  { title: 'Reposición', key: 'replenishment', sortable: false, align: 'center' as const },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 

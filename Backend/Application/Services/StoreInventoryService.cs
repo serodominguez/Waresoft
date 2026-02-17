@@ -30,7 +30,8 @@ namespace Application.Services
             var response = new BaseResponse<IEnumerable<StoreInventoryResponseDto>>();
             try
             {
-                var inventory = _unitOfWork.StoreInventory.GetInventoryQueryable(authenticatedStoreId);
+                var inventory = _unitOfWork.StoreInventory.GetInventoryQueryable(authenticatedStoreId)
+                    .Where(i => i.Product.Status == true || i.StockAvailable != 0 || i.StockInTransit != 0);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {

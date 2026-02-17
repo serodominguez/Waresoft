@@ -134,7 +134,7 @@ namespace Application.Services
                 var product = ProductMapp.ProductsMapping(requestDto);
                 product.AuditCreateUser = authenticatedUserId;
                 product.AuditCreateDate = DateTime.Now;
-                product.Availability = 1;
+                product.Replenishment = 1;
                 product.Status = true;
 
                 response.Data = await _unitOfWork.Product.RegisterAsync(product);
@@ -225,7 +225,7 @@ namespace Application.Services
 
                 product.AuditUpdateUser = authenticatedUserId;
                 product.AuditUpdateDate = DateTime.Now;
-                product.Availability = 1;
+                product.Replenishment = 1;
                 product.Status = true;
 
                 response.Data = await _unitOfWork.Product.UpdateAsync(product);
@@ -267,7 +267,7 @@ namespace Application.Services
 
                 product.AuditUpdateUser = authenticatedUserId;
                 product.AuditUpdateDate = DateTime.Now;
-                product.Availability = 2;
+                product.Replenishment = 2;
                 product.Status = false;
 
                 response.Data = await _unitOfWork.Product.UpdateAsync(product);
@@ -309,7 +309,7 @@ namespace Application.Services
 
                 product.AuditDeleteUser = authenticatedUserId;
                 product.AuditDeleteDate = DateTime.Now;
-                product.Availability = 3;
+                product.Replenishment = 3;
                 product.Status = false;
 
                 response.Data = await _unitOfWork.Product.RemoveAsync(product);

@@ -98,7 +98,7 @@ const openForm = (inventory?: Inventory) => {
     stockAvailable: null,
     stockInTransit: null,
     price: null,
-    availability: '',
+    replenishment: '',
     brandName: '',
     categoryName: ''
   };
