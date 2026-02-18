@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { Inventory } from '@/interfaces/inventoryInterface';
+import { Inventory, InventoryPivot } from '@/interfaces/inventoryInterface';
 import { inventoryService } from '@/services/inventoryService';
 import { FilterParams } from '@/interfaces/baseInterface';
 import { useAuthStore } from '@/stores/auth';
@@ -12,6 +12,7 @@ export const useInventoryStore = defineStore('inventory', () => {
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
   const lastFilterParams = ref<FilterParams | undefined>(undefined);
+  const inventoryPivot = ref<InventoryPivot | null>(null);
 
   const inventories = computed(() => items.value);
   const selectedInventory = computed(() => selectedItem.value);
@@ -29,6 +30,22 @@ export const useInventoryStore = defineStore('inventory', () => {
         totalItems.value = resultado.totalRecords;
       } else {
         error.value = resultado.message || resultado.errors;
+      }
+    } catch (err: any) {
+      error.value = err.message;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function fetchInventoryPivot(productId: number) {
+    loading.value = true;
+    try {
+      const resultado = await inventoryService.fetchPivot(productId);
+      if (resultado.isSuccess) {
+        inventoryPivot.value = resultado.data;
+      } else {
+        error.value = resultado.message;
       }
     } catch (err: any) {
       error.value = err.message;
@@ -69,6 +86,7 @@ export const useInventoryStore = defineStore('inventory', () => {
       throw err;
     }
   }
+
   async function editInventoryPrice(inventory: Inventory) {
     try {
       const resultado = await inventoryService.updatePrice(inventory);
@@ -90,10 +108,12 @@ export const useInventoryStore = defineStore('inventory', () => {
     lastFilterParams,
 
     inventories,
+    inventoryPivot,
     selectedInventory,
     totalInventories,
 
     fetchInventories,
+    fetchInventoryPivot,
     downloadInventoriesExcel,
     downloadInventoriesPdf,
     downloadInventorySheet,

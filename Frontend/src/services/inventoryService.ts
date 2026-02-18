@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BaseService } from './baseService';
-import { Inventory } from '@/interfaces/inventoryInterface';
+import { Inventory, InventoryPivot } from '@/interfaces/inventoryInterface';
 import { FilterParams, BaseResponse } from '@/interfaces/baseInterface';
 
 class InventoryService extends BaseService<Inventory> {
@@ -14,7 +14,7 @@ class InventoryService extends BaseService<Inventory> {
   // Sobrecargas de tipos
   async fetchAll(params?: FilterParams, download?: false): Promise<BaseResponse<Inventory[]>>;
   async fetchAll(params: FilterParams, download: true): Promise<Blob>;
-  
+
   // Implementación
   async fetchAll(
     params: FilterParams = {},
@@ -27,10 +27,17 @@ class InventoryService extends BaseService<Inventory> {
     return super.fetchAll(customParams, download as any);
   }
 
+  async fetchPivot(productId: number): Promise<BaseResponse<InventoryPivot>> {
+    const response = await axios.get<BaseResponse<InventoryPivot>>(
+      `api/${this.endpoint}/Pivot/${productId}`
+    );
+    return response.data;
+  }
+
   // Método específico para editar precio (solo envía el JSON sin ID en la URL)
   async updatePrice(inventory: Inventory): Promise<BaseResponse<Inventory>> {
     const response = await axios.put<BaseResponse<Inventory>>(
-      `api/${this.endpoint}/Edit`, 
+      `api/${this.endpoint}/Edit`,
       inventory
     );
     return response.data;

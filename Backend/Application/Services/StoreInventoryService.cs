@@ -61,12 +61,6 @@ namespace Application.Services
                     }
                 }
 
-                //if (filters.StateFilter is not null)
-                //{
-                //    var stateValue = Convert.ToBoolean(filters.StateFilter);
-                //    inventory = inventory.Where(x => x.Product.Status == stateValue);
-                //}
-
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
                 {
                     var startDate = Convert.ToDateTime(filters.StartDate).Date;
@@ -88,6 +82,69 @@ namespace Application.Services
                 response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
             }
 
+            return response;
+        }
+
+        public async Task<BaseResponse<StoreInventoryPivotResponseDto>> ListInventoryPivot(BaseFiltersRequest filters)
+        {
+            var response = new BaseResponse<StoreInventoryPivotResponseDto>();
+            try
+            {
+                var inventory = _unitOfWork.StoreInventory.GetAllInventoryQueryable()
+                    .Where(i => i.Product.Status == true || i.StockAvailable != 0);
+
+                if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
+                {
+                    switch (filters.NumberFilter)
+                    {
+                        case 1:
+                            inventory = inventory.Where(x => x.Product.Code!.Contains(filters.TextFilter));
+                            break;
+                        case 2:
+                            inventory = inventory.Where(x => x.Product.Description!.Contains(filters.TextFilter));
+                            break;
+                        case 3:
+                            inventory = inventory.Where(x => x.Product.Material!.Contains(filters.TextFilter));
+                            break;
+                        case 4:
+                            inventory = inventory.Where(x => x.Product.Color!.Contains(filters.TextFilter));
+                            break;
+                        case 5:
+                            inventory = inventory.Where(x => x.Price.ToString().Contains(filters.TextFilter));
+                            break;
+                        case 6:
+                            inventory = inventory.Where(x => x.Product.Brand!.BrandName!.Contains(filters.TextFilter));
+                            break;
+                        case 7:
+                            inventory = inventory.Where(x => x.Product.Category!.CategoryName!.Contains(filters.TextFilter));
+                            break;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
+                {
+                    var startDate = Convert.ToDateTime(filters.StartDate).Date;
+                    var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
+                    inventory = inventory.Where(x => x.Product.AuditCreateDate >= startDate && x.Product.AuditCreateDate < endDate);
+                }
+
+                var inventoryList = await inventory.ToListAsync();
+                var stores = await _unitOfWork.Store.GetAllQueryable().ToListAsync();
+
+                response.TotalRecords = inventoryList
+                    .Select(i => i.Product.Id)
+                    .Distinct()
+                    .Count();
+
+                response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(inventoryList, stores);
+                response.IsSuccess = true;
+                response.Message = ReplyMessage.MESSAGE_QUERY;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+            }
             return response;
         }
 

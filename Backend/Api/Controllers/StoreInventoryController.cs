@@ -57,6 +57,14 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Pivot")]
+        [RequirePermission("Inventario", "Leer")]
+        public async Task<IActionResult> ListInventoryPivot([FromQuery] BaseFiltersRequest filters)
+        {
+            var response = await _storeInventoryService.ListInventoryPivot(filters);
+            return Ok(response);
+        }
+
         [HttpPut("Edit")]
         [RequirePermission("Inventario", "Editar")]
         public async Task<IActionResult> EditInventory([FromBody] StoreInventoryRequestDto requestDto)

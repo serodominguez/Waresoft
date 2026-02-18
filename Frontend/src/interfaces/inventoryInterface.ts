@@ -13,3 +13,16 @@ export interface Inventory {
   brandName: string;
   categoryName: string;
 }
+
+export interface InventoryPivotRow {
+  codigo: string;
+  color: string;
+  marca: string;
+  categoria: string;
+  stockByStore: Record<string, number>;
+}
+
+export interface InventoryPivot {
+  stores: string[];
+  rows: InventoryPivotRow[];
+}

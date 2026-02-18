@@ -42,6 +42,19 @@
         </v-list-group>
       </v-list-group>
 
+    <v-list-group v-if="hasQueriesPermissions">
+        <template v-slot:activator="{ props }">
+          <v-list-item v-bind="props" title="Consultas"></v-list-item>
+        </template>
+        <v-list-item v-for="link in visibleQueriesLinks" :key="link.text" :to="link.route" rounded="xl"
+          class="ma-0 ml-n10">
+          <template v-slot:prepend>
+            <v-icon :icon="link.icon" style="font-size: 20px; margin-right: -20px;"></v-icon>
+          </template>
+          <v-list-item-title v-text="link.text" style="font-size: 15px;"></v-list-item-title>
+        </v-list-item>
+      </v-list-group>
+
       <v-list-group v-if="hasAccessPermissions">
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" title="Accesos"></v-list-item>
@@ -133,7 +146,12 @@ const linkMovements: Link[] = [
   { icon: 'shopping_cart_checkout', text: 'Traspasos', route: '/traspasos', module: 'traspaso de productos' },
 ];
 
-// Enlaces del menú de Accesos (gestión de usuarios y roles)
+// Enlaces del menú de Consultas
+const linkQueries: Link[] = [
+  { icon: 'assignment', text: 'Consolidado', route: '/consolidado', module: 'inventario' },
+];
+
+// Enlaces del menú de Accesos
 const linkAccess: Link[] = [
   { icon: 'supervisor_account', text: 'Roles', route: '/roles', module: 'roles' },
   { icon: 'person', text: 'Usuarios', route: '/usuarios', module: 'usuarios' },
@@ -188,6 +206,11 @@ const visibleMovementLinks = computed((): Link[] =>
   linkMovements.filter(link => hasModuleAccess(link.module))
 );
 
+// Filtra los enlaces de Consultas según los permisos del usuario
+const visibleQueriesLinks = computed((): Link[] => 
+  linkQueries.filter(link => hasModuleAccess(link.module))
+);
+
 // Filtra los enlaces de Accesos según los permisos del usuario
 const visibleAccessLinks = computed((): Link[] => 
   linkAccess.filter(link => hasModuleAccess(link.module))
@@ -206,6 +229,11 @@ const hasStorePermissions = computed((): boolean =>
 // Verifica si se debe mostrar el subgrupo de Movimientos
 const hasMovementsPermissions = computed((): boolean => 
   visibleMovementLinks.value.length > 0
+);
+
+// Verifica si se debe mostrar sección de Consultas
+const hasQueriesPermissions = computed((): boolean => 
+  visibleQueriesLinks.value.length > 0
 );
 
 // Verifica si se debe mostrar la sección de Accesos

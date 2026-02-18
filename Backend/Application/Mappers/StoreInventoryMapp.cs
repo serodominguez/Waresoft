@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Domain.Entities;
 using Utilities.Extensions;
 using Utilities.Static;
@@ -35,6 +36,31 @@ namespace Application.Mappers
                 BrandName = entity.Product?.Brand?.BrandName.ToSentenceCase(),
                 CategoryName = entity.Product?.Category?.CategoryName.ToSentenceCase()
             };
+        }
+
+        public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<StoreInventoryEntity> inventory, List<StoreEntity> entity)
+        {
+            var stores = entity
+                .Where(s => s.StoreName != null)
+                .Select(s => s.StoreName!)
+                .Distinct()
+                .ToList();
+
+            var rows = inventory
+                .GroupBy(i => i.Product.Id)
+                .Select(g => new StoreInventoryPivotRowResponseDto
+                {
+                    Codigo = g.First().Product.Code,
+                    Color = g.First().Product.Color.ToSentenceCase(),
+                    Marca = g.First().Product.Brand.BrandName.ToSentenceCase(),
+                    Categoria = g.First().Product.Category.CategoryName.ToSentenceCase(),
+                    StockByStore = stores.ToDictionary(
+                        store => store,
+                        store => g.FirstOrDefault(i => i.Store.StoreName == store)?.StockAvailable ?? 0
+                    )
+                }).ToList();
+
+            return new StoreInventoryPivotResponseDto { Stores = stores, Rows = rows };
         }
     }
 }

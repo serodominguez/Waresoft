@@ -40,6 +40,15 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/consolidado",
+    name: "consolidated",
+    component: () => import("@/views/ConsolidatedView.vue"),
+    meta: {
+      requiresAuth: true,
+      module: "inventario",
+    },
+  },
+  {
     path: "/clientes",
     name: "customer",
     component: () => import("@/views/CustomerView.vue"),

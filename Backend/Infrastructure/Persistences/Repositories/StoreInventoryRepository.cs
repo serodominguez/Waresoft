@@ -19,6 +19,16 @@ namespace Infrastructure.Persistences.Repositories
             return _context.StoreInventory
                 .AsNoTracking()
                 .Where(i => i.IdStore == storeId)
+                .Include(i => i.Store)
+                .Include(i => i.Product.Brand)
+                .Include(i => i.Product.Category);
+        }
+
+        public IQueryable<StoreInventoryEntity> GetAllInventoryQueryable()
+        {
+            return _context.StoreInventory
+                .AsNoTracking()
+                .Include(i => i.Store)
                 .Include(i => i.Product.Brand)
                 .Include(i => i.Product.Category);
         }
