@@ -19,7 +19,7 @@ export class BaseService<T> {
   }
 
   // Construye los parámetros de consulta
-  private buildParams(params: FilterParams = {}): any {
+  protected buildParams(params: FilterParams = {}): any {
     const queryParams: any = {
       NumberPage: params.pageNumber || 1,
       NumberRecordsPage: params.pageSize || 10,

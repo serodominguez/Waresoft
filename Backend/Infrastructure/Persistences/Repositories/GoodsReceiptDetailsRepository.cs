@@ -27,5 +27,14 @@ namespace Infrastructure.Persistences.Repositories
                 .OrderBy(d => d.Item)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<GoodsReceiptDetailsEntity>> GetGoodsReceiptDetailsByProductAsync(int storeId, int productId)
+        {
+            return await _context.GoodsReceiptDetails
+                .AsNoTracking()
+                .Include(d => d.GoodsReceipt)
+                .Where(d => d.IdProduct == productId && d.GoodsReceipt.IdStore == storeId && d.GoodsReceipt!.IsActive)
+                .ToListAsync();
+        }
     }
 }

@@ -27,12 +27,26 @@ class InventoryService extends BaseService<Inventory> {
     return super.fetchAll(customParams, download as any);
   }
 
-  async fetchPivot(productId: number): Promise<BaseResponse<InventoryPivot>> {
-    const response = await axios.get<BaseResponse<InventoryPivot>>(
-      `api/${this.endpoint}/Pivot/${productId}`
-    );
-    return response.data;
-  }
+async fetchPivot(params: FilterParams = {}): Promise<BaseResponse<InventoryPivot>> {
+  // Usa el mismo buildParams de la clase base
+  const queryParams = this.buildParams({
+    pageNumber: params.pageNumber || 1,
+    pageSize: params.pageSize || 10,
+    order: params.order || 'asc',
+    sort: params.sort || 'IdProduct',
+    stateFilter: params.stateFilter ?? 1,
+    textFilter: params.textFilter,
+    numberFilter: params.numberFilter,
+    startDate: params.startDate,
+    endDate: params.endDate
+  });
+
+  const response = await axios.get<BaseResponse<InventoryPivot>>(
+    `api/${this.endpoint}/Pivot`,
+    { params: queryParams }
+  );
+  return response.data;
+}
 
   // Método específico para editar precio (solo envía el JSON sin ID en la URL)
   async updatePrice(inventory: Inventory): Promise<BaseResponse<Inventory>> {

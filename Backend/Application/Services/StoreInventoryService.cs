@@ -31,7 +31,7 @@ namespace Application.Services
             try
             {
                 var inventory = _unitOfWork.StoreInventory.GetInventoryQueryable(authenticatedStoreId)
-                    .Where(i => i.Product.Status == true || i.StockAvailable != 0 || i.StockInTransit != 0);
+                    .Where(i => (i.Product.AuditDeleteUser == null && i.Product.AuditDeleteDate == null) || i.StockAvailable != 0 || i.StockInTransit != 0);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -59,6 +59,12 @@ namespace Application.Services
                             inventory = inventory.Where(x => x.Product.Category!.CategoryName!.Contains(filters.TextFilter));
                             break;
                     }
+                }
+
+                if (filters.StateFilter is not null)
+                {
+                    var stateValue = Convert.ToBoolean(filters.StateFilter);
+                    inventory = inventory.Where(x => x.Product.Status == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -90,8 +96,7 @@ namespace Application.Services
             var response = new BaseResponse<StoreInventoryPivotResponseDto>();
             try
             {
-                var inventory = _unitOfWork.StoreInventory.GetAllInventoryQueryable()
-                    .Where(i => i.Product.Status == true || i.StockAvailable != 0);
+                var inventory = _unitOfWork.StoreInventory.GetAllInventoryQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -110,16 +115,20 @@ namespace Application.Services
                             inventory = inventory.Where(x => x.Product.Color!.Contains(filters.TextFilter));
                             break;
                         case 5:
-                            inventory = inventory.Where(x => x.Price.ToString().Contains(filters.TextFilter));
-                            break;
-                        case 6:
                             inventory = inventory.Where(x => x.Product.Brand!.BrandName!.Contains(filters.TextFilter));
                             break;
-                        case 7:
+                        case 6:
                             inventory = inventory.Where(x => x.Product.Category!.CategoryName!.Contains(filters.TextFilter));
                             break;
                     }
                 }
+
+                if (filters.StateFilter is not null)
+                {
+                    var stateValue = Convert.ToBoolean(filters.StateFilter);
+                    inventory = inventory.Where(x => x.Product.Status == stateValue);
+                }
+
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
                 {
@@ -128,15 +137,20 @@ namespace Application.Services
                     inventory = inventory.Where(x => x.Product.AuditCreateDate >= startDate && x.Product.AuditCreateDate < endDate);
                 }
 
-                var inventoryList = await inventory.ToListAsync();
+                var items = await inventory.ToListAsync();
                 var stores = await _unitOfWork.Store.GetAllQueryable().ToListAsync();
+                var pivot = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
 
-                response.TotalRecords = inventoryList
-                    .Select(i => i.Product.Id)
-                    .Distinct()
-                    .Count();
+                response.TotalRecords = pivot.Rows.Count;
 
-                response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(inventoryList, stores);
+                var pageNumber = filters.NumberPage;
+                var pageSize = filters.NumberRecordsPage;
+                pivot.Rows = pivot.Rows
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                response.Data = pivot;
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }

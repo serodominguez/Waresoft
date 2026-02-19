@@ -41,53 +41,39 @@ import { PermissionsByModule } from '@/interfaces/permissionInterface';
 import { handleApiError } from '@/helpers/errorHandler';
 import PermissionList from '@/components/Permission/PermissionList.vue';
 
-// Inicialización
+//Inicialización
 const roleStore = useRoleStore();
 const permissionStore = usePermissionStore();
 const toast = useToast();
 
-// Estado reactivo
+//Estado reactivo
 const selectedRoleId = ref<number | null>(null);
 const localPermissions = ref<PermissionsByModule[]>([]);
 const originalPermissions = ref<PermissionsByModule[]>([]);
 const hasChanges = ref(false);
 const saving = ref(false);
 
-// Computed properties
-const roles = computed(() => {
-  return Array.isArray(roleStore.roles) ? roleStore.roles : [];
-});
-
+//Computed properties
+const roles = computed(() => Array.isArray(roleStore.roles) ? roleStore.roles : []);
 const loadingRoles = computed<boolean>(() => roleStore.loading);
-
-const permissionsByModule = computed<PermissionsByModule[]>(
-  () => permissionStore.permissionsByModule
-);
-
+const permissionsByModule = computed<PermissionsByModule[]>(() => permissionStore.permissionsByModule);
 const permissions = computed(() => permissionStore.permissions);
-
 const loading = computed<boolean>(() => permissionStore.loading);
 
-// Watchers
-watch(
-  permissionsByModule,
-  (newPermissions) => {
-    localPermissions.value = JSON.parse(JSON.stringify(newPermissions));
-    originalPermissions.value = JSON.parse(JSON.stringify(newPermissions));
-    hasChanges.value = false;
-  },
-  { deep: true }
-);
+//Watchers
+watch(permissionsByModule, (newPermissions) => {
+  localPermissions.value = JSON.parse(JSON.stringify(newPermissions));
+  originalPermissions.value = JSON.parse(JSON.stringify(newPermissions));
+  hasChanges.value = false;
+}, { deep: true });
 
-// Métodos
+//Métodos
 const loadPermissions = async () => {
   if (!selectedRoleId.value) {
     toast.warning('Por favor selecciona un rol');
     return;
   }
-
   hasChanges.value = false;
-
   try {
     await permissionStore.fetchPermissionsByRole(selectedRoleId.value);
   } catch (error) {
@@ -104,44 +90,28 @@ const savePermissions = async () => {
     toast.info('No hay cambios para guardar');
     return;
   }
-
   saving.value = true;
-
   try {
-    // Construir array de permisos actualizados
+     //Construir array de permisos actualizados
     const updatedPermissions = permissions.value.map((perm: any) => {
-      const localModule = localPermissions.value.find(
-        (lp) => lp.module === perm.moduleName
-      );
-
+      const localModule = localPermissions.value.find(lp => lp.module === perm.moduleName);
       if (localModule) {
         const actionKey = perm.actionName.toLowerCase() as 'crear' | 'leer' | 'editar' | 'eliminar' | 'descargar';
-        return {
-          idPermission: perm.idPermission,
-          status: localModule.permissions[actionKey]
-        };
+        return { idPermission: perm.idPermission, status: localModule.permissions[actionKey] };
       }
-
-      return {
-        idPermission: perm.idPermission,
-        status: perm.status
-      };
+      return { idPermission: perm.idPermission, status: perm.status };
     });
 
-    // Llamar al store
+    //Llamar al store
     const response = await permissionStore.updatePermissions(updatedPermissions);
-
     if (response && response.success) {
       toast.success('Permisos actualizados correctamente');
       hasChanges.value = false;
-
-      // Recargar permisos para confirmar
       if (selectedRoleId.value) {
         await permissionStore.fetchPermissionsByRole(selectedRoleId.value);
       }
     } else {
-      const errorMsg = response?.message || 'Error al actualizar permisos';
-      toast.error(errorMsg);
+      toast.error(response?.message || 'Error al actualizar permisos');
     }
   } catch (error) {
     handleApiError(error, 'Error al guardar los permisos');
@@ -158,7 +128,7 @@ const clearPermissions = () => {
   permissionStore.clearPermissions();
 };
 
-// Lifecycle hooks
+//Lifecycle hooks
 onMounted(() => {
   roleStore.selectRole();
 });

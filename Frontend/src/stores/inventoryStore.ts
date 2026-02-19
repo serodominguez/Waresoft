@@ -9,14 +9,17 @@ export const useInventoryStore = defineStore('inventory', () => {
   const items = ref<Inventory[]>([]);
   const selectedItem = ref<Inventory | null>(null);
   const totalItems = ref<number>(0);
+  const totalPivotItems = ref<number>(0);
   const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
   const lastFilterParams = ref<FilterParams | undefined>(undefined);
   const inventoryPivot = ref<InventoryPivot | null>(null);
+  const lastPivotFilterParams = ref<FilterParams | undefined>(undefined);
 
   const inventories = computed(() => items.value);
   const selectedInventory = computed(() => selectedItem.value);
   const totalInventories = computed(() => totalItems.value || 0);
+  const totalRows = computed(() => totalPivotItems.value || 0);
 
   async function fetchInventories(params: FilterParams = {}) {
     loading.value = true;
@@ -38,12 +41,16 @@ export const useInventoryStore = defineStore('inventory', () => {
     }
   }
 
-  async function fetchInventoryPivot(productId: number) {
+  async function fetchInventoryPivot(params: FilterParams = {}) {
     loading.value = true;
+    inventoryPivot.value = null;
+    lastPivotFilterParams.value = params;
+
     try {
-      const resultado = await inventoryService.fetchPivot(productId);
+      const resultado = await inventoryService.fetchPivot(params);
       if (resultado.isSuccess) {
         inventoryPivot.value = resultado.data;
+        totalPivotItems.value = resultado.totalRecords;
       } else {
         error.value = resultado.message;
       }
@@ -77,7 +84,7 @@ export const useInventoryStore = defineStore('inventory', () => {
   async function downloadInventorySheet(params?: FilterParams) {
     try {
       const authStore = useAuthStore();
-      const storeName = authStore.currentUser?.storeName; // Asumiendo que tienes el nombre de la tienda en el user
+      const storeName = authStore.currentUser?.storeName;
 
       const filtrosParams = params || lastFilterParams.value || {};
       await inventoryService.inventorySheet(filtrosParams, storeName);
@@ -103,12 +110,15 @@ export const useInventoryStore = defineStore('inventory', () => {
     items,
     selectedItem,
     totalItems,
+    totalPivotItems,
+    totalRows,
     loading,
     error,
     lastFilterParams,
 
     inventories,
     inventoryPivot,
+    lastPivotFilterParams,
     selectedInventory,
     totalInventories,
 

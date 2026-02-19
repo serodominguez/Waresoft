@@ -100,7 +100,8 @@ const openForm = (inventory?: Inventory) => {
     price: null,
     replenishment: '',
     brandName: '',
-    categoryName: ''
+    categoryName: '',
+    auditCreateDate: ''
   };
   form.value = true;
 };

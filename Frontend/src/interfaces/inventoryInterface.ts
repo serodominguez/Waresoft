@@ -12,13 +12,15 @@ export interface Inventory {
   replenishment: string;
   brandName: string;
   categoryName: string;
+  auditCreateDate: string;
 }
 
 export interface InventoryPivotRow {
-  codigo: string;
+  code: string;
   color: string;
-  marca: string;
-  categoria: string;
+  brandName: string;
+  categoryName: string;
+  auditCreateDate: string;
   stockByStore: Record<string, number>;
 }
 

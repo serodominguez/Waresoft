@@ -1,6 +1,5 @@
 ﻿using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Domain.Entities;
 using Utilities.Extensions;
 using Utilities.Static;
@@ -34,14 +33,15 @@ namespace Application.Mappers
                 Color = entity.Product?.Color.ToSentenceCase(),
                 UnitMeasure = entity.Product?.UnitMeasure.ToSentenceCase(),
                 BrandName = entity.Product?.Brand?.BrandName.ToSentenceCase(),
-                CategoryName = entity.Product?.Category?.CategoryName.ToSentenceCase()
+                CategoryName = entity.Product?.Category?.CategoryName.ToSentenceCase(),
+                AuditCreateDate = entity.Product?.AuditCreateDate?.ToString("dd/MM/yyyy HH:mm"),
             };
         }
 
         public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<StoreInventoryEntity> inventory, List<StoreEntity> entity)
         {
             var stores = entity
-                .Where(s => s.StoreName != null)
+                .Where(s => !string.IsNullOrEmpty(s.StoreName))
                 .Select(s => s.StoreName!)
                 .Distinct()
                 .ToList();
@@ -50,12 +50,13 @@ namespace Application.Mappers
                 .GroupBy(i => i.Product.Id)
                 .Select(g => new StoreInventoryPivotRowResponseDto
                 {
-                    Codigo = g.First().Product.Code,
+                    Code = g.First().Product.Code,
                     Color = g.First().Product.Color.ToSentenceCase(),
-                    Marca = g.First().Product.Brand.BrandName.ToSentenceCase(),
-                    Categoria = g.First().Product.Category.CategoryName.ToSentenceCase(),
+                    BrandName = g.First().Product.Brand.BrandName.ToSentenceCase(),
+                    CategoryName = g.First().Product.Category.CategoryName.ToSentenceCase(),
+                    AuditCreateDate = g.First().Product.AuditCreateDate?.ToString("dd/MM/yyyy HH:mm"),
                     StockByStore = stores.ToDictionary(
-                        store => store,
+                        store => store.ToSentenceCase() ?? store,
                         store => g.FirstOrDefault(i => i.Store.StoreName == store)?.StockAvailable ?? 0
                     )
                 }).ToList();
