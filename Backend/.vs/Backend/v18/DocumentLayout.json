@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|d:\\projects\\it solutions\\waresoft\\backend\\application\\mappers\\storeinventorymapp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|solutionrelative:application\\mappers\\storeinventorymapp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9CA6168F-4418-4775-8C03-3074F993390A}|Api\\Api.csproj|d:\\projects\\it solutions\\waresoft\\backend\\api\\controllers\\storeinventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9CA6168F-4418-4775-8C03-3074F993390A}|Api\\Api.csproj|solutionrelative:api\\controllers\\storeinventorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|d:\\projects\\it solutions\\waresoft\\backend\\application\\interfaces\\istoreinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|solutionrelative:application\\interfaces\\istoreinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|d:\\projects\\it solutions\\waresoft\\backend\\application\\services\\storeinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|solutionrelative:application\\services\\storeinventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +26,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "StoreInventoryMapp.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Mappers\\StoreInventoryMapp.cs",
+              "RelativeDocumentMoniker": "Application\\Mappers\\StoreInventoryMapp.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Mappers\\StoreInventoryMapp.cs",
+              "RelativeToolTip": "Application\\Mappers\\StoreInventoryMapp.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAqwHUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T23:50:29.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StoreInventoryController.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Controllers\\StoreInventoryController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\StoreInventoryController.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Controllers\\StoreInventoryController.cs",
+              "RelativeToolTip": "Api\\Controllers\\StoreInventoryController.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAowEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T23:43:19.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IStoreInventoryService.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Interfaces\\IStoreInventoryService.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\IStoreInventoryService.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Interfaces\\IStoreInventoryService.cs",
+              "RelativeToolTip": "Application\\Interfaces\\IStoreInventoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T23:31:48.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "StoreInventoryService.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\StoreInventoryService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\StoreInventoryService.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\StoreInventoryService.cs",
+              "RelativeToolTip": "Application\\Services\\StoreInventoryService.cs",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAowKcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T23:31:23.205Z",
+              "EditorCaption": ""
             }
           ]
         }

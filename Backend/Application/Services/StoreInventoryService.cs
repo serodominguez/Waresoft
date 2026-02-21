@@ -5,6 +5,7 @@ using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
 using Application.Interfaces;
 using Application.Mappers;
+using Azure;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -151,6 +152,100 @@ namespace Application.Services
                     .ToList();
 
                 response.Data = pivot;
+                response.IsSuccess = true;
+                response.Message = ReplyMessage.MESSAGE_QUERY;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<BaseResponse<StoreInventoryKardexResponseDto>> ListKardexInventory(int authenticatedStoreId, int productId, BaseFiltersRequest filters)
+        {
+            var response = new BaseResponse<StoreInventoryKardexResponseDto>();
+            try
+            {
+                // Obtener el inventario del producto (StoreInventoryEntity)
+                var inventoryProduct = await _unitOfWork.StoreInventory
+                    .GetInventoryQueryable(authenticatedStoreId)
+                    .FirstOrDefaultAsync(i => i.IdProduct == productId);
+
+                if (inventoryProduct is null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                    return response;
+                }
+
+                // Obtener todos los movimientos del producto
+                var receipts = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsByProductAsync(authenticatedStoreId, productId);
+                var issues = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsByProductAsync(authenticatedStoreId, productId);
+                var transfers = await _unitOfWork.TransferDetails.GetTransferDetailsByProductAsync(authenticatedStoreId, productId);
+
+                // Crear lista de movimientos usando mappers
+                var movements = new List<StoreInventoryKardexMovementDto>();
+
+                // Agregar SOLO Entradas COMPLETADAS
+                movements.AddRange(
+                    receipts
+                        .Where(r => r.GoodsReceipt != null && r.GoodsReceipt.Status == (int)Movements.Completado)
+                        .Select(StoreInventoryMapp.MapReceiptToKardexMovement)
+                );
+
+                // Agregar SOLO Salidas COMPLETADAS
+                movements.AddRange(
+                    issues
+                        .Where(i => i.GoodsIssue != null && i.GoodsIssue.Status == (int)Movements.Completado)
+                        .Select(StoreInventoryMapp.MapIssueToKardexMovement)
+                );
+
+                // Agregar SOLO Traspasos ENVIADOS o RECIBIDOS (no Cancelados ni Pendientes)
+                movements.AddRange(
+                    transfers
+                        .Where(t => t.Transfer != null &&
+                                   (t.Transfer.Status == (int)Transfers.Enviado ||
+                                    t.Transfer.Status == (int)Transfers.Recibido))
+                        .Select(t => StoreInventoryMapp.MapTransferToKardexMovement(t, authenticatedStoreId))
+                );
+
+                // Ordenar por fecha (Date ya es string en formato "dd/MM/yyyy HH:mm")
+                movements = movements
+                    .OrderBy(m => {
+                        if (DateTime.TryParseExact(m.Date, "dd/MM/yyyy HH:mm",
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            System.Globalization.DateTimeStyles.None, out DateTime date))
+                            return date;
+                        return DateTime.MinValue;
+                    })
+                    .ToList();
+
+                // Calcular stock acumulado ANTES de paginar (importante para mantener consistencia)
+                int runningStock = 0;
+                foreach (var movement in movements)
+                {
+                    runningStock += movement.Quantity;
+                    movement.Stock = runningStock;
+                }
+
+                // Total de registros ANTES de paginar
+                response.TotalRecords = movements.Count;
+
+                // Aplicar paginación
+                var pageNumber = filters.NumberPage;
+                var pageSize = filters.NumberRecordsPage;
+                var paginatedMovements = movements
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                // Usar mapper para crear respuesta final
+                response.Data = StoreInventoryMapp.StoreInventoryKardexMapping(
+                    inventoryProduct,
+                    paginatedMovements,
+                    runningStock);
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }

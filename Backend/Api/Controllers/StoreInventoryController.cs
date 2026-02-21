@@ -65,6 +65,14 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Kardex")]
+        [RequirePermission("Inventario", "Leer")]
+        public async Task<IActionResult> ListInventoryKardex([FromQuery] int productId, [FromQuery] BaseFiltersRequest filters)
+        {
+            var response = await _storeInventoryService.ListKardexInventory(AuthenticatedUserStoreId, productId, filters);
+            return Ok(response);
+        }
+
         [HttpPut("Edit")]
         [RequirePermission("Inventario", "Editar")]
         public async Task<IActionResult> EditInventory([FromBody] StoreInventoryRequestDto requestDto)
