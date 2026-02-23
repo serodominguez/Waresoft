@@ -8,8 +8,8 @@ namespace Application.Validators
         public StoreValidator()
         {
             RuleFor(x => x.StoreName)
-                .NotEmpty().WithMessage("El nombre de tienda es requerido!")
-                .MaximumLength(50).WithMessage("El nombre de tienda no puede tener más de 50 caracteres!")
+                .NotEmpty().WithMessage("El nombre del establecimiento es requerido!")
+                .MaximumLength(50).WithMessage("El nombre del establecimiento no puede tener más de 50 caracteres!")
                 .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
 
             RuleFor(x => x.Manager)

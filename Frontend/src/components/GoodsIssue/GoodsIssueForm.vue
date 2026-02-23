@@ -17,11 +17,10 @@
           </v-col>
           <v-col cols="12" md="2">
             <v-autocomplete v-if="!localIssue.idIssue" color="indigo" variant="underlined" :items="usersArray"
-              v-model="localIssue.idUser" item-title="userName" item-value="idUser"
-              :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Personal"
-              :loading="loadingUsers" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localIssue.userName"
-              label="Personal" readonly />
+              v-model="localIssue.idUser" item-title="userName" item-value="idUser" :rules="[rules.required]"
+              no-data-text="No hay datos disponibles" label="Personal" :loading="loadingUsers" />
+            <v-text-field v-else color="indigo" variant="underlined" v-model="localIssue.userName" label="Personal"
+              readonly />
           </v-col>
           <v-col class="px-2" cols="12" md="2">
             <v-btn v-if="!localIssue.idIssue" fab dark color="indigo" class="mt-3" @click="openProductModal">
@@ -29,9 +28,7 @@
             </v-btn>
           </v-col>
         </v-row>
-        
         <v-divider class="my-4"></v-divider>
-        
         <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
           :no-data-text="'No hay productos agregados'">
           <template v-slot:item="{ item, index }">
@@ -50,10 +47,11 @@
               <td class="text-center" v-else>{{ item.quantity }}</td>
               <td v-if="!localIssue.idIssue">
                 <v-text-field v-model.number="item.unitPrice" variant="underlined" type="number" min="0"
-                  :rules="localIssue.type === 'REGULARIZACIÓN' ? [rules.requiredNumber, rules.minValueOrZero] : [rules.requiredNumber, rules.minValue]"></v-text-field>
+                  :rules="[rules.requiredNumber, rules.minValueOrZero]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
-              <td class="text-center" v-if="!localIssue.idIssue">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
+              <td class="text-center" v-if="!localIssue.idIssue">{{ formatCurrency(item.quantity * item.unitPrice) }}
+              </td>
               <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
               <td v-if="!localIssue.idIssue" class="text-center">
                 <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
@@ -62,14 +60,13 @@
             </tr>
           </template>
         </v-data-table>
-        
         <v-col v-if="!localIssue.idIssue" cols="12" class="d-flex justify-end">
           <strong>Total Bs.</strong>{{ formatCurrency(total) }}
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-end">
           <strong>Total Bs.</strong>{{ formatCurrency(localIssue.totalAmount) }}
         </v-col>
-        
+
         <v-col cols="12" md="12" lg="12" xl="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localIssue.annotations" :readonly="!!localIssue.idIssue"></v-text-field>
@@ -81,8 +78,8 @@
         :disabled="!valid || details.length === 0" :loading="saving">
         Guardar
       </v-btn>
-      <v-btn v-else-if="localIssue.statusIssue === 'Activo' && canDownload" color="indigo" dark class="mb-2" elevation="4"
-        @click="downloadPdf" :loading="downloading">
+      <v-btn v-else-if="localIssue.statusIssue === 'Activo' && canDownload" color="indigo" dark class="mb-2"
+        elevation="4" @click="downloadPdf" :loading="downloading">
         Descargar
       </v-btn>
       <v-btn color="red" dark class="mb-2" elevation="4" @click="close">
@@ -156,7 +153,7 @@ const localIssue = ref<GoodsIssue>({ ...props.issue } as GoodsIssue);
 const details = ref<GoodsIssueDetail[]>([]);
 const documentTypes = ref<string[]>([]);
 
-const issueTypes = ['CONSIGNACIÓN', 'REGULARIZACIÓN'];
+const issueTypes = ['Consignación', 'Ajuste de inventario', 'Ajuste de kardex'];
 
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',

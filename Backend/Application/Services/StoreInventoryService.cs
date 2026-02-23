@@ -5,7 +5,6 @@ using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
 using Application.Interfaces;
 using Application.Mappers;
-using Azure;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -169,11 +168,10 @@ namespace Application.Services
             try
             {
                 // Obtener el inventario del producto (StoreInventoryEntity)
-                var inventoryProduct = await _unitOfWork.StoreInventory
-                    .GetInventoryQueryable(authenticatedStoreId)
+                var inventory = await _unitOfWork.StoreInventory.GetInventoryQueryable(authenticatedStoreId)
                     .FirstOrDefaultAsync(i => i.IdProduct == productId);
 
-                if (inventoryProduct is null)
+                if (inventory is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
@@ -189,25 +187,20 @@ namespace Application.Services
                 var movements = new List<StoreInventoryKardexMovementDto>();
 
                 // Agregar SOLO Entradas COMPLETADAS
-                movements.AddRange(
-                    receipts
-                        .Where(r => r.GoodsReceipt != null && r.GoodsReceipt.Status == (int)Movements.Completado)
+                movements.AddRange(receipts
+                        .Where(r => r.GoodsReceipt != null && r.GoodsReceipt.Status == 1)
                         .Select(StoreInventoryMapp.MapReceiptToKardexMovement)
                 );
 
                 // Agregar SOLO Salidas COMPLETADAS
-                movements.AddRange(
-                    issues
-                        .Where(i => i.GoodsIssue != null && i.GoodsIssue.Status == (int)Movements.Completado)
+                movements.AddRange(issues
+                        .Where(i => i.GoodsIssue != null && i.GoodsIssue.Status == 1)
                         .Select(StoreInventoryMapp.MapIssueToKardexMovement)
                 );
 
                 // Agregar SOLO Traspasos ENVIADOS o RECIBIDOS (no Cancelados ni Pendientes)
-                movements.AddRange(
-                    transfers
-                        .Where(t => t.Transfer != null &&
-                                   (t.Transfer.Status == (int)Transfers.Enviado ||
-                                    t.Transfer.Status == (int)Transfers.Recibido))
+                movements.AddRange(transfers
+                        .Where(t => t.Transfer != null && t.Transfer.Status != 0)
                         .Select(t => StoreInventoryMapp.MapTransferToKardexMovement(t, authenticatedStoreId))
                 );
 
@@ -227,8 +220,13 @@ namespace Application.Services
                 foreach (var movement in movements)
                 {
                     runningStock += movement.Quantity;
-                    movement.Stock = runningStock;
+                    movement.AccumulatedStock = runningStock;
                 }
+
+                // Calcular la diferencia de stock
+                var currentStock = inventory.StockAvailable;
+                var calculatedStock = runningStock;
+                var stockDifference = currentStock - calculatedStock;
 
                 // Total de registros ANTES de paginar
                 response.TotalRecords = movements.Count;
@@ -242,10 +240,7 @@ namespace Application.Services
                     .ToList();
 
                 // Usar mapper para crear respuesta final
-                response.Data = StoreInventoryMapp.StoreInventoryKardexMapping(
-                    inventoryProduct,
-                    paginatedMovements,
-                    runningStock);
+                response.Data = StoreInventoryMapp.StoreInventoryKardexMapping(inventory, paginatedMovements, calculatedStock, stockDifference);
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }

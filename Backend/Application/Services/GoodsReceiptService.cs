@@ -133,6 +133,9 @@ namespace Application.Services
 
         public async Task<BaseResponse<bool>> RegisterGoodsReceipt(int authenticatedUserId, GoodsReceiptRequestDto requestDto)
         {
+            const string TypeReceipt = "Adquisición";
+            const string TypeAdjustment = "Ajuste de kardex";
+
             var response = new BaseResponse<bool>();
 
             var validationResult = await _validator.ValidateAsync(requestDto);
@@ -152,41 +155,46 @@ namespace Application.Services
                 var entity = GoodsReceiptMapp.GoodsReceiptMapping(requestDto);
                 entity.Code = await _unitOfWork.GoodsReceipt.GenerateCodeAsync();
                 
-                if (requestDto.Type == "Regularización")
+                if (requestDto.Type != TypeReceipt)
                 {
                     entity.DocumentNumber = entity.Code;
+                    entity.DocumentDate = DateTime.Now;
                 }
 
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = 1;
                 entity.IsActive = true;
-
                 await _unitOfWork.GoodsReceipt.RegisterGoodsReceiptAsync(entity);
 
-                foreach (var item in entity.GoodsReceiptDetails)
+                if (requestDto.Type != TypeAdjustment)
                 {
-                    var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, requestDto.IdStore);
-                    if (currentStock is not null)
+                    foreach (var item in entity.GoodsReceiptDetails)
                     {
-                        currentStock.StockAvailable += item.Quantity;
-                        currentStock.AuditUpdateUser = authenticatedUserId;
-                        currentStock.AuditUpdateDate = DateTime.Now;
-                        await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
-                    }
-                    else 
-                    {
-                        var newStock = new StoreInventoryEntity
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, requestDto.IdStore);
+
+                        if (currentStock is not null)
                         {
-                            IdProduct = item.IdProduct,
-                            IdStore = requestDto.IdStore,
-                            StockAvailable = item.Quantity,
-                            StockInTransit = 0,
-                            Price = 0,
-                            AuditCreateUser = authenticatedUserId,
-                            AuditCreateDate = DateTime.Now
-                        };
-                        await _unitOfWork.StoreInventory.RegisterStockByProductsAsync(newStock);
+                            currentStock.StockAvailable += item.Quantity;
+                            currentStock.AuditUpdateUser = authenticatedUserId;
+                            currentStock.AuditUpdateDate = DateTime.Now;
+                            await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
+                        }
+                        else
+                        {
+                            var newStock = new StoreInventoryEntity
+                            {
+                                IdProduct = item.IdProduct,
+                                IdStore = requestDto.IdStore,
+                                StockAvailable = item.Quantity,
+                                StockInTransit = 0,
+                                Price = 0,
+                                AuditCreateUser = authenticatedUserId,
+                                AuditCreateDate = DateTime.Now
+                            };
+                            await _unitOfWork.StoreInventory.RegisterStockByProductsAsync(newStock);
+                        }
+
                     }
                 }
 
@@ -207,6 +215,8 @@ namespace Application.Services
 
         public async Task<BaseResponse<bool>> CancelGoodsReceipt(int authenticatedUserId, int receiptId)
         {
+            const string TypeAdjustment = "ajuste de kardex";
+
             var response = new BaseResponse<bool>();
 
             using var transaction = _unitOfWork.BeginTransaction();
@@ -215,34 +225,35 @@ namespace Application.Services
             {
 
                 var receipt = await _unitOfWork.GoodsReceipt.GetGoodsReceiptByIdAsync(receiptId);
-                if (receipt is null) 
+                if (receipt is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsAsync(receipt!.IdReceipt);
-
                 receipt.AuditDeleteUser = authenticatedUserId;
                 receipt.AuditDeleteDate = DateTime.Now;
                 receipt.Status = 0;
                 receipt.IsActive = false;
-
                 response.Data = await _unitOfWork.GoodsReceipt.CancelGoodsReceiptAsync(receipt);
 
-                foreach (var item in details)
+
+                if (receipt.Type != TypeAdjustment)
                 {
-                    var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, receipt.IdStore);
-                    if (currentStock is null)
+                    var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsAsync(receipt!.IdReceipt);
+
+                    foreach (var item in details)
                     {
-                        transaction.Rollback();
-                        response.IsSuccess = false;
-                        response.Message = ReplyMessage.MESSAGE_NOT_FOUND + item.IdProduct;
-                        return response;
-                    }
-                    else
-                    {
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, receipt.IdStore);
+
+                        if (currentStock is null)
+                        {
+                            transaction.Rollback();
+                            response.IsSuccess = false;
+                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + "para el Id:" + item.IdProduct;
+                            return response;
+                        }
                         currentStock.StockAvailable -= item.Quantity;
                         currentStock.AuditUpdateUser = authenticatedUserId;
                         currentStock.AuditUpdateDate = DateTime.Now;

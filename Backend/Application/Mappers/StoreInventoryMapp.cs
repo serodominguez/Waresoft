@@ -1,6 +1,5 @@
 ﻿using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
-using DocumentFormat.OpenXml.Vml.Office;
 using Domain.Entities;
 using Utilities.Extensions;
 using Utilities.Static;
@@ -65,13 +64,19 @@ namespace Application.Mappers
             return new StoreInventoryPivotResponseDto { Stores = stores, Rows = rows };
         }
 
-        public static StoreInventoryKardexResponseDto StoreInventoryKardexMapping(StoreInventoryEntity product, List<StoreInventoryKardexMovementDto> movements, int currentStock)
+        public static StoreInventoryKardexResponseDto StoreInventoryKardexMapping(StoreInventoryEntity product, List<StoreInventoryKardexMovementDto> movements, int calculateStock, int stockDifference)
         {
             return new StoreInventoryKardexResponseDto
             {
-                ProductDescription = product?.Product.Description?.ToSentenceCase() ?? string.Empty,
-                ProductCode = product?.Product.Code ?? string.Empty,
-                CurrentStock = currentStock,
+                IdProduct = product.IdProduct,
+                Code = product?.Product.Code ?? string.Empty,
+                Description = product?.Product.Description?.ToSentenceCase() ?? string.Empty,
+                Material = product?.Product.Material?.ToSentenceCase(),
+                Color = product?.Product.Color?.ToSentenceCase(),
+                UnitMeasure = product?.Product.UnitMeasure?.ToSentenceCase(),
+                CurrentStock = product!.StockAvailable,
+                CalculatedStock = calculateStock,
+                StockDifference = stockDifference,
                 Movements = movements ?? new List<StoreInventoryKardexMovementDto>()
             };
         }
@@ -80,15 +85,16 @@ namespace Application.Mappers
         {
             return new StoreInventoryKardexMovementDto
             {
+                IdProduct = receipt.IdProduct,
                 Quantity = receipt.Quantity,
                 Code = receipt.GoodsReceipt.Code,
                 Date = receipt.GoodsReceipt!.AuditCreateDate.HasValue ? receipt.GoodsReceipt.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                MovementType = "Entrada",
                 Type = receipt.GoodsReceipt.Type?.ToSentenceCase(),
                 State = receipt.GoodsReceipt != null
                     ? ((Movements)(receipt.GoodsReceipt.Status)).ToString()
                     : string.Empty,
-                MovementType = "ENTRADA",
-                Stock = 0
+                AccumulatedStock = 0
             };
         }
 
@@ -96,15 +102,16 @@ namespace Application.Mappers
         {
             return new StoreInventoryKardexMovementDto
             {
+                IdProduct = issue.IdProduct,
                 Quantity = -issue.Quantity,
                 Code = issue.GoodsIssue.Code,
                 Date = issue.GoodsIssue!.AuditCreateDate.HasValue ? issue.GoodsIssue.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                MovementType = "Salida",
                 Type = issue.GoodsIssue.Type.ToSentenceCase(),
                 State = issue.GoodsIssue != null
                     ? ((Movements)(issue.GoodsIssue.Status)).ToString()
                     : string.Empty,
-                MovementType = "SALIDA",
-                Stock = 0
+                AccumulatedStock = 0
             };
         }
 
@@ -116,17 +123,18 @@ namespace Application.Mappers
 
             return new StoreInventoryKardexMovementDto
             {
+                IdProduct = transfer.IdProduct,
                 Quantity = isOrigin ? -transfer.Quantity : transfer.Quantity,
                 Code = transfer.Transfer!.Code,
                 Date = isOrigin
                     ? (transfer.Transfer!.SendDate.ToString("dd/MM/yyyy HH:mm"))
                     : (transfer.Transfer!.ReceiveDate.HasValue ? transfer.Transfer.ReceiveDate.Value.ToString("dd/MM/yyyy HH:mm") : null),
-                Type = "TRASPASO",
+                MovementType = "Traspaso",
+                Type = isOrigin ? "Salida" : "Entrada",
                 State = transfer.Transfer != null
                     ? ((Transfers)(transfer.Transfer.Status)).ToString().ReplaceUnderscoresWithSpace()
                     : string.Empty,
-                MovementType = isOrigin ? "SALIDA" : "ENTRADA",
-                Stock = 0
+                AccumulatedStock = 0
             };
         }
 

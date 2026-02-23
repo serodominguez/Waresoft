@@ -3,7 +3,7 @@
     public class GoodsReceiptRequestDto
     {
         public string? Type { get; set; }
-        public DateTime DocumentDate { get; set; }
+        public string? DocumentDate { get; set; }
         public string? DocumentType { get; set; }
         public string? DocumentNumber { get; set; }
         public decimal TotalAmount { get; set; }

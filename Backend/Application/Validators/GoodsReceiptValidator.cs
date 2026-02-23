@@ -9,26 +9,26 @@ namespace Application.Validators
         {
             RuleFor(x => x.Type)
                 .NotEmpty().WithMessage("El tipo es requerido!")
-                .MaximumLength(15).WithMessage("El tipo no puede tener más de 15 caracteres!")
-                .Must(type => type == "Adquisición" || type == "Regularización")
-                .WithMessage("El tipo debe ser 'Adquisición' o 'Regularización'!");
-
-            RuleFor(x => x.DocumentDate)
-                .NotEmpty().WithMessage("La fecha del documento es requerida!")
-                .LessThanOrEqualTo(DateTime.Now).WithMessage("La fecha no puede ser futura!");
+                .MaximumLength(20).WithMessage("El tipo no puede tener más de 20 caracteres!")
+                .Must(type => type == "Adquisición" || type == "Ajuste de inventario" || type == "Ajuste de kardex")
+                .WithMessage("El tipo debe ser 'Adquisición', 'Ajuste de inventario' o 'Ajuste de kardex'!");
 
             RuleFor(x => x.DocumentType)
                 .NotEmpty().WithMessage("El tipo de documento es requerido!")
                 .MaximumLength(15).WithMessage("El tipo de documento no puede tener más de 15 caracteres!");
 
-            //Validación condicional: DocumentNumber requerido solo para Adquisición
+            RuleFor(x => x.DocumentDate)
+                .NotEmpty().WithMessage("La fecha del documento es requerida para tipo Adquisición!")
+                .When(x => x.Type == "Adquisición");
+
             RuleFor(x => x.DocumentNumber)
                 .NotEmpty().WithMessage("El número de documento es requerido para tipo Adquisición!")
                 .MaximumLength(30).WithMessage("El número de documento no puede tener más de 30 caracteres!")
                 .When(x => x.Type == "Adquisición");
 
             RuleFor(x => x.TotalAmount)
-                .NotNull().WithMessage("El monto total es requerido!");
+                .NotNull().WithMessage("El monto total es requerido!")
+                .GreaterThanOrEqualTo(0).WithMessage("El monto total no puede ser negativo!");
 
             RuleFor(x => x.Annotations)
                 .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres!");

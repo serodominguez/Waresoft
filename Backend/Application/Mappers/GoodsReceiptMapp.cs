@@ -13,7 +13,7 @@ namespace Application.Mappers
             return new GoodsReceiptEntity
             {
                 Type = dto.Type.NormalizeString(),
-                DocumentDate = dto.DocumentDate,
+                DocumentDate = !string.IsNullOrWhiteSpace(dto.DocumentDate) ? DateTime.Parse(dto.DocumentDate) : DateTime.MinValue,
                 DocumentType = dto.DocumentType.NormalizeString(),
                 DocumentNumber = dto.DocumentNumber.NormalizeString(),
                 TotalAmount = dto.TotalAmount,
@@ -30,6 +30,7 @@ namespace Application.Mappers
                         TotalCost = details.TotalCost
                     }).ToList()
             };
+
         }
 
         public static GoodsReceiptResponseDto GoodsReceiptResponseDtoMapping(GoodsReceiptEntity entity)

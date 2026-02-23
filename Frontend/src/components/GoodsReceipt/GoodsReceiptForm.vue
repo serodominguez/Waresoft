@@ -8,8 +8,7 @@
     </v-toolbar>
     <v-card-text>
       <v-form ref="formRef" v-model="valid">
-        <v-container class="px-4" max-width="1700px">
-          <v-row justify="center">
+          <v-row>
             <v-col cols="12" md="2">
               <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" v-model="localReceipt.type"
                 :items="receiptTypes" label="Tipo de entrada" :rules="[rules.required]"
@@ -24,19 +23,21 @@
               <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.documentType"
                 label="Tipo de comprobante" readonly />
             </v-col>
-            <v-col cols="12" md="2">
-              <v-text-field v-if="!localReceipt.idReceipt" color="indigo" variant="underlined"
-                v-model="localReceipt.documentNumber" :rules="documentNumberRules" counter="30" :maxlength="30"
-                label="Número del comprobante" />
-              <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
+            <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
+              <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
+                :rules="[rules.required]" counter="30" :maxlength="30" label="Número del comprobante" />
+            </v-col>
+            <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
+              <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
                 label="Número del comprobante" readonly />
             </v-col>
-            <v-col cols="12" md="2">
-              <v-date-input v-if="!localReceipt.idReceipt" locale="es" placeholder="dd/mm/yyyy"
-                v-model="localReceipt.documentDate" label="Fecha del comprobante" variant="underlined" prepend-icon=""
-                :rules="[rules.required]" />
-              <v-text-field v-else v-model="localReceipt.documentDate" label="Fecha del comprobante"
-                variant="underlined" readonly />
+            <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
+              <v-date-input locale="es" placeholder="dd/mm/yyyy" v-model="localReceipt.documentDate"
+                label="Fecha del comprobante" variant="underlined" prepend-icon="" :rules="[rules.required]" />
+            </v-col>
+            <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
+              <v-text-field v-model="localReceipt.documentDate" label="Fecha del comprobante" variant="underlined"
+                readonly />
             </v-col>
             <v-col cols="12" md="2">
               <v-autocomplete v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" :items="suppliersArray"
@@ -52,10 +53,7 @@
               </v-btn>
             </v-col>
           </v-row>
-        </v-container>
-
         <v-divider class="my-4"></v-divider>
-
         <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
           :no-data-text="'No hay productos agregados'">
           <template v-slot:item="{ item, index }">
@@ -74,7 +72,7 @@
               <td class="text-center" v-else>{{ item.quantity }}</td>
               <td v-if="!localReceipt.idReceipt">
                 <v-text-field v-model.number="item.unitCost" variant="underlined" type="number" min="0"
-                  :rules="localReceipt.type === 'Regularización' ? [rules.requiredNumber, rules.minValueOrZero] : [rules.requiredNumber, rules.minValue]"></v-text-field>
+                  :rules="[rules.requiredNumber, rules.minValueOrZero]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.unitCost) }}</td>
               <td class="text-center" v-if="!localReceipt.idReceipt">{{ formatCurrency(item.quantity * item.unitCost) }}
@@ -87,7 +85,6 @@
             </tr>
           </template>
         </v-data-table>
-
         <v-col v-if="!localReceipt.idReceipt" cols="12" class="d-flex justify-end">
           <strong>Total Bs.</strong>{{ formatCurrency(total) }}
         </v-col>
@@ -187,9 +184,9 @@ const details = ref<GoodsReceiptDetail[]>([]);
 const documentTypes = ref<string[]>([]);
 
 // Constants
-const receiptTypes = ['Adquisición', 'Regularización'];
+const receiptTypes = ['Adquisición', 'Ajuste de inventario', 'Ajuste de kardex'];
 const typesPurchases = ['Factura', 'Recibo'];
-const typesImports = ['Entrada'];
+const typeAdjustment = ['Entrada'];
 
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',
@@ -218,13 +215,6 @@ const headers = computed(() => {
   }
 
   return baseHeaders;
-});
-
-const documentNumberRules = computed(() => {
-  if (localReceipt.value.type === 'Adquisición') {
-    return [rules.required];
-  }
-  return [];
 });
 
 const total = computed(() => {
@@ -256,10 +246,10 @@ const updateDocuments = () => {
 
   if (localReceipt.value.type === 'Adquisición') {
     documentTypes.value = typesPurchases;
-  } else if (localReceipt.value.type === 'Regularización') {
-    documentTypes.value = typesImports;
   } else {
-    documentTypes.value = [];
+    documentTypes.value = typeAdjustment;
+    localReceipt.value.documentNumber = '';
+    localReceipt.value.documentDate = '';
   }
 };
 

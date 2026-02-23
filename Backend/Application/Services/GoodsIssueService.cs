@@ -132,6 +132,8 @@ namespace Application.Services
 
         public async Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, GoodsIssueRequestDto requestDto)
         {
+            const string TypeAdjustment = "Ajuste de kardex";
+
             var response = new BaseResponse<bool>();
 
             var validationResult = await _validator.ValidateAsync(requestDto);
@@ -156,18 +158,20 @@ namespace Application.Services
                 entity.IsActive = true;
                 await _unitOfWork.GoodsIssue.RegisterGoodsIssueAsync(entity);
 
-                foreach (var item in entity.GoodsIssueDetails)
+                if (requestDto.Type != TypeAdjustment)
                 {
-                    var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, requestDto.IdStore);
-                    if (currentStock is null)
+                    foreach (var item in entity.GoodsIssueDetails)
                     {
-                        transaction.Rollback();
-                        response.IsSuccess = false;
-                        response.Message = ReplyMessage.MESSAGE_NOT_FOUND + item.IdProduct;
-                        return response;
-                    }
-                    else
-                    {
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, requestDto.IdStore);
+
+                        if (currentStock is null)
+                        {
+                            transaction.Rollback();
+                            response.IsSuccess = false;
+                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + "para el Id:" + item.IdProduct;
+                            return response;
+                        }
+
                         currentStock.StockAvailable -= item.Quantity;
                         currentStock.AuditUpdateUser = authenticatedUserId;
                         currentStock.AuditUpdateDate = DateTime.Now;
@@ -192,13 +196,14 @@ namespace Application.Services
 
         public async Task<BaseResponse<bool>> CancelGoodsIssue(int authenticatedUserId, int issueId)
         {
+            const string TypeAdjustment = "ajuste de kardex";
+
             var response = new BaseResponse<bool>();
 
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
-
                 var issue = await _unitOfWork.GoodsIssue.GetGoodsIssueByIdAsync(issueId);
                 if (issue is null)
                 {
@@ -207,27 +212,29 @@ namespace Application.Services
                     return response;
                 }
 
-                var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsAsync(issue!.IdIssue);
-
                 issue.AuditDeleteUser = authenticatedUserId;
                 issue.AuditDeleteDate = DateTime.Now;
                 issue.Status = 0;
                 issue.IsActive = false;
-
                 response.Data = await _unitOfWork.GoodsIssue.CancelGoodsIssueAsync(issue);
+;
 
-                foreach (var item in details)
+                if (issue.Type != TypeAdjustment)
                 {
-                    var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, issue.IdStore);
-                    if (currentStock is null)
+                    var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsAsync(issue!.IdIssue);
+
+                    foreach (var item in details)
                     {
-                        transaction.Rollback();
-                        response.IsSuccess = false;
-                        response.Message = ReplyMessage.MESSAGE_NOT_FOUND + item.IdProduct;
-                        return response;
-                    }
-                    else
-                    {
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, issue.IdStore);
+
+                        if (currentStock is null)
+                        {
+                            transaction.Rollback();
+                            response.IsSuccess = false;
+                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + "para el Id:" + item.IdProduct;
+                            return response;
+                        }
+
                         currentStock.StockAvailable += item.Quantity;
                         currentStock.AuditUpdateUser = authenticatedUserId;
                         currentStock.AuditUpdateDate = DateTime.Now;
