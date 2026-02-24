@@ -8,6 +8,7 @@ using Application.Mappers;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -130,15 +131,20 @@ namespace Application.Services
                 customer.AuditCreateDate = DateTime.Now;
                 customer.Status = true;
 
-                response.Data = await _unitOfWork.Customer.RegisterAsync(customer);
-                if (response.Data)
+                await _unitOfWork.Customer.AddAsync(customer);
+
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_SAVE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -166,29 +172,34 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Customer.GetByIdAsync(customerId);
-                if (isValid is null)
+                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
+
+                if (customer is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var customer = CustomerMapp.CustomersMapping(requestDto);
-                customer.Id = customerId;
+                customer.Names = requestDto.Names.NormalizeString();
+                customer.LastNames = requestDto.LastNames.NormalizeString();
+                customer.IdentificationNumber = requestDto.IdentificationNumber.NormalizeString();
+                customer.PhoneNumber = requestDto.PhoneNumber;
                 customer.AuditUpdateUser = authenticatedUserId;
                 customer.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.Customer.EditAsync(customer);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -207,7 +218,7 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
 
                 if (customer is null)
                 {
@@ -220,16 +231,18 @@ namespace Application.Services
                 customer.AuditUpdateDate = DateTime.Now;
                 customer.Status = true;
 
-                response.Data = await _unitOfWork.Customer.UpdateAsync(customer);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -248,7 +261,7 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
 
                 if (customer is null)
                 {
@@ -261,16 +274,18 @@ namespace Application.Services
                 customer.AuditUpdateDate = DateTime.Now;
                 customer.Status = false;
 
-                response.Data = await _unitOfWork.Customer.UpdateAsync(customer);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -289,7 +304,7 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
 
                 if (customer is null)
                 {
@@ -302,16 +317,18 @@ namespace Application.Services
                 customer.AuditDeleteDate = DateTime.Now;
                 customer.Status = false;
 
-                response.Data = await _unitOfWork.Customer.RemoveAsync(customer);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

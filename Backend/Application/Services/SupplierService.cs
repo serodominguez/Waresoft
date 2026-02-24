@@ -8,6 +8,7 @@ using Application.Mappers;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -155,15 +156,20 @@ namespace Application.Services
                 supplier.AuditCreateDate = DateTime.Now;
                 supplier.Status = true;
 
-                response.Data = await _unitOfWork.Supplier.RegisterAsync(supplier);
-                if (response.Data)
+                await _unitOfWork.Supplier.AddAsync(supplier);
+
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_SAVE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -191,29 +197,34 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Supplier.GetByIdAsync(supplierId);
-                if (isValid is null)
+                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
+
+                if (supplier is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var supplier = SupplierMapp.SuppliersMapping(requestDto);
-                supplier.Id = supplierId;
+                supplier.CompanyName = requestDto.CompanyName.NormalizeString();
+                supplier.Contact = requestDto.Contact.NormalizeString();
+                supplier.PhoneNumber = requestDto.PhoneNumber;
+                supplier.Email = requestDto.Email; 
                 supplier.AuditUpdateUser = authenticatedUserId;
                 supplier.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.Supplier.EditAsync(supplier);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -232,7 +243,7 @@ namespace Application.Services
 
             try
             {
-                var supplier = await _unitOfWork.Supplier.GetByIdAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
 
                 if (supplier is null)
                 {
@@ -245,16 +256,18 @@ namespace Application.Services
                 supplier.AuditUpdateDate = DateTime.Now;
                 supplier.Status = true;
 
-                response.Data = await _unitOfWork.Supplier.UpdateAsync(supplier);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -273,7 +286,7 @@ namespace Application.Services
 
             try
             {
-                var supplier = await _unitOfWork.Supplier.GetByIdAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
 
                 if (supplier is null)
                 {
@@ -286,16 +299,18 @@ namespace Application.Services
                 supplier.AuditUpdateDate = DateTime.Now;
                 supplier.Status = false;
 
-                response.Data = await _unitOfWork.Supplier.UpdateAsync(supplier);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -314,7 +329,7 @@ namespace Application.Services
 
             try
             {
-                var supplier = await _unitOfWork.Supplier.GetByIdAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
 
                 if (supplier is null)
                 {
@@ -327,16 +342,18 @@ namespace Application.Services
                 supplier.AuditDeleteDate = DateTime.Now;
                 supplier.Status = false;
 
-                response.Data = await _unitOfWork.Supplier.RemoveAsync(supplier);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

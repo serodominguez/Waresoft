@@ -110,7 +110,6 @@ namespace Application.Services
         {
             var response = new BaseResponse<bool>();
             using var transaction = _unitOfWork.BeginTransaction();
-
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
@@ -122,19 +121,21 @@ namespace Application.Services
                     return response;
                 }
 
-                var entity = ModuleMapp.ModulesMapping(requestDto);
-                entity.AuditCreateUser = authenticatedUserId;
-                entity.AuditCreateDate = DateTime.Now;
-                entity.Status = true;
+                var module = ModuleMapp.ModulesMapping(requestDto);
+                module.AuditCreateUser = authenticatedUserId;
+                module.AuditCreateDate = DateTime.Now;
+                module.Status = true;
 
-                var module = await _unitOfWork.Module.RegisterModuleAsync(entity);
-                var actions = (await _unitOfWork.Action.GetActionsAsync())
+                await _unitOfWork.Module.AddAsync(module);
+                await _unitOfWork.SaveChangesAsync(); 
+
+                var actions = (await _unitOfWork.Action.GetAllAsync())
                                     .Where(x => x.Status == true).ToList();
-                var roles = (await _unitOfWork.Role.GetRolesAsync())
+
+                var roles = (await _unitOfWork.Role.GetAllAsync())
                                     .Where(x => x.Status == true).ToList();
+
                 var permissions = new List<PermissionEntity>();
-
-
                 foreach (var role in roles)
                 {
                     foreach (var action in actions)
@@ -151,7 +152,9 @@ namespace Application.Services
                     }
                 }
 
-                await _unitOfWork.Permission.RegisterPermissionsAsync(permissions);
+                await _unitOfWork.Permission.AddRangeAsync(permissions);
+                await _unitOfWork.SaveChangesAsync();
+
                 transaction.Commit();
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_SAVE;
@@ -162,14 +165,12 @@ namespace Application.Services
                 response.IsSuccess = false;
                 response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
             }
-
             return response;
         }
 
         public async Task<BaseResponse<bool>> EditModule(int authenticatedUserId, int moduleId, ModuleRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();
-
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
@@ -181,48 +182,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Module.GetByIdAsync(moduleId);
-                if (isValid is null)
-                {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
-                    return response;
-                }
-
-                var module = ModuleMapp.ModulesMapping(requestDto);
-                module.Id = moduleId;
-                module.AuditUpdateUser = authenticatedUserId;
-                module.AuditUpdateDate = DateTime.Now;
-
-                response.Data = await _unitOfWork.Module.EditAsync(module);
-
-                if (response.Data)
-                {
-                    response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_UPDATE;
-                }
-                else
-                {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_FAILED;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
-            }
-
-            return response;
-        }
-
-        public async Task<BaseResponse<bool>> EnableModule(int authenticatedUserId, int moduleId)
-        {
-            var response = new BaseResponse<bool>();
-
-            try
-            {
-                var module = await _unitOfWork.Module.GetByIdAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
 
                 if (module is null)
                 {
@@ -231,20 +191,22 @@ namespace Application.Services
                     return response;
                 }
 
+                module.ModuleName = requestDto.ModuleName; 
                 module.AuditUpdateUser = authenticatedUserId;
                 module.AuditUpdateDate = DateTime.Now;
-                module.Status = true;
 
-                response.Data = await _unitOfWork.Module.UpdateAsync(module);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -253,7 +215,47 @@ namespace Application.Services
                 response.IsSuccess = false;
                 response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
             }
+            return response;
+        }
 
+        public async Task<BaseResponse<bool>> EnableModule(int authenticatedUserId, int moduleId)
+        {
+            var response = new BaseResponse<bool>();
+            try
+            {
+                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
+
+                if (module is null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                    return response;
+                }
+
+                module.Status = true;
+                module.AuditUpdateUser = authenticatedUserId;
+                module.AuditUpdateDate = DateTime.Now;
+
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
+                {
+                    response.IsSuccess = true;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Data = false;
+                    response.Message = ReplyMessage.MESSAGE_FAILED;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+            }
             return response;
         }
 
@@ -263,7 +265,7 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
 
                 if (module is null)
                 {
@@ -276,16 +278,18 @@ namespace Application.Services
                 module.AuditUpdateDate = DateTime.Now;
                 module.Status = false;
 
-                response.Data = await _unitOfWork.Module.UpdateAsync(module);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -304,7 +308,7 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
 
                 if (module is null)
                 {
@@ -317,16 +321,18 @@ namespace Application.Services
                 module.AuditDeleteDate = DateTime.Now;
                 module.Status = false;
 
-                response.Data = await _unitOfWork.Module.RemoveAsync(module);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

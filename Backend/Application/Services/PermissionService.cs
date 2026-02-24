@@ -3,7 +3,6 @@ using Application.Dtos.Request.Permission;
 using Application.Dtos.Response.Permission;
 using Application.Interfaces;
 using Application.Mappers;
-using Domain.Entities;
 using Infrastructure.Persistences.Interfaces;
 using Utilities.Static;
 
@@ -41,10 +40,10 @@ namespace Application.Services
                 }
 
                 var existingPermissions = await _unitOfWork.Permission
-                    .GetByIdsAsync(permissionsDto.Select(p => p.IdPermission).ToList());
+                    .GetByIdsForUpdateAsync(permissionsDto.Select(p => p.IdPermission).ToList());
 
                 var permissionsDict = existingPermissions.ToDictionary(p => p.Id);
-                var listPermissionsUpdate = new List<PermissionEntity>();
+                var hasChanges = false;
 
                 foreach (var permission in permissionsDto)
                 {
@@ -57,23 +56,23 @@ namespace Application.Services
 
                     if (permission.Status != existing.Status)
                     {
-                        var permissionToUpdate = PermissionMapp.PermissionsMapping(permission);
-                        permissionToUpdate.AuditUpdateUser = authenticatedUserId;
-                        permissionToUpdate.AuditUpdateDate = DateTime.Now;
-                        listPermissionsUpdate.Add(permissionToUpdate);
+                        existing.Status = permission.Status;
+                        existing.AuditUpdateUser = authenticatedUserId;
+                        existing.AuditUpdateDate = DateTime.Now;
+                        hasChanges = true;
                     }
                 }
 
-                if (!listPermissionsUpdate.Any())
+                if (!hasChanges)
                 {
                     response.IsSuccess = true;
                     response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
                     return response;
                 }
 
-                var result = await _unitOfWork.Permission.UpdatePermissionsRangeAsync(listPermissionsUpdate);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (result)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
                     response.Data = true;

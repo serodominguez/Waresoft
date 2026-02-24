@@ -17,10 +17,29 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<ProductEntity> GetProductsQueryable()
         {
             return _context.Product
-                .AsNoTracking()
-                .Include(p => p.Brand)
-                .Include(p => p.Category)
-                .Where(p => p.AuditDeleteUser == null && p.AuditDeleteDate == null);
+                   .AsNoTracking()
+                   .Where(p => p.AuditDeleteUser == null && p.AuditDeleteDate == null)
+                   .Select(p => new ProductEntity
+                   {
+                       Id = p.Id,
+                       Code = p.Code,
+                       Description = p.Description,
+                       Material = p.Material,
+                       Color = p.Color,
+                       UnitMeasure = p.UnitMeasure,
+                       IdBrand = p.IdBrand,
+                       Brand = new BrandEntity
+                       {
+                           BrandName = p.Brand.BrandName
+                       },
+                       IdCategory = p.IdCategory,
+                       Category = new CategoryEntity
+                       {
+                           CategoryName = p.Category.CategoryName
+                       },
+                       AuditCreateDate = p.AuditCreateDate,
+                       Status = p.Status
+                   });
         }
      }
 }

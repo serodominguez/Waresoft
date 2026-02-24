@@ -31,9 +31,29 @@ namespace Infrastructure.Persistences.Repositories
                     .ToListAsync();
         }
 
+        public async Task<List<T>> GetAllAsync()
+        {
+            return  await _entity.AsNoTracking().ToListAsync();
+        }
+
         public async Task<T?> GetByIdAsync(int id)
         {
             return await _entity.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<T?> GetByIdForUpdateAsync(int id)
+        {
+            return await _entity.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task AddAsync(T entity)
+        {
+            await _context.AddAsync(entity);
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            await _context.AddRangeAsync(entities);
         }
 
         public async Task<bool> RegisterAsync(T entity)

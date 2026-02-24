@@ -8,6 +8,7 @@ using Application.Mappers;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -140,6 +141,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -153,15 +155,20 @@ namespace Application.Services
                 category.AuditCreateDate = DateTime.Now;
                 category.Status = true;
 
-                response.Data = await _unitOfWork.Category.RegisterAsync(category);
-                if (response.Data)
+                await _unitOfWork.Category.AddAsync(category);
+
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_SAVE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -181,6 +188,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -189,29 +197,32 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Category.GetByIdAsync(categoryId);
-                if (isValid is null)
+                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+
+                if (category is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var category = CategoryMapp.CategoriesMapping(requestDto);
-                category.Id = categoryId;
+                category.CategoryName = requestDto.CategoryName.NormalizeString();
+                category.Description = requestDto.Description.NormalizeString();
                 category.AuditUpdateUser = authenticatedUserId;
-                category.AuditCreateDate = DateTime.Now;
+                category.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.Category.EditAsync(category);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -229,7 +240,8 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+
                 if (category is null)
                 {
                     response.IsSuccess = false;
@@ -241,16 +253,18 @@ namespace Application.Services
                 category.AuditUpdateDate = DateTime.Now;
                 category.Status = true;
 
-                response.Data = await _unitOfWork.Category.UpdateAsync(category);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -268,7 +282,8 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+
                 if (category is null)
                 {
                     response.IsSuccess = false;
@@ -280,16 +295,18 @@ namespace Application.Services
                 category.AuditUpdateDate = DateTime.Now;
                 category.Status = false;
 
-                response.Data = await _unitOfWork.Category.UpdateAsync(category);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -308,7 +325,8 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+
                 if (category is null)
                 {
                     response.IsSuccess = false;
@@ -320,16 +338,18 @@ namespace Application.Services
                 category.AuditDeleteDate = DateTime.Now;
                 category.Status = false;
 
-                response.Data = await _unitOfWork.Category.RemoveAsync(category);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

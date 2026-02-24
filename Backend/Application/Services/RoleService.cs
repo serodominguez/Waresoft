@@ -136,7 +136,6 @@ namespace Application.Services
         {
             var response = new BaseResponse<bool>();
             using var transaction = _unitOfWork.BeginTransaction();
-
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
@@ -153,21 +152,23 @@ namespace Application.Services
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = true;
 
-                var role = await _unitOfWork.Role.RegisterRoleAsync(entity);
-                var actions = (await _unitOfWork.Action.GetActionsAsync())
+                await _unitOfWork.Role.AddAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
+
+                var actions = (await _unitOfWork.Action.GetAllAsync())
                                     .Where(x => x.Status == true).ToList();
-                var modules = (await _unitOfWork.Module.GetModulesAsync())
+
+                var modules = (await _unitOfWork.Module.GetAllAsync())
                                     .Where(x => x.Status == true && x.Id != 1).ToList();
+
                 var permissions = new List<PermissionEntity>();
-
-
                 foreach (var module in modules)
                 {
                     foreach (var action in actions)
                     {
                         permissions.Add(new PermissionEntity
                         {
-                            IdRole = role.Id,
+                            IdRole = entity.Id,
                             IdModule = module.Id,
                             IdAction = action.Id,
                             AuditCreateUser = authenticatedUserId,
@@ -177,7 +178,9 @@ namespace Application.Services
                     }
                 }
 
-                await _unitOfWork.Permission.RegisterPermissionsAsync(permissions);
+                await _unitOfWork.Permission.AddRangeAsync(permissions);
+                await _unitOfWork.SaveChangesAsync();
+
                 transaction.Commit();
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_SAVE;
@@ -188,7 +191,6 @@ namespace Application.Services
                 response.IsSuccess = false;
                 response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
             }
-
             return response;
         }
 

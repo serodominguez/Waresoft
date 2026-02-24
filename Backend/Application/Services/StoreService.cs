@@ -8,6 +8,7 @@ using Application.Mappers;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -163,16 +164,20 @@ namespace Application.Services
                 store.AuditCreateDate = DateTime.Now;
                 store.Status = true;
 
-                response.Data = await _unitOfWork.Store.RegisterAsync(store);
+                await _unitOfWork.Store.AddAsync(store);
 
-                if (response.Data)
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_SAVE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -192,6 +197,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -200,29 +206,38 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Store.GetByIdAsync(storeId);
-                if (isValid is null)
+                var store = await _unitOfWork.Store.GetByIdForUpdateAsync(storeId);
+
+                if (store is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var store = StoreMapp.StoresMapping(requestDto);
-                store.Id = storeId;
+
+                store.StoreName = requestDto.StoreName.NormalizeString();
+                store.Manager = requestDto.Manager.NormalizeString();
+                store.Address = requestDto.Address.NormalizeString();
+                store.PhoneNumber = requestDto.PhoneNumber;
+                store.City = requestDto.City.NormalizeString();
+                store.Email = requestDto.Email;
+                store.Type = requestDto.Type.NormalizeString();
                 store.AuditUpdateUser = authenticatedUserId;
                 store.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.Store.EditAsync(store);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -241,7 +256,7 @@ namespace Application.Services
 
             try
             {
-                var store = await _unitOfWork.Store.GetByIdAsync(storeId);
+                var store = await _unitOfWork.Store.GetByIdForUpdateAsync(storeId);
 
                 if (store is null)
                 {
@@ -254,16 +269,18 @@ namespace Application.Services
                 store.AuditUpdateDate = DateTime.Now;
                 store.Status = true;
 
-                response.Data = await _unitOfWork.Store.UpdateAsync(store);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -282,7 +299,7 @@ namespace Application.Services
 
             try
             {
-                var store = await _unitOfWork.Store.GetByIdAsync(storeId);
+                var store = await _unitOfWork.Store.GetByIdForUpdateAsync(storeId);
 
                 if (store is null)
                 {
@@ -295,16 +312,18 @@ namespace Application.Services
                 store.AuditUpdateDate = DateTime.Now;
                 store.Status = false;
 
-                response.Data = await _unitOfWork.Store.UpdateAsync(store);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -323,7 +342,7 @@ namespace Application.Services
 
             try
             {
-                var store = await _unitOfWork.Store.GetByIdAsync(storeId);
+                var store = await _unitOfWork.Store.GetByIdForUpdateAsync(storeId);
 
                 if (store is null)
                 {
@@ -336,16 +355,18 @@ namespace Application.Services
                 store.AuditDeleteDate = DateTime.Now;
                 store.Status = false;
 
-                response.Data = await _unitOfWork.Store.RemoveAsync(store);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

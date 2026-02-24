@@ -8,6 +8,7 @@ using Application.Mappers;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -137,16 +138,20 @@ namespace Application.Services
                 product.Replenishment = 1;
                 product.Status = true;
 
-                response.Data = await _unitOfWork.Product.RegisterAsync(product);
+                await _unitOfWork.Product.AddAsync(product);
 
-                if (response.Data)
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_SAVE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -158,6 +163,7 @@ namespace Application.Services
 
             return response;
         }
+
         public async Task<BaseResponse<bool>> EditProduct(int authenticatedUserId, int productId, ProductRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();
@@ -173,29 +179,37 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Product.GetByIdAsync(productId);
-                if (isValid is null)
+                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
+
+                if (product is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var product = ProductMapp.ProductsMapping(requestDto);
-                product.Id = productId;
+                product.Code = requestDto.Code.NormalizeString();
+                product.Description = requestDto.Description.NormalizeString();
+                product.Material = requestDto.Material.NormalizeString();
+                product.Color = requestDto.Color.NormalizeString();
+                product.UnitMeasure = requestDto.UnitMeasure.NormalizeString();
+                product.IdBrand = requestDto.IdBrand;
+                product.IdCategory = requestDto.IdCategory;
                 product.AuditUpdateUser = authenticatedUserId;
                 product.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.Product.EditAsync(product);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -214,7 +228,7 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
 
                 if (product is null)
                 {
@@ -228,16 +242,18 @@ namespace Application.Services
                 product.Replenishment = 1;
                 product.Status = true;
 
-                response.Data = await _unitOfWork.Product.UpdateAsync(product);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -256,7 +272,7 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
 
                 if (product is null)
                 {
@@ -270,16 +286,18 @@ namespace Application.Services
                 product.Replenishment = 2;
                 product.Status = false;
 
-                response.Data = await _unitOfWork.Product.UpdateAsync(product);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -298,7 +316,7 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
 
                 if (product is null)
                 {
@@ -312,16 +330,18 @@ namespace Application.Services
                 product.Replenishment = 3;
                 product.Status = false;
 
-                response.Data = await _unitOfWork.Product.RemoveAsync(product);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

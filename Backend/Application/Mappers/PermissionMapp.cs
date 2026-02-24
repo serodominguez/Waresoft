@@ -6,15 +6,6 @@ namespace Application.Mappers
 {
     public static class PermissionMapp
     {
-        public static PermissionEntity PermissionsMapping(PermissionRequestDto dto)
-        {
-            return new PermissionEntity
-            {
-                Id = dto.IdPermission,
-                Status = dto.Status
-            };
-        }
-
         public static PermissionByUserResponseDto PermissionsByUserResponseDtoMapping(PermissionEntity entity)
         {
             return new PermissionByUserResponseDto

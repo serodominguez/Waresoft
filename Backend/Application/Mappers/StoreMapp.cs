@@ -29,7 +29,7 @@ namespace Application.Mappers
                 IdStore = entity.Id,
                 StoreName = entity.StoreName.ToTitleCase(),
                 Manager = entity.Manager.ToSentenceCase(),
-                Address = entity.Address.ToSentenceCase(),
+                Address = entity.Address.ToSentenceCaseMultiple(),
                 PhoneNumber = entity.PhoneNumber,
                 City = entity.City.ToTitleCase(),
                 Email = entity.Email,

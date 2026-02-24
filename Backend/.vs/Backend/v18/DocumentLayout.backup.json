@@ -1,24 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|d:\\projects\\it solutions\\waresoft\\backend\\infrastructure\\persistences\\repositories\\transferrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\persistences\\repositories\\transferrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|d:\\projects\\it solutions\\waresoft\\backend\\application\\services\\transferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|solutionrelative:application\\services\\transferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|d:\\projects\\it solutions\\waresoft\\backend\\infrastructure\\persistences\\repositories\\transferdetailsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\persistences\\repositories\\transferdetailsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|d:\\projects\\it solutions\\waresoft\\backend\\infrastructure\\persistences\\repositories\\storeinventoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\persistences\\repositories\\storeinventoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -26,63 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TransferRepository.cs",
-              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\TransferRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Persistences\\Repositories\\TransferRepository.cs",
-              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\TransferRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Persistences\\Repositories\\TransferRepository.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAowC8AAABaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T21:32:41.545Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TransferService.cs",
-              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\TransferService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\TransferService.cs",
-              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\TransferService.cs",
-              "RelativeToolTip": "Application\\Services\\TransferService.cs",
-              "ViewState": "AgIAAE4BAAAAAAAAAAAiwFsBAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T21:31:23.913Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TransferDetailsRepository.cs",
-              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\TransferDetailsRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Persistences\\Repositories\\TransferDetailsRepository.cs",
-              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\TransferDetailsRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Persistences\\Repositories\\TransferDetailsRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T21:26:06.458Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "StoreInventoryRepository.cs",
-              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\StoreInventoryRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Persistences\\Repositories\\StoreInventoryRepository.cs",
-              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\StoreInventoryRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Persistences\\Repositories\\StoreInventoryRepository.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBgAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T21:19:33.097Z",
-              "EditorCaption": ""
             }
           ]
         }

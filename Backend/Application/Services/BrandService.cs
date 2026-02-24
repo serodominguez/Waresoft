@@ -8,6 +8,7 @@ using Application.Mappers;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -152,15 +153,20 @@ namespace Application.Services
                 brand.AuditCreateDate = DateTime.Now;
                 brand.Status = true;
 
-                response.Data = await _unitOfWork.Brand.RegisterAsync(brand);
-                if (response.Data)
+                await _unitOfWork.Brand.AddAsync(brand);
+
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_SAVE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -180,6 +186,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -188,29 +195,31 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Brand.GetByIdAsync(brandId);
-                if (isValid is null)
+                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
+
+                if (brand is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var brand = BrandMapp.BrandsMapping(requestDto);
-                brand.Id = brandId;
+                brand.BrandName = requestDto.BrandName.NormalizeString();
                 brand.AuditUpdateUser = authenticatedUserId;
                 brand.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.Brand.EditAsync(brand);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -229,7 +238,7 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
 
                 if (brand is null)
                 {
@@ -242,16 +251,18 @@ namespace Application.Services
                 brand.AuditUpdateDate = DateTime.Now;
                 brand.Status = true;
 
-                response.Data = await _unitOfWork.Brand.UpdateAsync(brand);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -270,7 +281,7 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
 
                 if (brand is null)
                 {
@@ -283,16 +294,18 @@ namespace Application.Services
                 brand.AuditUpdateDate = DateTime.Now;
                 brand.Status = false;
 
-                response.Data = await _unitOfWork.Brand.UpdateAsync(brand);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -311,7 +324,7 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
 
                 if (brand is null)
                 {
@@ -324,16 +337,18 @@ namespace Application.Services
                 brand.AuditDeleteDate = DateTime.Now;
                 brand.Status = false;
 
-                response.Data = await _unitOfWork.Brand.RemoveAsync(brand);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
