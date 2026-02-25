@@ -31,7 +31,6 @@ namespace Infrastructure.Persistences.Repositories
         public async Task<IEnumerable<PermissionEntity>> PermissionsByRoleAsync(int roleId)
         {
             var response = await _context.Permission
-                .AsNoTracking()
                 .Where(p => p.IdRole == roleId)
                 .Select(p => new PermissionEntity
                 {
@@ -60,7 +59,6 @@ namespace Infrastructure.Persistences.Repositories
         public async Task<IEnumerable<PermissionEntity>> GetByIdsAsync(List<int> permissionIds)
         {
             return await _context.Permission
-                .AsNoTracking()
                 .Where(p => permissionIds.Contains(p.Id))
                 .Select(p => new PermissionEntity
                 {

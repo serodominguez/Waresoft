@@ -136,6 +136,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<PermissionByRoleResponseDto>>> PermissionsByRole(int roleId)
         {
             var response = new BaseResponse<IEnumerable<PermissionByRoleResponseDto>>();
+
             try
             {
                 var role = await _unitOfWork.Role.GetByIdAsync(roleId);

@@ -9,6 +9,7 @@ using Application.Security;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -31,10 +32,10 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<UserResponseDto>>> ListUsers(BaseFiltersRequest filters)
         {
             var response = new BaseResponse<IEnumerable<UserResponseDto>>();
+
             try
             {
-                var users = _unitOfWork.User.GetUsersQueryable()
-                    .AsNoTracking();
+                var users = _unitOfWork.User.GetUsersQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -70,6 +71,7 @@ namespace Application.Services
                     var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
                     users = users.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await users.CountAsync();
 
                 filters.Sort ??= "Id";
@@ -152,6 +154,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -161,6 +164,7 @@ namespace Application.Services
                 }
 
                 _security.GeneratePasswordHash(requestDto.Password!, out byte[] passwordHash, out byte[] passwordSalt);
+
                 var user = UserMapp.UsersMapping(requestDto);
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
@@ -168,16 +172,20 @@ namespace Application.Services
                 user.AuditCreateDate = DateTime.Now;
                 user.Status = true;
 
-                response.Data = await _unitOfWork.User.RegisterAsync(user);
+                await _unitOfWork.User.AddAsync(user);
 
-                if (response.Data)
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_SAVE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -197,6 +205,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -205,16 +214,22 @@ namespace Application.Services
                     return response;
                 }
 
-                var IsValid = await _unitOfWork.User.GetByIdAsync(userId);
-                if (IsValid is null)
+                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
+
+                if (user is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var user = UserMapp.UsersMapping(requestDto);
-                user.Id = userId;
+                user.UserName = requestDto.UserName;
+                user.Names = requestDto.Names.NormalizeString();
+                user.LastNames = requestDto.LastNames.NormalizeString();
+                user.IdentificationNumber = requestDto.IdentificationNumber.NormalizeString();
+                user.PhoneNumber = requestDto.PhoneNumber;
+                user.IdRole = requestDto.IdRole;
+                user.IdStore = requestDto.IdStore;
 
                 if (requestDto.UpdatePassword == true)
                 {
@@ -223,15 +238,21 @@ namespace Application.Services
                     user.PasswordSalt = passwordSalt;
                 }
 
-                response.Data = await _unitOfWork.User.EditUserAsync(authenticatedUserId, user, requestDto.UpdatePassword);
-                if (response.Data)
+                user.AuditUpdateUser = authenticatedUserId;
+                user.AuditUpdateDate = DateTime.Now;
+
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -250,7 +271,7 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsync(userId);
+                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
 
                 if (user is null)
                 {
@@ -263,16 +284,18 @@ namespace Application.Services
                 user.AuditCreateDate = DateTime.Now;
                 user.Status = true;
 
-                response.Data = await _unitOfWork.User.UpdateAsync(user);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -291,7 +314,7 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsync(userId);
+                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
 
                 if (user is null)
                 {
@@ -304,16 +327,18 @@ namespace Application.Services
                 user.AuditUpdateDate = DateTime.Now;
                 user.Status = true;
 
-                response.Data = await _unitOfWork.User.UpdateAsync(user);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
@@ -332,7 +357,7 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsync(userId);
+                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
 
                 if (user is null)
                 {
@@ -345,16 +370,18 @@ namespace Application.Services
                 user.AuditDeleteDate = DateTime.Now;
                 user.Status = false;
 
-                response.Data = await _unitOfWork.User.RemoveAsync(user);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

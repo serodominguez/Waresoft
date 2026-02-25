@@ -17,7 +17,6 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<ProductEntity> GetProductsQueryable()
         {
             return _context.Product
-                   .AsNoTracking()
                    .Where(p => p.AuditDeleteUser == null && p.AuditDeleteDate == null)
                    .Select(p => new ProductEntity
                    {
@@ -28,13 +27,15 @@ namespace Infrastructure.Persistences.Repositories
                        Color = p.Color,
                        UnitMeasure = p.UnitMeasure,
                        IdBrand = p.IdBrand,
+                       IdCategory = p.IdCategory,
                        Brand = new BrandEntity
                        {
+                           Id = p.Brand.Id,
                            BrandName = p.Brand.BrandName
                        },
-                       IdCategory = p.IdCategory,
                        Category = new CategoryEntity
                        {
+                           Id = p.Category.Id,
                            CategoryName = p.Category.CategoryName
                        },
                        AuditCreateDate = p.AuditCreateDate,

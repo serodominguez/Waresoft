@@ -32,8 +32,7 @@ namespace Application.Services
 
             try
             {
-                var suppliers = _unitOfWork.Supplier.GetAllQueryable()
-                    .AsNoTracking();
+                var suppliers = _unitOfWork.Supplier.GetAllQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -61,6 +60,7 @@ namespace Application.Services
 
                     suppliers = suppliers.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await suppliers.CountAsync();
 
                 filters.Sort ??= "Id";
@@ -189,6 +189,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;

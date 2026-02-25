@@ -32,8 +32,7 @@ namespace Application.Services
 
             try
             {
-                var roles = _unitOfWork.Role.GetAllQueryable()
-                    .AsNoTracking();
+                var roles = _unitOfWork.Role.GetAllQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -58,6 +57,7 @@ namespace Application.Services
 
                     roles = roles.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await roles.CountAsync();
 
                 filters.Sort ??= "Id";
@@ -136,6 +136,7 @@ namespace Application.Services
         {
             var response = new BaseResponse<bool>();
             using var transaction = _unitOfWork.BeginTransaction();
+
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
@@ -162,6 +163,7 @@ namespace Application.Services
                                     .Where(x => x.Status == true && x.Id != 1).ToList();
 
                 var permissions = new List<PermissionEntity>();
+
                 foreach (var module in modules)
                 {
                     foreach (var action in actions)
@@ -201,6 +203,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -210,6 +213,7 @@ namespace Application.Services
                 }
 
                 var isValid = await _unitOfWork.Role.GetByIdAsync(roleId);
+
                 if (isValid is null)
                 {
                     response.IsSuccess = false;

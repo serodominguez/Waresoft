@@ -6,8 +6,7 @@ namespace Infrastructure.Persistences.Interfaces
     {
         Task<string> GenerateCodeAsync();
         IQueryable<GoodsIssueEntity> GetGoodsIssueQueryableByStore(int storeId);
-        Task<GoodsIssueEntity?> GetGoodsIssueByIdAsync(int issueId);
-        Task<bool> RegisterGoodsIssueAsync(GoodsIssueEntity entity);
-        Task<bool> CancelGoodsIssueAsync(GoodsIssueEntity entity);
+        IQueryable<GoodsIssueEntity> GetGoodsIssueByIdAsQueryable(int issueId);
+        Task AddGoodsIssueAsync(GoodsIssueEntity entity);
     }
 }

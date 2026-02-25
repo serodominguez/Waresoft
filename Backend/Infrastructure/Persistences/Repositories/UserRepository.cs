@@ -17,36 +17,31 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<UserEntity> GetUsersQueryable()
         {
             return _context.User
-                .AsNoTracking()
-                .Include(u => u.Role)
-                .Include(u => u.Store)
-                .Where(u => u.AuditDeleteUser == null && u.AuditDeleteDate == null);
-        }
-
-        public async Task<bool> EditUserAsync(int authenticatedUserId, UserEntity user, bool? updatePassword)
-        {
-            user.AuditUpdateUser = authenticatedUserId;
-            user.AuditUpdateDate = DateTime.Now;
-
-            if (updatePassword == true)
-            {
-                _context.Update(user);
-                _context.Entry(user).Property(x => x.Status).IsModified = false;
-                _context.Entry(user).Property(x => x.AuditCreateUser).IsModified = false;
-                _context.Entry(user).Property(x => x.AuditCreateDate).IsModified = false;
-            }
-            else
-            {
-                _context.Update(user);
-                _context.Entry(user).Property(x => x.PasswordHash).IsModified = false;
-                _context.Entry(user).Property(x => x.PasswordSalt).IsModified = false;
-                _context.Entry(user).Property(x => x.Status).IsModified = false;
-                _context.Entry(user).Property(x => x.AuditCreateUser).IsModified = false;
-                _context.Entry(user).Property(x => x.AuditCreateDate).IsModified = false;
-            }
-
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
+                .Where(u => u.AuditDeleteUser == null && u.AuditDeleteDate == null)
+                .Select(u => new UserEntity
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Names = u.Names,
+                    LastNames = u.LastNames,
+                    IdentificationNumber = u.IdentificationNumber,
+                    PhoneNumber = u.PhoneNumber,
+                    PasswordHash = u.PasswordHash,
+                    PasswordSalt = u.PasswordSalt,
+                    IdRole = u.IdRole,
+                    IdStore = u.IdStore,
+                    Status = u.Status,
+                    Role = new RoleEntity
+                    {
+                        Id = u.Role.Id,
+                        RoleName = u.Role.RoleName
+                    },
+                    Store = new StoreEntity
+                    {
+                        Id = u.Store.Id,
+                        StoreName = u.Store.StoreName
+                    }
+                });
         }
     }
 }

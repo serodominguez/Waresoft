@@ -5,6 +5,7 @@ using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
 using Application.Interfaces;
 using Application.Mappers;
+using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -129,7 +130,6 @@ namespace Application.Services
                     inventory = inventory.Where(x => x.Product.Status == stateValue);
                 }
 
-
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
                 {
                     var startDate = Convert.ToDateTime(filters.StartDate).Date;
@@ -138,13 +138,22 @@ namespace Application.Services
                 }
 
                 var items = await inventory.ToListAsync();
-                var stores = await _unitOfWork.Store.GetAllQueryable().ToListAsync();
+
+                var stores = await _unitOfWork.Store.GetAllQueryable()
+                    .Select(s => new StoreEntity
+                    {
+                        Id = s.Id,
+                        StoreName = s.StoreName
+                    })
+                    .ToListAsync();
+
                 var pivot = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
 
                 response.TotalRecords = pivot.Rows.Count;
 
                 var pageNumber = filters.NumberPage;
                 var pageSize = filters.NumberRecordsPage;
+
                 pivot.Rows = pivot.Rows
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
@@ -259,6 +268,7 @@ namespace Application.Services
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -267,29 +277,33 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Product.GetByIdAsync(requestDto.IdProduct);
-                if (isValid is null)
+                var inventory = await _unitOfWork.StoreInventory.GetStockByIdAsync(requestDto.IdProduct, authenticatedStoreId);
+
+                if (inventory is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
 
                 }
-                var inventory = StoreInventoryMapp.StoreInventoryMapping(requestDto);
+
                 inventory.IdStore = authenticatedStoreId;
+                inventory.Price = requestDto.Price;
                 inventory.AuditUpdateUser = authenticatedUserId;
                 inventory.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.StoreInventory.UpdatePriceByProductsAsync(inventory);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
                     response.IsSuccess = false;
+                    response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }

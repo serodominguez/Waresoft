@@ -19,6 +19,7 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<T> GetAllQueryable()
         {
             return GetEntityQuery()
+                .AsNoTracking()
                 .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null);
 
         }

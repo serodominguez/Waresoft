@@ -33,7 +33,7 @@ namespace Infrastructure.Persistences.Repositories
             return await _context.TransferDetails
                 .AsNoTracking()
                 .Include(d => d.Transfer)
-                .Where(d => d.IdProduct == productId && d.Transfer!.IsActive && (d.Transfer.IdStoreOrigin == storeId || d.Transfer.IdStoreDestination == storeId))
+                .Where(d => d.IdProduct == productId && (d.Transfer.IdStoreOrigin == storeId || d.Transfer.IdStoreDestination == storeId) && d.Transfer!.IsActive)
                 .ToListAsync();
         }
     }

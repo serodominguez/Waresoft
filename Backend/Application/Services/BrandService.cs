@@ -57,6 +57,7 @@ namespace Application.Services
 
                     brands = brands.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await brands.CountAsync();
 
                 filters.Sort ??= "Id";

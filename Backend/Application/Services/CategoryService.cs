@@ -32,8 +32,7 @@ namespace Application.Services
 
             try
             {
-                var categories = _unitOfWork.Category.GetAllQueryable()
-                    .AsNoTracking();
+                var categories = _unitOfWork.Category.GetAllQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -61,6 +60,7 @@ namespace Application.Services
 
                     categories = categories.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await categories.CountAsync();
 
                 filters.Sort ??= "Id";
@@ -138,6 +138,7 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> RegisterCategory(int authenticatedUserId, CategoryRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();
+
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);

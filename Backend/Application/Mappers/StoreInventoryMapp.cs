@@ -38,30 +38,40 @@ namespace Application.Mappers
             };
         }
 
-        public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<StoreInventoryEntity> inventory, List<StoreEntity> entity)
+        public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<StoreInventoryEntity> inventory, List<StoreEntity> stores)
         {
-            var stores = entity
+            var storeDict = stores
                 .Where(s => !string.IsNullOrEmpty(s.StoreName))
-                .Select(s => s.StoreName.ToSentenceCase()!)
-                .Distinct()
-                .ToList();
+                .ToDictionary(s => s.Id, s => s.StoreName!.ToSentenceCase()!);
 
             var rows = inventory
                 .GroupBy(i => i.Product.Id)
-                .Select(g => new StoreInventoryPivotRowResponseDto
+                .Select(g =>
                 {
-                    Code = g.First().Product.Code,
-                    Color = g.First().Product.Color.ToSentenceCase(),
-                    BrandName = g.First().Product.Brand.BrandName.ToSentenceCase(),
-                    CategoryName = g.First().Product.Category.CategoryName.ToSentenceCase(),
-                    AuditCreateDate = g.First().Product.AuditCreateDate?.ToString("dd/MM/yyyy HH:mm"),
-                    StockByStore = stores.ToDictionary(
-                        store => store,
-                        store => g.FirstOrDefault(i => i.Store.StoreName.ToSentenceCase() == store)?.StockAvailable ?? 0
-                    )
-                }).ToList();
+                    var product = g.First().Product;
+                    var stockByStoreId = g.ToDictionary(i => i.IdStore, i => i.StockAvailable);
 
-            return new StoreInventoryPivotResponseDto { Stores = stores, Rows = rows };
+                    return new StoreInventoryPivotRowResponseDto
+                    {
+                        Code = product.Code,
+                        Color = product.Color?.ToSentenceCase(),
+                        BrandName = product.Brand?.BrandName?.ToSentenceCase(),
+                        CategoryName = product.Category?.CategoryName?.ToSentenceCase(),
+                        AuditCreateDate = product.AuditCreateDate?.ToString("dd/MM/yyyy HH:mm"),
+
+                        StockByStore = storeDict.ToDictionary(
+                            kvp => kvp.Value, 
+                            kvp => stockByStoreId.GetValueOrDefault(kvp.Key, 0)
+                        )
+                    };
+                })
+                .ToList();
+
+            return new StoreInventoryPivotResponseDto
+            {
+                Stores = storeDict.Values.ToList(),
+                Rows = rows
+            };
         }
 
         public static StoreInventoryKardexResponseDto StoreInventoryKardexMapping(StoreInventoryEntity product, List<StoreInventoryKardexMovementDto> movements, int calculateStock, int stockDifference)

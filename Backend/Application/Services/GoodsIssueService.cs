@@ -28,6 +28,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<GoodsIssueResponseDto>>> ListGoodsIssueByStore(int authenticatedStoreId, BaseFiltersRequest filters)
         {
             var response = new BaseResponse<IEnumerable<GoodsIssueResponseDto>>();
+
             try
             {
                 var issues = _unitOfWork.GoodsIssue.GetGoodsIssueQueryableByStore(authenticatedStoreId);
@@ -61,10 +62,6 @@ namespace Application.Services
                         case 1:
                             issues = issues.Where(x => x.Status == 1);
                             break;
-
-                        case 2:
-                            issues = issues.Where(x => x.Status >= 0);
-                            break;
                     }
                 }
 
@@ -97,7 +94,9 @@ namespace Application.Services
 
             try
             {
-                var issue = await _unitOfWork.GoodsIssue.GetGoodsIssueByIdAsync(issueId);
+                var issue = await _unitOfWork.GoodsIssue.GetGoodsIssueByIdAsQueryable(issueId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (issue is null)
                 {
@@ -133,9 +132,7 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, GoodsIssueRequestDto requestDto)
         {
             const string TypeAdjustment = "Ajuste de kardex";
-
             var response = new BaseResponse<bool>();
-
             var validationResult = await _validator.ValidateAsync(requestDto);
 
             if (!validationResult.IsValid)
@@ -156,7 +153,9 @@ namespace Application.Services
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = 1;
                 entity.IsActive = true;
-                await _unitOfWork.GoodsIssue.RegisterGoodsIssueAsync(entity);
+
+                await _unitOfWork.GoodsIssue.AddGoodsIssueAsync(entity);
+                await _unitOfWork.SaveChangesAsync();
 
                 if (requestDto.Type != TypeAdjustment)
                 {
@@ -177,6 +176,8 @@ namespace Application.Services
                         currentStock.AuditUpdateDate = DateTime.Now;
                         await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
+
+                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 transaction.Commit();
@@ -197,14 +198,14 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> CancelGoodsIssue(int authenticatedUserId, int issueId)
         {
             const string TypeAdjustment = "ajuste de kardex";
-
             var response = new BaseResponse<bool>();
-
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
-                var issue = await _unitOfWork.GoodsIssue.GetGoodsIssueByIdAsync(issueId);
+                var issue = await _unitOfWork.GoodsIssue.GetGoodsIssueByIdAsQueryable(issueId)
+                    .FirstOrDefaultAsync();
+
                 if (issue is null)
                 {
                     response.IsSuccess = false;
@@ -216,8 +217,6 @@ namespace Application.Services
                 issue.AuditDeleteDate = DateTime.Now;
                 issue.Status = 0;
                 issue.IsActive = false;
-                response.Data = await _unitOfWork.GoodsIssue.CancelGoodsIssueAsync(issue);
-;
 
                 if (issue.Type != TypeAdjustment)
                 {
@@ -238,13 +237,25 @@ namespace Application.Services
                         currentStock.StockAvailable += item.Quantity;
                         currentStock.AuditUpdateUser = authenticatedUserId;
                         currentStock.AuditUpdateDate = DateTime.Now;
-                        await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                 }
 
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
+                
                 transaction.Commit();
-                response.IsSuccess = true;
-                response.Message = ReplyMessage.MESSAGE_SAVE;
+
+                if (recordsAffected > 0)
+                {
+                    response.IsSuccess = true;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_SAVE;
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Data = false;
+                    response.Message = ReplyMessage.MESSAGE_FAILED;
+                }
             }
             catch (Exception ex)
             {

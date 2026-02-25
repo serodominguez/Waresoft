@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using DocumentFormat.OpenXml.Vml.Office;
+using Domain.Entities;
 using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -44,35 +45,44 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<GoodsIssueEntity> GetGoodsIssueQueryableByStore(int storeId)
         {
             return _context.GoodsIssue
-                .AsNoTracking()
                 .Where(i => i.IdStore == storeId)
+                .Select(i => new GoodsIssueEntity
+                {
+                    IdIssue = i.IdIssue,
+                    Code = i.Code,
+                    Type = i.Type,
+                    TotalAmount = i.TotalAmount,
+                    Annotations = i.Annotations,
+                    IdUser = i.IdUser,
+                    User = new UserEntity
+                    {
+                        Id = i.User.Id,
+                        Names = i.User.Names,
+                        LastNames = i.User.LastNames
+                    },
+                    IdStore = i.IdStore,
+                    Store = new StoreEntity
+                    {
+                        Id = i.Store.Id,
+                        StoreName = i.Store.StoreName
+                    },
+                    AuditCreateUser = i.AuditCreateUser,
+                    AuditCreateDate = i.AuditCreateDate,
+                    Status = i.Status
+                });
+        }
+
+        public IQueryable<GoodsIssueEntity> GetGoodsIssueByIdAsQueryable(int issueId)
+        {
+            return _context.GoodsIssue
+                .Where(i => i.IdIssue == issueId)
                 .Include(i => i.User)
                 .Include(i => i.Store);
         }
 
-        public async Task<GoodsIssueEntity?> GetGoodsIssueByIdAsync(int issueId)
-        {
-            var entity = await _context.GoodsIssue
-                .AsNoTracking()
-                .Include(i => i.User)
-                .Include(i => i.Store)
-                .FirstOrDefaultAsync(x => x.IdIssue.Equals(issueId));
-
-            return entity;
-        }
-
-        public async Task<bool> RegisterGoodsIssueAsync(GoodsIssueEntity entity)
+        public async Task AddGoodsIssueAsync(GoodsIssueEntity entity)
         {
             await _context.AddAsync(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
-
-        public async Task<bool> CancelGoodsIssueAsync(GoodsIssueEntity entity)
-        {
-            _context.Update(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
         }
     }
 }

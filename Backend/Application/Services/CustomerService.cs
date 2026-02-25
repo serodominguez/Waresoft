@@ -32,8 +32,7 @@ namespace Application.Services
 
             try
             {
-                var customers = _unitOfWork.Customer.GetAllQueryable()
-                    .AsNoTracking();
+                var customers = _unitOfWork.Customer.GetAllQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -64,6 +63,7 @@ namespace Application.Services
 
                     customers = customers.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await customers.CountAsync();
 
                 filters.Sort ??= "Id";

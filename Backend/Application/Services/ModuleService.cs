@@ -32,8 +32,7 @@ namespace Application.Services
 
             try
             {
-                var modules = _unitOfWork.Module.GetAllQueryable()
-                    .AsNoTracking();
+                var modules = _unitOfWork.Module.GetAllQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -58,6 +57,7 @@ namespace Application.Services
 
                     modules = modules.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await modules.CountAsync();
 
                 filters.Sort ??= "Id";
@@ -110,6 +110,7 @@ namespace Application.Services
         {
             var response = new BaseResponse<bool>();
             using var transaction = _unitOfWork.BeginTransaction();
+
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
@@ -136,6 +137,7 @@ namespace Application.Services
                                     .Where(x => x.Status == true).ToList();
 
                 var permissions = new List<PermissionEntity>();
+
                 foreach (var role in roles)
                 {
                     foreach (var action in actions)
@@ -171,9 +173,11 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> EditModule(int authenticatedUserId, int moduleId, ModuleRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();
+
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
+
                 if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
@@ -221,6 +225,7 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> EnableModule(int authenticatedUserId, int moduleId)
         {
             var response = new BaseResponse<bool>();
+
             try
             {
                 var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);

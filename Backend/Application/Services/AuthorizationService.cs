@@ -22,6 +22,7 @@ namespace Application.Services
         public async Task<BaseResponse<string>> GenerateToken(TokenRequestDto requestDto)
         {
             var response = new BaseResponse<string>();
+
             var user = await _unitOfWork.User.GetUsersQueryable()
                             .Where(u => u.UserName == requestDto.UserName && u.Status == true)
                             .FirstOrDefaultAsync();

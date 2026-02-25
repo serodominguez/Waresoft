@@ -29,6 +29,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<ProductResponseDto>>> ListProducts(BaseFiltersRequest filters)
         {
             var response = new BaseResponse<IEnumerable<ProductResponseDto>>();
+
             try
             {
                 var products = _unitOfWork.Product.GetProductsQueryable();
@@ -70,6 +71,7 @@ namespace Application.Services
                     var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
                     products = products.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await products.CountAsync();
 
                 filters.Sort ??= "Id";
