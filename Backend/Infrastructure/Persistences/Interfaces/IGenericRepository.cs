@@ -5,18 +5,14 @@ namespace Infrastructure.Persistences.Interfaces
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
-        IQueryable<T> GetAllQueryable();
-        Task<IEnumerable<T>> GetSelectAsync();
-        Task<List<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(int id);
-        Task<T?> GetByIdForUpdateAsync(int id);
+        IQueryable<T> GetAllAsQueryable();
+        IQueryable<T> GetAllActiveQueryable();
+        IQueryable<T> GetSelectQueryable();
+        IQueryable<T> GetByIdAsQueryable(int id);
+        IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null);
+
         Task AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
-
-        Task<bool> RegisterAsync(T entity);
-        Task<bool> EditAsync(T entity);
-        Task<bool> UpdateAsync(T entity);
-        Task<bool> RemoveAsync(T entity);
-        IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null);
+        
     }
 }

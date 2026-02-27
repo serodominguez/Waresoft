@@ -32,7 +32,8 @@ namespace Application.Services
 
             try
             {
-                var categories = _unitOfWork.Category.GetAllQueryable();
+                var categories = _unitOfWork.Category.GetAllActiveQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -84,7 +85,10 @@ namespace Application.Services
 
             try
             {
-                var categories = (await _unitOfWork.Category.GetSelectAsync());
+                var categories = (await _unitOfWork.Category.GetSelectQueryable()
+                    .AsNoTracking()
+                    .Where(c => c.Status == true)
+                    .ToListAsync());
 
                 if (categories is not null && categories.Any())
                 {
@@ -113,7 +117,10 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
                 if (category is not null)
                 {
                     response.Data = CategoryMapp.CategoriesResponseDtoMapping(category);
@@ -198,7 +205,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (category is null)
                 {
@@ -241,7 +250,9 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (category is null)
                 {
@@ -283,7 +294,9 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (category is null)
                 {
@@ -326,7 +339,9 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdForUpdateAsync(categoryId);
+                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (category is null)
                 {

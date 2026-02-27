@@ -28,9 +28,9 @@ namespace Infrastructure.Persistences.Repositories
                 );
         }
 
-        public async Task<IEnumerable<PermissionEntity>> PermissionsByRoleAsync(int roleId)
+        public IQueryable<PermissionEntity> PermissionsByRoleAsQueryable(int roleId)
         {
-            var response = await _context.Permission
+            return _context.Permission
                 .Where(p => p.IdRole == roleId)
                 .Select(p => new PermissionEntity
                 {
@@ -51,33 +51,13 @@ namespace Infrastructure.Persistences.Repositories
                         ActionName = p.Action.ActionName,
                         Status = p.Action.Status
                     }
-                })
-                .ToListAsync();
-             return response;
+                });
         }
 
-        public async Task<IEnumerable<PermissionEntity>> GetByIdsAsync(List<int> permissionIds)
+        public IQueryable<PermissionEntity> GetByIdsAsQueryable(List<int> permissionIds)
         {
-            return await _context.Permission
-                .Where(p => permissionIds.Contains(p.Id))
-                .Select(p => new PermissionEntity
-                {
-                    Id = p.Id,
-                    IdRole = p.IdRole,
-                    IdModule = p.IdModule,
-                    IdAction = p.IdAction,
-                    Status = p.Status,
-                    AuditUpdateUser = p.AuditUpdateUser,
-                    AuditUpdateDate = p.AuditUpdateDate
-                })
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<PermissionEntity>> GetByIdsForUpdateAsync(List<int> permissionIds)
-        {
-            return await _context.Permission
-                .Where(p => permissionIds.Contains(p.Id))
-                .ToListAsync();
+            return _context.Permission
+                .Where(p => permissionIds.Contains(p.Id));
         }
     }
 }

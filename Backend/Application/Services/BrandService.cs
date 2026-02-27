@@ -32,7 +32,8 @@ namespace Application.Services
 
             try
             {
-                var brands = _unitOfWork.Brand.GetAllQueryable();
+                var brands = _unitOfWork.Brand.GetAllActiveQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -81,7 +82,10 @@ namespace Application.Services
 
             try
             {
-                var brands = (await _unitOfWork.Brand.GetSelectAsync());
+                var brands = (await _unitOfWork.Brand.GetSelectQueryable()
+                    .AsNoTracking()
+                    .Where(b => b.Status == true)
+                    .ToListAsync());
 
                 if (brands is not null && brands.Any())
                 {
@@ -110,7 +114,9 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (brand is not null)
                 {
@@ -196,7 +202,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (brand is null)
                 {
@@ -239,7 +247,9 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (brand is null)
                 {
@@ -282,7 +292,9 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (brand is null)
                 {
@@ -325,7 +337,9 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdForUpdateAsync(brandId);
+                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (brand is null)
                 {

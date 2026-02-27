@@ -32,7 +32,8 @@ namespace Application.Services
 
             try
             {
-                var products = _unitOfWork.Product.GetProductsQueryable();
+                var products = _unitOfWork.Product.GetProductsQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -95,7 +96,9 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (product is not null)
                 {
@@ -181,7 +184,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (product is null)
                 {
@@ -230,7 +235,9 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (product is null)
                 {
@@ -274,7 +281,9 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (product is null)
                 {
@@ -318,7 +327,9 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdForUpdateAsync(productId);
+                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (product is null)
                 {

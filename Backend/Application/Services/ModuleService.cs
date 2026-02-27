@@ -32,7 +32,8 @@ namespace Application.Services
 
             try
             {
-                var modules = _unitOfWork.Module.GetAllQueryable();
+                var modules = _unitOfWork.Module.GetAllActiveQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -82,7 +83,9 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (module is not null)
                 {
@@ -128,13 +131,18 @@ namespace Application.Services
                 module.Status = true;
 
                 await _unitOfWork.Module.AddAsync(module);
-                await _unitOfWork.SaveChangesAsync(); 
+                await _unitOfWork.SaveChangesAsync();
 
-                var actions = (await _unitOfWork.Action.GetAllAsync())
-                                    .Where(x => x.Status == true).ToList();
+                var actions = (await _unitOfWork.Action.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(x => x.Status == true)
+                    .ToListAsync());
+                                    
 
-                var roles = (await _unitOfWork.Role.GetAllAsync())
-                                    .Where(x => x.Status == true).ToList();
+                var roles = (await _unitOfWork.Role.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(x => x.Status == true)
+                    .ToListAsync());
 
                 var permissions = new List<PermissionEntity>();
 
@@ -186,7 +194,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (module is null)
                 {
@@ -228,7 +238,9 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (module is null)
                 {
@@ -270,7 +282,9 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (module is null)
                 {
@@ -313,7 +327,9 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdForUpdateAsync(moduleId);
+                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (module is null)
                 {

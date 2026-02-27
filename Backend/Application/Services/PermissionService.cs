@@ -4,6 +4,7 @@ using Application.Dtos.Response.Permission;
 using Application.Interfaces;
 using Application.Mappers;
 using Infrastructure.Persistences.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Utilities.Static;
 
 namespace Application.Services
@@ -19,7 +20,9 @@ namespace Application.Services
 
         public async Task<bool> UserPermissions(int userId, string moduleName, string actionName)
         {
-            var user = await _unitOfWork.User.GetByIdAsync(userId);
+            var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
 
             if (user == null || !user.Status) return false;
 
@@ -40,7 +43,9 @@ namespace Application.Services
                 }
 
                 var existingPermissions = await _unitOfWork.Permission
-                    .GetByIdsForUpdateAsync(permissionsDto.Select(p => p.IdPermission).ToList());
+                    .GetByIdsAsQueryable(permissionsDto.Select(p => p.IdPermission).ToList())
+                    .AsNoTracking()
+                    .ToListAsync();
 
                 var permissionsDict = existingPermissions.ToDictionary(p => p.Id);
                 var hasChanges = false;
@@ -99,7 +104,9 @@ namespace Application.Services
             var response = new BaseResponse<IEnumerable<PermissionByUserResponseDto>>();
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsync(userId);
+                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (user == null || !user.Status)
                 {
@@ -108,7 +115,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var permissions = await _unitOfWork.Permission.PermissionsByRoleAsync(user.IdRole);
+                var permissions = await _unitOfWork.Permission.PermissionsByRoleAsQueryable(user.IdRole)
+                    .AsNoTracking()
+                    .ToListAsync();
 
                 if (permissions != null && permissions.Any())
                 {
@@ -139,7 +148,10 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsync(roleId);
+                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
                 if (role == null || !role.Status)
                 {
                     response.IsSuccess = false;
@@ -147,7 +159,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var permissions = await _unitOfWork.Permission.PermissionsByRoleAsync(roleId);
+                var permissions = await _unitOfWork.Permission.PermissionsByRoleAsQueryable(roleId)
+                    .AsNoTracking()
+                    .ToListAsync();
 
                 if (permissions != null && permissions.Any())
                 {

@@ -6,10 +6,8 @@ namespace Infrastructure.Persistences.Interfaces
     {
         Task<string> GenerateCodeAsync();
         IQueryable<TransferEntity> GetTransferQueryableByStore(int storeId);
-        Task<TransferEntity?> GetTransferByIdAsync(int transferId);
-        Task<bool> SendTransferAsync(TransferEntity entity);
-        Task<bool> ReceiveTransferAsync(TransferEntity entity);
-        Task<bool> CancelTransferAsync(TransferEntity entity);
+        IQueryable<TransferEntity> GetTransferByIdAsQueryable(int transferId);
+        Task AddTransferAsync(TransferEntity entity);
 
     }
 }

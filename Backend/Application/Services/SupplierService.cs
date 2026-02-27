@@ -32,7 +32,8 @@ namespace Application.Services
 
             try
             {
-                var suppliers = _unitOfWork.Supplier.GetAllQueryable();
+                var suppliers = _unitOfWork.Supplier.GetAllActiveQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -83,7 +84,10 @@ namespace Application.Services
 
             try
             {
-                var suppliers = (await _unitOfWork.Supplier.GetSelectAsync());
+                var suppliers = (await _unitOfWork.Supplier.GetSelectQueryable()
+                    .AsNoTracking()
+                    .Where(s => s.Status == true)
+                    .ToListAsync());
 
                 if (suppliers is not null && suppliers.Any())
                 {
@@ -112,7 +116,9 @@ namespace Application.Services
 
             try
             {
-                var supplier = await _unitOfWork.Supplier.GetByIdAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdAsQueryable(supplierId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (supplier is not null)
                 {
@@ -198,7 +204,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdAsQueryable(supplierId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (supplier is null)
                 {
@@ -244,7 +252,9 @@ namespace Application.Services
 
             try
             {
-                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdAsQueryable(supplierId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (supplier is null)
                 {
@@ -287,7 +297,9 @@ namespace Application.Services
 
             try
             {
-                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdAsQueryable(supplierId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (supplier is null)
                 {
@@ -330,7 +342,9 @@ namespace Application.Services
 
             try
             {
-                var supplier = await _unitOfWork.Supplier.GetByIdForUpdateAsync(supplierId);
+                var supplier = await _unitOfWork.Supplier.GetByIdAsQueryable(supplierId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (supplier is null)
                 {

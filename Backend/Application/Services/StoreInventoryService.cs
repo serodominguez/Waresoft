@@ -139,7 +139,8 @@ namespace Application.Services
 
                 var items = await inventory.ToListAsync();
 
-                var stores = await _unitOfWork.Store.GetAllQueryable()
+                var stores = await _unitOfWork.Store.GetAllActiveQueryable()
+                    .AsNoTracking()
                     .Select(s => new StoreEntity
                     {
                         Id = s.Id,
@@ -188,9 +189,20 @@ namespace Application.Services
                 }
 
                 // Obtener todos los movimientos del producto
-                var receipts = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsByProductAsync(authenticatedStoreId, productId);
-                var issues = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsByProductAsync(authenticatedStoreId, productId);
-                var transfers = await _unitOfWork.TransferDetails.GetTransferDetailsByProductAsync(authenticatedStoreId, productId);
+                var receipts = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsByProductQueryable(authenticatedStoreId, productId)
+                    .AsNoTracking()
+                    .Where(r => r.GoodsReceipt.IsActive)
+                    .ToListAsync();
+
+                var issues = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsByProductQueryable(authenticatedStoreId, productId)
+                    .AsNoTracking()
+                    .Where(i => i.GoodsIssue.IsActive)
+                    .ToListAsync();
+
+                var transfers = await _unitOfWork.TransferDetails.GetTransferDetailsByProductQueryable(authenticatedStoreId, productId)
+                    .AsNoTracking()
+                    .Where(t => t.Transfer.IsActive)
+                    .ToListAsync();
 
                 // Crear lista de movimientos usando mappers
                 var movements = new List<StoreInventoryKardexMovementDto>();
@@ -277,7 +289,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var inventory = await _unitOfWork.StoreInventory.GetStockByIdAsync(requestDto.IdProduct, authenticatedStoreId);
+                var inventory = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(requestDto.IdProduct, authenticatedStoreId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (inventory is null)
                 {

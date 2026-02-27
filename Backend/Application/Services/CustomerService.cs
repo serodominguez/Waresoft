@@ -32,7 +32,8 @@ namespace Application.Services
 
             try
             {
-                var customers = _unitOfWork.Customer.GetAllQueryable();
+                var customers = _unitOfWork.Customer.GetAllActiveQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -87,7 +88,9 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (customer is not null)
                 {
@@ -172,7 +175,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (customer is null)
                 {
@@ -218,7 +223,9 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (customer is null)
                 {
@@ -261,7 +268,9 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (customer is null)
                 {
@@ -304,7 +313,9 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdForUpdateAsync(customerId);
+                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (customer is null)
                 {

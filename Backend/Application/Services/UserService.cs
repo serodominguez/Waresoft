@@ -35,7 +35,8 @@ namespace Application.Services
 
             try
             {
-                var users = _unitOfWork.User.GetUsersQueryable();
+                var users = _unitOfWork.User.GetUsersQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -95,7 +96,10 @@ namespace Application.Services
 
             try
             {
-                var users = (await _unitOfWork.User.GetSelectAsync());
+                var users = (await _unitOfWork.User.GetSelectQueryable()
+                    .AsNoTracking()
+                    .Where(u => u.Status == true)
+                    .ToListAsync());
 
                 if (users is not null && users.Any())
                 {
@@ -124,7 +128,9 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsync(userId);
+                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (user is not null)
                 {
@@ -214,7 +220,9 @@ namespace Application.Services
                     return response;
                 }
 
-                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
+                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (user is null)
                 {
@@ -271,7 +279,9 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
+                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (user is null)
                 {
@@ -314,7 +324,9 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
+                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (user is null)
                 {
@@ -357,7 +369,9 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdForUpdateAsync(userId);
+                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (user is null)
                 {

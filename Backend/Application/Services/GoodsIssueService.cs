@@ -108,11 +108,16 @@ namespace Application.Services
                 string? userName = null;
                 if (issue!.AuditCreateUser.HasValue)
                 {
-                    var user = await _unitOfWork.User.GetByIdAsync(issue.AuditCreateUser.Value);
+                    var user = await _unitOfWork.User.GetByIdAsQueryable(issue.AuditCreateUser.Value)
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
+
                     userName = user?.Names+' '+ user?.LastNames;
                 }
 
-                var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsAsync(issue!.IdIssue);
+                var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsQueryable(issue!.IdIssue)
+                    .AsNoTracking()
+                    .ToListAsync();
 
                 issue.GoodsIssueDetails = details.ToList();
 
@@ -133,6 +138,7 @@ namespace Application.Services
         {
             const string TypeAdjustment = "Ajuste de kardex";
             var response = new BaseResponse<bool>();
+
             var validationResult = await _validator.ValidateAsync(requestDto);
 
             if (!validationResult.IsValid)
@@ -161,7 +167,9 @@ namespace Application.Services
                 {
                     foreach (var item in entity.GoodsIssueDetails)
                     {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, requestDto.IdStore);
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, requestDto.IdStore)
+                            .AsTracking()
+                            .FirstOrDefaultAsync();
 
                         if (currentStock is null)
                         {
@@ -174,7 +182,6 @@ namespace Application.Services
                         currentStock.StockAvailable -= item.Quantity;
                         currentStock.AuditUpdateUser = authenticatedUserId;
                         currentStock.AuditUpdateDate = DateTime.Now;
-                        await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
 
                     await _unitOfWork.SaveChangesAsync();
@@ -220,11 +227,15 @@ namespace Application.Services
 
                 if (issue.Type != TypeAdjustment)
                 {
-                    var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsAsync(issue!.IdIssue);
+                    var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsQueryable(issue!.IdIssue)
+                        .AsNoTracking()
+                        .ToListAsync();
 
                     foreach (var item in details)
                     {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, issue.IdStore);
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, issue.IdStore)
+                            .AsTracking()
+                            .FirstOrDefaultAsync();
 
                         if (currentStock is null)
                         {
@@ -240,22 +251,12 @@ namespace Application.Services
                     }
                 }
 
-                var recordsAffected = await _unitOfWork.SaveChangesAsync();
-                
+                await _unitOfWork.SaveChangesAsync();
+
                 transaction.Commit();
 
-                if (recordsAffected > 0)
-                {
-                    response.IsSuccess = true;
-                    response.Data = true;
-                    response.Message = ReplyMessage.MESSAGE_SAVE;
-                }
-                else
-                {
-                    response.IsSuccess = false;
-                    response.Data = false;
-                    response.Message = ReplyMessage.MESSAGE_FAILED;
-                }
+                response.IsSuccess = true;
+                response.Message = ReplyMessage.MESSAGE_SAVE;
             }
             catch (Exception ex)
             {

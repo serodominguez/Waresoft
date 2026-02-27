@@ -76,7 +76,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.1.2, )"
+              "version": "[10.1.4, )"
             }
           },
           "imports": [
@@ -578,7 +578,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.2.0, )"
+              "version": "[2026.2.2, )"
             }
           },
           "imports": [
@@ -1285,7 +1285,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.2.0, )"
+              "version": "[2026.2.2, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",

@@ -16,35 +16,34 @@ namespace Infrastructure.Persistences.Repositories
             _entity = _context.Set<T>();
         }
 
-        public IQueryable<T> GetAllQueryable()
+        public IQueryable<T> GetAllAsQueryable()
+        {
+            return _entity;
+        }
+
+        public IQueryable<T> GetAllActiveQueryable()
         {
             return GetEntityQuery()
-                .AsNoTracking()
                 .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null);
-
         }
 
-        public async Task<IEnumerable<T>> GetSelectAsync()
+        public IQueryable<T> GetSelectQueryable()
         {
-            return await _entity
-                    .AsNoTracking()
-                    .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null && x.Status == true)
-                    .ToListAsync();
+            return _entity
+                .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null);
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public IQueryable<T> GetByIdAsQueryable(int id)
         {
-            return  await _entity.AsNoTracking().ToListAsync();
+            return _entity
+                .Where(x => x.Id == id);
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        public IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null)
         {
-            return await _entity.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<T?> GetByIdForUpdateAsync(int id)
-        {
-            return await _entity.FirstOrDefaultAsync(x => x.Id == id);
+            IQueryable<T> query = _entity;
+            if (filter != null) query = query.Where(filter);
+            return query;
         }
 
         public async Task AddAsync(T entity)
@@ -55,44 +54,6 @@ namespace Infrastructure.Persistences.Repositories
         public async Task AddRangeAsync(IEnumerable<T> entities)
         {
             await _context.AddRangeAsync(entities);
-        }
-
-        public async Task<bool> RegisterAsync(T entity)
-        {
-            await _context.AddAsync(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
-
-        public async Task<bool> EditAsync(T entity)
-        {
-            _context.Update(entity);
-            _context.Entry(entity).Property(x => x.Status).IsModified = false;
-            _context.Entry(entity).Property(x => x.AuditCreateUser).IsModified = false;
-            _context.Entry(entity).Property(x => x.AuditCreateDate).IsModified = false;
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
-
-        public async Task<bool> UpdateAsync(T entity)
-        {
-            _context.Update(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
-
-        public async Task<bool> RemoveAsync(T entity)
-        {
-            _context.Update(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
-
-        public IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null)
-        {
-            IQueryable<T> query = _entity;
-            if (filter != null) query = query.Where(filter);
-            return query;
         }
     }
 }

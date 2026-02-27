@@ -29,6 +29,7 @@ namespace Application.Services
         public async Task<BaseResponse<IEnumerable<GoodsReceiptResponseDto>>> ListGoodsReceiptByStore(int authenticatedStoreId, BaseFiltersRequest filters)
         {
             var response = new BaseResponse<IEnumerable<GoodsReceiptResponseDto>>();
+
             try
             {
                 var receipts = _unitOfWork.GoodsReceipt.GetGoodsReceiptQueryableByStore(authenticatedStoreId);
@@ -75,6 +76,7 @@ namespace Application.Services
                     var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
                     receipts = receipts.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await receipts.CountAsync();
 
                 filters.Sort ??= "IdReceipt";
@@ -98,7 +100,9 @@ namespace Application.Services
 
             try
             {
-                var receipt = await _unitOfWork.GoodsReceipt.GetGoodsReceiptByIdAsync(receiptId);
+                var receipt = await _unitOfWork.GoodsReceipt.GetGoodsReceiptByIdAsQueryable(receiptId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (receipt is null )
                 {
@@ -110,11 +114,16 @@ namespace Application.Services
                 string? userName = null;
                 if (receipt!.AuditCreateUser.HasValue)
                 {
-                    var user = await _unitOfWork.User.GetByIdAsync(receipt.AuditCreateUser.Value);
+                    var user = await _unitOfWork.User.GetByIdAsQueryable(receipt.AuditCreateUser.Value)
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
+
                     userName = user?.Names + ' ' + user?.LastNames;
                 }
 
-                var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsAsync(receipt!.IdReceipt);
+                var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsQueryable(receipt!.IdReceipt)
+                    .AsNoTracking()
+                    .ToListAsync();
 
                 receipt.GoodsReceiptDetails = details.ToList();
 
@@ -135,7 +144,6 @@ namespace Application.Services
         {
             const string TypeReceipt = "Adquisición";
             const string TypeAdjustment = "Ajuste de kardex";
-
             var response = new BaseResponse<bool>();
 
             var validationResult = await _validator.ValidateAsync(requestDto);
@@ -154,7 +162,7 @@ namespace Application.Services
             {
                 var entity = GoodsReceiptMapp.GoodsReceiptMapping(requestDto);
                 entity.Code = await _unitOfWork.GoodsReceipt.GenerateCodeAsync();
-                
+
                 if (requestDto.Type != TypeReceipt)
                 {
                     entity.DocumentNumber = entity.Code;
@@ -165,20 +173,23 @@ namespace Application.Services
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = 1;
                 entity.IsActive = true;
-                await _unitOfWork.GoodsReceipt.RegisterGoodsReceiptAsync(entity);
+
+                await _unitOfWork.GoodsReceipt.AddGoodsReceiptAsync(entity);
+                await _unitOfWork.SaveChangesAsync(); 
 
                 if (requestDto.Type != TypeAdjustment)
                 {
                     foreach (var item in entity.GoodsReceiptDetails)
                     {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, requestDto.IdStore);
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, requestDto.IdStore)
+                            .AsTracking()
+                            .FirstOrDefaultAsync();
 
                         if (currentStock is not null)
                         {
                             currentStock.StockAvailable += item.Quantity;
                             currentStock.AuditUpdateUser = authenticatedUserId;
                             currentStock.AuditUpdateDate = DateTime.Now;
-                            await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                         }
                         else
                         {
@@ -192,10 +203,11 @@ namespace Application.Services
                                 AuditCreateUser = authenticatedUserId,
                                 AuditCreateDate = DateTime.Now
                             };
-                            await _unitOfWork.StoreInventory.RegisterStockByProductsAsync(newStock);
+                            await _unitOfWork.StoreInventory.AddStoreInventoryAsync(newStock);
                         }
-
                     }
+
+                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 transaction.Commit();
@@ -216,15 +228,15 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> CancelGoodsReceipt(int authenticatedUserId, int receiptId)
         {
             const string TypeAdjustment = "ajuste de kardex";
-
             var response = new BaseResponse<bool>();
-
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
 
-                var receipt = await _unitOfWork.GoodsReceipt.GetGoodsReceiptByIdAsync(receiptId);
+                var receipt = await _unitOfWork.GoodsReceipt.GetGoodsReceiptByIdAsQueryable(receiptId)
+                    .FirstOrDefaultAsync();
+
                 if (receipt is null)
                 {
                     response.IsSuccess = false;
@@ -236,16 +248,18 @@ namespace Application.Services
                 receipt.AuditDeleteDate = DateTime.Now;
                 receipt.Status = 0;
                 receipt.IsActive = false;
-                response.Data = await _unitOfWork.GoodsReceipt.CancelGoodsReceiptAsync(receipt);
-
 
                 if (receipt.Type != TypeAdjustment)
                 {
-                    var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsAsync(receipt!.IdReceipt);
+                    var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsQueryable(receipt!.IdReceipt)
+                        .AsNoTracking()
+                        .ToListAsync();
 
                     foreach (var item in details)
                     {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsync(item.IdProduct, receipt.IdStore);
+                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, receipt.IdStore)
+                            .AsTracking()
+                            .FirstOrDefaultAsync();
 
                         if (currentStock is null)
                         {
@@ -254,14 +268,17 @@ namespace Application.Services
                             response.Message = ReplyMessage.MESSAGE_NOT_FOUND + "para el Id:" + item.IdProduct;
                             return response;
                         }
+
                         currentStock.StockAvailable -= item.Quantity;
                         currentStock.AuditUpdateUser = authenticatedUserId;
                         currentStock.AuditUpdateDate = DateTime.Now;
-                        await _unitOfWork.StoreInventory.UpdateStockByProductsAsync(currentStock);
                     }
                 }
 
+                await _unitOfWork.SaveChangesAsync();
+
                 transaction.Commit();
+
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_SAVE;
             }

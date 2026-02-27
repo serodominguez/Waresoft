@@ -88,27 +88,16 @@ namespace Infrastructure.Persistences.Repositories
                     });
         }
 
-        public async Task<StoreInventoryEntity> GetStockByIdAsync(int productId, int storeId)
+        public IQueryable<StoreInventoryEntity> GetStockByIdAsQueryable(int productId, int storeId)
         {
-            var stock = await _context.StoreInventory
-                .FirstOrDefaultAsync(x => x.IdProduct == productId && x.IdStore == storeId);
-
-            return stock!;
+            return _context.StoreInventory
+                .Where(x => x.IdProduct == productId && x.IdStore == storeId);
         }
 
-        public async Task<bool> RegisterStockByProductsAsync(StoreInventoryEntity entity)
+        public async Task AddStoreInventoryAsync(StoreInventoryEntity entity)
         {
             await _context.AddAsync(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
         }
 
-        public async Task<bool> UpdateStockByProductsAsync(StoreInventoryEntity entity)
-        {
-            _context.Update(entity);
-            _context.Entry(entity).Property(x => x.Price).IsModified = false;
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
     }
 }

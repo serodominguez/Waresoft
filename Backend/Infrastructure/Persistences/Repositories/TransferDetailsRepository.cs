@@ -15,26 +15,42 @@ namespace Infrastructure.Persistences.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<TransferDetailsEntity>> GetTransferDetailsAsync(int transferId)
+        public IQueryable<TransferDetailsEntity> GetTransferDetailsQueryable(int transferId)
         {
-            return await _context.TransferDetails
-                .AsNoTracking()
-                .Include(d => d.Product)
-                    .ThenInclude(p => p.Brand)
-                .Include(d => d.Product)
-                    .ThenInclude(p => p.Category)
-                .Where(d => d.IdTransfer == transferId)
-                .OrderBy(d => d.Item)
-                .ToListAsync();
+            return _context.TransferDetails
+                    .Where(d => d.IdTransfer == transferId)
+                    .OrderBy(d => d.Item)
+                    .Select(d => new TransferDetailsEntity
+                    {
+                        Product = new ProductEntity
+                        {
+                            Id = d.Product.Id,
+                            Code = d.Product.Code,
+                            Description = d.Product.Description,
+                            Material = d.Product.Material,
+                            Color = d.Product.Color,
+                            Brand = new BrandEntity
+                            {
+                                Id = d.Product.Brand.Id,
+                                BrandName = d.Product.Brand.BrandName
+                            },
+                            Category = new CategoryEntity
+                            {
+                                Id = d.Product.Category.Id,
+                                CategoryName = d.Product.Category.CategoryName
+                            }
+                        },
+                        Quantity = d.Quantity,
+                        UnitPrice = d.UnitPrice,
+                        TotalPrice = d.TotalPrice,
+                    });
         }
 
-        public async Task<IEnumerable<TransferDetailsEntity>> GetTransferDetailsByProductAsync(int storeId, int productId)
+        public IQueryable<TransferDetailsEntity> GetTransferDetailsByProductQueryable(int storeId, int productId)
         {
-            return await _context.TransferDetails
-                .AsNoTracking()
+            return _context.TransferDetails
                 .Include(d => d.Transfer)
-                .Where(d => d.IdProduct == productId && (d.Transfer.IdStoreOrigin == storeId || d.Transfer.IdStoreDestination == storeId) && d.Transfer!.IsActive)
-                .ToListAsync();
+                .Where(d => d.IdProduct == productId && (d.Transfer.IdStoreOrigin == storeId || d.Transfer.IdStoreDestination == storeId));
         }
     }
 }

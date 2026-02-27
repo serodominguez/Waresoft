@@ -14,10 +14,9 @@ namespace Infrastructure.Persistences.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<GoodsIssueDetailsEntity>> GetGoodsIssueDetailsAsync(int issueId)
+        public IQueryable<GoodsIssueDetailsEntity> GetGoodsIssueDetailsQueryable(int issueId)
         {
-            return await _context.GoodsIssueDetails
-                    .AsNoTracking()
+            return _context.GoodsIssueDetails
                     .Where(d => d.IdIssue == issueId)
                     .OrderBy(d => d.Item)
                     .Select(d => new GoodsIssueDetailsEntity
@@ -37,7 +36,6 @@ namespace Infrastructure.Persistences.Repositories
                                 Id = d.Product.Brand.Id,
                                 BrandName = d.Product.Brand.BrandName
                             },
-
                             Category = new CategoryEntity
                             {
                                 Id = d.Product.Category.Id,
@@ -47,17 +45,14 @@ namespace Infrastructure.Persistences.Repositories
                         Quantity = d.Quantity,
                         UnitPrice = d.UnitPrice,
                         TotalPrice = d.TotalPrice,
-                    })
-                    .ToListAsync();
+                    });
         }
 
-        public async Task<IEnumerable<GoodsIssueDetailsEntity>> GetGoodsIssueDetailsByProductAsync(int storeId, int productId)
+        public IQueryable<GoodsIssueDetailsEntity> GetGoodsIssueDetailsByProductQueryable(int storeId, int productId)
         {
-            return await _context.GoodsIssueDetails
-                .AsNoTracking()
+            return _context.GoodsIssueDetails
                 .Include(d => d.GoodsIssue)
-                .Where(d => d.IdProduct == productId && d.GoodsIssue.IdStore == storeId && d.GoodsIssue!.IsActive)
-                .ToListAsync();
+                .Where(d => d.IdProduct == productId && d.GoodsIssue.IdStore == storeId);
         }
     }
 }

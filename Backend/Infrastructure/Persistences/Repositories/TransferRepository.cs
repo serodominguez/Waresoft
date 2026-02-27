@@ -44,42 +44,44 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<TransferEntity> GetTransferQueryableByStore(int storeId)
         {
             return _context.Transfer
-                .AsNoTracking()
                 .Where(t => t.IdStoreOrigin == storeId || t.IdStoreDestination == storeId)
+                .Select(t => new TransferEntity
+                {
+                    IdTransfer = t.IdTransfer,
+                    Code = t.Code,
+                    SendDate = t.SendDate,
+                    ReceiveDate = t.ReceiveDate,
+                    TotalAmount = t.TotalAmount,
+                    Annotations = t.Annotations,
+                    IdStoreOrigin = t.IdStoreOrigin,
+                    StoreOrigin = new StoreEntity
+                    {
+                        Id = t.StoreOrigin.Id,
+                        StoreName = t.StoreOrigin.StoreName
+                    },
+                    IdStoreDestination = t.IdStoreDestination,
+                    StoreDestination = new StoreEntity
+                    {
+                        Id = t.StoreDestination.Id,
+                        StoreName = t.StoreDestination.StoreName
+                    },
+                    AuditCreateUser = t.AuditCreateUser,
+                    AuditCreateDate = t.AuditCreateDate,
+                                        Status = t.Status,
+                });
+        }
+
+        public IQueryable<TransferEntity> GetTransferByIdAsQueryable(int transferId)
+        {
+            return _context.Transfer
+                .Where(t => t.IdTransfer == transferId)
                 .Include(t => t.StoreOrigin)
                 .Include(t => t.StoreDestination);
         }
 
-        public async Task<TransferEntity?> GetTransferByIdAsync(int transferId)
-        {
-            var entity = await _context.Transfer
-                .AsNoTracking()
-                .Include(t => t.StoreOrigin)
-                .Include(t => t.StoreDestination)
-                .FirstOrDefaultAsync(x => x.IdTransfer.Equals(transferId));
-
-            return entity;
-        }
-
-        public async Task<bool> SendTransferAsync(TransferEntity entity)
+        public async Task AddTransferAsync(TransferEntity entity)
         {
             await _context.AddAsync(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
-
-        public async Task<bool> ReceiveTransferAsync(TransferEntity entity)
-        {
-            _context.Update(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
-        }
-
-        public async Task<bool> CancelTransferAsync(TransferEntity entity)
-        {
-            _context.Update(entity);
-            var recordsAffected = await _context.SaveChangesAsync();
-            return recordsAffected > 0;
         }
     }
 }

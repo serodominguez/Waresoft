@@ -4,7 +4,7 @@ namespace Infrastructure.Persistences.Interfaces
 {
     public interface IGoodsIssueDetailsRepository
     {
-        Task<IEnumerable<GoodsIssueDetailsEntity>> GetGoodsIssueDetailsAsync(int issueId);
-        Task<IEnumerable<GoodsIssueDetailsEntity>> GetGoodsIssueDetailsByProductAsync(int storeId, int productId);
+        IQueryable<GoodsIssueDetailsEntity> GetGoodsIssueDetailsQueryable(int issueId);
+        IQueryable<GoodsIssueDetailsEntity> GetGoodsIssueDetailsByProductQueryable(int storeId, int productId);
     }
 }

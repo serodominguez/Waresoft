@@ -32,7 +32,8 @@ namespace Application.Services
 
             try
             {
-                var roles = _unitOfWork.Role.GetAllQueryable();
+                var roles = _unitOfWork.Role.GetAllActiveQueryable()
+                    .AsNoTracking();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -81,7 +82,10 @@ namespace Application.Services
 
             try
             {
-                var roles = (await _unitOfWork.Role.GetSelectAsync());
+                var roles = (await _unitOfWork.Role.GetSelectQueryable()
+                    .AsNoTracking()
+                    .Where(r => r.Status == true)
+                    .ToListAsync());
 
                 if (roles is not null && roles.Any())
                 {
@@ -108,7 +112,9 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsync(roleId);
+                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
 
                 if (role is not null)
                 {
@@ -156,11 +162,15 @@ namespace Application.Services
                 await _unitOfWork.Role.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                var actions = (await _unitOfWork.Action.GetAllAsync())
-                                    .Where(x => x.Status == true).ToList();
+                var actions = (await _unitOfWork.Action.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(x => x.Status == true)
+                    .ToListAsync());
 
-                var modules = (await _unitOfWork.Module.GetAllAsync())
-                                    .Where(x => x.Status == true && x.Id != 1).ToList();
+                var modules = (await _unitOfWork.Module.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(x => x.Status == true && x.Id != 1)
+                    .ToListAsync());
 
                 var permissions = new List<PermissionEntity>();
 
@@ -212,31 +222,34 @@ namespace Application.Services
                     return response;
                 }
 
-                var isValid = await _unitOfWork.Role.GetByIdAsync(roleId);
+                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
-                if (isValid is null)
+                if (role is null)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
-                var role = RoleMapp.RolesMapping(requestDto);
-                role.Id = roleId;
+                role.RoleName = requestDto.RoleName;
                 role.AuditUpdateUser = authenticatedUserId;
                 role.AuditUpdateDate = DateTime.Now;
 
-                response.Data = await _unitOfWork.Role.EditAsync(role);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_UPDATE;
                 }
                 else
                 {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_FAILED;
+                    response.IsSuccess = true;
+                    response.Data = false;
+                    response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
                 }
             }
             catch (Exception ex)
@@ -254,7 +267,9 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsync(roleId);
+                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (role is null)
                 {
@@ -267,17 +282,19 @@ namespace Application.Services
                 role.AuditUpdateDate = DateTime.Now;
                 role.Status = true;
 
-                response.Data = await _unitOfWork.Role.UpdateAsync(role);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
+                    response.Data = true;
                     response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_FAILED;
+                    response.IsSuccess = true;
+                    response.Data = false;
+                    response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
                 }
             }
             catch (Exception ex)
@@ -295,7 +312,9 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsync(roleId);
+                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (role is null)
                 {
@@ -308,17 +327,19 @@ namespace Application.Services
                 role.AuditUpdateDate = DateTime.Now;
                 role.Status = false;
 
-                response.Data = await _unitOfWork.Role.UpdateAsync(role);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_FAILED;
+                    response.IsSuccess = true;
+                    response.Data = false;
+                    response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
                 }
             }
             catch (Exception ex)
@@ -336,7 +357,9 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsync(roleId);
+                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
+                    .AsTracking()
+                    .FirstOrDefaultAsync();
 
                 if (role is null)
                 {
@@ -349,17 +372,19 @@ namespace Application.Services
                 role.AuditDeleteDate = DateTime.Now;
                 role.Status = false;
 
-                response.Data = await _unitOfWork.Role.RemoveAsync(role);
+                var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
-                if (response.Data)
+                if (recordsAffected > 0)
                 {
                     response.IsSuccess = true;
-                    response.Message = ReplyMessage.MESSAGE_DELETE;
+                    response.Data = true;
+                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
                 }
                 else
                 {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_FAILED;
+                    response.IsSuccess = true;
+                    response.Data = false;
+                    response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
                 }
             }
             catch (Exception ex)
