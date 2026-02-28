@@ -85,6 +85,12 @@ namespace Application.Reports
                     header.Cell().Element(InventoryHeaderCellStyle).Text("Material").FontSize(9);
                     header.Cell().Element(InventoryHeaderCellStyle).AlignRight().Text("Precio").FontSize(9);
                     header.Cell().Element(InventoryHeaderCellStyle).AlignRight().Text("Cantidad").FontSize(9);
+
+                    header.Cell()
+                        .ColumnSpan(8)
+                        .BorderBottom(1)
+                        .BorderColor(Colors.Black)
+                        .Height(0);
                 });
 
                 foreach (var item in _inventory)
@@ -105,10 +111,8 @@ namespace Application.Reports
         {
             return container
                 .DefaultTextStyle(x => x.SemiBold())
-                .PaddingVertical(5)
-                .PaddingHorizontal(3)
-                .BorderBottom(1)
-                .BorderColor(Colors.Black);
+                .PaddingVertical(2)
+                .PaddingHorizontal(3);
         }
 
         private IContainer InventoryBodyCellStyle(IContainer container)

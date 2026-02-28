@@ -99,10 +99,16 @@ namespace Infrastructure.FilePdf
                     foreach (var column in _columns)
                     {
                         var cell = header.Cell().Element(HeaderCellStyle);
-
                         cell = ApplyAlignment(cell, column.Alignment);
                         cell.Text(column.Label ?? "").FontSize(9);
                     }
+
+                    // Línea inferior que ocupa todo el ancho
+                    header.Cell()
+                        .ColumnSpan((uint)_columns.Count)
+                        .BorderBottom(1)
+                        .BorderColor(Colors.Black)
+                        .Height(0);
                 });
 
                 // Filas de datos
@@ -136,10 +142,8 @@ namespace Infrastructure.FilePdf
         {
             return container
                 .DefaultTextStyle(x => x.SemiBold())
-                .PaddingVertical(5)
-                .PaddingHorizontal(3)
-                .BorderBottom(1)
-                .BorderColor(Colors.Black);
+                .PaddingVertical(2)
+                .PaddingHorizontal(3);
         }
 
         protected override IContainer BodyCellStyle(IContainer container)

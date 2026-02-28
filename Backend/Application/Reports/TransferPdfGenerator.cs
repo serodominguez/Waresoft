@@ -135,7 +135,7 @@ namespace Application.Reports
 
         private void ComposeContent(IContainer container)
         {
-            container.PaddingVertical(40).Column(column =>
+            container.PaddingVertical(15).Column(column =>
             {
                 column.Item().Element(ComposeTable);
 
@@ -148,7 +148,7 @@ namespace Application.Reports
                     text.Span($"{FormatCurrency(_transfer.TotalAmount)}").Bold();
                 });
 
-                column.Item().PaddingTop(25).Element(container =>
+                column.Item().PaddingTop(10).Element(container =>
                     ComposeObservationsWithSingleSignature(container, _transfer.Annotations ?? string.Empty, "Responsable:"));
             });
         }
@@ -164,9 +164,9 @@ namespace Application.Reports
                     colums.RelativeColumn(4);
                     colums.RelativeColumn(3);
                     colums.RelativeColumn(3);
+                    colums.RelativeColumn(2);
                     colums.RelativeColumn((float)1.5);
-                    colums.RelativeColumn((float)1.5);
-                    colums.RelativeColumn((float)1.5);
+                    colums.RelativeColumn(2);
                 });
 
                 table.Header(header =>
@@ -179,6 +179,12 @@ namespace Application.Reports
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Cantidad").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Precio").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Subtotal").FontSize(10);
+
+                    header.Cell()
+                        .ColumnSpan(8)
+                        .BorderBottom(1)
+                        .BorderColor(Colors.Black)
+                        .Height(0);
                 });
 
                 foreach (var item in _transfer.TransferDetails)
