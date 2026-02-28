@@ -25,7 +25,6 @@ class TransferService extends BaseService<Transfer> {
   }
 
   async disable(transferId: number): Promise<BaseResponse<void>> {
-    console.log("hola");
     const response = await axios.put<BaseResponse<void>>(`api/Transfer/Disable/${transferId}`, {});
     return response.data;
   }

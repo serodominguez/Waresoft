@@ -290,8 +290,8 @@ namespace Application.Services
                     return response;
                 }
 
-                user.AuditCreateUser = authenticatedUserId;
-                user.AuditCreateDate = DateTime.Now;
+                user.AuditUpdateUser = authenticatedUserId;
+                user.AuditUpdateDate = DateTime.Now;
                 user.Status = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
@@ -337,7 +337,7 @@ namespace Application.Services
 
                 user.AuditUpdateUser = authenticatedUserId;
                 user.AuditUpdateDate = DateTime.Now;
-                user.Status = true;
+                user.Status = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

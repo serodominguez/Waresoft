@@ -44,7 +44,6 @@ namespace Application.Services
 
                 var existingPermissions = await _unitOfWork.Permission
                     .GetByIdsAsQueryable(permissionsDto.Select(p => p.IdPermission).ToList())
-                    .AsNoTracking()
                     .ToListAsync();
 
                 var permissionsDict = existingPermissions.ToDictionary(p => p.Id);

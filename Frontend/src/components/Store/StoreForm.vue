@@ -98,7 +98,7 @@ const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
 const localStore = ref<Store>({ ...props.store } as Store);
-const types = ref(['Casa Matriz', 'Sucursal', 'Almacén']);
+const types = ref(['Casa Matriz', 'Centro Optico', 'Almacén']);
 
 const rules = {
   required: (value: string) => !!value || 'Este campo es requerido.',
@@ -144,13 +144,20 @@ const saveStore = async () => {
     const isEditing = !!localStore.value.idStore;
     let result;
 
+    const storeData = {
+      ...localStore.value,
+      phoneNumber: localStore.value.phoneNumber 
+        ? localStore.value.phoneNumber 
+        : null
+    };
+
     if (isEditing && localStore.value.idStore !== null) {
       result = await storeStore.editStore(
         localStore.value.idStore,
-        { ...localStore.value }
+        storeData
       );
     } else {
-      result = await storeStore.registerStore({ ...localStore.value });
+      result = await storeStore.registerStore(storeData);
     }
 
     if (result.isSuccess) {

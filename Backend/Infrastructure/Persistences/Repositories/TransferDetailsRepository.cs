@@ -18,31 +18,34 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<TransferDetailsEntity> GetTransferDetailsQueryable(int transferId)
         {
             return _context.TransferDetails
-                    .Where(d => d.IdTransfer == transferId)
-                    .OrderBy(d => d.Item)
-                    .Select(d => new TransferDetailsEntity
+                    .Where(t => t.IdTransfer == transferId)
+                    .OrderBy(t => t.Item)
+                    .Select(t => new TransferDetailsEntity
                     {
+                        IdTransfer = t.IdTransfer,
+                        Item = t.Item,
+                        IdProduct = t.IdProduct,
                         Product = new ProductEntity
                         {
-                            Id = d.Product.Id,
-                            Code = d.Product.Code,
-                            Description = d.Product.Description,
-                            Material = d.Product.Material,
-                            Color = d.Product.Color,
+                            Id = t.Product.Id,
+                            Code = t.Product.Code,
+                            Description = t.Product.Description,
+                            Material = t.Product.Material,
+                            Color = t.Product.Color,
                             Brand = new BrandEntity
                             {
-                                Id = d.Product.Brand.Id,
-                                BrandName = d.Product.Brand.BrandName
+                                Id = t.Product.Brand.Id,
+                                BrandName = t.Product.Brand.BrandName
                             },
                             Category = new CategoryEntity
                             {
-                                Id = d.Product.Category.Id,
-                                CategoryName = d.Product.Category.CategoryName
+                                Id = t.Product.Category.Id,
+                                CategoryName = t.Product.Category.CategoryName
                             }
                         },
-                        Quantity = d.Quantity,
-                        UnitPrice = d.UnitPrice,
-                        TotalPrice = d.TotalPrice,
+                        Quantity = t.Quantity,
+                        UnitPrice = t.UnitPrice,
+                        TotalPrice = t.TotalPrice,
                     });
         }
 

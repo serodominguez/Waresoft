@@ -131,13 +131,20 @@ const saveCustomer = async () => {
     const isEditing = !!localCustomer.value.idCustomer;
     let result;
 
+    const customerData = {
+      ...localCustomer.value,
+      phoneNumber: localCustomer.value.phoneNumber 
+        ? localCustomer.value.phoneNumber 
+        : null
+    };
+
     if (isEditing && localCustomer.value.idCustomer !== null) {
       result = await customerStore.editCustomer(
         localCustomer.value.idCustomer,
-        { ...localCustomer.value }
+        customerData
       );
     } else {
-      result = await customerStore.registerCustomer({ ...localCustomer.value });
+      result = await customerStore.registerCustomer(customerData);
     }
 
     if (result.isSuccess) {

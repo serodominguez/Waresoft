@@ -30,6 +30,7 @@ namespace Infrastructure.Persistences.Repositories
                     IdRole = u.IdRole,
                     IdStore = u.IdStore,
                     Status = u.Status,
+                    AuditCreateDate = u.AuditCreateDate,
                     Role = new RoleEntity
                     {
                         Id = u.Role.Id,

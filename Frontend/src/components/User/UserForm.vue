@@ -185,21 +185,29 @@ const saveUser = async () => {
     const isEditing = !!localUser.value.idUser;
     let result;
 
+        const userData = {
+      ...localUser.value,
+      phoneNumber: localUser.value.phoneNumber 
+        ? localUser.value.phoneNumber 
+        : null
+    };
+
     if (isEditing && localUser.value.idUser !== null) {
-      if (localUser.value.passwordHash !== oldPassword.value) {
-        localUser.value.updatePassword = true;
-        localUser.value.password = localUser.value.passwordHash;
+      if (userData.passwordHash !== oldPassword.value) {
+        userData.updatePassword = true;
+        userData.password = userData.passwordHash;
       } else {
-        localUser.value.updatePassword = false;
-        localUser.value.password = localUser.value.passwordHash;
+        userData.updatePassword = false;
+        userData.password = userData.passwordHash;
       }
+
       result = await userStore.editUser(
         localUser.value.idUser,
-        { ...localUser.value }
+        userData
       );
     } else {
-      localUser.value.password = localUser.value.passwordHash;
-      result = await userStore.registerUser({ ...localUser.value });
+      userData.password = userData.passwordHash;
+      result = await userStore.registerUser(userData);
     }
 
     if (result.isSuccess) {

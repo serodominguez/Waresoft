@@ -102,7 +102,7 @@ namespace Application.Reports
                     table.Cell().Element(InventoryBodyCellStyle).Text(item.Color ?? "").FontSize(8);
                     table.Cell().Element(InventoryBodyCellStyle).Text(item.Material ?? "").FontSize(8);
                     table.Cell().Element(InventoryBodyCellStyle).AlignRight().Text(FormatCurrency(item.Price)).FontSize(8);
-                    table.Cell().Element(InventoryBodyCellStyle).AlignRight().Text($"{item.StockAvailable}........").FontSize(8);
+                    table.Cell().Element(InventoryBodyCellStyle).AlignRight().Text($"{item.StockAvailable}/........").FontSize(8);
                 }
             });
         }

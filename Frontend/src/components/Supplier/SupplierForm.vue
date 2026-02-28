@@ -127,13 +127,20 @@ const saveSupplier = async () => {
     const isEditing = !!localSupplier.value.idSupplier;
     let result;
 
+    const supplierData = {
+      ...localSupplier.value,
+      phoneNumber: localSupplier.value.phoneNumber 
+        ? localSupplier.value.phoneNumber 
+        : null
+    };
+
     if (isEditing && localSupplier.value.idSupplier !== null) {
       result = await supplierStore.editSupplier(
         localSupplier.value.idSupplier,
-        { ...localSupplier.value }
+        supplierData
       );
     } else {
-      result = await supplierStore.registerSupplier({ ...localSupplier.value });
+      result = await supplierStore.registerSupplier(supplierData);
     }
 
     if (result.isSuccess) {
