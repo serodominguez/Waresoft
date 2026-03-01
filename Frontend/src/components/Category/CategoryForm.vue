@@ -60,7 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'saved': [category: Category];
+  'saved': [];
 }>();
 
 const categoryStore = useCategoryStore();
@@ -130,7 +130,7 @@ const saveCategory = async () => {
         : 'Categoría registrada con éxito!';
 
       toast.success(successMsg);
-      emit('saved', { ...localCategory.value });
+      emit('saved');
       close();
     }
 

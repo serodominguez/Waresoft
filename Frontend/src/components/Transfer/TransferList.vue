@@ -21,7 +21,7 @@
             </td>
             <td class="text-center">
               <template v-if="canRead">
-                <v-btn icon="preview" variant="text" @click="$emit('view-transfer', item)" size="small" title="Ver">
+                <v-btn icon="preview" variant="text" color="indigo" @click="$emit('view-transfer', item)" size="small" title="Visualizar">
                 </v-btn>
               </template>
               <template v-if="canRead && (item as Transfer).statusTransfer != 'Cancelado'">
@@ -29,7 +29,7 @@
                 </v-btn>
               </template>
               <template v-if="canDelete && !['Cancelado', 'Recibido'].includes((item as Transfer).statusTransfer)">
-                <v-btn icon="cancel" variant="text" @click="$emit('open-modal', { transfer: item, action: 3 })"
+                <v-btn icon="cancel" color="red" variant="text" @click="$emit('open-modal', { transfer: item, action: 3 })"
                   size="small" title="Cancelar">
                 </v-btn>
               </template>
@@ -40,14 +40,14 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Traspasos</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" color="red" @click="handleDownloadPdf" :loading="downloadingPdf"
               title="Descargar PDF">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
-            <v-btn v-if="canRead" icon="refresh" @click="handleSearch" title="Actualizar"></v-btn>
+            <v-btn v-if="canRead" icon="refresh" color="blue-grey" @click="handleSearch" title="Actualizar"></v-btn>
             <v-btn v-if="canRead" icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Agregar"></v-btn>
+            <v-btn v-if="canCreate" icon="add_box" color="blue-darken-1" @click="$emit('open-form')" title="Agregar"></v-btn>
             <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
               <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
                 hide-details single-line v-model="search" @click:append-inner="handleSearch()"
@@ -172,7 +172,7 @@ const getStatusColor = (status: string): string => {
   const statusLower = status.toLowerCase();
 
   if (statusLower === 'enviado') {
-    return 'blue';
+    return 'blue-darken-2';
   } else if (statusLower === 'pendiente') {
     return 'yellow';
   } else if (statusLower === 'recibido') {

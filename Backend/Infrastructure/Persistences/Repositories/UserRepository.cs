@@ -39,7 +39,8 @@ namespace Infrastructure.Persistences.Repositories
                     Store = new StoreEntity
                     {
                         Id = u.Store.Id,
-                        StoreName = u.Store.StoreName
+                        StoreName = u.Store.StoreName,
+                        Type = u.Store.Type
                     }
                 });
         }

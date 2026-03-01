@@ -62,7 +62,7 @@ const props = withDefaults(defineProps<Props>(), {
 // Definir emits
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'saved': [brand: Brand];
+  'saved': [];
 }>();
 
 // Inicialización de servicios
@@ -143,7 +143,7 @@ const saveBrand = async () => {
         : 'Marca agregada con éxito!';
 
       toast.success(successMsg);
-      emit('saved', { ...localBrand.value });
+      emit('saved');
       close();
     }
 

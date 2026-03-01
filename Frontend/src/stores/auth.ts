@@ -14,6 +14,7 @@ interface JwtPayload {
   userName: string
   role: string
   storeName: string
+  storeType: string
   storeId: string
   nbf: number
   exp: number
@@ -27,6 +28,7 @@ interface CurrentUser {
   role: string
   storeId: number
   storeName: string
+  storeType: string
   permissions: UserPermission[]
 }
 
@@ -45,6 +47,7 @@ const createUserFromToken = (
   userName: decoded.userName,
   role: decoded.role,
   storeId: parseInt(decoded.storeId, 10),
+  storeType: decoded.storeType,
   storeName: decoded.storeName,
   permissions,
 })

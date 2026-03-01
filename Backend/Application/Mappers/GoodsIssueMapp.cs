@@ -61,6 +61,7 @@ namespace Application.Mappers
                 UserName = entity.User.Names.ToSentenceCase() + " " + entity.User.LastNames.ToSentenceCase(),
                 IdStore = entity.IdStore,
                 StoreName = entity.Store.StoreName.ToTitleCase(),
+                StoreType = entity.Store.Type.ToSentenceCase(),
                 AuditCreateUser = entity.AuditCreateUser,
                 AuditCreateName = userName.ToTitleCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,

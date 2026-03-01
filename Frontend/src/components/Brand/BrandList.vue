@@ -11,20 +11,20 @@
             <td>{{ (item as Brand).auditCreateDate }}</td>
             <td>{{ (item as Brand).statusBrand }}</td>
             <td class="text-center">
-              <v-btn v-if="canEdit && (item as Brand).statusBrand == 'Activo'" icon="edit" variant="text"
+              <v-btn v-if="canEdit && (item as Brand).statusBrand == 'Activo'" icon="edit" color="indigo" variant="text"
                 @click="$emit('edit-brand', item)" size="small" title="Editar">
               </v-btn>
               <template v-if="canEdit && (item as Brand).statusBrand == 'Inactivo'">
-                <v-btn icon="check" variant="text" @click="$emit('open-modal', { brand: item, action: 1 })" size="small"
-                  title="Activar">
+                <v-btn icon="check" color="green" variant="text"
+                  @click="$emit('open-modal', { brand: item, action: 1 })" size="small" title="Activar">
                 </v-btn>
               </template>
               <template v-if="canEdit && (item as Brand).statusBrand == 'Activo'">
-                <v-btn icon="block" variant="text" @click="$emit('open-modal', { brand: item, action: 2 })" size="small"
-                  title="Inactivar">
+                <v-btn icon="block" color="red" variant="text" @click="$emit('open-modal', { brand: item, action: 2 })"
+                  size="small" title="Inactivar">
                 </v-btn>
               </template>
-              <v-btn v-if="canDelete" icon="delete" variant="text"
+              <v-btn v-if="canDelete" icon="delete" color="blue-grey" variant="text"
                 @click="$emit('open-modal', { brand: item, action: 0 })" size="small" title="Eliminar">
               </v-btn>
             </td>
@@ -34,19 +34,18 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Marcas</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
-              title="Descargar PDF">
+            <v-btn v-if="canDownload" icon="picture_as_pdf" color="red" @click="handleDownloadPdf"
+              :loading="downloadingPdf" title="Descargar PDF">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
+            <v-btn v-if="canCreate" icon="add_box" color="purple-darken-1" @click="$emit('open-form')"
+              title="Agregar"></v-btn>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Agregar"></v-btn>
-            <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
-              <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
-                hide-details single-line v-model="search" @click:append-inner="handleSearch()"
-                @keyup.enter="handleSearch()">
-              </v-text-field>
-            </v-col>
+            <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
+              hide-details single-line v-model="search" class="mr-4" style="width: 100%; max-width: 300px;"
+              @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
+            </v-text-field>
           </v-toolbar>
         </template>
         <template v-slot:no-data>

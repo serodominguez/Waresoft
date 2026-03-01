@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="fill-height">
+  <v-container fluid style="min-height: 80vh; display: flex; align-items: center;">
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6" lg="5" xl="4">
         <v-card :loading="loading">

@@ -44,10 +44,7 @@ namespace Application.Reports
                     text.Span("Salida de Productos").Style(titleStyle);
                 });
 
-                column.Item().AlignCenter().Text(text =>
-                {
-                    text.Span(_issue.StoreName).Style(titleStyle); ;
-                });
+                column.Item().AlignCenter().Text($"{_issue.StoreType} {_issue.StoreName}").Style(titleStyle);
 
                 column.Item().PaddingTop(15);
 

@@ -171,10 +171,9 @@ const router = createRouter({
   routes
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
   const authStore = useAuthStore()
 
-  // Esperar a que la autenticación esté inicializada
   if (!authStore.authInitialized) {
     await authStore.initializeAuth()
   }
@@ -184,45 +183,37 @@ router.beforeEach(async (to, from, next) => {
   // Rutas libres
   if (to.matched.some(record => record.meta.free)) {
     if (currentUser && to.name === 'login') {
-      next({ name: 'home' })
-      return
+      return { name: 'home' }
     }
-    next()
-    return
+    return true
   }
 
   // Verificar autenticación
   if (!currentUser) {
-    next({ name: 'login' })
-    return
+    return { name: 'login' }
   }
 
   // Rutas que requieren autenticación pero no permisos específicos
   if (to.matched.some(record => record.meta.requiresAuth && !record.meta.module)) {
-    next()
-    return
+    return true
   }
 
   // Verificar permisos del módulo
   const routeWithModule = to.matched.find(record => record.meta.module)
-  
+
   if (routeWithModule && routeWithModule.meta.module) {
     const module = routeWithModule.meta.module
     const normalizedRouteModule = normalize(module)
-    
+
     const hasModuleAccess = currentUser.permissions.some(
-      (p: { module: string; action: string }) => 
+      (p: { module: string; action: string }) =>
         normalize(p.module) === normalizedRouteModule
     )
-    
-    if (hasModuleAccess) {
-      next()
-    } else {
-      next({ name: 'home' })
-    }
-  } else {
-    next()
+
+    return hasModuleAccess ? true : { name: 'home' }
   }
-});
+
+  return true
+})
 
 export default router

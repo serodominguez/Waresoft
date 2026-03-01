@@ -18,7 +18,7 @@
             </td>
             <td class="text-center">
               <template v-if="canRead">
-                <v-btn icon="preview" variant="text" @click="$emit('view-goodsissue', item)" size="small" title="Ver">
+                <v-btn icon="preview" color="indigo" variant="text" @click="$emit('view-goodsissue', item)" size="small" title="Ver">
                 </v-btn>
               </template>
               <template v-if="canRead && (item as GoodsIssue).statusIssue == 'Completado'">
@@ -26,7 +26,7 @@
                 </v-btn>
               </template>
               <template v-if="canDelete && (item as GoodsIssue).statusIssue != 'Cancelado'">
-                <v-btn icon="cancel" variant="text" @click="$emit('open-modal', { goodsissue: item, action: 3 })"
+                <v-btn icon="cancel" color="red" variant="text" @click="$emit('open-modal', { goodsissue: item, action: 3 })"
                   size="small" title="Cancelar">
                 </v-btn>
               </template>
@@ -37,13 +37,13 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Salidas</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" color="red" @click="handleDownloadPdf" :loading="downloadingPdf"
               title="Descargar PDF">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn v-if="canRead" icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-btn v-if="canCreate" icon="add_box" @click="$emit('open-form')" title="Agregar"></v-btn>
+            <v-btn v-if="canCreate" icon="add_box" color="blue-darken-1" @click="$emit('open-form')" title="Agregar"></v-btn>
             <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
               <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
                 hide-details single-line v-model="search" @click:append-inner="handleSearch()"

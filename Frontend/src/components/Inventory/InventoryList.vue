@@ -29,7 +29,7 @@
                 {{ (item as Inventory).replenishment }}
               </v-chip></td>
             <td class="text-center">
-              <v-btn v-if="canEdit" icon="currency_exchange" variant="text" @click="$emit('edit-inventory', item)"
+              <v-btn v-if="canEdit" icon="currency_exchange" color="amber-darken-2" variant="text" @click="$emit('edit-inventory', item)"
                 size="small" title="Editar">
               </v-btn>
             </td>
@@ -39,12 +39,12 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Inventario</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-document" @click="handleDownloadInventorySheet"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-document" color="blue-darken-3" @click="handleDownloadInventorySheet"
               :loading="downloadingSheet" title="Descargar Planilla">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" @click="handleDownloadPdf" :loading="downloadingPdf"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" color="red" @click="handleDownloadPdf" :loading="downloadingPdf"
               title="Descargar Pdf"></v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
             <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">

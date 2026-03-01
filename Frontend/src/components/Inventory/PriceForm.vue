@@ -84,14 +84,15 @@ const props = withDefaults(defineProps<Props>(), {
     price: null,
     replenishment: '',
     brandName: '',
-    categoryName: ''
+    categoryName: '',
+    auditCreateDate: ''
   })
 });
 
 // Emits
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'saved': [inventory: Inventory];
+  'saved': [];
 }>();
 
 // Servicios
@@ -166,7 +167,7 @@ const savePrice = async () => {
 
     if (result.isSuccess) {
       toast.success('Precio actualizado con éxito!');
-      emit('saved', { ...localInventory });
+      emit('saved');
       close();
     }
   } catch (error: any) {

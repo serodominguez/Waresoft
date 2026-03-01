@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Utilities.Extensions;
 
 namespace Application.Security
 {
@@ -31,7 +32,8 @@ namespace Application.Security
                 new Claim("userId",user.Id.ToString()),
                 new Claim("userName", user.UserName!),
                 new Claim("role", user.Role.RoleName!),
-                new Claim("storeName", user.Store!.StoreName!),
+                new Claim("storeName", user.Store!.StoreName!.ToSentenceCase()!),
+                new Claim("storeType", user.Store!.Type!.ToSentenceCase()!),
                 new Claim("storeId", user.IdStore.ToString())
             };
 

@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'saved': [role: Role];
+  'saved': [];
 }>();
 
 const roleStore = useRoleStore();
@@ -125,7 +125,7 @@ const saveRole = async () => {
         : 'Rol agregado con éxito!';
 
       toast.success(successMsg);
-      emit('saved', { ...localRole.value });
+      emit('saved');
       close();
     }
 

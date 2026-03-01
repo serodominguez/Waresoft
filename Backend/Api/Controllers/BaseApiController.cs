@@ -83,7 +83,20 @@ namespace Api.Controllers
                 return storeName;
             }
         }
+        protected string AuthenticatedUserStoreType
+        {
+            get
+            {
+                var storeType = User.FindFirst("storeType")?.Value;
 
+                if (string.IsNullOrEmpty(storeType))
+                {
+                    throw new UnauthorizedAccessException("Store type no encontrado en el token");
+                }
+
+                return storeType;
+            }
+        }
 
         // Verifica si el usuario autenticado tiene un rol específico
         protected bool HasRole(string role)

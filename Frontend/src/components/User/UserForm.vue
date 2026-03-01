@@ -107,7 +107,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'saved': [user: User];
+  'saved': [];
 }>();
 
 const userStore = useUserStore();
@@ -216,7 +216,7 @@ const saveUser = async () => {
         : 'Usuario agregado con éxito!';
 
       toast.success(successMsg);
-      emit('saved', { ...localUser.value });
+      emit('saved');
       close();
     }
 

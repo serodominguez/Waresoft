@@ -45,10 +45,7 @@ namespace Application.Reports
                     text.Span("Entrada de Productos ").Style(titleStyle);
                 });
 
-                column.Item().AlignCenter().Text(text =>
-                {
-                    text.Span(_receipt.StoreName).Style(titleStyle);
-                });
+                column.Item().AlignCenter().Text($"{_receipt.StoreType} {_receipt.StoreName}").Style(titleStyle);
 
                 column.Item().PaddingTop(15);
 

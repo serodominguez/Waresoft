@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'saved': [module: Module];
+  'saved': [];
 }>();
 
 const moduleStore = useModuleStore();
@@ -126,7 +126,7 @@ const saveModule = async () => {
         : 'Módulo agregado con éxito!';
 
       toast.success(successMsg);
-      emit('saved', { ...localModule.value });
+      emit('saved');
       close();
     }
 

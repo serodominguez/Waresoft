@@ -71,7 +71,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'saved': [supplier: Supplier];
+  'saved': [];
 }>();
 
 const supplierStore = useSupplierStore();
@@ -149,7 +149,7 @@ const saveSupplier = async () => {
         : 'Proveedor agregado con éxito!';
 
       toast.success(successMsg);
-      emit('saved', { ...localSupplier.value });
+      emit('saved');
       close();
     }
 

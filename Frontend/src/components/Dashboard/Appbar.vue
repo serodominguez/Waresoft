@@ -2,12 +2,12 @@
   <nav>
     <v-app-bar class="app-bar-custom" dark app>
       <v-app-bar-nav-icon v-if="currentUser" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title v-if="currentUser" class="text-uppercase">
+      <v-toolbar-title v-if="currentUser">
         <span class="font-weight-light"></span>
-        <span style="font-size: 70%"><strong>{{ currentUser.storeName }} </strong></span>
+        <span style="font-size: 70%"><strong>{{ currentUser.storeType+": "+currentUser.storeName }} </strong></span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <span v-if="currentUser" style="font-size: 90%; margin-right: 10px;"><strong> Usuario:  {{ currentUser.userName}}</strong></span>
+      <span v-if="currentUser" style="font-size: 90%; margin-right: 10px;"><strong> Usuario: {{ currentUser.userName}}</strong></span>
       <v-btn v-if="currentUser" @click="logout" icon="logout"></v-btn>
     </v-app-bar>
   </nav>

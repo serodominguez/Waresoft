@@ -38,7 +38,7 @@ namespace Api.Controllers
                         response.Data!,
                         columnNames,
                         "Reporte de Traspasos",
-                        AuthenticatedUserStoreName?.ToTitleCase() ?? ""
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
                     return File(fileBytes, "application/pdf", $"Traspasos_{DateTime.Now:yyyyMMdd}.pdf");
                 }
@@ -49,7 +49,7 @@ namespace Api.Controllers
                         response!.Data!,
                         columnNames,
                         "Reporte de Traspasos",
-                        AuthenticatedUserStoreName?.ToTitleCase() ?? ""
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
                     return File(fileBytes, ContentType.ContentTypeExcel);
                 }
