@@ -22,16 +22,14 @@
             <v-toolbar-title>Consolidado de existencias</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
-              <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
-                hide-details single-line v-model="search" @click:append-inner="handleSearch()"
-                @keyup.enter="handleSearch()">
-              </v-text-field>
-            </v-col>
+            <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
+              hide-details single-line v-model="search" class="mr-4" style="width: 100%; max-width: 300px;"
+              @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
+            </v-text-field>
           </v-toolbar>
         </template>
         <template v-slot:no-data>
-          <v-btn color="indigo" @click="$emit('fetch-stock')">Reset</v-btn>
+          <span class="text-grey">No se encontraron resultados</span>
         </template>
       </v-data-table-server>
     </v-card>

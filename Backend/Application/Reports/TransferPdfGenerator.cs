@@ -1,4 +1,5 @@
 ﻿using Application.Dtos.Response.Transfer;
+using DocumentFormat.OpenXml.Bibliography;
 using Infrastructure.FilePdf;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -9,10 +10,14 @@ namespace Application.Reports
     public class TransferPdfGenerator : BasePdfGenerator
     {
         private readonly TransferWithDetailsResponseDto _transfer;
+        private readonly string _storeType;
+        private readonly string _storeName;
 
-        public TransferPdfGenerator(TransferWithDetailsResponseDto transfer)
+        public TransferPdfGenerator(TransferWithDetailsResponseDto transfer, string? storeType = null, string? storeName = null)
         {
             _transfer = transfer;
+            _storeType = storeType ?? string.Empty;
+            _storeName = storeName ?? string.Empty;
         }
 
         public override byte[] GeneratePdf()
@@ -45,12 +50,7 @@ namespace Application.Reports
                     text.Span("Traspaso de Productos").Style(titleStyle);
                 });
 
-                column.Item().AlignCenter().Text(text =>
-                {
-                    text.Span("Sucursal: ").Style(titleStyle);
-                    text.Span(_transfer.StoreOrigin).Style(titleStyle);
-
-                });
+                column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(titleStyle);
 
                 column.Item().PaddingTop(15);
 

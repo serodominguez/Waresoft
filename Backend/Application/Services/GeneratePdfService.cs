@@ -21,21 +21,21 @@ namespace Application.Services
             _listPdfFactory = listPdfFactory;
         }
 
-        public byte[] GoodsIssueGeneratePdf(GoodsIssueWithDetailsResponseDto issue)
+        public byte[] GoodsIssueGeneratePdf(GoodsIssueWithDetailsResponseDto issue, string storeType, string storeName)
         {
-            var generator = new GoodsIssuePdfGenerator(issue);
+            var generator = new GoodsIssuePdfGenerator(issue, storeType, storeName);
             return generator.GeneratePdf();
         }
 
-        public byte[] GoodsReceiptGeneratePdf(GoodsReceiptWithDetailsResponseDto receipt)
+        public byte[] GoodsReceiptGeneratePdf(GoodsReceiptWithDetailsResponseDto receipt, string storeType, string storeName)
         {
-            var generator = new GoodsReceiptPdfGenerator(receipt);
+            var generator = new GoodsReceiptPdfGenerator(receipt, storeType, storeName);
             return generator.GeneratePdf();
         }
 
-        public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer)
+        public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName)
         {
-            var generator = new TransferPdfGenerator(transfer);
+            var generator = new TransferPdfGenerator(transfer, storeType, storeName);
             return generator.GeneratePdf();
         }
 

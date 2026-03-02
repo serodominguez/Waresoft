@@ -90,7 +90,9 @@ namespace Api.Controllers
         public async Task<IActionResult> ExportPdfGoodsReceipt(int receiptId)
         {
             var response = await _goodsReceiptService.GoodsReceiptById(receiptId);
-            var fileBytes = _generatePdfService.GoodsReceiptGeneratePdf(response.Data!);
+            var fileBytes = _generatePdfService.GoodsReceiptGeneratePdf(response.Data!,                
+                AuthenticatedUserStoreType.ToTitleCase() ?? "",
+                AuthenticatedUserStoreName.ToTitleCase() ?? "");
 
             var fileName = $"Entrada_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             return File(fileBytes, "application/pdf", fileName);

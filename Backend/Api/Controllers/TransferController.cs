@@ -96,7 +96,9 @@ namespace Api.Controllers
         public async Task<IActionResult> ExportPdfTransfer(int transferId)
         {
             var response = await _transferService.TransferById(AuthenticatedUserId, transferId);
-            var fileBytes = _generatePdfService.TransferGeneratePdf(response.Data!);
+            var fileBytes = _generatePdfService.TransferGeneratePdf(response.Data!,
+                    AuthenticatedUserStoreType.ToTitleCase() ?? "",
+                    AuthenticatedUserStoreName.ToTitleCase() ?? "");
 
             var fileName = $"Traspaso_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             return File(fileBytes, "application/pdf", fileName);

@@ -29,8 +29,8 @@
                 {{ (item as Inventory).replenishment }}
               </v-chip></td>
             <td class="text-center">
-              <v-btn v-if="canEdit" icon="currency_exchange" color="amber-darken-2" variant="text" @click="$emit('edit-inventory', item)"
-                size="small" title="Editar">
+              <v-btn v-if="canEdit" icon="currency_exchange" color="amber-darken-2" variant="text"
+                @click="$emit('edit-inventory', item)" size="small" title="Editar">
               </v-btn>
             </td>
           </tr>
@@ -39,24 +39,22 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Inventario</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-document" color="blue-darken-3" @click="handleDownloadInventorySheet"
+            <v-btn v-if="canDownload" icon="file_copy" color="blue-darken-3" @click="handleDownloadInventorySheet"
               :loading="downloadingSheet" title="Descargar Planilla">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" color="red" @click="handleDownloadPdf" :loading="downloadingPdf"
-              title="Descargar Pdf"></v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" color="green" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="picture_as_pdf" color="red" @click="handleDownloadPdf"
+              :loading="downloadingPdf" title="Descargar Pdf"></v-btn>
+            <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-col cols="4" md="3" lg="3" xl="3" class="pa-1">
-              <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
-                hide-details single-line v-model="search" @click:append-inner="handleSearch()"
-                @keyup.enter="handleSearch()">
-              </v-text-field>
-            </v-col>
+            <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
+              hide-details single-line v-model="search" class="mr-4" style="width: 100%; max-width: 300px;"
+              @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
+            </v-text-field>
           </v-toolbar>
         </template>
         <template v-slot:no-data>
-          <v-btn color="indigo" @click="$emit('fetch-inventories')"> Reset </v-btn>
+          <span class="text-grey">No se encontraron resultados</span>
         </template>
       </v-data-table-server>
     </v-card>

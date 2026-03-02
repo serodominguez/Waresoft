@@ -236,6 +236,23 @@ namespace Application.Services
                     })
                     .ToList();
 
+                //Aplicar filtro de fechas DESPUÉS de ordenar
+                if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
+                {
+                    var startDate = Convert.ToDateTime(filters.StartDate).Date;
+                    var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
+
+                    movements = movements
+                        .Where(m => {
+                            if (DateTime.TryParseExact(m.Date, "dd/MM/yyyy HH:mm",
+                                System.Globalization.CultureInfo.InvariantCulture,
+                                System.Globalization.DateTimeStyles.None, out DateTime date))
+                                return date >= startDate && date < endDate;
+                            return false;
+                        })
+                        .ToList();
+                }
+
                 // Calcular stock acumulado ANTES de paginar (importante para mantener consistencia)
                 int runningStock = 0;
                 foreach (var movement in movements)

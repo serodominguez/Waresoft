@@ -35,14 +35,14 @@
           <v-toolbar>
             <v-toolbar-title>Gestión de Categorías</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-pdf-box" color="red" @click="handleDownloadPdf"
+            <v-btn v-if="canDownload" icon="picture_as_pdf" color="red" @click="handleDownloadPdf"
               :loading="downloadingPdf" title="Descargar PDF">
             </v-btn>
-            <v-btn v-if="canDownload" icon="mdi:mdi-file-excel-box" color="green" @click="handleDownloadExcel"
+            <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
-            <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-btn v-if="canCreate" icon="add_box" color="blue-darken-1" @click="$emit('open-form')"
+            <v-btn v-if="canCreate" icon="add_box" color="purple-darken-1" @click="$emit('open-form')"
               title="Agregar"></v-btn>
+            <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
             <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
               hide-details single-line v-model="search" class="mr-4" style="width: 100%; max-width: 300px;"
               @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
@@ -50,7 +50,7 @@
           </v-toolbar>
         </template>
         <template v-slot:no-data>
-          <v-btn color="indigo" @click="$emit('fetch-categories')"> Reset </v-btn>
+          <span class="text-grey">No se encontraron resultados</span>
         </template>
       </v-data-table-server>
     </v-card>

@@ -49,7 +49,7 @@
           </v-toolbar>
         </template>
         <template v-slot:no-data>
-          <v-btn color="indigo" @click="$emit('fetch-brands')"> Reset </v-btn>
+          <span class="text-grey">No se encontraron resultados</span>
         </template>
       </v-data-table-server>
     </v-card>

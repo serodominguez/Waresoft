@@ -9,10 +9,14 @@ namespace Application.Reports
     public class GoodsIssuePdfGenerator : BasePdfGenerator
     {
         private readonly GoodsIssueWithDetailsResponseDto _issue;
+        private readonly string _storeType;
+        private readonly string _storeName;
 
-        public GoodsIssuePdfGenerator(GoodsIssueWithDetailsResponseDto issue)
+        public GoodsIssuePdfGenerator(GoodsIssueWithDetailsResponseDto issue, string? storeType = null, string? storeName = null)
         {
             _issue = issue;
+            _storeType = storeType ?? string.Empty;
+            _storeName = storeName ?? string.Empty;
         }
         public override byte[] GeneratePdf()
         {
@@ -44,7 +48,7 @@ namespace Application.Reports
                     text.Span("Salida de Productos").Style(titleStyle);
                 });
 
-                column.Item().AlignCenter().Text($"{_issue.StoreType} {_issue.StoreName}").Style(titleStyle);
+                column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(titleStyle);
 
                 column.Item().PaddingTop(15);
 

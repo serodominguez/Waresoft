@@ -87,7 +87,9 @@ namespace Api.Controllers
         public async Task<IActionResult> ExportPdfGoodsIssue(int issueId)
         {
             var response = await _goodsIssueService.GoodsIssueById(issueId);
-            var fileBytes = _generatePdfService.GoodsIssueGeneratePdf(response.Data!);
+            var fileBytes = _generatePdfService.GoodsIssueGeneratePdf(response.Data!,
+                AuthenticatedUserStoreType.ToTitleCase() ?? "",
+                AuthenticatedUserStoreName.ToTitleCase() ?? "");
 
             var fileName = $"Salida_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             return File(fileBytes, "application/pdf", fileName);
