@@ -81,6 +81,25 @@ export const useInventoryStore = defineStore('inventory', () => {
     }
   }
 
+  async function downloadInventoryPivotExcel(params?: FilterParams) {
+    try {
+      const filtrosParams = params || lastPivotFilterParams.value || {};
+      const blob = await inventoryService.fetchPivot(filtrosParams, true);
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `ConsolidadoExistencias_${new Date().toISOString().split('T')[0]}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      console.error('Error al descargar Excel Pivot:', err);
+      throw err;
+    }
+  }
+
   async function downloadInventorySheet(params?: FilterParams) {
     try {
       const authStore = useAuthStore();
@@ -125,6 +144,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     fetchInventories,
     fetchInventoryPivot,
     downloadInventoriesExcel,
+    downloadInventoryPivotExcel,
     downloadInventoriesPdf,
     downloadInventorySheet,
     editInventoryPrice,

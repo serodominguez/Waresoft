@@ -1,14 +1,16 @@
 <template>
   <div>
-    <StockList :stores="stores" :rows="rows" :totalRows="totalRows" :loading="loading" :canRead="canRead" :items-per-page="itemsPerPage"
+    <StockList :stores="stores" :rows="rows" :totalRows="totalRows" :loading="loading" :canRead="canRead"
+      :canDownload="canDownload" :downloadingExcel="downloadingExcel" :items-per-page="itemsPerPage"
       v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
       v-model:startDate="startDate" v-model:endDate="endDate" @fetch-stock="fetchStock" @search-stock="searchStock"
-      @update-items-per-page="updateItemsPerPage" @change-page="changePage" />
+      @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
+import { useToast } from 'vue-toastification';
 import { useInventoryStore } from '@/stores/inventoryStore';
 import { useAuthStore } from '@/stores/auth';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
@@ -17,6 +19,7 @@ import StockList from '@/components/Inventory/StockList.vue';
 
 const inventoryStore = useInventoryStore();
 const authStore = useAuthStore();
+const toast = useToast();
 
 const filterMap: Record<string, number> = {
   'Código': 1,
@@ -33,6 +36,7 @@ const currentPage = ref(1);
 const itemsPerPage = ref(10);
 const search = ref<string | null>(null);
 const drawer = ref(false);
+const downloadingExcel = ref(false);
 
 const loading = computed(() => inventoryStore.loading);
 const totalRows = computed(() => inventoryStore.totalRows);
@@ -40,6 +44,7 @@ const stores = computed(() => inventoryStore.inventoryPivot?.stores ?? []);
 const rows = computed(() => inventoryStore.inventoryPivot?.rows ?? []);
 
 const canRead = computed((): boolean => authStore.hasPermission('inventario', 'leer'));
+const canDownload = computed(() => authStore.hasPermission('inventario', 'descargar'));
 
 const fetchStock = async (params?: any) => {
   try {
@@ -85,6 +90,24 @@ const refreshStock = () => {
     });
   } else {
     fetchStock();
+  }
+};
+
+const downloadExcel = async (params: any) => {
+  downloadingExcel.value = true;
+  try {
+    await inventoryStore.downloadInventoryPivotExcel({
+      pageNumber: currentPage.value,
+      pageSize: itemsPerPage.value,
+      sort: 'IdProduct',
+      order: 'asc',
+      ...getFilterParams(params.search)
+    });
+    toast.success('Archivo descargado correctamente');
+  } catch (error) {
+    handleApiError(error, 'Error al descargar el archivo Excel');
+  } finally {
+    downloadingExcel.value = false;
   }
 };
 

@@ -62,6 +62,18 @@ namespace Api.Controllers
         public async Task<IActionResult> ListInventoryPivot([FromQuery] BaseFiltersRequest filters)
         {
             var response = await _storeInventoryService.ListInventoryPivot(filters);
+
+            if ((bool)filters.Download!)
+            {
+                var fileBytes = _generateExcelService.GeneratePivotInventoryToExcel(
+                    response.Data!,
+                    "Reporte de existencias",
+                    subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
+                );
+                //return File(fileBytes, ContentType.ContentTypeExcel, $"InventarioPivot_{DateTime.Now:yyyyMMdd}.xlsx");
+                return File(fileBytes, ContentType.ContentTypeExcel);
+            }
+
             return Ok(response);
         }
 

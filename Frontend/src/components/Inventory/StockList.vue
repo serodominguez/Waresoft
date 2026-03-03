@@ -21,6 +21,9 @@
           <v-toolbar>
             <v-toolbar-title>Consolidado de existencias</v-toolbar-title>
             <v-spacer></v-spacer>
+            <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
+              :loading="downloadingExcel" title="Descargar Excel">
+            </v-btn>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
             <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
               hide-details single-line v-model="search" class="mr-4" style="width: 100%; max-width: 300px;"
@@ -45,7 +48,7 @@ import { InventoryPivotRow } from '@/interfaces/inventoryInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 
-interface Props extends Pick<BaseListProps<InventoryPivotRow>, 'loading' | 'canRead' | 'itemsPerPage' | 'drawer' | 'selectedFilter' | 'state' | 'startDate' | 'endDate'> {
+interface Props extends Pick<BaseListProps<InventoryPivotRow>, 'loading' | 'canRead' | 'canDownload' | 'itemsPerPage' | 'drawer' | 'selectedFilter' | 'state' | 'startDate' | 'endDate' | 'downloadingExcel'> {
   stores: string[];
   rows: InventoryPivotRow[];
   totalRows: number;
@@ -60,6 +63,7 @@ const props = withDefaults(defineProps<Props>(), {
   state: 'Activos',
   startDate: null,
   endDate: null,
+  downloadingExcel: false,
   itemsPerPage: 10
 });
 
@@ -69,6 +73,13 @@ const emit = defineEmits<{
     search: string | null;
     selectedFilter: string;
     state: string;
+    startDate: Date | null;
+    endDate: Date | null;
+  }];
+    'download-excel': [params: {
+    search: string | null;
+    selectedFilter: string;
+    stateFilter: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
@@ -124,6 +135,16 @@ const handleSearch = () => {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
     state: stateModel.value,
+    startDate: startDateModel.value,
+    endDate: endDateModel.value
+  });
+};
+
+const handleDownloadExcel = () => {
+  emit('download-excel', {
+    search: search.value,
+    selectedFilter: selectedFilterModel.value,
+    stateFilter: stateModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });

@@ -76,5 +76,71 @@ namespace Infrastructure.FileExcel
             stream.Position = 0;
             return stream;
         }
+
+        public MemoryStream GenerateToExcel(IEnumerable<Dictionary<string, object?>> data, List<ExcelTableColumn> columns, string? title = null, string? subtitle = null)
+        {
+            var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Listado");
+
+            int startRow = 1;
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                var titleCell = worksheet.Cell(startRow, 1);
+                titleCell.Value = title;
+                titleCell.Style.Font.Bold = true;
+                titleCell.Style.Font.FontSize = 16;
+                titleCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Range(startRow, 1, startRow, columns.Count).Merge();
+                startRow++;
+            }
+
+            if (!string.IsNullOrEmpty(subtitle))
+            {
+                var subtitleCell = worksheet.Cell(startRow, 1);
+                subtitleCell.Value = subtitle;
+                subtitleCell.Style.Font.Bold = true;
+                subtitleCell.Style.Font.FontSize = 12;
+                subtitleCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Range(startRow, 1, startRow, columns.Count).Merge();
+                startRow++;
+            }
+
+            var dateCell = worksheet.Cell(startRow, 1);
+            dateCell.Value = $"Fecha: {DateTime.Now:dd/MM/yyyy, h:mm tt}";
+            dateCell.Style.Font.FontSize = 10;
+            dateCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+            worksheet.Range(startRow, 1, startRow, columns.Count).Merge();
+            startRow++;
+
+            startRow++;
+
+            for (int i = 0; i < columns.Count; i++)
+            {
+                var cell = worksheet.Cell(startRow, i + 1);
+                cell.Value = columns[i].Label;
+                cell.Style.Font.Bold = true;
+            }
+
+            var rowIndex = startRow + 1;
+
+            foreach (var item in data)
+            {
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    // Única diferencia: en vez de reflection, accede al dict por PropertyName
+                    var value = item.TryGetValue(columns[i].PropertyName!, out var val) ? val?.ToString() : null;
+                    worksheet.Cell(rowIndex, i + 1).Value = value;
+                }
+                rowIndex++;
+            }
+
+            worksheet.Columns().AdjustToContents();
+
+            var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+            return stream;
+        }
     }
 }
