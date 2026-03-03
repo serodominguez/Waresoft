@@ -12,7 +12,7 @@
             <td>{{ (item as GoodsIssue).userName }}</td>
             <td>{{ (item as GoodsIssue).auditCreateDate }}</td>
             <td class="text-center">
-              <v-chip :color="getStatusColor((item as GoodsIssue).statusIssue)" variant="flat" size="small">
+              <v-chip :color="stateColor((item as GoodsIssue).statusIssue)" variant="tonal" size="small">
                 {{ (item as GoodsIssue).statusIssue }}
               </v-chip>
             </td>
@@ -161,7 +161,7 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
-const getStatusColor = (status: string): string => {
+const stateColor = (status: string): string => {
   const statusLower = status.toLowerCase();
 
   if (statusLower === 'completado') {

@@ -148,7 +148,8 @@ const linkMovements: Link[] = [
 
 // Enlaces del menú de Consultas
 const linkQueries: Link[] = [
-  { icon: 'assignment', text: 'Consolidado', route: '/consolidado', module: 'inventario' },
+  { icon: 'content_paste_search', text: 'Consolidado', route: '/consolidado', module: 'inventario' },
+  { icon: 'assignment', text: 'Kardex', route: '/kardex', module: 'inventario' },
 ];
 
 // Enlaces del menú de Accesos

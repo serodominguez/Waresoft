@@ -15,7 +15,7 @@
             <td>{{ (item as Transfer).receiveDate }}</td>
             <td>{{ (item as Transfer).receiveUser }}</td>
             <td class="text-center">
-              <v-chip :color="getStatusColor((item as Transfer).statusTransfer)" variant="flat" size="small">
+              <v-chip :color="stateColor((item as Transfer).statusTransfer)" variant="tonal" size="small">
                 {{ (item as Transfer).statusTransfer }}
               </v-chip>
             </td>
@@ -29,7 +29,7 @@
                 <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small" title="Imprimir">
                 </v-btn>
               </template>
-              <template v-if="canDelete && !['Cancelado', 'Recibido'].includes((item as Transfer).statusTransfer)">
+              <template v-if="canDelete && !['Cancelado', 'Recibido'].includes((item as Transfer).statusTransfer) && (item as Transfer).idStoreOrigin == currentUser?.storeId">
                 <v-btn icon="cancel" color="red" variant="text"
                   @click="$emit('open-modal', { transfer: item, action: 3 })" size="small" title="Cancelar">
                 </v-btn>
@@ -69,6 +69,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 import { Transfer } from '@/interfaces/transferInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFiltersMovements.vue';
@@ -78,6 +80,8 @@ interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
   transfers: Transfer[];
   totalTransfers: number;
 }
+const authStore = useAuthStore();
+const { currentUser } = storeToRefs(authStore);
 
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
@@ -168,13 +172,13 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
-const getStatusColor = (status: string): string => {
+const stateColor = (status: string): string => {
   const statusLower = status.toLowerCase();
 
   if (statusLower === 'enviado') {
     return 'blue-darken-2';
   } else if (statusLower === 'pendiente') {
-    return 'yellow';
+    return 'orange';
   } else if (statusLower === 'recibido') {
     return 'green';
   } else if (statusLower === 'cancelado') {

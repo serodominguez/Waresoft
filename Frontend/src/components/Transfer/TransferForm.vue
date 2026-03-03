@@ -67,15 +67,13 @@
               </td>
             </tr>
           </template>
-        </v-data-table>
-        
-        <v-col v-if="!localTransfer.idTransfer" cols="12" class="d-flex justify-end">
+        </v-data-table>    
+        <v-col v-if="!localTransfer.idTransfer" cols="12" class="d-flex justify-end mt-2 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(totalPrice) }}
         </v-col>
-        <v-col v-else cols="12" class="d-flex justify-end">
+        <v-col v-else cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(localTransfer.totalAmount) }}
         </v-col>
-        
         <v-col cols="12" md="12" lg="12" xl="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localTransfer.annotations" :readonly="!!localTransfer.idTransfer"></v-text-field>

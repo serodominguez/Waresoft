@@ -15,7 +15,7 @@
             <td>{{ (item as GoodsReceipt).documentNumber }}</td>
             <td>{{ (item as GoodsReceipt).auditCreateDate }}</td>
             <td class="text-center">
-              <v-chip :color="getStatusColor((item as GoodsReceipt).statusReceipt)" variant="flat" size="small">
+              <v-chip :color="stateColor((item as GoodsReceipt).statusReceipt)" variant="tonal" size="small">
                 {{ (item as GoodsReceipt).statusReceipt }}
               </v-chip>
             </td>
@@ -169,7 +169,7 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
-const getStatusColor = (status: string): string => {
+const stateColor = (status: string): string => {
   const statusLower = status.toLowerCase();
 
   if (statusLower === 'completado') {
@@ -177,7 +177,6 @@ const getStatusColor = (status: string): string => {
   } else if (statusLower === 'cancelado') {
     return 'red';
   } 
-
   return 'grey';
 };
 

@@ -25,7 +25,7 @@ const messages: LocaleMessages<any> =  {
 
 // Definición del tema personalizado
 const myCustomLightTheme: ThemeDefinition = {
-  dark: true,
+  dark: false,
   colors: {
     background: '#FFFFFF',
     surface: '#FFFFFF',
@@ -41,6 +41,7 @@ const myCustomLightTheme: ThemeDefinition = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
+    'on-primary': '#FFFFFF',
   },
   variables: {
     'border-color': '#000000',

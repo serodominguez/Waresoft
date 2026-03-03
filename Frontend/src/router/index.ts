@@ -84,6 +84,15 @@ const routes: Array<RouteRecordRaw> = [
       module: "inventario",
     },
   },
+    {
+    path: "/kardex",
+    name: "kardex",
+    component: () => import("@/views/KardexView.vue"),
+    meta: {
+      requiresAuth: true,
+      module: "inventario",
+    },
+  },
   {
     path: "/inicio",
     name: "login",

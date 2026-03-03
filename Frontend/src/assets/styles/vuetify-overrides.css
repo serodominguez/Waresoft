@@ -1,0 +1,3 @@
+.v-date-picker-month__day--selected > button {
+  color: rgb(var(--v-theme-on-primary)) !important;
+}

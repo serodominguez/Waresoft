@@ -6,6 +6,7 @@ import App from './App.vue'
 import router from './router'
 import pinia from './stores'
 import { vuetify, i18n } from './plugins/vuetify'
+import '@/assets/styles/vuetify-overrides.css'
 import { loadFonts } from './plugins/webfontloader'
 import permissionsPlugin from './plugins/permissions'
 

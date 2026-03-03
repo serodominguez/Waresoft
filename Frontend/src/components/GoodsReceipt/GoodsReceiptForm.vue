@@ -85,10 +85,10 @@
             </tr>
           </template>
         </v-data-table>
-        <v-col v-if="!localReceipt.idReceipt" cols="12" class="d-flex justify-end">
+        <v-col v-if="!localReceipt.idReceipt" cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(total) }}
         </v-col>
-        <v-col v-else cols="12" class="d-flex justify-end">
+        <v-col v-else cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(localReceipt.totalAmount) }}
         </v-col>
 

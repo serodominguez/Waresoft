@@ -34,7 +34,7 @@
                 {{ item.stockAvailable }}
               </td>
               <td class="text-center">
-                <v-btn color="blue" icon="add_circle" variant="text" @click="handleProductAdd(item)" size="small"
+                <v-btn color="indigo" icon="add_circle" variant="text" @click="handleProductAdd(item)" size="small"
                   title="Agregar" />
               </td>
             </tr>
