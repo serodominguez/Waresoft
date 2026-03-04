@@ -6,6 +6,7 @@ import { FilterParams } from '@/interfaces/baseInterface';
 import { useAuthStore } from '@/stores/auth';
 
 export const useInventoryStore = defineStore('inventory', () => {
+  // Estado
   const items = ref<Inventory[]>([]);
   const selectedItem = ref<Inventory | null>(null);
   const totalItems = ref<number>(0);
@@ -16,23 +17,25 @@ export const useInventoryStore = defineStore('inventory', () => {
   const inventoryPivot = ref<InventoryPivot | null>(null);
   const lastPivotFilterParams = ref<FilterParams | undefined>(undefined);
 
+  // Getters
   const inventories = computed(() => items.value);
   const selectedInventory = computed(() => selectedItem.value);
   const totalInventories = computed(() => totalItems.value || 0);
   const totalRows = computed(() => totalPivotItems.value || 0);
 
+  // Acciones
   async function fetchInventories(params: FilterParams = {}) {
     loading.value = true;
     items.value = [];
     lastFilterParams.value = params;
 
     try {
-      const resultado = await inventoryService.fetchAll(params);
-      if (resultado.isSuccess) {
-        items.value = resultado.data;
-        totalItems.value = resultado.totalRecords;
+      const result = await inventoryService.fetchAll(params);
+      if (result.isSuccess) {
+        items.value = result.data;
+        totalItems.value = result.totalRecords;
       } else {
-        error.value = resultado.message || resultado.errors;
+        error.value = result.message || result.errors;
       }
     } catch (err: any) {
       error.value = err.message;
@@ -47,12 +50,12 @@ export const useInventoryStore = defineStore('inventory', () => {
     lastPivotFilterParams.value = params;
 
     try {
-      const resultado = await inventoryService.fetchPivot(params);
-      if (resultado.isSuccess) {
-        inventoryPivot.value = resultado.data;
-        totalPivotItems.value = resultado.totalRecords;
+      const result = await inventoryService.fetchPivot(params);
+      if (result.isSuccess) {
+        inventoryPivot.value = result.data;
+        totalPivotItems.value = result.totalRecords;
       } else {
-        error.value = resultado.message;
+        error.value = result.message;
       }
     } catch (err: any) {
       error.value = err.message;
@@ -63,8 +66,8 @@ export const useInventoryStore = defineStore('inventory', () => {
 
   async function downloadInventoriesExcel(params?: FilterParams) {
     try {
-      const filtrosParams = params || lastFilterParams.value || {};
-      await inventoryService.downloadExcel(filtrosParams);
+      const filterParams = params || lastFilterParams.value || {};
+      await inventoryService.downloadExcel(filterParams);
     } catch (err: any) {
       console.error('Error al descargar Excel:', err);
       throw err;
@@ -73,8 +76,8 @@ export const useInventoryStore = defineStore('inventory', () => {
 
   async function downloadInventoriesPdf(params?: FilterParams) {
     try {
-      const filtrosParams = params || lastFilterParams.value || {};
-      await inventoryService.downloadPdf(filtrosParams);
+      const filterParams = params || lastFilterParams.value || {};
+      await inventoryService.downloadPdf(filterParams);
     } catch (err: any) {
       console.error('Error al descargar PDF:', err);
       throw err;
@@ -83,17 +86,8 @@ export const useInventoryStore = defineStore('inventory', () => {
 
   async function downloadInventoryPivotExcel(params?: FilterParams) {
     try {
-      const filtrosParams = params || lastPivotFilterParams.value || {};
-      const blob = await inventoryService.fetchPivot(filtrosParams, true);
-
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `ConsolidadoExistencias_${new Date().toISOString().split('T')[0]}.xlsx`);
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      const filterParams = params || lastPivotFilterParams.value || {};
+      await inventoryService.downloadPivotExcel(filterParams);
     } catch (err: any) {
       console.error('Error al descargar Excel Pivot:', err);
       throw err;
@@ -104,9 +98,8 @@ export const useInventoryStore = defineStore('inventory', () => {
     try {
       const authStore = useAuthStore();
       const storeName = authStore.currentUser?.storeName;
-
-      const filtrosParams = params || lastFilterParams.value || {};
-      await inventoryService.inventorySheet(filtrosParams, storeName);
+      const filterParams = params || lastFilterParams.value || {};
+      await inventoryService.inventorySheet(filterParams, storeName);
     } catch (err: any) {
       console.error('Error al descargar planilla de inventario:', err);
       throw err;
@@ -115,17 +108,18 @@ export const useInventoryStore = defineStore('inventory', () => {
 
   async function editInventoryPrice(inventory: Inventory) {
     try {
-      const resultado = await inventoryService.updatePrice(inventory);
-      if (resultado.isSuccess) {
+      const result = await inventoryService.updatePrice(inventory);
+      if (result.isSuccess) {
         await fetchInventories(lastFilterParams.value || {});
       }
-      return resultado;
+      return result;
     } catch (err: any) {
       return { isSuccess: false, message: err.message, errors: err };
     }
   }
 
   return {
+    // State
     items,
     selectedItem,
     totalItems,
@@ -135,12 +129,14 @@ export const useInventoryStore = defineStore('inventory', () => {
     error,
     lastFilterParams,
 
+    // Getters
     inventories,
     inventoryPivot,
     lastPivotFilterParams,
     selectedInventory,
     totalInventories,
 
+    // Actions
     fetchInventories,
     fetchInventoryPivot,
     downloadInventoriesExcel,

@@ -5,6 +5,7 @@ import { kardexService } from '@/services/kardexService';
 import { FilterParams } from '@/interfaces/baseInterface';
 
 export const useKardexStore = defineStore('kardex', () => {
+  // Estado
   const kardexDetail = ref<KardexDetail | null>(null);
   const totalItems = ref<number>(0);
   const loading = ref<boolean>(false);
@@ -12,9 +13,11 @@ export const useKardexStore = defineStore('kardex', () => {
   const lastProductId = ref<number | null>(null);
   const lastFilterParams = ref<FilterParams | undefined>(undefined);
 
+  // Getters
   const kardex = computed(() => kardexDetail.value);
   const totalKardex = computed(() => totalItems.value || 0);
 
+  // Acciones
   async function fetchKardex(productId: number, params: FilterParams = {}) {
     loading.value = true;
     kardexDetail.value = null;
@@ -22,17 +25,39 @@ export const useKardexStore = defineStore('kardex', () => {
     lastFilterParams.value = params;
 
     try {
-      const resultado = await kardexService.fetchKardex(productId, params);
-      if (resultado.isSuccess) {
-        kardexDetail.value = resultado.data;
-        totalItems.value = resultado.totalRecords;
+      const result = await kardexService.fetchKardex(productId, params);
+      if (result.isSuccess) {
+        kardexDetail.value = result.data;
+        totalItems.value = result.totalRecords;
       } else {
-        error.value = resultado.message || resultado.errors;
+        error.value = result.message || result.errors;
       }
     } catch (err: any) {
       error.value = err.message;
     } finally {
       loading.value = false;
+    }
+  }
+
+  async function downloadKardexExcel(params?: FilterParams) {
+    try {
+      const productId = lastProductId.value!;
+      const filterParams = params || lastFilterParams.value || {};
+      await kardexService.downloadKardexExcel(productId, filterParams);
+    } catch (err: any) {
+      console.error('Error al descargar Excel:', err);
+      throw err;
+    }
+  }
+
+  async function downloadKardexPdf(params?: FilterParams) {
+    try {
+      const productId = lastProductId.value!;
+      const filterParams = params || lastFilterParams.value || {};
+      await kardexService.downloadKardexPdf(productId, filterParams);
+    } catch (err: any) {
+      console.error('Error al descargar PDF:', err);
+      throw err;
     }
   }
 
@@ -45,16 +70,22 @@ export const useKardexStore = defineStore('kardex', () => {
   }
 
   return {
+    // State
     kardexDetail,
     totalItems,
-    totalKardex,
     loading,
     error,
     lastProductId,
     lastFilterParams,
 
+    // Getters
     kardex,
+    totalKardex,
+
+    // Actions
     fetchKardex,
+    downloadKardexExcel,
+    downloadKardexPdf,
     clearKardex,
   };
 });

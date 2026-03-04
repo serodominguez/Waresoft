@@ -152,13 +152,12 @@ namespace Application.Services
 
                 response.TotalRecords = pivot.Rows.Count;
 
-                var pageNumber = filters.NumberPage;
-                var pageSize = filters.NumberRecordsPage;
-
-                pivot.Rows = pivot.Rows
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
+                pivot.Rows = !(bool)filters.Download!
+                    ? pivot.Rows
+                        .Skip((filters.NumberPage - 1) * filters.NumberRecordsPage)
+                        .Take(filters.NumberRecordsPage)
+                        .ToList()
+                    : pivot.Rows;
 
                 response.Data = pivot;
                 response.IsSuccess = true;
@@ -270,12 +269,12 @@ namespace Application.Services
                 response.TotalRecords = movements.Count;
 
                 // Aplicar paginación
-                var pageNumber = filters.NumberPage;
-                var pageSize = filters.NumberRecordsPage;
-                var paginatedMovements = movements
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
+                var paginatedMovements = !(bool)filters.Download!
+                    ? movements
+                        .Skip((filters.NumberPage - 1) * filters.NumberRecordsPage)
+                        .Take(filters.NumberRecordsPage)
+                        .ToList()
+                    : movements;
 
                 // Usar mapper para crear respuesta final
                 response.Data = StoreInventoryMapp.StoreInventoryKardexMapping(inventory, paginatedMovements, calculatedStock, stockDifference);

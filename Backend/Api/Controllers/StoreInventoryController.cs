@@ -79,9 +79,31 @@ namespace Api.Controllers
 
         [HttpGet("Kardex")]
         [RequirePermission("Inventario", "Leer")]
-        public async Task<IActionResult> ListInventoryKardex([FromQuery] int productId, [FromQuery] BaseFiltersRequest filters)
+        public async Task<IActionResult> ListInventoryKardex([FromQuery] int productId, [FromQuery] BaseFiltersRequest filters, [FromQuery] string? downloadType = "excel")
         {
             var response = await _storeInventoryService.ListKardexInventory(AuthenticatedUserStoreId, productId, filters);
+            if ((bool)filters.Download!)
+            {
+                if (downloadType?.ToLower() == "pdf")
+                {
+                    var fileBytes = _generatePdfService.KardexGeneratePdf(
+                        response.Data!,
+                        AuthenticatedUserStoreType,
+                        AuthenticatedUserStoreName?.ToTitleCase() ?? string.Empty
+                    );
+                    return File(fileBytes, "application/pdf", $"Kardex_{DateTime.Now:yyyyMMdd}.pdf");
+                }
+                else
+                {
+                    var fileBytes = _generateExcelService.GenerateKardexToExcel(
+                        response.Data!,
+                        "Reporte de Kardex",
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
+                    );
+                    return File(fileBytes, ContentType.ContentTypeExcel);
+                }
+            }
+
             return Ok(response);
         }
 

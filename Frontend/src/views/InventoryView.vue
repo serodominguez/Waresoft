@@ -111,6 +111,8 @@ const fetchInventories = async (params?: any) => {
     await inventoryStore.fetchInventories(params || {
       pageNumber: currentPage.value,
       pageSize: itemsPerPage.value,
+      sort: 'IdProduct',
+      order: 'desc',
       stateFilter: stateFilter.value
     });
   } catch (error) {
@@ -126,11 +128,13 @@ const searchInventories = async (params: any) => {
   endDate.value = params.endDate;
 
   try {
-    await inventoryStore.fetchInventories({
-      pageNumber: 1,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
-    });
+await inventoryStore.fetchInventories({
+  pageNumber: 1,
+  pageSize: itemsPerPage.value,
+  sort: 'IdProduct',  // <-- agregar esto
+  order: 'desc',
+  ...getFilterParams(params.search)
+});
     currentPage.value = 1;
   } catch (error) {
     handleApiError(error, 'Error al buscar productos');

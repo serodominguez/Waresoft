@@ -5,7 +5,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace Application.Reports
+namespace Application.Reports.Pdf
 {
     public class TransferPdfGenerator : BasePdfGenerator
     {

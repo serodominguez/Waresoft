@@ -5,7 +5,7 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using Utilities.Extensions;
 
-namespace Application.Reports
+namespace Application.Reports.Pdf
 {
     public class InventoryPdfGenerator : BasePdfGenerator
     {

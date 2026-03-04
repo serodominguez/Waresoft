@@ -3,7 +3,7 @@ using Application.Dtos.Response.GoodsReceipt;
 using Application.Dtos.Response.StoreInventory;
 using Application.Dtos.Response.Transfer;
 using Application.Interfaces;
-using Application.Reports;
+using Application.Reports.Pdf;
 using Infrastructure.FilePdf;
 using Microsoft.Extensions.Configuration;
 using Utilities.Static;
@@ -33,15 +33,21 @@ namespace Application.Services
             return generator.GeneratePdf();
         }
 
-        public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName)
-        {
-            var generator = new TransferPdfGenerator(transfer, storeType, storeName);
-            return generator.GeneratePdf();
-        }
-
         public byte[] InventoryGeneratePdf(List<StoreInventoryResponseDto> inventory, string storeName)
         {
             var generator = new InventoryPdfGenerator(inventory, storeName);
+            return generator.GeneratePdf();
+        }
+
+        public byte[] KardexGeneratePdf(StoreInventoryKardexResponseDto kardex, string storeType, string storeName)
+        {
+            var generator = new KardexPdfGenerator(kardex, storeType, storeName);
+            return generator.GeneratePdf();
+        }
+
+        public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName)
+        {
+            var generator = new TransferPdfGenerator(transfer, storeType, storeName);
             return generator.GeneratePdf();
         }
 

@@ -1,23 +1,24 @@
-﻿using Application.Dtos.Response.GoodsIssue;
+﻿using Application.Dtos.Response.GoodsReceipt;
 using Infrastructure.FilePdf;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace Application.Reports
+namespace Application.Reports.Pdf
 {
-    public class GoodsIssuePdfGenerator : BasePdfGenerator
+    public class GoodsReceiptPdfGenerator : BasePdfGenerator
     {
-        private readonly GoodsIssueWithDetailsResponseDto _issue;
+        private readonly GoodsReceiptWithDetailsResponseDto _receipt;
         private readonly string _storeType;
         private readonly string _storeName;
 
-        public GoodsIssuePdfGenerator(GoodsIssueWithDetailsResponseDto issue, string? storeType = null, string? storeName = null)
+        public GoodsReceiptPdfGenerator(GoodsReceiptWithDetailsResponseDto receipt, string? storeType = null, string? storeName = null)
         {
-            _issue = issue;
+            _receipt = receipt;
             _storeType = storeType ?? string.Empty;
             _storeName = storeName ?? string.Empty;
         }
+
         public override byte[] GeneratePdf()
         {
             Document document = Document.Create(container =>
@@ -45,7 +46,7 @@ namespace Application.Reports
             {
                 column.Item().AlignCenter().Text(text =>
                 {
-                    text.Span("Salida de Productos").Style(titleStyle);
+                    text.Span("Entrada de Productos ").Style(titleStyle);
                 });
 
                 column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(titleStyle);
@@ -60,7 +61,7 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Código: ").SemiBold();
-                            text.Span($"{_issue.Code}");
+                            text.Span($"{_receipt.Code}");
                         });
 
                         leftColumn.Spacing(5);
@@ -69,7 +70,7 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Tipo: ").SemiBold();
-                            text.Span($"{_issue.Type}");
+                            text.Span($"{_receipt.Type}");
                         });
 
                         leftColumn.Spacing(5);
@@ -77,8 +78,17 @@ namespace Application.Reports
                         leftColumn.Item().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Fecha de Registro: ").SemiBold();
-                            text.Span($"{_issue.AuditCreateDate}");
+                            text.Span("Tipo de documento: ").SemiBold();
+                            text.Span($"{_receipt.DocumentType}");
+                        });
+
+                        leftColumn.Spacing(5);
+
+                        leftColumn.Item().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Fecha de registro: ").SemiBold();
+                            text.Span($"{_receipt.AuditCreateDate}");
                         });
                     });
 
@@ -88,7 +98,7 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Estado: ").SemiBold();
-                            text.Span($"{_issue.StatusIssue}");
+                            text.Span($"{_receipt.StatusReceipt}");
                         });
 
                         rightColumn.Spacing(5);
@@ -96,8 +106,17 @@ namespace Application.Reports
                         rightColumn.Item().AlignRight().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Personal: ").SemiBold();
-                            text.Span($"{_issue.UserName}");
+                            text.Span("Proveedor: ").SemiBold();
+                            text.Span($"{_receipt.CompanyName}");
+                        });
+
+                        rightColumn.Spacing(5);
+
+                        rightColumn.Item().AlignRight().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Número de documento: ").SemiBold();
+                            text.Span($"{_receipt.DocumentNumber}");
                         });
 
                         rightColumn.Spacing(5);
@@ -106,7 +125,7 @@ namespace Application.Reports
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Registrado por: ").SemiBold();
-                            text.Span($"{_issue.AuditCreateName}");
+                            text.Span($"{_receipt.AuditCreateName}");
                         });
                     });
                 });
@@ -125,11 +144,11 @@ namespace Application.Reports
                 {
                     text.DefaultTextStyle(x => x.FontSize(10));
                     text.Span("Total Bs.: ").SemiBold();
-                    text.Span($"{FormatCurrency(_issue.TotalAmount)}").Bold();
+                    text.Span($"{FormatCurrency(_receipt.TotalAmount)}").Bold();
                 });
 
                 column.Item().PaddingTop(10).Element(container =>
-                    ComposeObservations(container, _issue.Annotations ?? string.Empty));
+                    ComposeObservations(container, _receipt.Annotations ?? string.Empty));
             });
         }
 
@@ -157,9 +176,9 @@ namespace Application.Reports
                     header.Cell().Element(HeaderCellStyle).Text("Material").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).Text("Color").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Cantidad").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignRight().Text("Precio").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignRight().Text("Costo").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Subtotal").FontSize(10);
-                    
+
                     header.Cell()
                         .ColumnSpan(8)
                         .BorderBottom(1)
@@ -167,7 +186,7 @@ namespace Application.Reports
                         .Height(0);
                 });
 
-                foreach (var item in _issue.GoodsIssueDetails)
+                foreach (var item in _receipt.GoodsReceiptDetails)
                 {
                     table.Cell().Element(BodyCellStyle).Text(item.Item.ToString()).FontSize(9);
                     table.Cell().Element(BodyCellStyle).Text(item.Code ?? string.Empty).FontSize(9);
@@ -175,8 +194,8 @@ namespace Application.Reports
                     table.Cell().Element(BodyCellStyle).Text(item.Material ?? string.Empty).FontSize(9);
                     table.Cell().Element(BodyCellStyle).Text(item.Color ?? string.Empty).FontSize(9);
                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.Quantity.ToString()).FontSize(9);
-                    table.Cell().Element(BodyCellStyle).AlignRight().Text(FormatCurrency(item.UnitPrice)).FontSize(9);
-                    table.Cell().Element(BodyCellStyle).AlignRight().Text(FormatCurrency(item.TotalPrice)).FontSize(9);
+                    table.Cell().Element(BodyCellStyle).AlignRight().Text(FormatCurrency(item.UnitCost)).FontSize(9);
+                    table.Cell().Element(BodyCellStyle).AlignRight().Text(FormatCurrency(item.TotalCost)).FontSize(9);
                 }
             });
         }
