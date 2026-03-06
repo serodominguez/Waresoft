@@ -94,6 +94,16 @@ export const useInventoryStore = defineStore('inventory', () => {
     }
   }
 
+  async function downloadInventoryPivotPdf(params?: FilterParams) {
+    try {
+      const filterParams = params || lastPivotFilterParams.value || {};
+      await inventoryService.downloadPivotPdf(filterParams);
+    } catch (err: any) {
+      console.error('Error al descargar PDF Pivot:', err);
+      throw err;
+    }
+  }
+
   async function downloadInventorySheet(params?: FilterParams) {
     try {
       const authStore = useAuthStore();
@@ -141,6 +151,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     fetchInventoryPivot,
     downloadInventoriesExcel,
     downloadInventoryPivotExcel,
+    downloadInventoryPivotPdf,
     downloadInventoriesPdf,
     downloadInventorySheet,
     editInventoryPrice,

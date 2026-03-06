@@ -59,19 +59,31 @@ namespace Api.Controllers
 
         [HttpGet("Pivot")]
         [RequirePermission("Inventario", "Leer")]
-        public async Task<IActionResult> ListInventoryPivot([FromQuery] BaseFiltersRequest filters)
+        public async Task<IActionResult> ListInventoryPivot([FromQuery] BaseFiltersRequest filters, [FromQuery] string? downloadType = "excel")
         {
             var response = await _storeInventoryService.ListInventoryPivot(filters);
 
             if ((bool)filters.Download!)
             {
-                var fileBytes = _generateExcelService.GeneratePivotInventoryToExcel(
-                    response.Data!,
-                    "Reporte de existencias",
-                    subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
-                );
-                //return File(fileBytes, ContentType.ContentTypeExcel, $"InventarioPivot_{DateTime.Now:yyyyMMdd}.xlsx");
-                return File(fileBytes, ContentType.ContentTypeExcel);
+                if (downloadType?.ToLower() == "pdf")
+                {
+                    var fileBytes = _generatePdfService.PivotInventoryGeneratePdf(
+                        response.Data!,
+                        AuthenticatedUserStoreType,
+                        AuthenticatedUserStoreName?.ToTitleCase() ?? string.Empty
+                    );
+                    return File(fileBytes, "application/pdf", $"InventarioPivot_{DateTime.Now:yyyyMMdd}.pdf");
+                }
+                else
+                {
+                    var fileBytes = _generateExcelService.GeneratePivotInventoryToExcel(
+                        response.Data!,
+                        "Reporte de existencias",
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
+                    );
+                    //return File(fileBytes, ContentType.ContentTypeExcel, $"InventarioPivot_{DateTime.Now:yyyyMMdd}.xlsx");
+                    return File(fileBytes, ContentType.ContentTypeExcel);
+                }
             }
 
             return Ok(response);
@@ -123,7 +135,11 @@ namespace Api.Controllers
 
             if ((bool)filters.Download!)
             {
-                var fileBytes = _generatePdfService.InventoryGeneratePdf(response.Data!.ToList(), AuthenticatedUserStoreName);
+                var fileBytes = _generatePdfService.InventoryGeneratePdf(
+                    response.Data!.ToList(),
+                    AuthenticatedUserStoreType,
+                    AuthenticatedUserStoreName.ToTitleCase() ?? string.Empty
+                );
                 return File(fileBytes, "application/pdf", $"Inventario_{DateTime.Now:yyyyMMdd}.pdf");
             }
 

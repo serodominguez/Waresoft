@@ -9,32 +9,32 @@
         <v-form ref="formRef" v-model="valid">
           <v-container>
             <v-row>
-              <v-col cols="12" md="12" lg="12" xl="12">
+              <v-col cols="12" md="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localProduct.code" counter="25"
                   :maxlength="25" label="Código" />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localProduct.description"
                   :rules="[rules.required]" counter="50" :maxlength="50" label="Descripción" required />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localProduct.material"
                   :rules="[rules.onlyLetters]" counter="25" :maxlength="25" label="Material" />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localProduct.color"
                   :rules="[rules.onlyLetters]" counter="20" :maxlength="20" label="Color" />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localProduct.unitMeasure" counter="15"
                   :rules="[rules.required]" :maxlength="15" label="Unidad de medida" required />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-autocomplete color="indigo" variant="underlined" :items="brandsArray" v-model="localProduct.idBrand"
                   item-title="brandName" item-value="idBrand" :rules="[rules.required]"
                   no-data-text="No hay datos disponibles" label="Marca" required :loading="loadingBrands" />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-autocomplete color="indigo" variant="underlined" :items="categoriesArray"
                   v-model="localProduct.idCategory" item-title="categoryName" item-value="idCategory"
                   :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Categoría" required
@@ -44,7 +44,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-col xs12 sm12 md12 lg12 xl12>
+      <v-col cols="12">
         <v-card-actions>
           <v-btn color="green" dark class="mb-2" elevation="4" @click="saveProduct" :disabled="!valid"
             :loading="saving">Guardar</v-btn>

@@ -3,19 +3,20 @@ using Infrastructure.FilePdf;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using Utilities.Extensions;
 
 namespace Application.Reports.Pdf
 {
     public class InventoryPdfGenerator : BasePdfGenerator
     {
         private readonly List<StoreInventoryResponseDto> _inventory;
+        private readonly string _storeType;
         private readonly string _storeName;
 
-        public InventoryPdfGenerator(List<StoreInventoryResponseDto> inventory, string storeName)
+        public InventoryPdfGenerator(List<StoreInventoryResponseDto> inventory, string? storeType = null, string? storeName = null)
         {
             _inventory = inventory;
-            _storeName = storeName;
+            _storeType = storeType ?? string.Empty;
+            _storeName = storeName ?? string.Empty;
         }
 
         public override byte[] GeneratePdf()
@@ -39,14 +40,18 @@ namespace Application.Reports.Pdf
 
         private void ComposeHeader(IContainer container)
         {
-            var titleStyle = TextStyle.Default.FontSize(14).Bold().FontColor(Colors.Black);
+            var titleStyle = TextStyle.Default.FontSize(13).Bold().FontColor(Colors.Black);
             var subtitleStyle = TextStyle.Default.FontSize(11).SemiBold().FontColor(Colors.Black);
 
             container.Column(column =>
             {
-                column.Item().AlignCenter().Text("Centro Optico" + ' ' + _storeName.ToTitleCase()).Style(titleStyle);
+                column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(subtitleStyle); ;
                 column.Item().AlignCenter().Text("Planilla de inventario").Style(subtitleStyle);
-                column.Item().AlignCenter().Text($"Fecha: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}").FontSize(9);
+
+                column.Item().PaddingTop(5).AlignCenter()
+                    .Text($"Fecha: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}")
+                    .FontSize(9);
+
                 column.Item().PaddingTop(10);
             });
         }

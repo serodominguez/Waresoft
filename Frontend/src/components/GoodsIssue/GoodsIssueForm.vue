@@ -22,9 +22,8 @@
             <v-text-field v-else color="indigo" variant="underlined" v-model="localIssue.userName" label="Personal"
               readonly />
           </v-col>
-          <v-col class="px-2" cols="12" md="2">
-            <v-btn v-if="!localIssue.idIssue" fab dark color="indigo" class="mt-3" @click="openProductModal"
-              title="Seleccionar Producto">
+          <v-col v-if="!localIssue.idIssue" class="px-2 d-flex align-center" cols="12" md="2">
+            <v-btn fab dark color="indigo" @click="openProductModal" title="Seleccionar Producto">
               <v-icon dark>list</v-icon>
             </v-btn>
           </v-col>
@@ -67,8 +66,7 @@
         <v-col v-else cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(localIssue.totalAmount) }}
         </v-col>
-
-        <v-col cols="12" md="12" lg="12" xl="12">
+        <v-col cols="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localIssue.annotations" :readonly="!!localIssue.idIssue"></v-text-field>
         </v-col>

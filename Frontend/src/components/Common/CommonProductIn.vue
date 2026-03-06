@@ -12,7 +12,7 @@
               label="Opciones" hide-details />
           </v-col>
           <v-col cols="8" md="6" lg="6" xl="6" class="mb-2">
-            <v-text-field append-inner-icon="search" density="compact" label="Búsqueda" variant="underlined"
+            <v-text-field color="indigo" append-inner-icon="search" density="compact" label="Búsqueda" variant="underlined"
               hide-details single-line v-model="search" @click:append-inner="handleSearch"
               @keyup.enter="handleSearch" />
           </v-col>

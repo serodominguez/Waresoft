@@ -20,9 +20,9 @@
               class="ml-2">
               <v-icon>save</v-icon>
             </v-btn>
-            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading" title="Cancelar"
+            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading" title="Limpiar"
               class="ml-2">
-              <v-icon>cancel_presentation</v-icon>
+              <v-icon>backspace</v-icon>
             </v-btn>
           </v-col>
         </v-row>

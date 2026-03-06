@@ -9,20 +9,20 @@
         <v-form ref="formRef" v-model="valid">
           <v-container>
             <v-row>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localSupplier.companyName"
                   :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Nombre de la empresa"
                   required />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localSupplier.contact"
                   :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Contacto" />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localSupplier.phoneNumber" counter="8"
                   :rules="[rules.onlyNumbers]" :maxlength="8" label="Teléfono" />
               </v-col>
-              <v-col cols="6" md="6" lg="6" xl="12">
+              <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="underlined" v-model="localSupplier.email" counter="50"
                   :rules="[rules.email]" :maxlength="50" label="Correo" />
               </v-col>
@@ -30,7 +30,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-col xs12 sm12 md12 lg12 xl12>
+      <v-col cols="12">
         <v-card-actions>
           <v-btn color="green" dark class="mb-2" elevation="4" @click="saveSupplier" :disabled="!valid"
             :loading="saving">Guardar</v-btn>

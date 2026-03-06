@@ -41,7 +41,7 @@ class InventoryService extends BaseService<Inventory> {
       link.href = url;
 
       const date = new Date().toISOString().split('T')[0];
-      link.setAttribute('download', `ConsolidadoExistencias_${date}.xlsx`);
+      link.setAttribute('download', `Consolidado_Existencias_${date}.xlsx`);
 
       document.body.appendChild(link);
       link.click();
@@ -50,6 +50,38 @@ class InventoryService extends BaseService<Inventory> {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error al descargar Excel Pivot:', error);
+      throw error;
+    }
+  }
+
+  async downloadPivotPdf(params: FilterParams = {}): Promise<void> {
+    try {
+      const queryParams = {
+        ...this.buildParams(params),
+        Download: true,
+        DownloadType: 'pdf',
+      };
+
+      const response = await axios.get(`api/${this.endpoint}/Pivot`, {
+        params: queryParams,
+        responseType: 'blob',
+      });
+
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+
+      const date = new Date().toISOString().split('T')[0];
+      link.setAttribute('download', `Consolidado_Existencias_${date}.pdf`);
+
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error al descargar PDF Pivot:', error);
       throw error;
     }
   }

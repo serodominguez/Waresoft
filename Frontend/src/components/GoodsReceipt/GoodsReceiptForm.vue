@@ -47,9 +47,8 @@
             <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.companyName"
               label="Proveedor" readonly />
           </v-col>
-          <v-col class="px-2" cols="12" md="2">
-            <v-btn v-if="!localReceipt.idReceipt" fab dark color="indigo" class="mt-3" @click="openProductModal"
-              title="Seleccionar Producto">
+          <v-col v-if="!localReceipt.idReceipt" class="px-2 d-flex align-center" cols="12" md="2">
+            <v-btn fab dark color="indigo" @click="openProductModal" title="Seleccionar Producto">
               <v-icon dark>list</v-icon>
             </v-btn>
           </v-col>
@@ -93,7 +92,7 @@
           <strong>Total Bs.</strong>{{ formatCurrency(localReceipt.totalAmount) }}
         </v-col>
 
-        <v-col cols="12" md="12" lg="12" xl="12">
+        <v-col cols="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localReceipt.annotations" :readonly="!!localReceipt.idReceipt"></v-text-field>
         </v-col>

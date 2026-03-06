@@ -29,16 +29,13 @@
             <v-text-field color="indigo" variant="underlined" v-model="localTransfer.statusTransfer" label="Estado"
               readonly />
           </v-col>
-          <v-col class="px-2" cols="12" md="2">
-            <v-btn v-if="!localTransfer.idTransfer" fab dark color="indigo" class="mt-3" @click="openProductModal"
-              title="Seleccionar Producto">
+          <v-col v-if="!localTransfer.idTransfer" class="px-2 d-flex align-center" cols="12" md="2">
+            <v-btn fab dark color="indigo" @click="openProductModal" title="Seleccionar Producto">
               <v-icon dark>list</v-icon>
             </v-btn>
           </v-col>
         </v-row>
-
         <v-divider class="my-4"></v-divider>
-
         <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
           :no-data-text="'No hay productos agregados'">
           <template v-slot:item="{ item, index }">
@@ -61,7 +58,7 @@
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
               <td class="text-center" v-if="!localTransfer.idTransfer">{{ formatCurrency(item.quantity * item.unitPrice)
-                }}</td>
+              }}</td>
               <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
               <td v-if="!localTransfer.idTransfer" class="text-center">
                 <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
@@ -70,13 +67,13 @@
             </tr>
           </template>
         </v-data-table>
-        <v-col v-if="!localTransfer.idTransfer" cols="12" class="d-flex justify-end mt-2 pr-4">
+        <v-col v-if="!localTransfer.idTransfer" cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(totalPrice) }}
         </v-col>
         <v-col v-else cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(localTransfer.totalAmount) }}
         </v-col>
-        <v-col cols="12" md="12" lg="12" xl="12">
+        <v-col cols="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localTransfer.annotations" :readonly="!!localTransfer.idTransfer"></v-text-field>
         </v-col>

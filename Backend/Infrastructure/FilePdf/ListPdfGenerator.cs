@@ -63,8 +63,8 @@ namespace Infrastructure.FilePdf
 
                 if (_showDate)
                 {
-                    column.Item().AlignCenter()
-                        .Text($"Fecha: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}")
+                    column.Item().PaddingTop(5).AlignCenter()
+                        .Text($"Generado el: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}")
                         .FontSize(9);
                 }
 

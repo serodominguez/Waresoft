@@ -21,6 +21,9 @@
           <v-toolbar>
             <v-toolbar-title>Consolidado de existencias</v-toolbar-title>
             <v-spacer></v-spacer>
+            <v-btn v-if="canDownload" icon="picture_as_pdf" color="red" @click="handleDownloadPdf"
+              :loading="downloadingPdf" title="Descargar PDF">
+            </v-btn>
             <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel">
             </v-btn>
@@ -48,7 +51,8 @@ import { InventoryPivotRow } from '@/interfaces/inventoryInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 
-interface Props extends Pick<BaseListProps<InventoryPivotRow>, 'loading' | 'canRead' | 'canDownload' | 'itemsPerPage' | 'drawer' | 'selectedFilter' | 'state' | 'startDate' | 'endDate' | 'downloadingExcel'> {
+interface Props extends Pick<BaseListProps<InventoryPivotRow>, 'loading' | 'canRead' | 'canDownload' | 'itemsPerPage' | 'drawer' | 'selectedFilter' | 
+  'state' | 'startDate' | 'endDate' | 'downloadingExcel'| 'downloadingPdf'> {
   stores: string[];
   rows: InventoryPivotRow[];
   totalRows: number;
@@ -64,6 +68,7 @@ const props = withDefaults(defineProps<Props>(), {
   startDate: null,
   endDate: null,
   downloadingExcel: false,
+  downloadingPdf: false,
   itemsPerPage: 10
 });
 
@@ -77,6 +82,13 @@ const emit = defineEmits<{
     endDate: Date | null;
   }];
     'download-excel': [params: {
+    search: string | null;
+    selectedFilter: string;
+    stateFilter: string;
+    startDate: Date | null;
+    endDate: Date | null;
+  }];
+    'download-pdf': [params: {
     search: string | null;
     selectedFilter: string;
     stateFilter: string;
@@ -142,6 +154,16 @@ const handleSearch = () => {
 
 const handleDownloadExcel = () => {
   emit('download-excel', {
+    search: search.value,
+    selectedFilter: selectedFilterModel.value,
+    stateFilter: stateModel.value,
+    startDate: startDateModel.value,
+    endDate: endDateModel.value
+  });
+};
+
+const handleDownloadPdf = () => {
+  emit('download-pdf', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
     stateFilter: stateModel.value,

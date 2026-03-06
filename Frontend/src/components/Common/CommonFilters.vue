@@ -4,11 +4,11 @@
             <v-list-item>
                 <div class="d-flex justify-space-between align-center w-100">
                     <v-list-item-title class="text-h6">Filtros</v-list-item-title>
-                    <v-btn icon="close" variant="text" size="small" @click="drawerModel = false"></v-btn>
+                    <v-btn color="red" icon="close" variant="text" size="small" @click="drawerModel = false"></v-btn>
                 </div>
             </v-list-item>
             <div class="px-4 pt-4 pb-2">
-                <v-select v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="outlined"
+                <v-select color="indigo" v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="outlined"
                     density="compact" hide-details></v-select>
             </div>
             <div class="px-4 py-2">
@@ -16,11 +16,11 @@
                     true-value="Activos" color="indigo" hide-details></v-switch>
             </div>
             <div class="px-4 py-2">
-                <v-date-input v-model="startDateModel" label="Desde:" prepend-icon="" variant="underlined"
+                <v-date-input color="indigo" v-model="startDateModel" label="Desde:" prepend-icon="" variant="underlined"
                     persistent-placeholder hide-details></v-date-input>
             </div>
             <div class="px-4 py-2">
-                <v-date-input v-model="endDateModel" label="Hasta:" prepend-icon="" variant="underlined"
+                <v-date-input color="indigo" v-model="endDateModel" label="Hasta:" prepend-icon="" variant="underlined"
                     persistent-placeholder :error="!!dateError" :error-messages="dateError"
                     hide-details="auto"></v-date-input>
             </div>

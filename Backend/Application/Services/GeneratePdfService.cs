@@ -33,7 +33,7 @@ namespace Application.Services
             return generator.GeneratePdf();
         }
 
-        public byte[] InventoryGeneratePdf(List<StoreInventoryResponseDto> inventory, string storeName)
+        public byte[] InventoryGeneratePdf(List<StoreInventoryResponseDto> inventory, string storeType, string storeName)
         {
             var generator = new InventoryPdfGenerator(inventory, storeName);
             return generator.GeneratePdf();
@@ -42,6 +42,12 @@ namespace Application.Services
         public byte[] KardexGeneratePdf(StoreInventoryKardexResponseDto kardex, string storeType, string storeName)
         {
             var generator = new KardexPdfGenerator(kardex, storeType, storeName);
+            return generator.GeneratePdf();
+        }
+
+        public byte[] PivotInventoryGeneratePdf(StoreInventoryPivotResponseDto pivot, string storeType, string storeName)
+        {
+            var generator = new PivotPdfGenerator(pivot, storeType, storeName);
             return generator.GeneratePdf();
         }
 

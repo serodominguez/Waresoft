@@ -9,7 +9,7 @@
         <v-form ref="formRef" v-model="valid">
           <v-container>
             <v-row>
-              <v-col cols="12" md="12" lg="12" xl="12">
+              <v-col cols="12" md="12">
                 <v-text-field color="indigo" variant="underlined" v-model="localRole.roleName"
                   :rules="[rules.required, rules.onlyLetters]" counter="20" :maxlength="20" label="Nombre del rol"
                   required />
@@ -18,7 +18,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-col xs12 sm12 md12 lg12 xl12>
+      <v-col cols="12">
         <v-card-actions>
           <v-btn color="green" dark class="mb-2" elevation="4" @click="saveRole" :disabled="!valid"
             :loading="saving">Guardar</v-btn>

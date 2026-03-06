@@ -40,7 +40,8 @@ namespace Application.Reports.Pdf
 
         private void ComposeHeader(IContainer container)
         {
-            var titleStyle = TextStyle.Default.FontSize(12).Bold().FontColor(Colors.Black);
+            var titleStyle = TextStyle.Default.FontSize(13).Bold().FontColor(Colors.Black);
+            var subtitleStyle = TextStyle.Default.FontSize(11).SemiBold().FontColor(Colors.Black);
 
             container.Column(column =>
             {
@@ -49,7 +50,11 @@ namespace Application.Reports.Pdf
                     text.Span("Entrada de Productos ").Style(titleStyle);
                 });
 
-                column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(titleStyle);
+                column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(subtitleStyle);
+                
+                column.Item().PaddingTop(5).AlignCenter()
+                    .Text($"Generado el: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}")
+                    .FontSize(9);
 
                 column.Item().PaddingTop(15);
 

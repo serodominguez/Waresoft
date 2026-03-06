@@ -1,10 +1,11 @@
 <template>
   <div>
     <StockList :stores="stores" :rows="rows" :totalRows="totalRows" :loading="loading" :canRead="canRead"
-      :canDownload="canDownload" :downloadingExcel="downloadingExcel" :items-per-page="itemsPerPage"
-      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
-      v-model:startDate="startDate" v-model:endDate="endDate" @fetch-stock="fetchStock" @search-stock="searchStock"
-      @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel" />
+      :canDownload="canDownload" :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf"
+      :items-per-page="itemsPerPage" v-model:drawer="drawer" v-model:selectedFilter="selectedFilter"
+      v-model:state="state" v-model:startDate="startDate" v-model:endDate="endDate" @fetch-stock="fetchStock"
+      @search-stock="searchStock" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
+      @download-excel="downloadExcel" @download-pdf="downloadPdf" />
   </div>
 </template>
 
@@ -37,6 +38,7 @@ const itemsPerPage = ref(10);
 const search = ref<string | null>(null);
 const drawer = ref(false);
 const downloadingExcel = ref(false);
+const downloadingPdf = ref(false);
 
 const loading = computed(() => inventoryStore.loading);
 const totalRows = computed(() => inventoryStore.totalRows);
@@ -108,6 +110,24 @@ const downloadExcel = async (params: any) => {
     handleApiError(error, 'Error al descargar el archivo Excel');
   } finally {
     downloadingExcel.value = false;
+  }
+};
+
+const downloadPdf = async (params: any) => {
+  downloadingPdf.value = true;
+  try {
+    await inventoryStore.downloadInventoryPivotPdf({
+      pageNumber: currentPage.value,
+      pageSize: itemsPerPage.value,
+      sort: 'IdProduct',
+      order: 'asc',
+      ...getFilterParams(params.search)
+    });
+    toast.success('Archivo PDF descargado correctamente');
+  } catch (error) {
+    handleApiError(error, 'Error al descargar el archivo PDF');
+  } finally {
+    downloadingPdf.value = false;
   }
 };
 

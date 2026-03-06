@@ -7,17 +7,17 @@
       <v-divider></v-divider>
       <v-card-text>
         <v-row justify="center" align="end">
-          <v-col cols="4" md="2" lg="2" xl="2" class="mb-2">
+          <v-col cols="4" md="2" class="mb-2">
             <v-select color="indigo" variant="underlined" v-model="selectedFilter" :items="filterOptions"
               label="Opciones" hide-details />
           </v-col>
-          <v-col cols="8" md="6" lg="6" xl="6" class="mb-2">
-            <v-text-field append-inner-icon="search" density="compact" label="Búsqueda" variant="underlined"
+          <v-col cols="6" md="6" class="mb-2">
+            <v-text-field color="indigo" append-inner-icon="search" density="compact" label="Búsqueda" variant="underlined"
               hide-details single-line v-model="search" @click:append-inner="handleSearch"
               @keyup.enter="handleSearch" />
           </v-col>
-          <v-col cols="auto">
-            <v-btn icon="backspace" variant="text" color="red" size="small" title="Cancelar" @click="clearSearch" />
+          <v-col class="d-flex align-center" cols="2" md="2">
+            <v-btn icon="backspace" variant="text" color="red" size="small" title="Limpiar" @click="clearSearch" />
           </v-col>
         </v-row>
         <v-data-table-server :key="tableKey" :headers="headers" :items="products" :items-per-page-options="[5, 10]"
