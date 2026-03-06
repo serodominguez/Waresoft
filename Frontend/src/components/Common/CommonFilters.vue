@@ -21,10 +21,11 @@
             </div>
             <div class="px-4 py-2">
                 <v-date-input v-model="endDateModel" label="Hasta:" prepend-icon="" variant="underlined"
-                    persistent-placeholder hide-details></v-date-input>
+                    persistent-placeholder :error="!!dateError" :error-messages="dateError"
+                    hide-details="auto"></v-date-input>
             </div>
             <v-list-item class="pt-6">
-                <v-btn color="indigo" block @click="emit('apply-filters')">APLICAR</v-btn>
+                <v-btn color="indigo" block :disabled="!!dateError" @click="emit('apply-filters')">APLICAR</v-btn>
             </v-list-item>
             <v-list-item>
                 <v-btn color="indigo" block @click="clearFilters">LIMPIAR</v-btn>
@@ -34,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useFiltersSync } from '@/composables/useModelSync';
 
 // Props del componente
@@ -71,4 +73,13 @@ const {
     endDateModel,
     clearFilters
 } = useFiltersSync(props, emit);
+
+const dateError = computed(() => {
+    if (startDateModel.value && endDateModel.value) {
+        return startDateModel.value > endDateModel.value
+            ? 'La fecha "Hasta" debe ser mayor o igual a "Desde"'
+            : '';
+    }
+    return '';
+});
 </script>

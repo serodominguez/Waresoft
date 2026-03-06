@@ -128,9 +128,7 @@ namespace Application.Reports.Pdf
                     text.DefaultTextStyle(x => x.FontSize(10));
                     text.Span("Diferencia: ").SemiBold();
                     var diff = _kardex.StockDifference;
-                    text.Span(diff.ToString())
-                        .Bold()
-                        .FontColor(diff == 0 ? Colors.Black : diff > 0 ? Colors.Green.Medium : Colors.Red.Medium);
+                    text.Span(diff.ToString()).Bold();
                 });
             });
         }
@@ -142,11 +140,11 @@ namespace Application.Reports.Pdf
                 table.ColumnsDefinition(columns =>
                 {
                     columns.RelativeColumn(2);
+                    columns.RelativeColumn(3);
                     columns.RelativeColumn(2);
                     columns.RelativeColumn(2);
                     columns.RelativeColumn(2);
                     columns.RelativeColumn(2);
-                    columns.RelativeColumn(1);
                     columns.RelativeColumn(2);
                 });
 
@@ -158,7 +156,7 @@ namespace Application.Reports.Pdf
                     header.Cell().Element(HeaderCellStyle).Text("Tipo").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).Text("Estado").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Cantidad").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).AlignRight().Text("Stock Acum.").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignRight().Text("Acumulado").FontSize(10);
 
                     header.Cell()
                         .ColumnSpan(7)

@@ -3,6 +3,16 @@ const webpack = require('webpack');
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  pwa: {
+    name: 'Waresoft',
+    short_name: 'WS',
+  },
+  pages: {
+    index: {
+      entry: 'src/main.ts',
+      title: 'Waresoft'
+    }
+  },
 
   configureWebpack: {
     plugins: [
@@ -14,7 +24,7 @@ module.exports = defineConfig({
 
   pluginOptions: {
     vuetify: {
-			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
-		}
+      // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
+    }
   }
 })

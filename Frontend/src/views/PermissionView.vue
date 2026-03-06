@@ -13,16 +13,16 @@
               :loading="loadingRoles" />
           </v-col>
           <v-col cols="4" md="9" class="d-flex align-center gap-2">
-            <v-btn color="indigo" @click="loadPermissions" :disabled="!selectedRoleId || loading" :loading="loading">
-              Cargar
+            <v-btn color="indigo" @click="loadPermissions" :disabled="!selectedRoleId || loading" :loading="loading" title="Cargar">
+             <v-icon>sync</v-icon>
             </v-btn>
-            <v-btn color="green" @click="savePermissions" :disabled="!hasChanges || saving" :loading="saving"
+            <v-btn color="green" @click="savePermissions" :disabled="!hasChanges || saving" :loading="saving" title="Guardar"
               class="ml-2">
-              Guardar
+              <v-icon>save</v-icon>
             </v-btn>
-            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading"
+            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading" title="Cancelar"
               class="ml-2">
-              Limpiar
+              <v-icon>cancel_presentation</v-icon>
             </v-btn>
           </v-col>
         </v-row>

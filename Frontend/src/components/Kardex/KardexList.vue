@@ -5,11 +5,6 @@
         :items-per-page-options="[10, 20, 50]" :items-per-page="itemsPerPage" :items-length="totalMovements"
         :loading="loading" loading-text="Cargando... Espere por favor"
         @update:items-per-page="$emit('update-items-per-page', $event)" @update:page="$emit('change-page', $event)">
-        <template v-slot:top>
-          <v-toolbar>
-            <v-toolbar-title>Movimientos</v-toolbar-title>
-          </v-toolbar>
-        </template>
         <template v-slot:item="{ item }">
           <tr>
             <td class="text-center">{{ (item as KardexMovement).code }}</td>
@@ -75,7 +70,7 @@ const stateColor = (state: string): string => {
   const map: Record<string, string> = {
     'Completado': 'green',
     'Recibido': 'blue',
-    'Pendiente': 'orange',
+    'Enviado': 'orange',
   };
   return map[state] ?? 'grey';
 };

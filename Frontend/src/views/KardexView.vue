@@ -22,7 +22,7 @@
               readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-btn color="indigo" class="mt-1" @click="productModal = true">
+            <v-btn color="indigo" class="mt-1" @click="productModal = true" title="Seleccionar Producto">
               <v-icon>list</v-icon>
             </v-btn>
           </v-col>
@@ -55,21 +55,25 @@
         <v-row align="center">
           <v-col cols="12" md="3">
             <v-date-input v-model="filters.startDate" label="Fecha Inicio" prepend-icon="" variant="underlined"
-              persistent-placeholder clearable />
+              persistent-placeholder clearable :error-messages="dateError ? ' ' : ''"
+              @update:model-value="validateDates" />
           </v-col>
           <v-col cols="12" md="3">
             <v-date-input v-model="filters.endDate" label="Fecha Fin" prepend-icon="" variant="underlined"
-              persistent-placeholder clearable />
+              persistent-placeholder clearable :error-messages="dateError" @update:model-value="validateDates" />
           </v-col>
           <v-col cols="12" md="3" class="d-flex align-center gap-2">
-            <v-btn color="indigo" dark elevation="4" :disabled="!isEnabled" :loading="loading" @click="generateKardex">
-              Generar
+            <v-btn color="indigo" dark elevation="4" :disabled="!isEnabled" :loading="loading" @click="generateKardex"
+              title="Generar">
+              <v-icon>sync</v-icon>
             </v-btn>
             <template v-if="canDownload && kardex">
-              <v-btn color="indigo" dark elevation="4" class="ml-2" :loading="downloadingPdf" @click="downloadPdf">
-                <v-icon>print</v-icon>
+              <v-btn color="red" dark elevation="4" class="ml-2" :loading="downloadingPdf" @click="downloadPdf"
+                title="Descargar Pdf">
+                <v-icon>article</v-icon>
               </v-btn>
-              <v-btn color="indigo" dark elevation="4" class="ml-2" :loading="downloadingExcel" @click="downloadExcel">
+              <v-btn color="green" dark elevation="4" class="ml-2" :loading="downloadingExcel" @click="downloadExcel"
+                title="Descargar Excel">
                 <v-icon>table_chart</v-icon>
               </v-btn>
             </template>
@@ -94,21 +98,17 @@ import KardexTable from '@/components/Kardex/KardexList.vue';
 import CommonProductOut from '@/components/Common/CommonProductOut.vue';
 import { FilterParams } from '@/interfaces/baseInterface';
 
-// Pinia stores
 const kardexStore = useKardexStore();
 const authStore = useAuthStore();
 const toast = useToast();
 
 const { kardex, loading, totalKardex } = storeToRefs(kardexStore);
 
-// Control de modales
 const productModal = ref(false);
-
-// Estado de descarga
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
+const dateError = ref<string>('');
 
-// Producto seleccionado
 const selectedProduct = ref({
   idProduct: null as number | null,
   code: '',
@@ -117,7 +117,6 @@ const selectedProduct = ref({
   categoryName: '',
 });
 
-// Filtros
 const filters = ref<FilterParams>({
   pageNumber: 1,
   pageSize: 10,
@@ -127,23 +126,31 @@ const filters = ref<FilterParams>({
   endDate: '',
 });
 
-// Permisos
 const canDownload = computed((): boolean => authStore.hasPermission('inventario', 'descargar'));
 
-// Computed
+const validateDates = () => {
+  const start = filters.value.startDate;
+  const end = filters.value.endDate;
+  if (start && end && new Date(start) > new Date(end)) {
+    dateError.value = 'La fecha fin no puede ser menor a la fecha inicio';
+  } else {
+    dateError.value = '';
+  }
+};
+
 const isEnabled = computed(() => {
   const hasProduct = selectedProduct.value.idProduct !== null;
   const hasStartDate = filters.value.startDate && filters.value.startDate !== '' && filters.value.startDate !== null;
   const hasEndDate = filters.value.endDate && filters.value.endDate !== '' && filters.value.endDate !== null;
-  return hasProduct && hasStartDate && hasEndDate;
+  return hasProduct && hasStartDate && hasEndDate && !dateError.value;
 });
 
-// Métodos
 const handleProductSelected = (product: any) => {
   kardexStore.clearKardex();
   filters.value.startDate = '';
   filters.value.endDate = '';
   filters.value.pageNumber = 1;
+  dateError.value = '';
 
   selectedProduct.value = {
     idProduct: product.idProduct,

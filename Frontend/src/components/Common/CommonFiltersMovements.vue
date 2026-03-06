@@ -21,7 +21,7 @@
       </div>
       <div class="px-4 py-2">
         <v-date-input v-model="endDateModel" label="Hasta:" prepend-icon="" variant="underlined" persistent-placeholder
-          hide-details></v-date-input>
+          :error="!!dateError" :error-messages="dateError" hide-details="auto"></v-date-input>
       </div>
       <v-list-item class="pt-6">
         <v-btn color="indigo" block @click="applyFilters">Aplicar</v-btn>
@@ -59,7 +59,7 @@ const emit = defineEmits<{
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
   'apply-filters': [];
-  'clear-filters': []; 
+  'clear-filters': [];
 }>();
 
 const drawerModel = computed({
@@ -85,6 +85,15 @@ const startDateModel = computed({
 const endDateModel = computed({
   get: () => props.endDate,
   set: (value: Date | null) => emit('update:endDate', value)
+});
+
+const dateError = computed(() => {
+  if (startDateModel.value && endDateModel.value) {
+    return startDateModel.value > endDateModel.value
+      ? 'La fecha "Hasta" debe ser mayor o igual a "Desde"'
+      : '';
+  }
+  return '';
 });
 
 const applyFilters = () => {

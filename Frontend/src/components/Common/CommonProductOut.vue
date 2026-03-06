@@ -16,6 +16,9 @@
               hide-details single-line v-model="search" @click:append-inner="handleSearch"
               @keyup.enter="handleSearch" />
           </v-col>
+          <v-col cols="auto">
+            <v-btn icon="backspace" variant="text" color="red" size="small" title="Cancelar" @click="clearSearch" />
+          </v-col>
         </v-row>
         <v-data-table-server :key="tableKey" :headers="headers" :items="products" :items-per-page-options="[5, 10]"
           :items-per-page-text="pages" :items-per-page="itemsPerPage" :items-length="totalProducts" :loading="loading"
@@ -81,7 +84,7 @@ const itemsPerPage = ref(5);
 
 const search = ref<string | null>(null);
 const selectedFilter = ref('');
-const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Categoría', 'Marca']);
+const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Precio', 'Categoría', 'Marca']);
 
 const hasSearched = ref(false);
 const products = ref<Inventory[]>([]);
@@ -93,8 +96,9 @@ const FILTER_MAP: Record<string, number> = {
   "Descripción": 2,
   "Material": 3,
   "Color": 4,
-  "Marca": 5,
-  "Categoría": 6
+  "Precio": 5,
+  "Marca": 6,
+  "Categoría": 7
 };
 
 const headers = computed(() => [
@@ -137,6 +141,15 @@ const resetModalState = () => {
   tableKey.value++;
 };
 
+const clearSearch = () => {
+    search.value = null;
+    selectedFilter.value = '';
+    hasSearched.value = false;
+    products.value = [];
+    totalProducts.value = 0;
+    tableKey.value++;
+};
+
 const fetchProducts = async () => {
   try {
     loading.value = true;
@@ -144,6 +157,8 @@ const fetchProducts = async () => {
     await inventoryStore.fetchInventories({
       pageNumber: currentPage.value,
       pageSize: itemsPerPage.value,
+      sort: 'IdProduct',  
+      order: 'desc',  
       ...buildFilterParams()
     });
 

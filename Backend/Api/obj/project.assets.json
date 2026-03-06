@@ -947,7 +947,7 @@
           }
         }
       },
-      "QuestPDF/2026.2.2": {
+      "QuestPDF/2026.2.3": {
         "type": "package",
         "compile": {
           "lib/net10.0/QuestPDF.dll": {
@@ -1413,7 +1413,7 @@
           "Domain": "1.0.0",
           "FluentValidation": "12.1.1",
           "Infrastructure": "1.0.0",
-          "QuestPDF": "2026.2.2",
+          "QuestPDF": "2026.2.3",
           "Utilities": "1.0.0"
         },
         "compile": {
@@ -1442,7 +1442,7 @@
         "dependencies": {
           "ClosedXML": "0.105.0",
           "Domain": "1.0.0",
-          "QuestPDF": "2026.2.2",
+          "QuestPDF": "2026.2.3",
           "System.Linq.Dynamic.Core": "1.7.1",
           "Utilities": "1.0.0"
         },
@@ -3555,10 +3555,10 @@
         "packageIcon.png"
       ]
     },
-    "QuestPDF/2026.2.2": {
-      "sha512": "LAcnbU7Zx/adNX5+JBwRSazCLhNNrm2HMQJQVhUtzjq2hXl7QWOVS8a8bb+a6AjhV2hdC9saVqgYzjCpYgMa1g==",
+    "QuestPDF/2026.2.3": {
+      "sha512": "el20n2otRqY6AXsijlwPcTf12A54vm2KucQZ67k+9N5htrzfsXaBxh+/gU44HhTS4kmRFdYerY6WE47ybHhFYA==",
       "type": "package",
-      "path": "questpdf/2026.2.2",
+      "path": "questpdf/2026.2.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3615,7 +3615,7 @@
         "lib/net8.0/QuestPDF.xml",
         "lib/netstandard2.0/QuestPDF.dll",
         "lib/netstandard2.0/QuestPDF.xml",
-        "questpdf.2026.2.2.nupkg.sha512",
+        "questpdf.2026.2.3.nupkg.sha512",
         "questpdf.nuspec",
         "runtimes/linux-arm64/native/libQuestPdfSkia.so",
         "runtimes/linux-arm64/native/libqpdf.so",

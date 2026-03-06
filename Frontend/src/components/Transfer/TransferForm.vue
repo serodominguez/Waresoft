@@ -18,26 +18,27 @@
               label="Destino" readonly />
           </v-col>
           <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
-            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.sendDate"
-              label="Fecha envio" readonly />
+            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.sendDate" label="Fecha envio"
+              readonly />
           </v-col>
-         <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
+          <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
             <v-text-field color="indigo" variant="underlined" v-model="localTransfer.sendUser" label="Enviado por"
               readonly />
           </v-col>
-         <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
+          <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
             <v-text-field color="indigo" variant="underlined" v-model="localTransfer.statusTransfer" label="Estado"
               readonly />
           </v-col>
           <v-col class="px-2" cols="12" md="2">
-            <v-btn v-if="!localTransfer.idTransfer" fab dark color="indigo" class="mt-3" @click="openProductModal">
+            <v-btn v-if="!localTransfer.idTransfer" fab dark color="indigo" class="mt-3" @click="openProductModal"
+              title="Seleccionar Producto">
               <v-icon dark>list</v-icon>
             </v-btn>
           </v-col>
         </v-row>
-        
+
         <v-divider class="my-4"></v-divider>
-        
+
         <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
           :no-data-text="'No hay productos agregados'">
           <template v-slot:item="{ item, index }">
@@ -59,7 +60,8 @@
                   :rules="[rules.requiredNumber, rules.minValueOrZero]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
-              <td class="text-center" v-if="!localTransfer.idTransfer">{{ formatCurrency(item.quantity * item.unitPrice) }}</td>
+              <td class="text-center" v-if="!localTransfer.idTransfer">{{ formatCurrency(item.quantity * item.unitPrice)
+                }}</td>
               <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
               <td v-if="!localTransfer.idTransfer" class="text-center">
                 <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
@@ -67,7 +69,7 @@
               </td>
             </tr>
           </template>
-        </v-data-table>    
+        </v-data-table>
         <v-col v-if="!localTransfer.idTransfer" cols="12" class="d-flex justify-end mt-2 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(totalPrice) }}
         </v-col>

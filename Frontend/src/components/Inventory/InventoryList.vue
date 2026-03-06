@@ -24,7 +24,7 @@
               {{ (item as Inventory).price }}
             </td>
             <td>{{ (item as Inventory).auditCreateDate }}</td>
-            <td class="text-center"><v-chip :color="getStatusColor((item as Inventory).replenishment)" variant="flat"
+            <td class="text-center"><v-chip :color="getStatusColor((item as Inventory).replenishment)" variant="tonal"
                 size="small">
                 {{ (item as Inventory).replenishment }}
               </v-chip></td>
@@ -188,7 +188,7 @@ const getStatusColor = (status: string): string => {
   if (statusLower === 'disponible') {
     return 'green';
   } else if (statusLower === 'no disponible') {
-    return 'yellow';
+    return 'orange';
   } else if (statusLower === 'descontinuado') {
     return 'red';
   }

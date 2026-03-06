@@ -8,51 +8,52 @@
     </v-toolbar>
     <v-card-text>
       <v-form ref="formRef" v-model="valid">
-          <v-row>
-            <v-col cols="12" md="2">
-              <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" v-model="localReceipt.type"
-                :items="receiptTypes" label="Tipo de entrada" :rules="[rules.required]"
-                @update:modelValue="updateDocuments" />
-              <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.type"
-                label="Tipo de entrada" readonly />
-            </v-col>
-            <v-col cols="12" md="2">
-              <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="underlined"
-                v-model="localReceipt.documentType" :items="documentTypes" label="Tipo de comprobante"
-                :rules="[rules.required]" />
-              <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.documentType"
-                label="Tipo de comprobante" readonly />
-            </v-col>
-            <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
-              <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
-                :rules="[rules.required]" counter="30" :maxlength="30" label="Número del comprobante" />
-            </v-col>
-            <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
-              <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
-                label="Número del comprobante" readonly />
-            </v-col>
-            <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
-              <v-date-input locale="es" placeholder="dd/mm/yyyy" v-model="localReceipt.documentDate"
-                label="Fecha del comprobante" variant="underlined" prepend-icon="" :rules="[rules.required]" />
-            </v-col>
-            <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
-              <v-text-field v-model="localReceipt.documentDate" label="Fecha del comprobante" variant="underlined"
-                readonly />
-            </v-col>
-            <v-col cols="12" md="2">
-              <v-autocomplete v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" :items="suppliersArray"
-                v-model="localReceipt.idSupplier" item-title="companyName" item-value="idSupplier"
-                :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Proveedor"
-                :loading="loadingSuppliers" />
-              <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.companyName"
-                label="Proveedor" readonly />
-            </v-col>
-            <v-col class="px-2" cols="12" md="2">
-              <v-btn v-if="!localReceipt.idReceipt" fab dark color="indigo" class="mt-3" @click="openProductModal">
-                <v-icon dark>list</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
+        <v-row>
+          <v-col cols="12" md="2">
+            <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" v-model="localReceipt.type"
+              :items="receiptTypes" label="Tipo de entrada" :rules="[rules.required]"
+              @update:modelValue="updateDocuments" />
+            <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.type" label="Tipo de entrada"
+              readonly />
+          </v-col>
+          <v-col cols="12" md="2">
+            <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="underlined"
+              v-model="localReceipt.documentType" :items="documentTypes" label="Tipo de comprobante"
+              :rules="[rules.required]" />
+            <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.documentType"
+              label="Tipo de comprobante" readonly />
+          </v-col>
+          <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
+            <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
+              :rules="[rules.required]" counter="30" :maxlength="30" label="Número del comprobante" />
+          </v-col>
+          <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
+            <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
+              label="Número del comprobante" readonly />
+          </v-col>
+          <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
+            <v-date-input locale="es" placeholder="dd/mm/yyyy" v-model="localReceipt.documentDate"
+              label="Fecha del comprobante" variant="underlined" prepend-icon="" :rules="[rules.required]" />
+          </v-col>
+          <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
+            <v-text-field v-model="localReceipt.documentDate" label="Fecha del comprobante" variant="underlined"
+              readonly />
+          </v-col>
+          <v-col cols="12" md="2">
+            <v-autocomplete v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" :items="suppliersArray"
+              v-model="localReceipt.idSupplier" item-title="companyName" item-value="idSupplier"
+              :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Proveedor"
+              :loading="loadingSuppliers" />
+            <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.companyName"
+              label="Proveedor" readonly />
+          </v-col>
+          <v-col class="px-2" cols="12" md="2">
+            <v-btn v-if="!localReceipt.idReceipt" fab dark color="indigo" class="mt-3" @click="openProductModal"
+              title="Seleccionar Producto">
+              <v-icon dark>list</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
         <v-divider class="my-4"></v-divider>
         <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
           :no-data-text="'No hay productos agregados'">

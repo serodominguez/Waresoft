@@ -23,7 +23,8 @@
               readonly />
           </v-col>
           <v-col class="px-2" cols="12" md="2">
-            <v-btn v-if="!localIssue.idIssue" fab dark color="indigo" class="mt-3" @click="openProductModal">
+            <v-btn v-if="!localIssue.idIssue" fab dark color="indigo" class="mt-3" @click="openProductModal"
+              title="Seleccionar Producto">
               <v-icon dark>list</v-icon>
             </v-btn>
           </v-col>
