@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Inventario",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Inventario_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 
@@ -81,8 +81,7 @@ namespace Api.Controllers
                         "Reporte de existencias",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    //return File(fileBytes, ContentType.ContentTypeExcel, $"InventarioPivot_{DateTime.Now:yyyyMMdd}.xlsx");
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"InventarioPivot_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 
@@ -112,7 +111,7 @@ namespace Api.Controllers
                         "Reporte de Kardex",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Kardex_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 

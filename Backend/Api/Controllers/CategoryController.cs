@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Categorías",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Categorías_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 

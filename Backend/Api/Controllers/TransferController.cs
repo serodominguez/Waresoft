@@ -51,7 +51,7 @@ namespace Api.Controllers
                         "Reporte de Traspasos",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Traspasos_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 

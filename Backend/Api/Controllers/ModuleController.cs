@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Módulos",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Módulos_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 

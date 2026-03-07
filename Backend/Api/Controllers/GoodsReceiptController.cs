@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Entradas",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Entradas_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 

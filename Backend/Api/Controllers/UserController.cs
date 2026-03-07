@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Usuarios",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Usuarios_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 

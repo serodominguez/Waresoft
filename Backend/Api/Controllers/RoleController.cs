@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Roles",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Roles_{DateTime.Now:yyyyMMdd}.xlsx");
 
                 }
             }

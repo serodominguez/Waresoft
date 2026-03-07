@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Marcas",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Marcas_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 

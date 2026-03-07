@@ -50,7 +50,7 @@ namespace Api.Controllers
                         "Reporte de Salidas",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel);
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Salidas_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 
