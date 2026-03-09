@@ -43,6 +43,9 @@ export function setupAxiosInterceptors() {
         }
       }
 
+      if (!(config.data instanceof FormData)) {
+        config.headers['Content-Type'] = 'application/json';
+      }
       return config;
     },
     (error: AxiosError) => {
@@ -67,7 +70,7 @@ export function setupAxiosInterceptors() {
             showToast: true,
             customMessage: "Tu sesión ha expirado. Por favor, inicia sesión nuevamente",
           });
-          
+
           // Limpiar sesión y redirigir
           const authStore = useAuthStore();
           await authStore.logout();
@@ -152,7 +155,6 @@ export function configureAxiosDefaults() {
   axios.defaults.timeout = 30000;
 
   // Headers por defecto
-  axios.defaults.headers.common['Content-Type'] = 'application/json';
   axios.defaults.headers.common['Accept'] = 'application/json';
 
   // Configurar para enviar cookies

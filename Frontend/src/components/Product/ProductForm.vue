@@ -40,6 +40,15 @@
                   :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Categoría" required
                   :loading="loadingCategories" />
               </v-col>
+              <v-col cols="10" md="10">
+                <v-file-input color="indigo" variant="underlined" label="Imagen"
+                  accept="image/jpeg,image/png,image/webp" prepend-icon="image" :clearable="true"
+                  :rules="[rules.imageSize]" hint="Formatos permitidos: jpg, png, webp. Máximo 2MB." persistent-hint
+                  @change="handleImageChange" />
+                <v-img v-if="localProduct.image && !selectedImage" :src="localProduct.image" max-height="100" contain
+                  class="mt-2" />
+                  <v-btn v-if="localProduct.image && !selectedImage" icon="delete" color="red" variant="text" size="small" class="ml-2" @click="removeCurrentImage" title="Eliminar imagen" />
+              </v-col cols="2" md="2">
             </v-row>
           </v-container>
         </v-form>
@@ -82,6 +91,7 @@ const props = withDefaults(defineProps<Props>(), {
     material: '',
     color: '',
     unitMeasure: '',
+    image: '',
     idBrand: null,
     brandName: '',
     idCategory: null,
@@ -105,6 +115,7 @@ const { brands, loading: loadingBrands } = storeToRefs(brandStore);
 const { categories, loading: loadingCategories } = storeToRefs(categoryStore);
 
 const formRef = ref<FormRef | null>(null);
+const selectedImage = ref<File | null>(null);
 const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
@@ -114,6 +125,18 @@ const rules = {
   required: (value: string) => !!value || 'Este campo es requerido.',
   onlyLetters: (value: string) => !value || /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(value) || 'Solo se permiten letras.',
   onlyNumbers: (value: string) => !value || /^[0-9]+$/.test(value) || 'Solo se permiten números.',
+    imageSize: (value: File | File[]) => {
+    if (!value) return true;
+    const file = Array.isArray(value) ? value[0] : value;
+    if (!file) return true;
+    const maxSize = 2 * 1024 * 1024; // 5MB
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type))
+      return 'Solo se permiten imágenes jpg, jpeg, png o webp.';
+    if (file.size > maxSize)
+      return 'La imagen no puede superar los 2MB.';
+    return true;
+  }
 };
 
 const brandsArray = computed(() => Array.isArray(brands.value) ? brands.value : []);
@@ -155,39 +178,52 @@ const saveProduct = async () => {
   }
 
   saving.value = true;
+  const isEditing = !!localProduct.value.idProduct;
 
   try {
-    const isEditing = !!localProduct.value.idProduct;
-    let result;
+    const formData = new FormData();
+    formData.append('code', localProduct.value.code ?? '');
+    formData.append('description', localProduct.value.description ?? '');
+    formData.append('material', localProduct.value.material ?? '');
+    formData.append('color', localProduct.value.color ?? '');
+    formData.append('unitMeasure', localProduct.value.unitMeasure ?? '');
+    formData.append('idBrand', String(localProduct.value.idBrand));
+    formData.append('idCategory', String(localProduct.value.idCategory));
 
+    if (selectedImage.value)
+      formData.append('image', selectedImage.value);
+
+    let result;
     if (isEditing && localProduct.value.idProduct !== null) {
-      result = await productStore.editProduct(
-        localProduct.value.idProduct,
-        { ...localProduct.value }
-      );
+      result = await productStore.editProduct(localProduct.value.idProduct, formData);
     } else {
-      result = await productStore.registerProduct({ ...localProduct.value });
+      result = await productStore.registerProduct(formData);
     }
 
     if (result.isSuccess) {
-      const successMsg = isEditing
-        ? 'Producto editado con éxito!'
-        : 'Producto agregado con éxito!';
-
-      toast.success(successMsg);
+      toast.success(isEditing ? 'Producto editado con éxito!' : 'Producto agregado con éxito!');
+      selectedImage.value = null;
       emit('saved');
       close();
     }
 
   } catch (error: any) {
-    const isEditing = !!localProduct.value.idProduct;
-    const customMessage = isEditing
-      ? 'Error en editar el producto'
-      : 'Error en agregar el producto';
-
-    handleApiError(error, customMessage);
+    handleApiError(error, isEditing ? 'Error en editar el producto' : 'Error en agregar el producto');
   } finally {
     saving.value = false;
+  }
+};
+
+const removeCurrentImage = () => {
+  localProduct.value.image = '';
+};
+
+const handleImageChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    selectedImage.value = target.files[0];
+  } else {
+    selectedImage.value = null;
   }
 };
 </script>

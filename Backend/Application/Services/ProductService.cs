@@ -18,12 +18,14 @@ namespace Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<ProductRequestDto> _validator;
         private readonly IOrderingQuery _orderingQuery;
+        private readonly IFileStorageImageService _fileStorageImageService;
 
-        public ProductService(IUnitOfWork unitOfWork, IValidator<ProductRequestDto> validator, IOrderingQuery orderingQuery)
+        public ProductService(IUnitOfWork unitOfWork, IValidator<ProductRequestDto> validator, IOrderingQuery orderingQuery, IFileStorageImageService fileStorageImageService)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
             _orderingQuery = orderingQuery;
+            _fileStorageImageService = fileStorageImageService;
         }
 
         public async Task<BaseResponse<IEnumerable<ProductResponseDto>>> ListProducts(BaseFiltersRequest filters)
@@ -138,6 +140,10 @@ namespace Application.Services
                 }
 
                 var product = ProductMapp.ProductsMapping(requestDto);
+
+                if (requestDto.Image is not null)
+                    product.Image = await _fileStorageImageService.SaveFile(ContainerConstants.PRODUCTS, requestDto.Image);
+
                 product.AuditCreateUser = authenticatedUserId;
                 product.AuditCreateDate = DateTime.Now;
                 product.Replenishment = 1;
@@ -204,6 +210,9 @@ namespace Application.Services
                 product.IdCategory = requestDto.IdCategory;
                 product.AuditUpdateUser = authenticatedUserId;
                 product.AuditUpdateDate = DateTime.Now;
+
+                if (requestDto.Image is not null)
+                    product.Image = await _fileStorageImageService.EditFile(ContainerConstants.PRODUCTS, requestDto.Image, product.Image!);
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -303,7 +312,7 @@ namespace Application.Services
                 {
                     response.IsSuccess = true;
                     response.Data = true;
-                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
                 }
                 else
                 {
@@ -338,8 +347,12 @@ namespace Application.Services
                     return response;
                 }
 
+                if (!string.IsNullOrEmpty(product.Image))
+                    await _fileStorageImageService.RemoveFile(product.Image, ContainerConstants.PRODUCTS);
+
                 product.AuditDeleteUser = authenticatedUserId;
                 product.AuditDeleteDate = DateTime.Now;
+                product.Image = null;
                 product.Replenishment = 3;
                 product.Status = false;
 
@@ -349,7 +362,7 @@ namespace Application.Services
                 {
                     response.IsSuccess = true;
                     response.Data = true;
-                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                    response.Message = ReplyMessage.MESSAGE_DELETE;
                 }
                 else
                 {

@@ -412,9 +412,17 @@
               "target": "Package",
               "version": "[0.105.0, )"
             },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[5.0.17, )"
+            },
             "QuestPDF": {
               "target": "Package",
               "version": "[2026.2.3, )"
+            },
+            "SixLabors.ImageSharp": {
+              "target": "Package",
+              "version": "[3.1.12, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",

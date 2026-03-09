@@ -5,6 +5,7 @@ export interface Product {
   material: string;
   color: string;
   unitMeasure: string;
+  image: string;
   idBrand: number | null;
   brandName: string,
   idCategory: number | null;

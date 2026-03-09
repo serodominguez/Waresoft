@@ -73,28 +73,28 @@ export const useProductStore = defineStore('product', () => {
     }
   }
 
-  async function registerProduct(product: Product) {
-    try {
-      const resultado = await productService.create(product);
-      if (resultado.isSuccess) {
-        await fetchProducts(lastFilterParams.value || {});
-      }
-      return resultado;
-    } catch (err: any) {
-      return { isSuccess: false, message: err.message, errors: err };
+  async function registerProduct(product: FormData) {
+  try {
+    const resultado = await productService.registerProduct(product);
+    if (resultado.isSuccess) {
+      await fetchProducts(lastFilterParams.value || {});
     }
+    return resultado;
+  } catch (err: any) {
+    return { isSuccess: false, message: err.message, errors: err };
+  }
   }
 
-  async function editProduct(id: number, product: Product) {
-    try {
-      const resultado = await productService.update(id, product);
-      if (resultado.isSuccess) {
-        await fetchProducts(lastFilterParams.value || {});
-      }
-      return resultado;
-    } catch (err: any) {
-      return { isSuccess: false, message: err.message, errors: err };
+  async function editProduct(id: number, product: FormData) {
+  try {
+    const resultado = await productService.editProduct(id, product);
+    if (resultado.isSuccess) {
+      await fetchProducts(lastFilterParams.value || {});
     }
+    return resultado;
+  } catch (err: any) {
+    return { isSuccess: false, message: err.message, errors: err };
+  }
   }
 
   async function enableProduct(id: number) {

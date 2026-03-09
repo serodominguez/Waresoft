@@ -26,6 +26,7 @@ namespace Infrastructure.Persistences.Repositories
                        Material = p.Material,
                        Color = p.Color,
                        UnitMeasure = p.UnitMeasure,
+                       Image = p.Image,
                        IdBrand = p.IdBrand,
                        IdCategory = p.IdCategory,
                        Brand = new BrandEntity

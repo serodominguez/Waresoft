@@ -10,6 +10,7 @@ namespace Application.Dtos.Response.Product
         public string? Material { get; set; }
         public string? Color { get; set; }
         public string? UnitMeasure { get; set; }
+        public string? Image { get; set; }  
         public int IdBrand { get; set; }
         public string? BrandName { get; set; }
         public int IdCategory { get; set; }

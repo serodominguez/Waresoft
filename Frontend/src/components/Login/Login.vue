@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="6" lg="5" xl="4">
         <v-card :loading="loading">
           <v-toolbar class="tool-bar-custom" dark>
-            <v-toolbar-title>Inicio de sesión</v-toolbar-title>
+            <v-toolbar-title>Waresoft</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <v-text-field v-model="user" color="indigo" label="Usuario" variant="underlined" @keyup="uppercase"
@@ -17,7 +17,7 @@
           <v-card-actions class="px-3 pb-3">
             <v-spacer></v-spacer>
             <v-btn @click="login" color="indigo" elevation="4" :loading="loading" :disabled="loading">
-              Ingresar
+              Iniciar sesión
             </v-btn>
           </v-card-actions>
         </v-card>

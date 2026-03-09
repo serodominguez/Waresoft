@@ -32,6 +32,7 @@ namespace Application.Mappers
                 Material = entity.Material.ToSentenceCase(),
                 Color = entity.Color.ToSentenceCase(),
                 UnitMeasure = entity.UnitMeasure.ToSentenceCase(),
+                Image = entity.Image,
                 IdBrand = entity.IdBrand,
                 BrandName = entity.Brand?.BrandName.ToSentenceCase(),
                 IdCategory = entity.IdCategory,

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.FileExcel;
 using Infrastructure.FilePdf;
+using Infrastructure.FileStorage;
 using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Repositories;
@@ -21,6 +22,7 @@ namespace Infrastructure.Extensions
 
             ;
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IFileStorageImage, FileStorageImage>();
             services.AddTransient<IGenerateExcel, GenerateExcel>();
             services.AddTransient<IListPdfGeneratorFactory, ListPdfGeneratorFactory>();
 

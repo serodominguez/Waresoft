@@ -38,6 +38,10 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(15)
                 .IsRequired();
 
+            builder.Property(p => p.Image)
+                .HasColumnName("IMAGE")
+                .HasMaxLength(2048);
+
             builder.Property(p => p.IdBrand)
                 .HasColumnName("PK_BRAND")
                 .IsRequired();

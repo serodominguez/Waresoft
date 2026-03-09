@@ -2,7 +2,7 @@
     <v-footer app>
         <v-card class="footer-custom px-4 py-2 text-center w-100" flat>
             <v-card-text class="py-2 white--text text-center">
-                <strong>{{ new Date().getFullYear() }}</strong> - <strong>IT SOLUTIONS</strong>
+                <strong>IT SOLUTIONS</strong> - <strong>{{ new Date().getFullYear() }}</strong>
             </v-card-text>
         </v-card>
     </v-footer>

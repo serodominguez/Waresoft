@@ -84,6 +84,7 @@ const openForm = (product?: Product) => {
     material: '',
     color: '',
     unitMeasure: '',
+    image: '',
     idBrand: null,
     brandName: '',
     idCategory: null,

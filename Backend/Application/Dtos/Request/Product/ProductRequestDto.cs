@@ -1,4 +1,6 @@
-﻿namespace Application.Dtos.Request.Product
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Application.Dtos.Request.Product
 {
     public class ProductRequestDto
     {
@@ -7,6 +9,7 @@
         public string? Material { get; set; }
         public string? Color { get; set; }
         public string? UnitMeasure { get; set; }
+        public IFormFile? Image { get; set; }
         public int IdBrand { get; set; }
         public int IdCategory { get; set; }
     }

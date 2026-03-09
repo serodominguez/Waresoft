@@ -67,7 +67,7 @@ namespace Api.Controllers
 
         [HttpPost("Register")]
         [RequirePermission("Productos", "Crear")]
-        public async Task<IActionResult> RegisterProduct([FromBody] ProductRequestDto requestDto)
+        public async Task<IActionResult> RegisterProduct([FromForm] ProductRequestDto requestDto)
         {
             var response = await _productService.RegisterProduct(AuthenticatedUserId, requestDto);
             return Ok(response);
@@ -75,7 +75,7 @@ namespace Api.Controllers
 
         [HttpPut("Edit/{productId:int}")]
         [RequirePermission("Productos", "Editar")]
-        public async Task<IActionResult> EditProduct(int productId, [FromBody] ProductRequestDto requestDto)
+        public async Task<IActionResult> EditProduct(int productId, [FromForm] ProductRequestDto requestDto)
         {
             var response = await _productService.EditProduct(AuthenticatedUserId, productId, requestDto);
             return Ok(response);

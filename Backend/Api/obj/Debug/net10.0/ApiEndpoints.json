@@ -1152,9 +1152,44 @@
         "IsRequired": true
       },
       {
-        "Name": "requestDto",
-        "Type": "Application.Dtos.Request.Product.ProductRequestDto",
-        "IsRequired": true
+        "Name": "Code",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Material",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Color",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UnitMeasure",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "IdBrand",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "IdCategory",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -1184,9 +1219,44 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "requestDto",
-        "Type": "Application.Dtos.Request.Product.ProductRequestDto",
-        "IsRequired": true
+        "Name": "Code",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Material",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Color",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "UnitMeasure",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "IdBrand",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "IdCategory",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

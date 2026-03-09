@@ -34,6 +34,12 @@ namespace Application.Validators
 
             RuleFor(x => x.IdCategory)
                 .NotNull().WithMessage("El identificador de la categoría no puede ser nulo!");
+            
+            RuleFor(x => x.Image)
+                .Must(image => image == null || image.Length <= 2 * 1024 * 1024)
+                .WithMessage("La imagen no puede superar los 2MB.")
+                .Must(image => image == null || new[] { "image/jpeg", "image/png", "image/webp" }.Contains(image.ContentType))
+                .WithMessage("Solo se permiten imágenes jpg, png o webp.");
 
         }
     }

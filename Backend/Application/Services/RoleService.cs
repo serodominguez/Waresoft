@@ -333,7 +333,7 @@ namespace Application.Services
                 {
                     response.IsSuccess = true;
                     response.Data = true;
-                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                    response.Message = ReplyMessage.MESSAGE_INACTIVATE;
                 }
                 else
                 {
@@ -378,7 +378,7 @@ namespace Application.Services
                 {
                     response.IsSuccess = true;
                     response.Data = true;
-                    response.Message = ReplyMessage.MESSAGE_ACTIVATE;
+                    response.Message = ReplyMessage.MESSAGE_DELETE;
                 }
                 else
                 {

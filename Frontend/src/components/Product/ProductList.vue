@@ -7,6 +7,11 @@
         @update:items-per-page="$emit('update-items-per-page', $event)" @update:page="$emit('change-page', $event)">
         <template v-slot:item="{ item }">
           <tr>
+            <td>
+              <v-img v-if="(item as Product).image" :src="(item as Product).image" width="50" height="50" contain
+                class="rounded" />
+              <v-icon v-else color="grey">hide_image</v-icon>
+            </td>
             <td>{{ (item as Product).code }}</td>
             <td>{{ (item as Product).description }}</td>
             <td>{{ (item as Product).material }}</td>
@@ -44,7 +49,6 @@
             </v-btn>
             <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
               :loading="downloadingExcel" title="Descargar Excel"></v-btn>
-
             <v-btn v-if="canCreate" icon="add_box" color="purple-darken-1" @click="$emit('open-form')"
               title="Agregar"></v-btn>
             <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
@@ -127,6 +131,7 @@ const search = ref<string | null>(null);
 const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Categoría', 'Marca']);
 
 const headers = computed(() => [
+  { title: 'Imagen', key: 'image', sortable: false },
   { title: 'Código', key: 'code', sortable: false },
   { title: 'Descripción', key: 'description', sortable: false },
   { title: 'Material', key: 'material', sortable: false },

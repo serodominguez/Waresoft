@@ -256,7 +256,7 @@ namespace Application.Services
                 transaction.Commit();
 
                 response.IsSuccess = true;
-                response.Message = ReplyMessage.MESSAGE_SAVE;
+                response.Message = ReplyMessage.MESSAGE_DELETE;
             }
             catch (Exception ex)
             {
