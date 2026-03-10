@@ -8,62 +8,54 @@ namespace Application.Validators
         public GoodsReceiptValidator() 
         {
             RuleFor(x => x.Type)
-                .NotEmpty().WithMessage("El tipo es requerido!")
-                .MaximumLength(20).WithMessage("El tipo no puede tener más de 20 caracteres!")
+                .NotEmpty().WithMessage("El tipo es requerido")
+                .MaximumLength(20).WithMessage("El tipo no puede tener más de 20 caracteres")
                 .Must(type => type == "Adquisición" || type == "Ajuste de inventario" || type == "Ajuste de kardex")
-                .WithMessage("El tipo debe ser 'Adquisición', 'Ajuste de inventario' o 'Ajuste de kardex'!");
+                .WithMessage("El tipo debe ser 'Adquisición', 'Ajuste de inventario' o 'Ajuste de kardex'");
 
             RuleFor(x => x.DocumentType)
-                .NotEmpty().WithMessage("El tipo de documento es requerido!")
-                .MaximumLength(15).WithMessage("El tipo de documento no puede tener más de 15 caracteres!");
+                .NotEmpty().WithMessage("El tipo de documento es requerido")
+                .MaximumLength(15).WithMessage("El tipo de documento no puede tener más de 15 caracteres");
 
             RuleFor(x => x.DocumentDate)
-                .NotEmpty().WithMessage("La fecha del documento es requerida para tipo Adquisición!")
+                .NotEmpty().WithMessage("La fecha del documento es requerida para tipo Adquisición")
                 .When(x => x.Type == "Adquisición");
 
             RuleFor(x => x.DocumentNumber)
-                .NotEmpty().WithMessage("El número de documento es requerido para tipo Adquisición!")
-                .MaximumLength(30).WithMessage("El número de documento no puede tener más de 30 caracteres!")
+                .NotEmpty().WithMessage("El número de documento es requerido para tipo Adquisición")
+                .MaximumLength(30).WithMessage("El número de documento no puede tener más de 30 caracteres")
                 .When(x => x.Type == "Adquisición");
 
             RuleFor(x => x.TotalAmount)
-                .NotNull().WithMessage("El monto total es requerido!")
-                .GreaterThanOrEqualTo(0).WithMessage("El monto total no puede ser negativo!");
+                .GreaterThanOrEqualTo(0).WithMessage("El monto total no puede ser negativo");
 
             RuleFor(x => x.Annotations)
-                .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres!");
+                .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres")
+                .When(x => !string.IsNullOrWhiteSpace(x.Annotations));
 
             RuleFor(x => x.IdSupplier)
-                .NotEmpty().WithMessage("El proveedor es requerido!");
+                .GreaterThan(0).WithMessage("El identificador del proveedor es requerido");
 
             RuleFor(x => x.IdStore)
-                .NotEmpty().WithMessage("El almacén es requerido!");
+                .GreaterThan(0).WithMessage("El identificador del establecimiento es requerido");
 
-            // ===== VALIDACIONES DEL DETALLE =====
-
-            //La colección no puede estar vacía
             RuleFor(x => x.GoodsReceiptDetails)
-                .NotEmpty().WithMessage("Debe agregar al menos un detalle de entrada!")
-                .Must(details => details != null && details.Any())
-                .WithMessage("La entrada debe tener al menos un producto!");
+                .NotEmpty().WithMessage("Debe agregar al menos un producto a la entrada");
 
-            //Validar cada elemento del detalle
             RuleForEach(x => x.GoodsReceiptDetails)
                 .SetValidator(new GoodsReceiptDetailsValidator());
 
-            //Validación custom: Items únicos y secuenciales
             RuleFor(x => x.GoodsReceiptDetails)
                 .Must(details =>
                 {
                     if (details == null || !details.Any()) return true;
 
                     var items = details.Select(d => d.Item).ToList();
-                    //Verificar que no haya ítems duplicados
+
                     return items.Count == items.Distinct().Count();
                 })
-                .WithMessage("Los números de ítem deben ser únicos!");
+                .WithMessage("Los números de ítem deben ser únicos");
 
-            //Validación custom: Productos únicos
             RuleFor(x => x.GoodsReceiptDetails)
                 .Must(details =>
                 {
@@ -72,9 +64,8 @@ namespace Application.Validators
                     var products = details.Select(d => d.IdProduct).ToList();
                     return products.Count == products.Distinct().Count();
                 })
-                .WithMessage("No se puede agregar el mismo producto más de una vez!");
+                .WithMessage("No se puede agregar el mismo producto más de una vez");
 
-            //Validación custom: TotalAmount debe coincidir con la suma de detalles
             RuleFor(x => x)
                 .Must(x =>
                 {
@@ -84,7 +75,7 @@ namespace Application.Validators
                     var sumDetails = x.GoodsReceiptDetails.Sum(d => d.TotalCost);
                     return x.TotalAmount == sumDetails;
                 })
-                .WithMessage("El monto total debe ser igual a la suma de los costos de los detalles!")
+                .WithMessage("El monto total debe ser igual a la suma de los costos de los detalles")
                 .WithName("TotalAmount");
         }
     }

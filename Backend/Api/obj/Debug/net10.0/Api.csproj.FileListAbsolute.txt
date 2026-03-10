@@ -69,6 +69,7 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Newtonsoft.Json.
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\QuestPDF.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\RBush.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\SixLabors.Fonts.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\SixLabors.ImageSharp.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -223,4 +224,3 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Debug\net10.0\refint\Api.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Debug\net10.0\Api.pdb
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Debug\net10.0\Api.genruntimeconfig.cache
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Debug\net10.0\ref\Api.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\SixLabors.ImageSharp.dll

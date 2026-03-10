@@ -178,7 +178,6 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> EditProduct(int authenticatedUserId, int productId, ProductRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();
-
             try
             {
                 var validationResult = await _validator.ValidateAsync(requestDto);
@@ -211,8 +210,23 @@ namespace Application.Services
                 product.AuditUpdateUser = authenticatedUserId;
                 product.AuditUpdateDate = DateTime.Now;
 
+                // ✅ Manejo correcto de imágenes
                 if (requestDto.Image is not null)
-                    product.Image = await _fileStorageImageService.EditFile(ContainerConstants.PRODUCTS, requestDto.Image, product.Image!);
+                {
+                    // Si hay nueva imagen, EditFile elimina la vieja y guarda la nueva
+                    product.Image = await _fileStorageImageService.EditFile(
+                        ContainerConstants.PRODUCTS,
+                        requestDto.Image,
+                        product.Image!
+                    );
+                }
+                else if (requestDto.RemoveImage && !string.IsNullOrEmpty(product.Image))
+                {
+                    // Si NO hay nueva imagen pero se marcó para eliminar
+                    await _fileStorageImageService.RemoveFile(product.Image!, ContainerConstants.PRODUCTS);
+                    product.Image = null;
+                }
+                // Si NO hay nueva imagen Y NO se marcó para eliminar, mantener la actual
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -234,7 +248,6 @@ namespace Application.Services
                 response.IsSuccess = false;
                 response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
             }
-
             return response;
         }
 

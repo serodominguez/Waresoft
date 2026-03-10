@@ -1182,6 +1182,11 @@
         "IsRequired": false
       },
       {
+        "Name": "RemoveImage",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
         "Name": "IdBrand",
         "Type": "System.Int32",
         "IsRequired": false
@@ -1246,6 +1251,11 @@
       {
         "Name": "Image",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "RemoveImage",
+        "Type": "System.Boolean",
         "IsRequired": false
       },
       {

@@ -8,28 +8,26 @@ namespace Application.Validators
         public GoodsIssueValidator()
         {
             RuleFor(x => x.Type)
-                .NotEmpty().WithMessage("El tipo es requerido!")
-                .MaximumLength(20).WithMessage("El tipo no puede tener más de 20 caracteres!")
+                .NotEmpty().WithMessage("El tipo es requerido")
+                .MaximumLength(20).WithMessage("El tipo no puede tener más de 20 caracteres")
                 .Must(type => type == "Consignación" || type == "Ajuste de inventario" || type == "Ajuste de kardex")
-                .WithMessage("El tipo debe ser 'Consignación', 'Ajuste de inventario' o 'Ajuste de kardex'!");
+                .WithMessage("El tipo debe ser 'Consignación', 'Ajuste de inventario' o 'Ajuste de kardex'");
 
             RuleFor(x => x.TotalAmount)
-                .NotNull().WithMessage("El monto total es requerido!")
-                .GreaterThanOrEqualTo(0).WithMessage("El monto total no puede ser negativo!");
+                .GreaterThanOrEqualTo(0).WithMessage("El monto total no puede ser negativo");
 
             RuleFor(x => x.Annotations)
-                .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres!");
+                .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres")
+                .When(x => !string.IsNullOrWhiteSpace(x.Annotations));
 
             RuleFor(x => x.IdUser)
-                .NotEmpty().WithMessage("El usuario es requerido!");
+                .GreaterThan(0).WithMessage("El identificador del usuario es requerido");
 
             RuleFor(x => x.IdStore)
-                .NotEmpty().WithMessage("El establecimiento es requerido!");
+                .GreaterThan(0).WithMessage("El identificador del establecimiento es requerido");
 
             RuleFor(x => x.GoodsIssueDetails)
-                .NotEmpty().WithMessage("Debe agregar al menos un detalle de salida!")
-                .Must(details => details != null && details.Any())
-                .WithMessage("La salida debe tener al menos un producto!");
+                .NotEmpty().WithMessage("Debe agregar al menos un producto a la salida");
 
             RuleForEach(x => x.GoodsIssueDetails)
                 .SetValidator(new GoodsIssueDetailsValidator());
@@ -42,7 +40,7 @@ namespace Application.Validators
                     var items = details.Select(d => d.Item).ToList();
                     return items.Count == items.Distinct().Count();
                 })
-                .WithMessage("Los números de ítem deben ser únicos!");
+                .WithMessage("Los números de ítem deben ser únicos");
 
             RuleFor(x => x.GoodsIssueDetails)
                 .Must(details =>
@@ -52,7 +50,7 @@ namespace Application.Validators
                     var products = details.Select(d => d.IdProduct).ToList();
                     return products.Count == products.Distinct().Count();
                 })
-                .WithMessage("No se puede agregar el mismo producto más de una vez!");
+                .WithMessage("No se puede agregar el mismo producto más de una vez");
 
             RuleFor(x => x)
                 .Must(x =>
@@ -63,7 +61,7 @@ namespace Application.Validators
                     var sumDetails = x.GoodsIssueDetails.Sum(d => d.TotalPrice);
                     return x.TotalAmount == sumDetails;
                 })
-                .WithMessage("El monto total debe ser igual a la suma de los precios de los detalles!")
+                .WithMessage("El monto total debe ser igual a la suma de los precios de los detalles")
                 .WithName("TotalAmount");
         }
     }

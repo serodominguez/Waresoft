@@ -9,7 +9,6 @@ namespace Infrastructure.FileStorage
     {
         public async Task<string> SaveFile(string container, IFormFile file, string webRootPath, string scheme, string host)
         {
-            // ✅ Siempre guardamos como .jpg optimizado
             var fileName = $"{Guid.NewGuid()}.jpg";
             string folder = Path.Combine(webRootPath, container);
 
@@ -18,27 +17,57 @@ namespace Infrastructure.FileStorage
 
             string path = Path.Combine(folder, fileName);
 
-            // ✅ Optimización con ImageSharp
-            using (var image = await Image.LoadAsync(file.OpenReadStream()))
+            try
             {
-                // Redimensiona si el ancho es mayor a 800px manteniendo proporción
-                if (image.Width > 400)
-                    image.Mutate(x => x.Resize(400, 0));
+                using (var image = await Image.LoadAsync(file.OpenReadStream()))
+                {
+                    if (image.Width > 400)
+                        image.Mutate(x => x.Resize(400, 0));
 
-                // Guarda como JPEG con 80% de calidad
-                await image.SaveAsJpegAsync(path, new JpegEncoder { Quality = 80 });
+                    await image.SaveAsJpegAsync(path, new JpegEncoder { Quality = 80 });
+                }
+
+                var currentUrl = $"{scheme}://{host}";
+                var pathDb = Path.Combine(currentUrl, container, fileName).Replace("\\", "/");
+                //var pathDb = $"{currentUrl}/{container}/{fileName}";
+                return pathDb;
             }
+            catch
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
 
-            var currentUrl = $"{scheme}://{host}";
-            var pathDb = Path.Combine(currentUrl, container, fileName).Replace("\\", "/");
-            return pathDb;
+                throw;
+            }
         }
 
         public async Task<string> EditFile(string container, IFormFile file, string route, string webRootPath, string scheme, string host)
         {
-            await RemoveFile(route, container, webRootPath);
+            string? newPath = null;
 
-            return await SaveFile(container, file, webRootPath, scheme, host);
+            try
+            {
+                newPath = await SaveFile(container, file, webRootPath, scheme, host);
+
+                if (!string.IsNullOrEmpty(route))
+                {
+                    await RemoveFile(route, container, webRootPath);
+                }
+
+                return newPath;
+            }
+            catch
+            {
+                if (!string.IsNullOrEmpty(newPath))
+                {
+                    var newFileName = Path.GetFileName(newPath);
+                    var newFilePath = Path.Combine(webRootPath, container, newFileName);
+                    if (File.Exists(newFilePath))
+                        File.Delete(newFilePath);
+                }
+
+                throw;
+            }
         }
 
         public Task RemoveFile(string route, string container, string webRootPath)
@@ -46,14 +75,20 @@ namespace Infrastructure.FileStorage
             if (string.IsNullOrEmpty(route))
                 return Task.CompletedTask;
 
-            var fileName = Path.GetFileName(route);
+            try
+            {
+                var fileName = Path.GetFileName(route);
+                var directoryFile = Path.Combine(webRootPath, container, fileName);
 
-            var directoryFile = Path.Combine(webRootPath, container, fileName);
+                if (File.Exists(directoryFile))
+                    File.Delete(directoryFile);
 
-            if (File.Exists(directoryFile))
-                File.Delete(directoryFile);
-
-            return Task.CompletedTask;
+                return Task.CompletedTask;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

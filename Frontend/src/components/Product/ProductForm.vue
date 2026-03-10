@@ -43,12 +43,15 @@
               <v-col cols="10" md="10">
                 <v-file-input color="indigo" variant="underlined" label="Imagen"
                   accept="image/jpeg,image/png,image/webp" prepend-icon="image" :clearable="true"
-                  :rules="[rules.imageSize]" hint="Formatos permitidos: jpg, png, webp. Máximo 2MB." persistent-hint
-                  @change="handleImageChange" />
+                  :rules="[rules.imageSize]" @change="handleImageChange" />
                 <v-img v-if="localProduct.image && !selectedImage" :src="localProduct.image" max-height="100" contain
-                  class="mt-2" />
-                  <v-btn v-if="localProduct.image && !selectedImage" icon="delete" color="red" variant="text" size="small" class="ml-2" @click="removeCurrentImage" title="Eliminar imagen" />
-              </v-col cols="2" md="2">
+                  class="mt-4 border rounded pa-2" />
+              </v-col>
+              <v-col v-if="localProduct.image && !selectedImage" cols="2" md="2"
+                class="d-flex align-center justify-center">
+                <v-btn icon="cancel" color="red" variant="text" size="small" @click="removeCurrentImage"
+                  title="Eliminar imagen" />
+              </v-col>
             </v-row>
           </v-container>
         </v-form>
@@ -129,7 +132,7 @@ const rules = {
     if (!value) return true;
     const file = Array.isArray(value) ? value[0] : value;
     if (!file) return true;
-    const maxSize = 2 * 1024 * 1024; // 5MB
+    const maxSize = 2 * 1024 * 1024; // 2MB
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!allowedTypes.includes(file.type))
       return 'Solo se permiten imágenes jpg, jpeg, png o webp.';
@@ -147,6 +150,11 @@ watch(() => props.modelValue, (newValue: boolean) => {
   if (newValue) {
     brandStore.selectBrand();
     categoryStore.selectCategory();
+    // Resetear el estado de la imagen seleccionada al abrir el diálogo
+    selectedImage.value = null;
+    imageDeleted.value = false;
+    // Asegurar que el producto local tenga los datos correctos del prop
+    localProduct.value = { ...props.product } as Product;
   }
 });
 
@@ -157,11 +165,17 @@ watch(isOpen, (newValue: boolean) => {
 watch(() => props.product, (newProduct) => {
   if (newProduct) {
     localProduct.value = { ...newProduct } as Product;
+    // Resetear la imagen seleccionada cuando cambia el producto
+    selectedImage.value = null;
+    imageDeleted.value = false;
   }
 }, { deep: true });
 
 const close = () => {
   isOpen.value = false;
+  // Resetear también al cerrar para evitar estados residuales
+  selectedImage.value = null;
+  imageDeleted.value = false;
 };
 
 const saveProduct = async () => {
@@ -189,6 +203,7 @@ const saveProduct = async () => {
     formData.append('unitMeasure', localProduct.value.unitMeasure ?? '');
     formData.append('idBrand', String(localProduct.value.idBrand));
     formData.append('idCategory', String(localProduct.value.idCategory));
+    formData.append('removeImage', imageDeleted.value ? 'true' : 'false');
 
     if (selectedImage.value)
       formData.append('image', selectedImage.value);
@@ -203,6 +218,7 @@ const saveProduct = async () => {
     if (result.isSuccess) {
       toast.success(isEditing ? 'Producto editado con éxito!' : 'Producto agregado con éxito!');
       selectedImage.value = null;
+      imageDeleted.value = false;
       emit('saved');
       close();
     }
@@ -214,8 +230,11 @@ const saveProduct = async () => {
   }
 };
 
+const imageDeleted = ref(false);
+
 const removeCurrentImage = () => {
   localProduct.value.image = '';
+  imageDeleted.value = true;
 };
 
 const handleImageChange = (event: Event) => {

@@ -9,21 +9,20 @@ namespace Application.Validators
         {
 
             RuleFor(x => x.TotalAmount)
-                .NotNull().WithMessage("El monto total es requerido!");
+                .GreaterThanOrEqualTo(0).WithMessage("El monto total no puede ser negativo");
 
             RuleFor(x => x.Annotations)
-                .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres!");
+                .MaximumLength(80).WithMessage("Las anotaciones no pueden tener más de 80 caracteres")
+                .When(x => !string.IsNullOrWhiteSpace(x.Annotations));
 
             RuleFor(x => x.IdStoreOrigin)
-                .NotEmpty().WithMessage("El almacén de origen es requerido!");
+                .GreaterThan(0).WithMessage("El almacén de origen es requerido");
 
             RuleFor(x => x.IdStoreDestination)
-                .NotEmpty().WithMessage("El almacén de destino es requerido!");
+                .GreaterThan(0).WithMessage("El almacén de destino es requerido");
 
             RuleFor(x => x.TransferDetails)
-                .NotEmpty().WithMessage("Debe agregar al menos un detalle de traspaso!")
-                .Must(details => details != null && details.Any())
-                .WithMessage("El traspaso debe tener al menos un producto!");
+                .NotEmpty().WithMessage("Debe agregar al menos un producto al traspaso");
 
             RuleForEach(x => x.TransferDetails)
                 .SetValidator(new TransferDetailsValidator());
@@ -36,7 +35,7 @@ namespace Application.Validators
                     var items = details.Select(d => d.Item).ToList();
                     return items.Count == items.Distinct().Count();
                 })
-                .WithMessage("Los números de ítem deben ser únicos!");
+                .WithMessage("Los números de ítem deben ser únicos");
 
             RuleFor(x => x.TransferDetails)
                 .Must(details =>
@@ -46,7 +45,7 @@ namespace Application.Validators
                     var products = details.Select(d => d.IdProduct).ToList();
                     return products.Count == products.Distinct().Count();
                 })
-                .WithMessage("No se puede agregar el mismo producto más de una vez!");
+                .WithMessage("No se puede agregar el mismo producto más de una vez");
 
             RuleFor(x => x)
                 .Must(x =>
@@ -57,7 +56,7 @@ namespace Application.Validators
                     var sumDetails = x.TransferDetails.Sum(d => d.TotalPrice);
                     return x.TotalAmount == sumDetails;
                 })
-                .WithMessage("El monto total debe ser igual a la suma de los precios de los detalles!")
+                .WithMessage("El monto total debe ser igual a la suma de los precios de los detalles")
                 .WithName("TotalAmount");
         }
     }

@@ -8,38 +8,42 @@ namespace Application.Validators
         public ProductValidator()
         {
             RuleFor(x => x.Code)
-                .MaximumLength(25).WithMessage("El código no puede tener más de 25 caracteres!")
-                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
+                .MaximumLength(25).WithMessage("El código no puede tener más de 25 caracteres")
+                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$")
+                .When(x => !string.IsNullOrWhiteSpace(x.Code));
 
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("La descripción es requerida!")
-                .MaximumLength(50).WithMessage("La descripción no puede tener más de 50 caracteres!")
+                .MaximumLength(50).WithMessage("La descripción no puede tener más de 50 caracteres")
                 .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
 
             RuleFor(x => x.Material)
-                .MaximumLength(25).WithMessage("El material no puede tener más de 25 caracteres!")
-                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
+                .MaximumLength(25).WithMessage("El material no puede tener más de 25 caracteres")
+                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$")
+                .When(x => !string.IsNullOrWhiteSpace(x.Material));
 
             RuleFor(x => x.Color)
-                .MaximumLength(20).WithMessage("El color no puede tener más de 20 caracteres!")
-                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
+                .MaximumLength(20).WithMessage("El color no puede tener más de 20 caracteres")
+                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$")
+                .When(x => !string.IsNullOrWhiteSpace(x.Color));
 
             RuleFor(x => x.UnitMeasure)
-                .NotEmpty().WithMessage("La unidad de medida es requerida!")
-                .MaximumLength(15).WithMessage("La unidad de medida no puede tener más de 15 caracteres!")
-                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
+                .NotEmpty().WithMessage("La unidad de medida es requerida")
+                .MaximumLength(15).WithMessage("La unidad de medida no puede tener más de 15 caracteres")
+                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$")
+                .When(x => !string.IsNullOrWhiteSpace(x.UnitMeasure));
 
-            RuleFor(x => x.IdBrand)
-                .NotNull().WithMessage("El identificador de la marca no puede ser nulo!");
-
-            RuleFor(x => x.IdCategory)
-                .NotNull().WithMessage("El identificador de la categoría no puede ser nulo!");
-            
             RuleFor(x => x.Image)
                 .Must(image => image == null || image.Length <= 2 * 1024 * 1024)
                 .WithMessage("La imagen no puede superar los 2MB.")
                 .Must(image => image == null || new[] { "image/jpeg", "image/png", "image/webp" }.Contains(image.ContentType))
                 .WithMessage("Solo se permiten imágenes jpg, png o webp.");
+
+            RuleFor(x => x.IdBrand)
+                .GreaterThan(0).WithMessage("El identificador de la marca es requerido");
+
+            RuleFor(x => x.IdCategory)
+                .GreaterThan(0).WithMessage("El identificador de la categoría es requerido");
 
         }
     }

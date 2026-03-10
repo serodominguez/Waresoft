@@ -10,6 +10,7 @@ namespace Application.Dtos.Request.Product
         public string? Color { get; set; }
         public string? UnitMeasure { get; set; }
         public IFormFile? Image { get; set; }
+        public bool RemoveImage { get; set; }
         public int IdBrand { get; set; }
         public int IdCategory { get; set; }
     }

@@ -8,8 +8,8 @@
         <template v-slot:item="{ item }">
           <tr>
             <td>
-              <v-img v-if="(item as Product).image" :src="(item as Product).image" width="50" height="50" contain
-                class="rounded" />
+              <v-img v-if="(item as Product).image" :src="(item as Product).image" width="60" height="60" contain
+                class="rounded product-image" />
               <v-icon v-else color="grey">hide_image</v-icon>
             </td>
             <td>{{ (item as Product).code }}</td>
@@ -198,3 +198,23 @@ const handleDownloadPdf = () => {
   });
 };
 </script>
+
+<style scoped>
+.product-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(1);
+  cursor: pointer;
+  z-index: 10;
+  background-color: #ffffff; 
+}
+
+.product-image:hover {
+  transform: scale(1.5);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border: 2px solid #4B0082;
+  z-index: 20;
+}
+td {
+  overflow: visible;
+}
+</style>
