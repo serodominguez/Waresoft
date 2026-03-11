@@ -45,8 +45,8 @@ namespace Application.Reports.Pdf
 
             container.Column(column =>
             {
+                column.Item().AlignCenter().Text("Planilla de inventario").Style(titleStyle);
                 column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(subtitleStyle); ;
-                column.Item().AlignCenter().Text("Planilla de inventario").Style(subtitleStyle);
 
                 column.Item().PaddingTop(5).AlignCenter()
                     .Text($"Fecha: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}")

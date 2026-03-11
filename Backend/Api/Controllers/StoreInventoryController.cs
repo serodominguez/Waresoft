@@ -136,8 +136,8 @@ namespace Api.Controllers
             {
                 var fileBytes = _generatePdfService.InventoryGeneratePdf(
                     response.Data!.ToList(),
-                    AuthenticatedUserStoreType,
-                    AuthenticatedUserStoreName.ToTitleCase() ?? string.Empty
+                    AuthenticatedUserStoreType.ToTitleCase() ?? "",
+                    AuthenticatedUserStoreName.ToTitleCase() ?? ""
                 );
                 return File(fileBytes, "application/pdf", $"Inventario_{DateTime.Now:yyyyMMdd}.pdf");
             }

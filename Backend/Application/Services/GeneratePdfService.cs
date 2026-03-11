@@ -35,7 +35,7 @@ namespace Application.Services
 
         public byte[] InventoryGeneratePdf(List<StoreInventoryResponseDto> inventory, string storeType, string storeName)
         {
-            var generator = new InventoryPdfGenerator(inventory, storeName);
+            var generator = new InventoryPdfGenerator(inventory, storeType, storeName);
             return generator.GeneratePdf();
         }
 
