@@ -2,7 +2,9 @@
   <div>
     <v-card elevation="2">
       <v-toolbar>
-        <v-toolbar-title>Gestión de Permisos</v-toolbar-title>
+        <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+            <v-icon icon="mdi-account-cog" color="white" size="18"></v-icon>
+          </v-avatar>Gestión de Permisos</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-card-text>
@@ -13,16 +15,17 @@
               :loading="loadingRoles" />
           </v-col>
           <v-col cols="4" md="9" class="d-flex align-center gap-2">
-            <v-btn color="indigo" @click="loadPermissions" :disabled="!selectedRoleId || loading" :loading="loading" title="Cargar">
-             <v-icon>sync</v-icon>
+            <v-btn color="indigo" @click="loadPermissions" :disabled="!selectedRoleId || loading" :loading="loading"
+              title="Cargar">
+              <v-icon icon="mdi-sync" size="24"></v-icon>
             </v-btn>
-            <v-btn color="green" @click="savePermissions" :disabled="!hasChanges || saving" :loading="saving" title="Guardar"
-              class="ml-2">
-              <v-icon>save</v-icon>
+            <v-btn color="green" @click="savePermissions" :disabled="!hasChanges || saving" :loading="saving"
+              title="Guardar" class="ml-2">
+              <v-icon icon="mdi-content-save" size="24"></v-icon>
             </v-btn>
-            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading" title="Limpiar"
-              class="ml-2">
-              <v-icon>backspace</v-icon>
+            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading"
+              title="Limpiar" class="ml-2">
+              <v-icon icon="mdi-backspace" size="24"></v-icon>
             </v-btn>
           </v-col>
         </v-row>

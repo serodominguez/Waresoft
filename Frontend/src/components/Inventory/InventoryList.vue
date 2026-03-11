@@ -24,32 +24,50 @@
               {{ (item as Inventory).price }}
             </td>
             <td>{{ (item as Inventory).auditCreateDate }}</td>
-            <td class="text-center"><v-chip :color="getStatusColor((item as Inventory).replenishment)" variant="tonal"
-                size="small">
-                {{ (item as Inventory).replenishment }}
-              </v-chip></td>
             <td class="text-center">
-              <v-btn v-if="canEdit" icon="currency_exchange" color="amber-darken-2" variant="text"
-                @click="$emit('edit-inventory', item)" size="small" title="Editar">
+<v-chip :color="getStatusColor((item as Inventory).replenishment)" variant="tonal" size="small">
+  <template v-slot:prepend>
+    <v-icon 
+      :icon="getStatusIcon((item as Inventory).replenishment)" 
+      size="14" 
+      class="mr-1"
+    ></v-icon>
+  </template>
+  {{ (item as Inventory).replenishment }}
+</v-chip>
+            </td>
+            <td class="text-center">
+              <v-btn v-if="canEdit" icon variant="text" color="indigo" size="small" title="Editar Precio"
+                @click="$emit('edit-inventory', item)" >
+                <v-icon icon="mdi-cash-plus" size="24"></v-icon>
               </v-btn>
             </td>
           </tr>
         </template>
         <template v-slot:top>
           <v-toolbar>
-            <v-toolbar-title>Gestión de Inventario</v-toolbar-title>
+            <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+                <v-icon icon="mdi-warehouse" color="white" size="18"></v-icon>
+              </v-avatar>Gestión de Inventario</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="file_copy" color="blue-darken-3" @click="handleDownloadInventorySheet"
-              :loading="downloadingSheet" title="Descargar Planilla">
+            <v-btn v-if="canDownload" icon variant="text" color="blue-darken-3" size="38" @click="handleDownloadInventorySheet"
+              :loading="downloadingSheet" title="Descargar Planilla"  class="mr-2">
+              <v-icon icon="mdi-file-document" size="26"></v-icon>
             </v-btn>
-            <v-btn v-if="canDownload" icon="picture_as_pdf" color="red" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar Pdf"></v-btn>
-            <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
-              :loading="downloadingExcel" title="Descargar Excel"></v-btn>
-            <v-btn icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
-              hide-details single-line v-model="search" class="mr-4" style="width: 100%; max-width: 300px;"
-              @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
+            <v-btn v-if="canDownload" icon variant="text" color="red-darken-1" size="38" @click="handleDownloadPdf"
+              :loading="downloadingPdf" title="Descargar PDF" class="mr-2">
+              <v-icon icon="mdi-file-pdf-box" size="26"></v-icon>
+            </v-btn>
+            <v-btn v-if="canDownload" icon variant="text" color="green" size="38" @click="handleDownloadExcel"
+              :loading="downloadingExcel" title="Descargar Excel" class="mr-2">
+              <v-icon icon="mdi-file-excel-box" size="26"></v-icon>
+            </v-btn>
+                        <v-btn icon variant="text" size="38" @click="drawerModel = !drawerModel" title="Filtros" class="mr-4">
+              <v-icon icon="mdi-tune-variant" size="26"></v-icon>
+            </v-btn>
+            <v-text-field v-if="canRead" append-inner-icon="mdi-magnify" density="compact" label="Búsqueda"
+              variant="solo" hide-details single-line v-model="search" class="mr-4"
+              style="width: 100%; max-width: 300px;" @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
             </v-text-field>
           </v-toolbar>
         </template>
@@ -182,6 +200,7 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
+// Métodos
 const getStatusColor = (status: string): string => {
   const statusLower = status.toLowerCase();
 
@@ -196,7 +215,14 @@ const getStatusColor = (status: string): string => {
   return 'grey';
 };
 
-// Métodos
+const getStatusIcon = (status: string): string => {
+  const statusLower = status.toLowerCase();
+  if (statusLower === 'disponible') return 'mdi-check-circle';
+  if (statusLower === 'no disponible') return 'mdi-minus-circle';
+  if (statusLower === 'descontinuado') return 'mdi-close-circle';
+  return 'mdi-circle-outline';
+};
+
 const handleSearch = () => {
   emit('search-inventories', {
     search: search.value,

@@ -16,22 +16,28 @@
             <td>{{ (item as GoodsReceipt).auditCreateDate }}</td>
             <td class="text-center">
               <v-chip :color="stateColor((item as GoodsReceipt).statusReceipt)" variant="tonal" size="small">
+                <template v-slot:prepend>
+                  <v-icon :icon="stateIcon((item as GoodsReceipt).statusReceipt)" size="14" class="mr-1"></v-icon>
+                </template>
                 {{ (item as GoodsReceipt).statusReceipt }}
               </v-chip>
             </td>
             <td class="text-center">
               <template v-if="canRead">
-                <v-btn icon="preview" color="indigo" variant="text" @click="$emit('view-goodsreceipt', item)"
-                  size="small" title="Ver">
+                <v-btn icon variant="text" color="indigo" size="small" title="Visualizar"
+                  @click="$emit('view-goodsreceipt', item)">
+                  <v-icon icon="mdi-open-in-new" size="22"></v-icon>
                 </v-btn>
               </template>
               <template v-if="canRead && (item as GoodsReceipt).statusReceipt == 'Completado'">
-                <v-btn icon="print" variant="text" @click="$emit('print-pdf', item)" size="small" title="Imprimir">
+                <v-btn icon variant="text" size="small" title="Imprimir" @click="$emit('print-pdf', item)">
+                  <v-icon icon="mdi-printer-outline" size="22"></v-icon>
                 </v-btn>
               </template>
-              <template v-if="canDelete && (item as GoodsReceipt).statusReceipt != 'Cancelar'">
-                <v-btn icon="cancel" color="red" variant="text"
-                  @click="$emit('open-modal', { goodsreceipt: item, action: 3 })" size="small" title="Cancelar">
+              <template v-if="canDelete && (item as GoodsReceipt).statusReceipt != 'Cancelado'">
+                <v-btn icon variant="text" color="red" size="small" title="Cancelar"
+                  @click="$emit('open-modal', { goodsreceipt: item, action: 3 })">
+                  <v-icon icon="mdi-cancel" size="22"></v-icon>
                 </v-btn>
               </template>
             </td>
@@ -39,19 +45,28 @@
         </template>
         <template v-slot:top>
           <v-toolbar>
-            <v-toolbar-title>Gestión de Entradas</v-toolbar-title>
+            <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+                <v-icon icon="mdi-cart-plus" color="white" size="18"></v-icon>
+              </v-avatar>Gestión de Entradas</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon="picture_as_pdf" color="red" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar PDF">
+            <v-btn v-if="canDownload" icon variant="text" color="red-darken-1" size="38" @click="handleDownloadPdf"
+              :loading="downloadingPdf" title="Descargar PDF" class="mr-2">
+              <v-icon icon="mdi-file-pdf-box" size="26"></v-icon>
             </v-btn>
-            <v-btn v-if="canDownload" icon="backup_table" color="green" @click="handleDownloadExcel"
-              :loading="downloadingExcel" title="Descargar Excel"></v-btn>
-            <v-btn v-if="canCreate" icon="add_box" color="purple-darken-1" @click="$emit('open-form')"
-              title="Registrar"></v-btn>
-            <v-btn v-if="canRead" icon="tune" @click="drawerModel = !drawerModel" title="Filtros"></v-btn>
-            <v-text-field v-if="canRead" append-inner-icon="search" density="compact" label="Búsqueda" variant="solo"
-              hide-details single-line v-model="search" class="mr-4" style="width: 100%; max-width: 300px;"
-              @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
+            <v-btn v-if="canDownload" icon variant="text" color="green" size="38" @click="handleDownloadExcel"
+              :loading="downloadingExcel" title="Descargar Excel" class="mr-2">
+              <v-icon icon="mdi-file-excel-box" size="26"></v-icon>
+            </v-btn>
+            <v-btn v-if="canCreate" icon variant="text" color="purple-darken-1" size="38" @click="$emit('open-form')"
+              title="Registrar" class="mr-2">
+              <v-icon icon="mdi-plus-box" size="26"></v-icon>
+            </v-btn>
+            <v-btn icon variant="text" size="38" @click="drawerModel = !drawerModel" title="Filtros" class="mr-4">
+              <v-icon icon="mdi-tune-variant" size="26"></v-icon>
+            </v-btn>
+            <v-text-field v-if="canRead" append-inner-icon="mdi-magnify" density="compact" label="Búsqueda"
+              variant="solo" hide-details single-line v-model="search" class="mr-4"
+              style="width: 100%; max-width: 300px;" @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
             </v-text-field>
           </v-toolbar>
         </template>
@@ -169,6 +184,7 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
+// Methods
 const stateColor = (status: string): string => {
   const statusLower = status.toLowerCase();
 
@@ -180,8 +196,13 @@ const stateColor = (status: string): string => {
   return 'grey';
 };
 
+const stateIcon = (status: string): string => {
+  const statusLower = status.toLowerCase();
+  if (statusLower === 'completado') return 'mdi-check-circle';
+  if (statusLower === 'cancelado') return 'mdi-close-circle';
+  return 'mdi-circle-outline';
+};
 
-// Methods
 const handleSearch = () => {
   emit('search-goodsreceipt', {
     search: search.value,

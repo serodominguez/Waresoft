@@ -1,12 +1,10 @@
 // Styles
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 
 // Vuetify
 import { createVuetify } from 'vuetify';
 import { VDateInput } from 'vuetify/labs/VDateInput';
-import { aliases, md } from 'vuetify/iconsets/md';
 import { mdi } from 'vuetify/iconsets/mdi'; 
 import { es, en } from 'vuetify/locale';
 import { ThemeDefinition } from 'vuetify';
@@ -84,10 +82,8 @@ const vuetify = createVuetify({
     },
   },
   icons: {
-    defaultSet: 'md',
-    aliases,
+    defaultSet: 'mdi',
     sets: {
-      md,
       mdi,
     },
   },

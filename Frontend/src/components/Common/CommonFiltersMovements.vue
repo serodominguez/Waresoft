@@ -4,7 +4,7 @@
       <v-list-item>
         <div class="d-flex justify-space-between align-center w-100">
           <v-list-item-title class="text-h6">Filtros</v-list-item-title>
-          <v-btn color="red" icon="close" variant="text" size="small" @click="drawerModel = false"></v-btn>
+          <v-btn color="red" icon="mdi-close" variant="text" size="small" @click="drawerModel = false"></v-btn>
         </div>
       </v-list-item>
       <div class="px-4 pt-4 pb-2">

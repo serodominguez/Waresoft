@@ -57,17 +57,21 @@ namespace Infrastructure.Persistences.Repositories
                     StoreOrigin = new StoreEntity
                     {
                         Id = t.StoreOrigin.Id,
+                        Type = t.StoreOrigin.Type,
                         StoreName = t.StoreOrigin.StoreName
                     },
                     IdStoreDestination = t.IdStoreDestination,
                     StoreDestination = new StoreEntity
                     {
                         Id = t.StoreDestination.Id,
+                        Type = t.StoreDestination.Type,
                         StoreName = t.StoreDestination.StoreName
                     },
                     AuditCreateUser = t.AuditCreateUser,
                     AuditCreateDate = t.AuditCreateDate,
-                                        Status = t.Status,
+                    AuditUpdateUser = t.AuditUpdateUser,
+                    AuditUpdateDate = t.AuditUpdateDate,
+                    Status = t.Status,
                 });
         }
 

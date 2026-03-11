@@ -8,7 +8,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <span v-if="currentUser" style="font-size: 90%; margin-right: 10px;"><strong> Usuario: {{ currentUser.userName}}</strong></span>
-      <v-btn v-if="currentUser" @click="logout" icon="logout"></v-btn>
+      <v-btn v-if="currentUser" @click="logout" icon="mdi-logout"></v-btn>
     </v-app-bar>
   </nav>
   <NavigationDrawer v-model="drawer" />

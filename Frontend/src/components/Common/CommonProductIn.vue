@@ -12,9 +12,12 @@
               label="Opciones" hide-details />
           </v-col>
           <v-col cols="8" md="6" lg="6" xl="6" class="mb-2">
-            <v-text-field color="indigo" append-inner-icon="search" density="compact" label="Búsqueda" variant="underlined"
-              hide-details single-line v-model="search" @click:append-inner="handleSearch"
+            <v-text-field color="indigo" append-inner-icon="mdi-magnify" density="compact" label="Búsqueda"
+              variant="underlined" hide-details single-line v-model="search" @click:append-inner="handleSearch"
               @keyup.enter="handleSearch" />
+          </v-col>
+          <v-col class="d-flex align-center" cols="2" md="2">
+            <v-btn icon="mdi-backspace" variant="text" color="red" size="small" title="Limpiar" @click="clearSearch" />
           </v-col>
         </v-row>
         <v-data-table-server :key="tableKey" :headers="headers" :items="products" :items-per-page-options="[5, 10]"
@@ -30,7 +33,7 @@
               <td>{{ item.categoryName }}</td>
               <td>{{ item.brandName }}</td>
               <td class="text-center">
-                <v-btn color="indigo" icon="add_circle" variant="text" @click="handleProductAdd(item)" size="small"
+                <v-btn color="indigo" icon="mdi-plus-circle" variant="text" @click="handleProductAdd(item)" size="small"
                   title="Agregar" />
               </td>
             </tr>
@@ -139,6 +142,15 @@ const resetModalState = () => {
   products.value = [];
   totalProducts.value = 0;
   tableKey.value++;
+};
+
+const clearSearch = () => {
+    search.value = null;
+    selectedFilter.value = '';
+    hasSearched.value = false;
+    products.value = [];
+    totalProducts.value = 0;
+    tableKey.value++;
 };
 
 // Obtiene productos del store

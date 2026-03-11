@@ -2,7 +2,9 @@
   <v-container fluid>
     <v-card elevation="2" class="mb-4">
       <v-toolbar>
-        <v-toolbar-title>Kardex del Producto</v-toolbar-title>
+        <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+            <v-icon icon="mdi-clipboard-text" color="white" size="18"></v-icon>
+          </v-avatar>Kardex del Producto</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
         <v-row align="center">
@@ -22,8 +24,8 @@
               readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-btn color="indigo" class="mt-1" @click="productModal = true" title="Seleccionar Producto">
-              <v-icon>list</v-icon>
+            <v-btn color="indigo" class="mt-1" @click="productModal = true" title="Agregar Producto">
+              <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -65,16 +67,16 @@
           <v-col cols="12" md="3" class="d-flex align-center gap-2">
             <v-btn color="indigo" dark elevation="4" :disabled="!isEnabled" :loading="loading" @click="generateKardex"
               title="Generar">
-              <v-icon>sync</v-icon>
+              <v-icon icon="mdi-sync" size="24"></v-icon>
             </v-btn>
             <template v-if="canDownload && kardex">
               <v-btn color="red" dark elevation="4" class="ml-2" :loading="downloadingPdf" @click="downloadPdf"
                 title="Descargar Pdf">
-                <v-icon>article</v-icon>
+                <v-icon icon="mdi-file-pdf-box" size="24"></v-icon>
               </v-btn>
               <v-btn color="green" dark elevation="4" class="ml-2" :loading="downloadingExcel" @click="downloadExcel"
                 title="Descargar Excel">
-                <v-icon>table_chart</v-icon>
+                <v-icon icon="mdi-file-excel-box" size="24"></v-icon>
               </v-btn>
             </template>
           </v-col>

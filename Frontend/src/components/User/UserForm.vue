@@ -15,8 +15,7 @@
                   label="Usuario" required />
               </v-col>
               <v-col v-if="!localUser.idUser" cols="6" md="6">
-                <v-text-field v-model="localUser.passwordHash"
-                  :append-inner-icon="show ? 'visibility' : 'visibility_off'" :type="show ? 'text' : 'password'"
+                <v-text-field v-model="localUser.passwordHash" :type="show ? 'text' : 'password'"
                   :rules="[rules.required]" label="Contraseña" color="indigo" variant="underlined"
                   @click:append-inner="show = !show"></v-text-field>
               </v-col>

@@ -30,8 +30,8 @@
               readonly />
           </v-col>
           <v-col v-if="!localTransfer.idTransfer" class="px-2 d-flex align-center" cols="12" md="2">
-            <v-btn fab dark color="indigo" @click="openProductModal" title="Seleccionar Producto">
-              <v-icon dark>list</v-icon>
+            <v-btn fab dark color="indigo" @click="openProductModal" title="Agregar Producto">
+              <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
             </v-btn>
           </v-col>
         </v-row>

@@ -2,7 +2,7 @@
   <v-navigation-drawer v-model="isOpen" app temporary>
     <v-list>
       <v-list-item variant="plain" :to="{ name: 'home' }">
-        <v-list-item prepend-icon="home" title="Home"></v-list-item>
+        <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
       </v-list-item>
 
       <v-list-group v-if="hasStorePermissions">
@@ -130,38 +130,38 @@ const authStore = useAuthStore();
 
 // Enlaces directos del menú de Almacén
 const linkDirectStore: Link[] = [
-  { icon: 'category', text: 'Categorías', route: '/categorias', module: 'categorias' },
-  { icon: 'contact_page', text: 'Clientes', route: '/clientes', module: 'clientes' },
-  { icon: 'store', text: 'Establecimientos', route: '/establecimientos', module: 'establecimientos' },
-  { icon: 'warehouse', text: 'Inventario', route: '/inventario', module: 'inventario' },
-  { icon: 'copyright', text: 'Marcas', route: '/marcas', module: 'marcas' },
-  { icon: 'inventory_2', text: 'Productos', route: '/productos', module: 'productos' },
-  { icon: 'contacts', text: 'Proveedores', route: '/proveedores', module: 'proveedores' },
+  { icon: 'mdi-shape', text: 'Categorías', route: '/categorias', module: 'categorias' },
+  { icon: 'mdi-account-box', text: 'Clientes', route: '/clientes', module: 'clientes' },
+  { icon: 'mdi-store', text: 'Establecimientos', route: '/establecimientos', module: 'establecimientos' },
+  { icon: 'mdi-warehouse', text: 'Inventario', route: '/inventario', module: 'inventario' },
+  { icon: 'mdi-copyright', text: 'Marcas', route: '/marcas', module: 'marcas' },
+  { icon: 'mdi-package', text: 'Productos', route: '/productos', module: 'productos' },
+  { icon: 'mdi-contacts', text: 'Proveedores', route: '/proveedores', module: 'proveedores' },
 ];
 
 // Enlaces del subgrupo Movimientos
 const linkMovements: Link[] = [
-  { icon: 'add_shopping_cart', text: 'Entradas', route: '/entradas', module: 'entrada de productos' },
-  { icon: 'remove_shopping_cart', text: 'Salidas', route: '/salidas', module: 'salida de productos' },
-  { icon: 'shopping_cart_checkout', text: 'Traspasos', route: '/traspasos', module: 'traspaso de productos' },
+  { icon: 'mdi-cart-plus', text: 'Entradas', route: '/entradas', module: 'entrada de productos' },
+  { icon: 'mdi-cart-minus', text: 'Salidas', route: '/salidas', module: 'salida de productos' },
+  { icon: 'mdi-cart-arrow-up', text: 'Traspasos', route: '/traspasos', module: 'traspaso de productos' },
 ];
 
 // Enlaces del menú de Consultas
 const linkQueries: Link[] = [
-  { icon: 'content_paste_search', text: 'Consolidado', route: '/consolidado', module: 'inventario' },
-  { icon: 'assignment', text: 'Kardex', route: '/kardex', module: 'inventario' },
+  { icon: 'mdi-clipboard-text-search-outline', text: 'Consolidado', route: '/consolidado', module: 'inventario' },
+  { icon: 'mdi-clipboard-text', text: 'Kardex', route: '/kardex', module: 'inventario' },
 ];
 
 // Enlaces del menú de Accesos
 const linkAccess: Link[] = [
-  { icon: 'supervisor_account', text: 'Roles', route: '/roles', module: 'roles' },
-  { icon: 'person', text: 'Usuarios', route: '/usuarios', module: 'usuarios' },
+  { icon: 'mdi-account-supervisor', text: 'Roles', route: '/roles', module: 'roles' },
+  { icon: 'mdi-account', text: 'Usuarios', route: '/usuarios', module: 'usuarios' },
 ];
 
 // Enlaces del menú de Autorización
 const linkAuthorization: Link[] = [
-  { icon: 'app_registration', text: 'Módulos', route: '/modulos', module: 'modulos' },
-  { icon: 'manage_accounts', text: 'Permisos', route: '/permisos', module: 'permisos' },
+  { icon: 'mdi-apps', text: 'Módulos', route: '/modulos', module: 'modulos' },
+  { icon: 'mdi-account-cog', text: 'Permisos', route: '/permisos', module: 'permisos' },
 ];
 
 // Verifica si el usuario tiene acceso a un módulo específico

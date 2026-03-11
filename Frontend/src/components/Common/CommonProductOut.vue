@@ -12,12 +12,12 @@
               label="Opciones" hide-details />
           </v-col>
           <v-col cols="6" md="6" class="mb-2">
-            <v-text-field color="indigo" append-inner-icon="search" density="compact" label="Búsqueda" variant="underlined"
+            <v-text-field color="indigo" append-inner-icon="mdi-magnify" density="compact" label="Búsqueda" variant="underlined"
               hide-details single-line v-model="search" @click:append-inner="handleSearch"
               @keyup.enter="handleSearch" />
           </v-col>
           <v-col class="d-flex align-center" cols="2" md="2">
-            <v-btn icon="backspace" variant="text" color="red" size="small" title="Limpiar" @click="clearSearch" />
+            <v-btn icon="mdi-backspace" variant="text" color="red" size="small" title="Limpiar" @click="clearSearch" />
           </v-col>
         </v-row>
         <v-data-table-server :key="tableKey" :headers="headers" :items="products" :items-per-page-options="[5, 10]"
@@ -37,7 +37,7 @@
                 {{ item.stockAvailable }}
               </td>
               <td class="text-center">
-                <v-btn color="indigo" icon="add_circle" variant="text" @click="handleProductAdd(item)" size="small"
+                <v-btn color="indigo" icon="mdi-plus-circle" variant="text" @click="handleProductAdd(item)" size="small"
                   title="Agregar" />
               </td>
             </tr>
