@@ -27,7 +27,7 @@ import { useAuthStore } from '@/stores/auth';
 import { GoodsReceipt } from '@/interfaces/goodsReceiptInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useMovementFilters } from '@/composables/useMovementFilters';
-import { GOODS_STATE_MAP } from '@/constants/goodsStatus';
+import { GoodsStateMap } from '@/constants/goodsStatus';
 import GoodsReceiptList from '@/components/GoodsReceipt/GoodsReceiptList.vue';
 import GoodsReceiptForm from '@/components/GoodsReceipt/GoodsReceiptForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
@@ -49,7 +49,7 @@ const filterMap = {
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useMovementFilters(
   'Código',
   filterMap,
-  GOODS_STATE_MAP,
+  GoodsStateMap,
   'Completado'
 );
 

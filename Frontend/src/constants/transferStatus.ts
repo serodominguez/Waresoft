@@ -1,4 +1,4 @@
-export const TRANSFER_STATUS_OPTIONS = [
+export const TransferStatusOptions = [
   'Pendiente',
   'Enviado',
   'Recibido',
@@ -6,7 +6,7 @@ export const TRANSFER_STATUS_OPTIONS = [
   'Todos',
 ];
 
-export const TRANSFER_STATE_MAP = {
+export const TransferSteteMap = {
   'Cancelado': 0,
   'Enviado': 1,
   'Recibido': 2,

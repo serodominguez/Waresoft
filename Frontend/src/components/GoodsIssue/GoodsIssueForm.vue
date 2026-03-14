@@ -10,22 +10,27 @@
       <v-form ref="formRef" v-model="valid">
         <v-row>
           <v-col cols="12" md="2">
-            <v-select v-if="!localIssue.idIssue" color="indigo" variant="underlined" v-model="localIssue.type"
-              :items="issueTypes" label="Tipo de Salida" :rules="[rules.required]" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localIssue.type" label="Tipo de salida"
-              readonly />
+            <v-select v-if="!localIssue.idIssue" color="indigo" variant="solo" density="compact"
+              v-model="localIssue.type" :items="issueTypes" label="Tipo de Salida" :rules="[rules.required]" />
+            <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localIssue.type"
+              label="Tipo de salida" readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-autocomplete v-if="!localIssue.idIssue" color="indigo" variant="underlined" :items="usersArray"
-              v-model="localIssue.idUser" item-title="userName" item-value="idUser" :rules="[rules.required]"
-              no-data-text="No hay datos disponibles" label="Personal" :loading="loadingUsers" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localIssue.userName" label="Personal"
-              readonly />
+            <v-autocomplete v-if="!localIssue.idIssue" color="indigo" variant="solo" density="compact"
+              :items="usersArray" v-model="localIssue.idUser" item-title="userName" item-value="idUser"
+              :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Personal"
+              :loading="loadingUsers" />
+            <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localIssue.userName"
+              label="Personal" readonly />
           </v-col>
-          <v-col v-if="!localIssue.idIssue" class="px-2 d-flex align-center" cols="12" md="2">
-            <v-btn fab dark color="indigo" @click="openProductModal" title="Agregar Producto">
-              <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
-            </v-btn>
+          <v-col v-if="!localIssue.idIssue" cols="12" md="2">
+            <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" fab dark color="indigo" @click="openProductModal">
+                  <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
           </v-col>
         </v-row>
         <v-divider class="my-4"></v-divider>
@@ -54,8 +59,13 @@
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
               <td v-if="!localIssue.idIssue" class="text-center">
-                <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
-                  title="Quitar" />
+                <v-tooltip v-bind="tooltipProps" text="Quitar" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" icon variant="text" color="red" size="small" @click="removeProduct(item)">
+                      <v-icon icon="mdi-minus-circle-outline" size="24"></v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
               </td>
             </tr>
           </template>
@@ -72,16 +82,16 @@
         </v-col>
       </v-form>
     </v-card-text>
-    <v-card-actions>
-      <v-btn v-if="!localIssue.idIssue" color="green" dark class="mb-2" elevation="4" @click="saveIssue"
+    <v-card-actions class="px-4 pb-4" justify="end">
+      <v-btn v-if="!localIssue.idIssue" color="green" dark elevation="4" @click="saveIssue"
         :disabled="!valid || details.length === 0" :loading="saving">
         Guardar
       </v-btn>
-      <v-btn v-else-if="localIssue.statusIssue === 'Activo' && canDownload" color="indigo" dark class="mb-2"
-        elevation="4" @click="downloadPdf" :loading="downloading">
+      <v-btn v-else-if="localIssue.statusIssue === 'Activo' && canDownload" color="indigo" dark elevation="4"
+        @click="downloadPdf" :loading="downloading">
         Descargar
       </v-btn>
-      <v-btn color="red" dark class="mb-2" elevation="4" @click="close">
+      <v-btn color="red" dark elevation="4" @click="close">
         {{ localIssue.idIssue ? 'Cerrar' : 'Cancelar' }}
       </v-btn>
     </v-card-actions>
@@ -100,6 +110,7 @@ import { handleApiError } from '@/helpers/errorHandler';
 import CommonProductOut from '@/components/Common/CommonProductOut.vue';
 import { formatCurrency } from '@/utils/currency';
 import { GoodsIssue, GoodsIssueDetail } from '@/interfaces/goodsIssueInterface';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface FormRef {
   validate: () => boolean;
@@ -151,6 +162,7 @@ const productModal = ref(false);
 const localIssue = ref<GoodsIssue>({ ...props.issue } as GoodsIssue);
 const details = ref<GoodsIssueDetail[]>([]);
 const documentTypes = ref<string[]>([]);
+const { tooltipProps } = useResponsiveTooltip();
 
 const issueTypes = ['Consignación', 'Ajuste de inventario', 'Ajuste de kardex'];
 

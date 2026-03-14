@@ -21,22 +21,39 @@
               </v-chip>
             </td>
             <td class="text-center">
-              <v-btn v-if="canEdit && (item as Supplier).statusSupplier == 'Activo'" icon variant="text" color="indigo"
-                size="small" title="Editar" @click="$emit('edit-supplier', item)">
-                <v-icon icon="mdi-pencil-outline" size="22"></v-icon>
-              </v-btn>
-              <v-btn v-if="canEdit && (item as Supplier).statusSupplier == 'Inactivo'" icon variant="text" color="green"
-                size="small" title="Activar" @click="$emit('open-modal', { supplier: item, action: 1 })">
-                <v-icon icon="mdi-check-circle-outline" size="22"></v-icon>
-              </v-btn>
-              <v-btn v-if="canEdit && (item as Supplier).statusSupplier == 'Activo'" icon variant="text" color="red"
-                size="small" title="Inactivar" @click="$emit('open-modal', { supplier: item, action: 2 })">
-                <v-icon icon="mdi-close-circle-outline" size="22"></v-icon>
-              </v-btn>
-              <v-btn v-if="canDelete" icon variant="text" color="blue-grey" size="small" title="Eliminar"
-                @click="$emit('open-modal', { supplier: item, action: 0 })">
-                <v-icon icon="mdi-trash-can-outline" size="22"></v-icon>
-              </v-btn>
+              <v-tooltip v-bind="tooltipProps" text="Editar" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" v-if="canEdit && (item as Supplier).statusSupplier == 'Activo'" icon
+                    variant="text" color="indigo" size="small" @click="$emit('edit-supplier', item)">
+                    <v-icon icon="mdi-pencil" size="24"></v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
+              <v-tooltip v-bind="tooltipProps" text="Activar" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" v-if="canEdit && (item as Supplier).statusSupplier == 'Inactivo'" icon
+                    variant="text" color="green" size="small"
+                    @click="$emit('open-modal', { supplier: item, action: 1 })">
+                    <v-icon icon="mdi-check-circle" size="24"></v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
+              <v-tooltip v-bind="tooltipProps" text="Inactivar" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" v-if="canEdit && (item as Supplier).statusSupplier == 'Activo'" icon
+                    variant="text" color="red" size="small" @click="$emit('open-modal', { supplier: item, action: 2 })">
+                    <v-icon icon="mdi-close-circle" size="24"></v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
+              <v-tooltip v-bind="tooltipProps" text="Eliminar" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" v-if="canDelete" icon variant="text" color="blue-grey" size="small"
+                    @click="$emit('open-modal', { supplier: item, action: 0 })">
+                    <v-icon icon="mdi-trash-can" size="24"></v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
             </td>
           </tr>
         </template>
@@ -46,24 +63,46 @@
                 <v-icon icon="mdi-contacts" color="white" size="18"></v-icon>
               </v-avatar>Gestión de Proveedores</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn v-if="canDownload" icon variant="text" color="red-darken-1" size="38" @click="handleDownloadPdf"
-              :loading="downloadingPdf" title="Descargar PDF" class="mr-2">
-              <v-icon icon="mdi-file-pdf-box" size="26"></v-icon>
-            </v-btn>
-            <v-btn v-if="canDownload" icon variant="text" color="green" size="38" @click="handleDownloadExcel"
-              :loading="downloadingExcel" title="Descargar Excel" class="mr-2">
-              <v-icon icon="mdi-file-excel-box" size="26"></v-icon>
-            </v-btn>
-            <v-btn v-if="canCreate" icon variant="text" color="purple-darken-1" size="38" @click="$emit('open-form')"
-              title="Agregar" class="mr-2">
-              <v-icon icon="mdi-plus-box" size="26"></v-icon>
-            </v-btn>
-            <v-btn icon variant="text" size="38" @click="drawerModel = !drawerModel" title="Filtros" class="mr-4">
-              <v-icon icon="mdi-tune-variant" size="26"></v-icon>
-            </v-btn>
-            <v-text-field v-if="canRead" append-inner-icon="mdi-magnify" density="compact" label="Búsqueda"
-              variant="solo" hide-details single-line v-model="search" class="mr-4"
-              style="width: 100%; max-width: 300px;" @click:append-inner="handleSearch()" @keyup.enter="handleSearch()">
+            <v-tooltip v-bind="tooltipProps" text="Descargar PDF" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="red-darken-1" size="38"
+                  @click="handleDownloadPdf" :loading="downloadingPdf" class="mr-2">
+                  <v-icon icon="mdi-file-pdf-box" size="26"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip v-bind="tooltipProps" text="Descargar Excel" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="green" size="38"
+                  @click="handleDownloadExcel" :loading="downloadingExcel" class="mr-2">
+                  <v-icon icon="mdi-file-excel-box" size="26"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip v-bind="tooltipProps" text="Agregar Proveedor" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" v-if="canCreate" icon variant="text" color="purple-darken-1" size="38"
+                  @click="$emit('open-form')" class="mr-2">
+                  <v-icon icon="mdi-plus-box" size="26"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip v-bind="tooltipProps" text="Filtros" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" icon variant="text" size="38" @click="drawerModel = !drawerModel" class="mr-4">
+                  <v-icon icon="mdi-tune-variant" size="26"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-text-field v-if="canRead" density="compact" label="Búsqueda" variant="solo" hide-details single-line
+              v-model="search" class="mr-4" style="width: 100%; max-width: 300px;" @keyup.enter="handleSearch()">
+              <template v-slot:append-inner>
+                <v-tooltip v-bind="tooltipProps" text="Buscar" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-icon v-bind="props" icon="mdi-magnify" @click="handleSearch()" style="cursor: pointer;"></v-icon>
+                  </template>
+                </v-tooltip>
+              </template>
             </v-text-field>
           </v-toolbar>
         </template>
@@ -83,6 +122,7 @@ import { ref, computed } from 'vue';
 import { Supplier } from '@/interfaces/supplierInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface Props extends Omit<BaseListProps<Supplier>, 'items' | 'totalItems'> {
   suppliers: Supplier[];
@@ -137,6 +177,7 @@ const emit = defineEmits<{
 
 const pages = ref("Proveedores por Página");
 const search = ref<string | null>(null);
+const { tooltipProps } = useResponsiveTooltip();
 const filterOptions = ref(['Empresa', 'Contacto']);
 
 const headers = computed(() => [

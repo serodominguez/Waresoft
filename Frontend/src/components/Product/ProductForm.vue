@@ -10,59 +10,65 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localProduct.code" counter="25"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.code" counter="25"
                   :maxlength="25" label="Código" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localProduct.description"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.description"
                   :rules="[rules.required]" counter="50" :maxlength="50" label="Descripción" required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localProduct.material"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.material"
                   :rules="[rules.onlyLetters]" counter="25" :maxlength="25" label="Material" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localProduct.color"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.color"
                   :rules="[rules.onlyLetters]" counter="20" :maxlength="20" label="Color" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localProduct.unitMeasure" counter="15"
-                  :rules="[rules.required]" :maxlength="15" label="Unidad de medida" required />
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.unitMeasure"
+                  counter="15" :rules="[rules.required]" :maxlength="15" label="Unidad de medida" required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-autocomplete color="indigo" variant="underlined" :items="brandsArray" v-model="localProduct.idBrand"
-                  item-title="brandName" item-value="idBrand" :rules="[rules.required]"
+                <v-autocomplete color="indigo" variant="solo" density="compact" :items="brandsArray"
+                  v-model="localProduct.idBrand" item-title="brandName" item-value="idBrand" :rules="[rules.required]"
                   no-data-text="No hay datos disponibles" label="Marca" required :loading="loadingBrands" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-autocomplete color="indigo" variant="underlined" :items="categoriesArray"
+                <v-autocomplete color="indigo" variant="solo" density="compact" :items="categoriesArray"
                   v-model="localProduct.idCategory" item-title="categoryName" item-value="idCategory"
                   :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Categoría" required
                   :loading="loadingCategories" />
               </v-col>
               <v-col cols="10" md="10">
-                <v-file-input color="indigo" variant="underlined" label="Imagen"
-                  accept="image/jpeg,image/png,image/webp" prepend-icon="image" :clearable="true"
+                <v-file-input color="indigo" variant="solo" density="compact" label="Imagen"
+                  accept="image/jpeg,image/png,image/webp" prepend-icon="mdi-image" :clearable="true"
                   :rules="[rules.imageSize]" @change="handleImageChange" />
-                <v-img v-if="localProduct.image && !selectedImage" :src="localProduct.image" max-height="100" contain
-                  class="mt-4 border rounded pa-2" />
               </v-col>
-              <v-col v-if="localProduct.image && !selectedImage" cols="2" md="2"
-                class="d-flex align-center justify-center">
-                <v-btn icon="cancel" color="red" variant="text" size="small" @click="removeCurrentImage"
-                  title="Eliminar imagen" />
+              <v-col cols="2" md="2"></v-col>
+            </v-row>
+            <v-row v-if="localProduct.image && !selectedImage" align="center">
+              <v-col cols="10" md="10">
+                <v-img :src="localProduct.image" max-height="100" contain class="border rounded pa-2 elevation-2" />
+              </v-col>
+              <v-col cols="2" md="2" class="d-flex align-center justify-center">
+                <v-tooltip v-bind="tooltipProps" text="Eliminar Imagen" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" icon variant="text" color="red" size="small" @click="removeCurrentImage">
+                      <v-icon icon="mdi-minus-circle-outline" size="24"></v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
               </v-col>
             </v-row>
           </v-container>
         </v-form>
       </v-card-text>
-      <v-col cols="12">
-        <v-card-actions>
-          <v-btn color="green" dark class="mb-2" elevation="4" @click="saveProduct" :disabled="!valid"
-            :loading="saving">Guardar</v-btn>
-          <v-btn color="red" dark class="mb-2" elevation="4" @click="close">Cancelar</v-btn>
-        </v-card-actions>
-      </v-col>
+      <v-card-actions class="px-4 pb-4" justify="end">
+        <v-btn color="green" dark elevation="4" @click="saveProduct" :disabled="!valid"
+          :loading="saving">Guardar</v-btn>
+        <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -76,6 +82,7 @@ import { useBrandStore } from '@/stores/brandStore';
 import { useCategoryStore } from '@/stores/categoryStore';
 import { Product } from '@/interfaces/productInterface';
 import { handleApiError } from '@/helpers/errorHandler';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface FormRef {
   validate: () => Promise<{ valid: boolean }>;
@@ -116,6 +123,7 @@ const toast = useToast();
 
 const { brands, loading: loadingBrands } = storeToRefs(brandStore);
 const { categories, loading: loadingCategories } = storeToRefs(categoryStore);
+const { tooltipProps } = useResponsiveTooltip();
 
 const formRef = ref<FormRef | null>(null);
 const selectedImage = ref<File | null>(null);

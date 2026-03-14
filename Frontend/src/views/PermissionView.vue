@@ -9,24 +9,36 @@
       </v-toolbar>
       <v-card-text>
         <v-row>
-          <v-col cols="12" md="2">
-            <v-autocomplete color="indigo" variant="underlined" :items="roles" v-model="selectedRoleId"
+          <v-col cols="12" md="2" style="margin-top: -2px;">
+            <v-autocomplete color="indigo" variant="solo" density="compact" :items="roles" v-model="selectedRoleId"
               item-title="roleName" item-value="idRole" no-data-text="No hay datos disponibles" label="Rol"
               :loading="loadingRoles" />
           </v-col>
-          <v-col cols="4" md="9" class="d-flex align-center gap-2">
-            <v-btn color="indigo" @click="loadPermissions" :disabled="!selectedRoleId || loading" :loading="loading"
-              title="Cargar">
-              <v-icon icon="mdi-sync" size="24"></v-icon>
-            </v-btn>
-            <v-btn color="green" @click="savePermissions" :disabled="!hasChanges || saving" :loading="saving"
-              title="Guardar" class="ml-2">
-              <v-icon icon="mdi-content-save" size="24"></v-icon>
-            </v-btn>
-            <v-btn color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading" :loading="loading"
-              title="Limpiar" class="ml-2">
-              <v-icon icon="mdi-backspace" size="24"></v-icon>
-            </v-btn>
+          <v-col cols="4" md="9">
+            <v-tooltip v-bind="tooltipProps" text="Cargar" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" color="indigo" @click="loadPermissions" :disabled="!selectedRoleId || loading"
+                  :loading="loading">
+                  <v-icon icon="mdi-sync" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip v-bind="tooltipProps" text="Guardar" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" color="green" @click="savePermissions" :disabled="!hasChanges || saving"
+                  :loading="saving" class="ml-2">
+                  <v-icon icon="mdi-content-save" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+            <v-tooltip v-bind="tooltipProps" text="Restablecer" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" color="red" @click="clearPermissions" :disabled="!selectedRoleId || loading"
+                  :loading="loading" class="ml-2">
+                  <v-icon icon="mdi-backspace" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
           </v-col>
         </v-row>
         <PermissionList :permissions="localPermissions" :loading="loading" @permission-changed="markAsChanged" />
@@ -43,6 +55,7 @@ import { usePermissionStore } from '@/stores/permissionStore';
 import { PermissionsByModule } from '@/interfaces/permissionInterface';
 import { handleApiError } from '@/helpers/errorHandler';
 import PermissionList from '@/components/Permission/PermissionList.vue';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 //Inicialización
 const roleStore = useRoleStore();
@@ -62,6 +75,7 @@ const loadingRoles = computed<boolean>(() => roleStore.loading);
 const permissionsByModule = computed<PermissionsByModule[]>(() => permissionStore.permissionsByModule);
 const permissions = computed(() => permissionStore.permissions);
 const loading = computed<boolean>(() => permissionStore.loading);
+const { tooltipProps } = useResponsiveTooltip();
 
 //Watchers
 watch(permissionsByModule, (newPermissions) => {

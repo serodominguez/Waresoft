@@ -4,31 +4,36 @@
             <v-list-item>
                 <div class="d-flex justify-space-between align-center w-100">
                     <v-list-item-title class="text-h6">Filtros</v-list-item-title>
-                    <v-btn color="red" icon="mdi-close" variant="text" size="small" @click="drawerModel = false"></v-btn>
+                    <v-tooltip v-bind="tooltipProps" text="Cerrar" location="bottom">
+                        <template v-slot:activator="{ props }">
+                            <v-btn v-bind="props" color="red" icon="mdi-close-circle-outline" variant="text" size="small"
+                                @click="drawerModel = false"></v-btn>
+                        </template>
+                    </v-tooltip>
                 </div>
             </v-list-item>
             <div class="px-4 pt-4 pb-2">
-                <v-select color="indigo" v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="outlined"
-                    density="compact" hide-details></v-select>
+                <v-select color="indigo" v-model="selectedFilterModel" :items="filters" label="Buscar por:"
+                    variant="solo" density="compact" hide-details></v-select>
             </div>
             <div class="px-4 py-2">
                 <v-switch v-model="stateModel" :label="`Estado: ${stateModel}`" false-value="Inactivos"
                     true-value="Activos" color="indigo" hide-details></v-switch>
             </div>
             <div class="px-4 py-2">
-                <v-date-input color="indigo" v-model="startDateModel" label="Desde:" prepend-icon="" variant="underlined"
-                    persistent-placeholder hide-details></v-date-input>
+                <v-date-input color="indigo" v-model="startDateModel" label="Desde:" prepend-icon="" variant="solo"
+                    density="compact" persistent-placeholder hide-details></v-date-input>
             </div>
             <div class="px-4 py-2">
-                <v-date-input color="indigo" v-model="endDateModel" label="Hasta:" prepend-icon="" variant="underlined"
-                    persistent-placeholder :error="!!dateError" :error-messages="dateError"
+                <v-date-input color="indigo" v-model="endDateModel" label="Hasta:" prepend-icon="" variant="solo"
+                    density="compact" persistent-placeholder :error="!!dateError" :error-messages="dateError"
                     hide-details="auto"></v-date-input>
             </div>
             <v-list-item class="pt-6">
-                <v-btn color="indigo" block :disabled="!!dateError" @click="emit('apply-filters')">APLICAR</v-btn>
+                <v-btn color="indigo" block :disabled="!!dateError" @click="emit('apply-filters')">Aplicar</v-btn>
             </v-list-item>
             <v-list-item>
-                <v-btn color="indigo" block @click="clearFilters">LIMPIAR</v-btn>
+                <v-btn color="indigo" block @click="clearFilters">Restablecer</v-btn>
             </v-list-item>
         </v-list>
     </v-navigation-drawer>
@@ -37,6 +42,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useFiltersSync } from '@/composables/useModelSync';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 // Props del componente
 interface Props {
@@ -53,6 +59,8 @@ const props = withDefaults(defineProps<Props>(), {
     startDate: null,
     endDate: null
 });
+
+const { tooltipProps } = useResponsiveTooltip();
 
 // Emits del componente
 const emit = defineEmits<{

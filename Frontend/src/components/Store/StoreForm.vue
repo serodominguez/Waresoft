@@ -10,46 +10,43 @@
           <v-container>
             <v-row>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localStore.storeName"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localStore.storeName"
                   :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Establecimiento"
                   required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localStore.manager"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localStore.manager"
                   :rules="[rules.required, rules.onlyLetters]" counter="30" :maxlength="30" label="Encargado"
                   required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localStore.address" :rules="[rules.required]"
-                  counter="60" :maxlength="60" label="Dirección" required />
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localStore.address"
+                  :rules="[rules.required]" counter="60" :maxlength="60" label="Dirección" required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localStore.phoneNumber" counter="8"
-                  :rules="[rules.onlyNumbers]" :maxlength="8" label="Teléfono" />
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localStore.phoneNumber"
+                  counter="8" :rules="[rules.onlyNumbers]" :maxlength="8" label="Teléfono" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localStore.city" counter="15"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localStore.city" counter="15"
                   :rules="[rules.required, rules.onlyLetters]" :maxlength="15" label="Ciudad" required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="underlined" v-model="localStore.email" counter="50"
-                  :rules="[rules.email]" :maxlength="50" label="Correo" />
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localStore.email"
+                  counter="50" :rules="[rules.email]" :maxlength="50" label="Correo" />
               </v-col>
               <v-col cols="12" md="12">
-                <v-select color="indigo" variant="underlined" :rules="[rules.required]" v-model="localStore.type"
-                  :items="types" label="Tipo" required />
+                <v-select color="indigo" variant="solo" density="compact" :rules="[rules.required]"
+                  v-model="localStore.type" :items="types" label="Tipo" required />
               </v-col>
             </v-row>
           </v-container>
         </v-form>
       </v-card-text>
-      <v-col cols="12">
-        <v-card-actions>
-          <v-btn color="green" dark class="mb-2" elevation="4" @click="saveStore" :disabled="!valid"
-            :loading="saving">Guardar</v-btn>
-          <v-btn color="red" dark class="mb-2" elevation="4" @click="close">Cancelar</v-btn>
-        </v-card-actions>
-      </v-col>
+      <v-card-actions class="px-4 pb-4">
+        <v-btn color="green" dark elevation="4" @click="saveStore" :disabled="!valid" :loading="saving">Guardar</v-btn>
+        <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

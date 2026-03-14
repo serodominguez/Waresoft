@@ -27,7 +27,7 @@ import { useAuthStore } from '@/stores/auth';
 import { GoodsIssue } from '@/interfaces/goodsIssueInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useMovementFilters } from '@/composables/useMovementFilters';
-import { GOODS_STATE_MAP } from '@/constants/goodsStatus';
+import { GoodsStateMap } from '@/constants/goodsStatus';
 import GoodsIssueList from '@/components/GoodsIssue/GoodsIssueList.vue';
 import GoodsIssueForm from '@/components/GoodsIssue/GoodsIssueForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
@@ -47,7 +47,7 @@ const filterMap = {
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useMovementFilters(
   'Código', 
   filterMap,
-  GOODS_STATE_MAP,
+  GoodsStateMap,
   'Completado'
 )
 

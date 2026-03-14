@@ -2,28 +2,41 @@
   <v-dialog v-model="isOpen" max-width="1200px" persistent>
     <v-card elevation="2">
       <v-card-title class="bg-surface-light pt-4">
-        <span>Seleccione el Producto</span>
+        <span>Seleccionar Producto</span>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
         <v-row justify="center" align="end">
-          <v-col cols="4" md="2" class="mb-2">
-            <v-select color="indigo" variant="underlined" v-model="selectedFilter" :items="filterOptions"
-              label="Opciones" hide-details />
+          <v-col cols="4" md="2">
+            <v-select color="indigo" variant="solo" density="compact" v-model="selectedFilter" :items="filterOptions"
+              label="Buscar por" hide-details />
           </v-col>
-          <v-col cols="6" md="6" class="mb-2">
-            <v-text-field color="indigo" append-inner-icon="mdi-magnify" density="compact" label="Búsqueda" variant="underlined"
-              hide-details single-line v-model="search" @click:append-inner="handleSearch"
-              @keyup.enter="handleSearch" />
+          <v-col cols="6" md="6">
+            <v-text-field color="indigo" label="Búsqueda" variant="solo" density="compact" hide-details single-line
+              v-model="search" @keyup.enter="handleSearch">
+              <template v-slot:append-inner>
+                <v-tooltip v-bind="tooltipProps" text="Buscar" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-icon v-bind="props" icon="mdi-magnify" @click="handleSearch" style="cursor: pointer;"></v-icon>
+                  </template>
+                </v-tooltip>
+              </template>
+            </v-text-field>
           </v-col>
           <v-col class="d-flex align-center" cols="2" md="2">
-            <v-btn icon="mdi-backspace" variant="text" color="red" size="small" title="Limpiar" @click="clearSearch" />
+            <v-tooltip v-bind="tooltipProps" text="Restablecer" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" icon="mdi-backspace" variant="text" color="red" size="small"
+                  @click="clearSearch" />
+              </template>
+            </v-tooltip>
           </v-col>
         </v-row>
-        <v-data-table-server :key="tableKey" :headers="headers" :items="products" :items-per-page-options="[5, 10]"
-          :items-per-page-text="pages" :items-per-page="itemsPerPage" :items-length="totalProducts" :loading="loading"
-          loading-text="Cargando... Espere por favor" @update:items-per-page="handleItemsPerPageUpdate"
-          @update:page="handlePageChange">
+        <v-divider class="my-4"></v-divider>
+        <v-data-table-server class="elevation-1" :key="tableKey" :headers="headers" :items="products"
+          :items-per-page-options="[5, 10]" :items-per-page-text="pages" :items-per-page="itemsPerPage"
+          :items-length="totalProducts" :loading="loading" loading-text="Cargando... Espere por favor"
+          @update:items-per-page="handleItemsPerPageUpdate" @update:page="handlePageChange">
           <template v-slot:item="{ item }">
             <tr>
               <td>{{ item.code }}</td>
@@ -37,8 +50,14 @@
                 {{ item.stockAvailable }}
               </td>
               <td class="text-center">
-                <v-btn color="indigo" icon="mdi-plus-circle" variant="text" @click="handleProductAdd(item)" size="small"
-                  title="Agregar" />
+                <v-tooltip v-bind="tooltipProps" text="Agegar" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" icon variant="text" color="indigo" size="small"
+                      @click="handleProductAdd(item)">
+                      <v-icon icon="mdi-plus-circle" size="24"></v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
               </td>
             </tr>
           </template>
@@ -49,9 +68,9 @@
           </template>
         </v-data-table-server>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="px-4 pb-4">
         <v-spacer></v-spacer>
-        <v-btn color="red" dark class="mb-2" elevation="4" @click="handleClose">Cerrar</v-btn>
+        <v-btn color="red" dark elevation="4" @click="handleClose">Cerrar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -62,6 +81,7 @@ import { ref, computed } from 'vue';
 import { useInventoryStore } from '@/stores/inventoryStore';
 import { Inventory } from '@/interfaces/inventoryInterface';
 import { handleApiError } from '@/helpers/errorHandler';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface Props {
   modelValue: boolean;
@@ -84,6 +104,7 @@ const itemsPerPage = ref(5);
 
 const search = ref<string | null>(null);
 const selectedFilter = ref('');
+const { tooltipProps } = useResponsiveTooltip();
 const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Precio', 'Categoría', 'Marca']);
 
 const hasSearched = ref(false);
@@ -110,7 +131,7 @@ const headers = computed(() => [
   { title: 'Marca', key: 'brandName', sortable: false },
   { title: 'Precio', key: 'price', sortable: false,  align: 'center' as const },
   { title: 'Cantidad', key: 'stockAvaiblable', sortable: false,  align: 'center' as const },
-  { title: 'Agregar', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
 const isOpen = computed({

@@ -9,14 +9,9 @@
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" title="Almacén"></v-list-item>
         </template>
-        
-        <v-list-item 
-          v-for="link in visibleDirectStoreLinks" 
-          :key="link.text" 
-          :to="link.route"
-          rounded="xl" 
-          class="ma-0 ml-n10"
-        >
+
+        <v-list-item v-for="link in visibleDirectStoreLinks" :key="link.text" :to="link.route" rounded="xl"
+          class="ma-0 ml-n10">
           <template v-slot:prepend>
             <v-icon :icon="link.icon" style="font-size: 20px; margin-right: -20px;"></v-icon>
           </template>
@@ -25,15 +20,10 @@
 
         <v-list-group v-if="hasMovementsPermissions" sub-group>
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" title="Movimientos" rounded="xl"  class="ml-n10"></v-list-item>
+            <v-list-item v-bind="props" title="Movimientos" rounded="xl" class="ml-n10"></v-list-item>
           </template>
-          <v-list-item 
-            v-for="link in visibleMovementLinks" 
-            :key="link.text" 
-            :to="link.route" 
-            rounded="xl"
-            class="ma-0 ml-n16"
-          >
+          <v-list-item v-for="link in visibleMovementLinks" :key="link.text" :to="link.route" rounded="xl"
+            class="ma-0 ml-n16">
             <template v-slot:prepend>
               <v-icon :icon="link.icon" style="font-size: 20px; margin-right: -20px;"></v-icon>
             </template>
@@ -42,7 +32,7 @@
         </v-list-group>
       </v-list-group>
 
-    <v-list-group v-if="hasQueriesPermissions">
+      <v-list-group v-if="hasQueriesPermissions">
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" title="Consultas"></v-list-item>
         </template>
@@ -59,13 +49,8 @@
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" title="Accesos"></v-list-item>
         </template>
-        <v-list-item 
-          v-for="link in visibleAccessLinks" 
-          :key="link.text" 
-          :to="link.route"
-          rounded="xl" 
-          class="ma-0 ml-n10"
-        >
+        <v-list-item v-for="link in visibleAccessLinks" :key="link.text" :to="link.route" rounded="xl"
+          class="ma-0 ml-n10">
           <template v-slot:prepend>
             <v-icon :icon="link.icon" style="font-size: 20px; margin-right: -20px;"></v-icon>
           </template>
@@ -77,13 +62,8 @@
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" title="Autorización"></v-list-item>
         </template>
-        <v-list-item 
-          v-for="link in visibleAuthorizationLinks" 
-          :key="link.text" 
-          :to="link.route"
-          rounded="xl" 
-          class="ma-0 ml-n10"
-        >
+        <v-list-item v-for="link in visibleAuthorizationLinks" :key="link.text" :to="link.route" rounded="xl"
+          class="ma-0 ml-n10">
           <template v-slot:prepend>
             <v-icon :icon="link.icon" style="font-size: 20px; margin-right: -20px;"></v-icon>
           </template>
@@ -135,7 +115,7 @@ const linkDirectStore: Link[] = [
   { icon: 'mdi-store', text: 'Establecimientos', route: '/establecimientos', module: 'establecimientos' },
   { icon: 'mdi-warehouse', text: 'Inventario', route: '/inventario', module: 'inventario' },
   { icon: 'mdi-copyright', text: 'Marcas', route: '/marcas', module: 'marcas' },
-  { icon: 'mdi-package', text: 'Productos', route: '/productos', module: 'productos' },
+  { icon: 'mdi-archive', text: 'Productos', route: '/productos', module: 'productos' },
   { icon: 'mdi-contacts', text: 'Proveedores', route: '/proveedores', module: 'proveedores' },
 ];
 

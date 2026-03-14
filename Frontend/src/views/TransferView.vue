@@ -26,7 +26,7 @@ import { useTransferStore } from '@/stores/transferStore';
 import { useAuthStore } from '@/stores/auth';
 import { Transfer } from '@/interfaces/transferInterface';
 import { useMovementFilters } from '@/composables/useMovementFilters';
-import { TRANSFER_STATE_MAP } from '@/constants/transferStatus';
+import { TransferSteteMap } from '@/constants/transferStatus';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import TransferList from '@/components/Transfer/TransferList.vue';
 import TransferForm from '@/components/Transfer/TransferForm.vue';
@@ -47,7 +47,7 @@ const filterMap: Record<string, number> = {
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useMovementFilters(
   'Código',
   filterMap,
-  TRANSFER_STATE_MAP,
+  TransferSteteMap,
   'Todos'
 );
 

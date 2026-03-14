@@ -10,29 +10,33 @@
       <v-form ref="formRef" v-model="valid">
         <v-row>
           <v-col cols="12" md="2">
-            <v-autocomplete v-if="!localTransfer.idTransfer" color="indigo" variant="underlined" :items="filteredStores"
-              v-model="localTransfer.idStoreDestination" item-title="storeName" item-value="idStore"
-              :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Establecimiento"
-              :loading="loadingStores" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localTransfer.storeDestination"
-              label="Destino" readonly />
+            <v-autocomplete v-if="!localTransfer.idTransfer" color="indigo" variant="solo" density="compact"
+              :items="filteredStores" v-model="localTransfer.idStoreDestination" item-title="storeName"
+              item-value="idStore" :rules="[rules.required]" no-data-text="No hay datos disponibles"
+              label="Establecimiento" :loading="loadingStores" />
+            <v-text-field v-else color="indigo" variant="solo" density="compact"
+              v-model="localTransfer.storeDestination" label="Destino" readonly />
           </v-col>
           <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
-            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.sendDate" label="Fecha envio"
-              readonly />
+            <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.sendDate"
+              label="Fecha envio" readonly />
           </v-col>
           <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
-            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.sendUser" label="Enviado por"
-              readonly />
+            <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.sendUser"
+              label="Enviado por" readonly />
           </v-col>
           <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
-            <v-text-field color="indigo" variant="underlined" v-model="localTransfer.statusTransfer" label="Estado"
-              readonly />
+            <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.statusTransfer"
+              label="Estado" readonly />
           </v-col>
-          <v-col v-if="!localTransfer.idTransfer" class="px-2 d-flex align-center" cols="12" md="2">
-            <v-btn fab dark color="indigo" @click="openProductModal" title="Agregar Producto">
-              <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
-            </v-btn>
+          <v-col v-if="!localTransfer.idTransfer" cols="12" md="2">
+            <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" fab dark color="indigo" @click="openProductModal">
+                  <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
           </v-col>
         </v-row>
         <v-divider class="my-4"></v-divider>
@@ -61,8 +65,13 @@
               }}</td>
               <td class="text-center" v-else>{{ formatCurrency(item.totalPrice) }}</td>
               <td v-if="!localTransfer.idTransfer" class="text-center">
-                <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
-                  title="Quitar" />
+                <v-tooltip v-bind="tooltipProps" text="Quitar" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" icon variant="text" color="red" size="small" @click="removeProduct(item)">
+                      <v-icon icon="mdi-minus-circle-outline" size="24"></v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
               </td>
             </tr>
           </template>
@@ -79,16 +88,16 @@
         </v-col>
       </v-form>
     </v-card-text>
-    <v-card-actions>
-      <v-btn v-if="!localTransfer.idTransfer" color="green" dark class="mb-2" elevation="4" @click="saveTransfer"
+    <v-card-actions class="px-4 pb-4" justify="end">
+      <v-btn v-if="!localTransfer.idTransfer" color="green" dark elevation="4" @click="saveTransfer"
         :disabled="!valid || details.length === 0" :loading="saving">
         Enviar
       </v-btn>
-      <v-btn v-if="localTransfer.statusTransfer === 'Pendiente'" color="indigo" dark class="mb-2" elevation="4"
+      <v-btn v-if="localTransfer.statusTransfer === 'Pendiente'" color="indigo" dark elevation="4"
         @click="receiveTransfer" :loading="downloading">
         Recibir
       </v-btn>
-      <v-btn color="red" dark class="mb-2" elevation="4" @click="close">
+      <v-btn color="red" dark elevation="4" @click="close">
         {{ localTransfer.idTransfer ? 'Cerrar' : 'Cancelar' }}
       </v-btn>
     </v-card-actions>
@@ -107,6 +116,7 @@ import { handleApiError } from '@/helpers/errorHandler';
 import CommonProductOut from '@/components/Common/CommonProductOut.vue';
 import { formatCurrency } from '@/utils/currency';
 import { Transfer, TransferDetail } from '@/interfaces/transferInterface';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface FormRef {
   validate: () => boolean;
@@ -155,6 +165,7 @@ const downloading = ref(false);
 const productModal = ref(false);
 const localTransfer = ref<Transfer>({ ...props.transfer } as Transfer);
 const details = ref<TransferDetail[]>([]);
+const { tooltipProps } = useResponsiveTooltip();
 
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',

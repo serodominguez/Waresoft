@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+ <v-container fluid>
     <v-card elevation="2" class="mb-4">
       <v-toolbar>
         <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
@@ -9,75 +9,94 @@
       <v-card-text>
         <v-row align="center">
           <v-col cols="12" md="2">
-            <v-text-field v-model="selectedProduct.code" label="Código" variant="underlined" color="indigo" readonly />
+            <v-text-field v-model="selectedProduct.code" label="Código" variant="solo"  density="compact"
+              color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-text-field v-model="selectedProduct.description" label="Descripción" variant="underlined" color="indigo"
-              readonly />
+            <v-text-field v-model="selectedProduct.description" label="Descripción" variant="solo"  density="compact"
+              color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field v-model="selectedProduct.brandName" label="Marca" variant="underlined" color="indigo"
-              readonly />
+            <v-text-field v-model="selectedProduct.brandName" label="Marca" variant="solo" density="compact"
+              color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field v-model="selectedProduct.categoryName" label="Categoría" variant="underlined" color="indigo"
-              readonly />
+            <v-text-field v-model="selectedProduct.categoryName" label="Categoría" variant="solo" density="compact"
+              color="indigo" readonly />
           </v-col>
-          <v-col cols="12" md="2">
-            <v-btn color="indigo" class="mt-1" @click="productModal = true" title="Agregar Producto">
-              <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
-            </v-btn>
+          <v-col cols="12" md="2" style="padding-bottom: 22px;">
+            <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn color="indigo" @click="productModal = true">
+                  <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
           </v-col>
         </v-row>
         <v-row v-if="kardex">
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.color" label="Color" variant="underlined" color="indigo" readonly />
-          </v-col>
-          <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.material" label="Material" variant="underlined" color="indigo"
+            <v-text-field :model-value="kardex.color" label="Color" variant="solo" density="compact" color="indigo"
               readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.unitMeasure" label="Unidad de Medida" variant="underlined" color="indigo"
-              readonly />
-          </v-col>
-          <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.currentStock" label="Stock Actual" variant="underlined" color="indigo"
-              readonly />
-          </v-col>
-          <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.calculatedStock" label="Stock Calculado" variant="underlined"
+            <v-text-field :model-value="kardex.material" label="Material" variant="solo" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.stockDifference" label="Diferencia" variant="underlined"
+            <v-text-field :model-value="kardex.unitMeasure" label="Unidad de Medida" variant="solo"
+              density="compact" color="indigo" readonly />
+          </v-col>
+          <v-col cols="12" md="1">
+            <v-text-field :model-value="kardex.currentStock" label="Stock Actual" variant="solo" density="compact"
+              color="indigo" readonly />
+          </v-col>
+          <v-col cols="12" md="1">
+            <v-text-field :model-value="kardex.calculatedStock" label="Stock Calculado" variant="solo"
+              density="compact" color="indigo" readonly />
+          </v-col>
+          <v-col cols="12" md="1">
+            <v-text-field :model-value="kardex.stockDifference" label="Diferencia" variant="solo" density="compact"
               :color="kardex.stockDifference !== 0 ? 'red' : 'green'" readonly />
           </v-col>
         </v-row>
         <v-row align="center">
           <v-col cols="12" md="3">
-            <v-date-input v-model="filters.startDate" label="Fecha Inicio" prepend-icon="" variant="underlined"
-              persistent-placeholder clearable :error-messages="dateError ? ' ' : ''"
+            <v-date-input v-model="filters.startDate" label="Fecha Inicio" prepend-icon="" variant="solo"
+              density="compact" persistent-placeholder clearable :error-messages="dateError ? ' ' : ''"
               @update:model-value="validateDates" />
           </v-col>
           <v-col cols="12" md="3">
-            <v-date-input v-model="filters.endDate" label="Fecha Fin" prepend-icon="" variant="underlined"
-              persistent-placeholder clearable :error-messages="dateError" @update:model-value="validateDates" />
+            <v-date-input v-model="filters.endDate" label="Fecha Fin" prepend-icon="" variant="solo"
+              density="compact" persistent-placeholder clearable :error-messages="dateError"
+              @update:model-value="validateDates" />
           </v-col>
-          <v-col cols="12" md="3" class="d-flex align-center gap-2">
-            <v-btn color="indigo" dark elevation="4" :disabled="!isEnabled" :loading="loading" @click="generateKardex"
-              title="Generar">
-              <v-icon icon="mdi-sync" size="24"></v-icon>
-            </v-btn>
+          <v-col cols="12" md="3" style="padding-bottom: 22px;">
+            <v-tooltip v-bind="tooltipProps" text="Generar" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" color="indigo" dark elevation="4" :disabled="!isEnabled" :loading="loading"
+                  @click="generateKardex">
+                  <v-icon icon="mdi-sync" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
             <template v-if="canDownload && kardex">
-              <v-btn color="red" dark elevation="4" class="ml-2" :loading="downloadingPdf" @click="downloadPdf"
-                title="Descargar Pdf">
-                <v-icon icon="mdi-file-pdf-box" size="24"></v-icon>
-              </v-btn>
-              <v-btn color="green" dark elevation="4" class="ml-2" :loading="downloadingExcel" @click="downloadExcel"
-                title="Descargar Excel">
-                <v-icon icon="mdi-file-excel-box" size="24"></v-icon>
-              </v-btn>
+              <v-tooltip v-bind="tooltipProps" text="Descargar PDF" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" color="red" dark elevation="4" class="ml-2" :loading="downloadingPdf"
+                    @click="downloadPdf">
+                    <v-icon icon="mdi-file-pdf-box" size="24"></v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
+              <v-tooltip v-bind="tooltipProps" text="Descargar Excel" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" color="green" dark elevation="4" class="ml-2" :loading="downloadingExcel"
+                    @click="downloadExcel">
+                    <v-icon icon="mdi-file-excel-box" size="24"></v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
             </template>
           </v-col>
         </v-row>
@@ -99,13 +118,14 @@ import { handleApiError } from '@/helpers/errorHandler';
 import KardexTable from '@/components/Kardex/KardexList.vue';
 import CommonProductOut from '@/components/Common/CommonProductOut.vue';
 import { FilterParams } from '@/interfaces/baseInterface';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 const kardexStore = useKardexStore();
 const authStore = useAuthStore();
 const toast = useToast();
 
 const { kardex, loading, totalKardex } = storeToRefs(kardexStore);
-
+const { tooltipProps } = useResponsiveTooltip();
 const productModal = ref(false);
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);

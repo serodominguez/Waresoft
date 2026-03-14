@@ -10,47 +10,52 @@
       <v-form ref="formRef" v-model="valid">
         <v-row>
           <v-col cols="12" md="2">
-            <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" v-model="localReceipt.type"
-              :items="receiptTypes" label="Tipo de entrada" :rules="[rules.required]"
+            <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="solo" density="compact"
+              v-model="localReceipt.type" :items="receiptTypes" label="Tipo de entrada" :rules="[rules.required]"
               @update:modelValue="updateDocuments" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.type" label="Tipo de entrada"
-              readonly />
+            <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localReceipt.type"
+              label="Tipo de entrada" readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="underlined"
+            <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="solo" density="compact"
               v-model="localReceipt.documentType" :items="documentTypes" label="Tipo de comprobante"
               :rules="[rules.required]" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.documentType"
+            <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localReceipt.documentType"
               label="Tipo de comprobante" readonly />
           </v-col>
           <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
-            <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
+            <v-text-field color="indigo" variant="solo" density="compact" v-model="localReceipt.documentNumber"
               :rules="[rules.required]" counter="30" :maxlength="30" label="Número del comprobante" />
           </v-col>
           <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
-            <v-text-field color="indigo" variant="underlined" v-model="localReceipt.documentNumber"
+            <v-text-field color="indigo" variant="solo" density="compact" v-model="localReceipt.documentNumber"
               label="Número del comprobante" readonly />
           </v-col>
           <v-col v-if="!localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
             <v-date-input locale="es" placeholder="dd/mm/yyyy" v-model="localReceipt.documentDate"
-              label="Fecha del comprobante" variant="underlined" prepend-icon="" :rules="[rules.required]" />
+              label="Fecha del comprobante" variant="solo" density="compact" prepend-icon=""
+              :rules="[rules.required]" />
           </v-col>
           <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
-            <v-text-field v-model="localReceipt.documentDate" label="Fecha del comprobante" variant="underlined"
-              readonly />
+            <v-text-field v-model="localReceipt.documentDate" label="Fecha del comprobante" variant="solo"
+              density="compact" readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-autocomplete v-if="!localReceipt.idReceipt" color="indigo" variant="underlined" :items="suppliersArray"
-              v-model="localReceipt.idSupplier" item-title="companyName" item-value="idSupplier"
+            <v-autocomplete v-if="!localReceipt.idReceipt" color="indigo" variant="solo" density="compact"
+              :items="suppliersArray" v-model="localReceipt.idSupplier" item-title="companyName" item-value="idSupplier"
               :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Proveedor"
               :loading="loadingSuppliers" />
-            <v-text-field v-else color="indigo" variant="underlined" v-model="localReceipt.companyName"
+            <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localReceipt.companyName"
               label="Proveedor" readonly />
           </v-col>
-          <v-col v-if="!localReceipt.idReceipt" class="px-2 d-flex align-center" cols="12" md="2">
-            <v-btn fab dark color="indigo" @click="openProductModal" title="Agregar Producto">
-              <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
-            </v-btn>
+          <v-col v-if="!localReceipt.idReceipt" cols="12" md="2">
+            <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" fab dark color="indigo" @click="openProductModal">
+                  <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
           </v-col>
         </v-row>
         <v-divider class="my-4"></v-divider>
@@ -79,8 +84,13 @@
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.totalCost) }}</td>
               <td v-if="!localReceipt.idReceipt" class="text-center">
-                <v-btn color="red" icon="delete" variant="text" @click="removeProduct(item)" size="small"
-                  title="Quitar" />
+                <v-tooltip v-bind="tooltipProps" text="Quitar" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" icon variant="text" color="red" size="small" @click="removeProduct(item)">
+                      <v-icon icon="mdi-minus-circle-outline" size="24"></v-icon>
+                    </v-btn>
+                  </template>
+                </v-tooltip>
               </td>
             </tr>
           </template>
@@ -91,23 +101,22 @@
         <v-col v-else cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(localReceipt.totalAmount) }}
         </v-col>
-
         <v-col cols="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localReceipt.annotations" :readonly="!!localReceipt.idReceipt"></v-text-field>
         </v-col>
       </v-form>
     </v-card-text>
-    <v-card-actions>
-      <v-btn v-if="!localReceipt.idReceipt" color="green" dark class="mb-2" elevation="4" @click="saveReceipt"
+    <v-card-actions class="px-4 pb-4" justify="end">
+      <v-btn v-if="!localReceipt.idReceipt" color="green" dark elevation="4" @click="saveReceipt"
         :disabled="!valid || details.length === 0" :loading="saving">
         Guardar
       </v-btn>
-      <v-btn v-else-if="localReceipt.statusReceipt === 'Activo' && canDownload" color="indigo" dark class="mb-2"
-        elevation="4" @click="downloadPdf" :loading="downloading">
+      <v-btn v-else-if="localReceipt.statusReceipt === 'Activo' && canDownload" color="indigo" dark elevation="4"
+        @click="downloadPdf" :loading="downloading">
         Descargar
       </v-btn>
-      <v-btn color="red" dark class="mb-2" elevation="4" @click="close">
+      <v-btn color="red" dark elevation="4" @click="close">
         {{ localReceipt.idReceipt ? 'Cerrar' : 'Cancelar' }}
       </v-btn>
     </v-card-actions>
@@ -127,6 +136,7 @@ import CommonProductIn from '@/components/Common/CommonProductIn.vue';
 import { formatDateForApi } from '@/utils/date';
 import { formatCurrency } from '@/utils/currency';
 import { GoodsReceipt, GoodsReceiptDetail } from '@/interfaces/goodsReceiptInterface';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface FormRef {
   validate: () => boolean;
@@ -182,6 +192,7 @@ const productModal = ref(false);
 const localReceipt = ref<GoodsReceipt>({ ...props.receipt } as GoodsReceipt);
 const details = ref<GoodsReceiptDetail[]>([]);
 const documentTypes = ref<string[]>([]);
+const { tooltipProps } = useResponsiveTooltip();
 
 // Constants
 const receiptTypes = ['Adquisición', 'Ajuste de inventario', 'Ajuste de kardex'];

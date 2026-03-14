@@ -10,7 +10,7 @@
           <v-container>
             <v-row>
               <v-col cols="12" md="12">
-                <v-text-field color="indigo" variant="underlined" v-model="localModule.moduleName"
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localModule.moduleName"
                   :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25" label="Nombre del módulo"
                   required />
               </v-col>
@@ -18,13 +18,11 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-col cols="12">
-        <v-card-actions>
-          <v-btn color="green" dark class="mb-2" elevation="4" @click="saveModule" :disabled="!valid"
-            :loading="saving">Guardar</v-btn>
-          <v-btn color="red" dark class="mb-2" elevation="4" @click="close">Cancelar</v-btn>
-        </v-card-actions>
-      </v-col>
+      <v-card-actions class="px-4 pb-4">
+        <v-btn color="green" dark class="mb-2" elevation="4" @click="saveModule" :disabled="!valid"
+          :loading="saving">Guardar</v-btn>
+        <v-btn color="red" dark class="mb-2" elevation="4" @click="close">Cancelar</v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
