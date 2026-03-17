@@ -23,7 +23,7 @@
               <template v-if="canRead">
                 <v-tooltip v-bind="tooltipProps" text="Visualizar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="indigo" size="small"
+                    <v-btn v-bind="props" icon variant="text" color="deep-purple-darken-1" size="small"
                       @click="$emit('view-goodsissue', item)">
                       <v-icon icon="mdi-file-eye" size="24"></v-icon>
                     </v-btn>
@@ -42,7 +42,7 @@
               <template v-if="canDelete && (item as GoodsIssue).statusIssue != 'Cancelado'">
                 <v-tooltip v-bind="tooltipProps" text="Cancelar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="red" size="small"
+                    <v-btn v-bind="props" icon variant="text" color="red-darken-1" size="small"
                       @click="$emit('open-modal', { goodsissue: item, action: 3 })">
                       <v-icon icon="mdi-file-cancel" size="24"></v-icon>
                     </v-btn>
@@ -54,14 +54,14 @@
         </template>
         <template v-slot:top>
           <v-toolbar>
-            <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+            <v-toolbar-title> <v-avatar color="indigo" size="36" class="mr-3">
                 <v-icon icon="mdi-cart-minus" color="white" size="18"></v-icon>
               </v-avatar>Gestión de Salidas</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-tooltip v-bind="tooltipProps" text="Descargar PDF" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="red-darken-1" size="38"
-                  @click="handleDownloadPdf" :loading="downloadingPdf" class="mr-2">
+                  @click="handleDownloadPdf" :loading="downloadingPdf" :disabled="downloadingPdf" class="mr-2">
                   <v-icon icon="mdi-file-pdf-box" size="26"></v-icon>
                 </v-btn>
               </template>
@@ -69,14 +69,14 @@
             <v-tooltip v-bind="tooltipProps" text="Descargar Excel" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="green" size="38"
-                  @click="handleDownloadExcel" :loading="downloadingExcel" class="mr-2">
+                  @click="handleDownloadExcel" :loading="downloadingExcel" :disabled="downloadingExcel" class="mr-2">
                   <v-icon icon="mdi-file-excel-box" size="26"></v-icon>
                 </v-btn>
               </template>
             </v-tooltip>
             <v-tooltip v-bind="tooltipProps" text="Registrar Salida" location="bottom">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" v-if="canCreate" icon variant="text" color="purple-darken-1" size="38"
+                <v-btn v-bind="props" v-if="canCreate" icon variant="text" color="indigo" size="38"
                   @click="$emit('open-form')" class="mr-2">
                   <v-icon icon="mdi-plus-box" size="26"></v-icon>
                 </v-btn>

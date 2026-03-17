@@ -8,14 +8,14 @@
     </v-toolbar>
     <v-card-text>
       <v-form ref="formRef" v-model="valid">
-        <v-row>
+        <v-row align="center">
           <v-col cols="12" md="2">
             <v-select v-if="!localIssue.idIssue" color="indigo" variant="solo" density="compact"
               v-model="localIssue.type" :items="issueTypes" label="Tipo de Salida" :rules="[rules.required]" />
             <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localIssue.type"
               label="Tipo de salida" readonly />
           </v-col>
-          <v-col cols="12" md="2">
+          <v-col v-if="localIssue.type === 'Consignación'" cols="12" md="2">
             <v-autocomplete v-if="!localIssue.idIssue" color="indigo" variant="solo" density="compact"
               :items="usersArray" v-model="localIssue.idUser" item-title="userName" item-value="idUser"
               :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Personal"
@@ -23,7 +23,7 @@
             <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localIssue.userName"
               label="Personal" readonly />
           </v-col>
-          <v-col v-if="!localIssue.idIssue" cols="12" md="2">
+          <v-col v-if="!localIssue.idIssue" cols="12" md="2" style="padding-bottom: 22px;">
             <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" fab dark color="indigo" @click="openProductModal">
@@ -82,7 +82,7 @@
         </v-col>
       </v-form>
     </v-card-text>
-    <v-card-actions class="px-4 pb-4" justify="end">
+    <v-card-actions class="px-4 pb-4 pt-0" justify="end">
       <v-btn v-if="!localIssue.idIssue" color="green" dark elevation="4" @click="saveIssue"
         :disabled="!valid || details.length === 0" :loading="saving">
         Guardar
@@ -164,7 +164,7 @@ const details = ref<GoodsIssueDetail[]>([]);
 const documentTypes = ref<string[]>([]);
 const { tooltipProps } = useResponsiveTooltip();
 
-const issueTypes = ['Consignación', 'Ajuste de inventario', 'Ajuste de kardex'];
+const issueTypes = ['Consignación', 'Baja', 'Ajuste de inventario', 'Ajuste de kardex'];
 
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',

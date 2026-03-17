@@ -10,8 +10,8 @@ namespace Application.Validators
             RuleFor(x => x.Type)
                 .NotEmpty().WithMessage("El tipo es requerido")
                 .MaximumLength(20).WithMessage("El tipo no puede tener más de 20 caracteres")
-                .Must(type => type == "Adquisición" || type == "Ajuste de inventario" || type == "Ajuste de kardex")
-                .WithMessage("El tipo debe ser 'Adquisición', 'Ajuste de inventario' o 'Ajuste de kardex'");
+                .Must(type => type == "Adquisición" || type == "Alta" || type == "Ajuste de inventario" || type == "Ajuste de kardex")
+                .WithMessage("El tipo debe ser: 'Adquisición', 'Alta', 'Ajuste de inventario' o 'Ajuste de kardex'");
 
             RuleFor(x => x.DocumentType)
                 .NotEmpty().WithMessage("El tipo de documento es requerido")

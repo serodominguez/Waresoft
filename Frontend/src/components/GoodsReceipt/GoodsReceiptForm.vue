@@ -8,7 +8,7 @@
     </v-toolbar>
     <v-card-text>
       <v-form ref="formRef" v-model="valid">
-        <v-row>
+        <v-row  align="center">
           <v-col cols="12" md="2">
             <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="solo" density="compact"
               v-model="localReceipt.type" :items="receiptTypes" label="Tipo de entrada" :rules="[rules.required]"
@@ -48,7 +48,7 @@
             <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localReceipt.companyName"
               label="Proveedor" readonly />
           </v-col>
-          <v-col v-if="!localReceipt.idReceipt" cols="12" md="2">
+          <v-col v-if="!localReceipt.idReceipt" cols="12" md="2" style="padding-bottom: 22px;">
             <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" fab dark color="indigo" @click="openProductModal">
@@ -107,7 +107,7 @@
         </v-col>
       </v-form>
     </v-card-text>
-    <v-card-actions class="px-4 pb-4" justify="end">
+    <v-card-actions class="px-4 pb-4 pt-0" justify="end">
       <v-btn v-if="!localReceipt.idReceipt" color="green" dark elevation="4" @click="saveReceipt"
         :disabled="!valid || details.length === 0" :loading="saving">
         Guardar
@@ -195,7 +195,7 @@ const documentTypes = ref<string[]>([]);
 const { tooltipProps } = useResponsiveTooltip();
 
 // Constants
-const receiptTypes = ['Adquisición', 'Ajuste de inventario', 'Ajuste de kardex'];
+const receiptTypes = ['Adquisición', 'Alta', 'Ajuste de inventario', 'Ajuste de kardex'];
 const typesPurchases = ['Factura', 'Recibo'];
 const typeAdjustment = ['Entrada'];
 

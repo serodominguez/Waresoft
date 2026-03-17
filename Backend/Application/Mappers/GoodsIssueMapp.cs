@@ -15,7 +15,7 @@ namespace Application.Mappers
                 Type = dto.Type.NormalizeString(),
                 TotalAmount = dto.TotalAmount,
                 Annotations = dto.Annotations.NormalizeString(),
-                IdUser = dto.IdUser,
+                IdUser = dto.IdUser ?? 0,
                 IdStore = dto.IdStore,
                 GoodsIssueDetails = (dto.GoodsIssueDetails ?? Enumerable.Empty<GoodsIssueDetailsRequestDto>())
                     .Select(details => new GoodsIssueDetailsEntity

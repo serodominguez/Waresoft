@@ -5,10 +5,10 @@
         <span>{{ localProduct.idProduct ? 'Editar Producto' : 'Agregar Producto' }}</span>
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text>
+      <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
-          <v-container>
-            <v-row>
+          <v-container class="pa-0">
+            <v-row density="comfortable">
               <v-col cols="12" md="12">
                 <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.code" counter="25"
                   :maxlength="25" label="Código" />
@@ -40,14 +40,13 @@
                   :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Categoría" required
                   :loading="loadingCategories" />
               </v-col>
-              <v-col cols="10" md="10">
+              <v-col cols="10" md="10" class="mb-0">
                 <v-file-input color="indigo" variant="solo" density="compact" label="Imagen"
                   accept="image/jpeg,image/png,image/webp" prepend-icon="mdi-image" :clearable="true"
                   :rules="[rules.imageSize]" @change="handleImageChange" />
               </v-col>
-              <v-col cols="2" md="2"></v-col>
             </v-row>
-            <v-row v-if="localProduct.image && !selectedImage" align="center">
+            <v-row v-if="localProduct.image && !selectedImage" align="center" class="mt-0">
               <v-col cols="10" md="10">
                 <v-img :src="localProduct.image" max-height="100" contain class="border rounded pa-2 elevation-2" />
               </v-col>
@@ -64,7 +63,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-4" justify="end">
+      <v-card-actions class="px-4 pb-3 pt-4">
         <v-btn color="green" dark elevation="4" @click="saveProduct" :disabled="!valid"
           :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>

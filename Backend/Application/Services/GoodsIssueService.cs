@@ -136,6 +136,7 @@ namespace Application.Services
 
         public async Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, GoodsIssueRequestDto requestDto)
         {
+            const string TypeIssue = "Consignación";
             const string TypeAdjustment = "Ajuste de kardex";
             var response = new BaseResponse<bool>();
 
@@ -155,6 +156,12 @@ namespace Application.Services
             {
                 var entity = GoodsIssueMapp.GoodsIssueMapping(requestDto);
                 entity.Code = await _unitOfWork.GoodsIssue.GenerateCodeAsync();
+                
+                if (entity.Type != TypeIssue ||  entity.IdUser == 0)
+                {
+                    entity.IdUser = authenticatedUserId;
+                }
+
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = 1;

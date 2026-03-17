@@ -1,19 +1,19 @@
 <template>
- <v-container fluid>
+  <v-container fluid>
     <v-card elevation="2" class="mb-4">
       <v-toolbar>
-        <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+        <v-toolbar-title> <v-avatar color="indigo" size="36" class="mr-3">
             <v-icon icon="mdi-clipboard-text" color="white" size="18"></v-icon>
           </v-avatar>Kardex del Producto</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <v-row align="center">
+        <v-row align="center" class="mb-0 pb-0">
           <v-col cols="12" md="2">
-            <v-text-field v-model="selectedProduct.code" label="Código" variant="solo"  density="compact"
-              color="indigo" readonly />
+            <v-text-field v-model="selectedProduct.code" label="Código" variant="solo" density="compact" color="indigo"
+              readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-text-field v-model="selectedProduct.description" label="Descripción" variant="solo"  density="compact"
+            <v-text-field v-model="selectedProduct.description" label="Descripción" variant="solo" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
@@ -27,14 +27,14 @@
           <v-col cols="12" md="2" style="padding-bottom: 22px;">
             <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
               <template v-slot:activator="{ props }">
-                <v-btn color="indigo" @click="productModal = true">
+                <v-btn v-bind="props" color="indigo" @click="productModal = true">
                   <v-icon icon="mdi-playlist-plus" size="24"></v-icon>
                 </v-btn>
               </template>
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-row v-if="kardex">
+        <v-row v-if="kardex" class="mt-0 mb-0">
           <v-col cols="12" md="1">
             <v-text-field :model-value="kardex.color" label="Color" variant="solo" density="compact" color="indigo"
               readonly />
@@ -44,32 +44,31 @@
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.unitMeasure" label="Unidad de Medida" variant="solo"
-              density="compact" color="indigo" readonly />
+            <v-text-field :model-value="kardex.unitMeasure" label="Unidad de Medida" variant="solo" density="compact"
+              color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
             <v-text-field :model-value="kardex.currentStock" label="Stock Actual" variant="solo" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.calculatedStock" label="Stock Calculado" variant="solo"
-              density="compact" color="indigo" readonly />
+            <v-text-field :model-value="kardex.calculatedStock" label="Stock Calculado" variant="solo" density="compact"
+              color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
             <v-text-field :model-value="kardex.stockDifference" label="Diferencia" variant="solo" density="compact"
               :color="kardex.stockDifference !== 0 ? 'red' : 'green'" readonly />
           </v-col>
         </v-row>
-        <v-row align="center">
+        <v-row align="center" class="mt-0">
           <v-col cols="12" md="3">
             <v-date-input v-model="filters.startDate" label="Fecha Inicio" prepend-icon="" variant="solo"
               density="compact" persistent-placeholder clearable :error-messages="dateError ? ' ' : ''"
               @update:model-value="validateDates" />
           </v-col>
           <v-col cols="12" md="3">
-            <v-date-input v-model="filters.endDate" label="Fecha Fin" prepend-icon="" variant="solo"
-              density="compact" persistent-placeholder clearable :error-messages="dateError"
-              @update:model-value="validateDates" />
+            <v-date-input v-model="filters.endDate" label="Fecha Fin" prepend-icon="" variant="solo" density="compact"
+              persistent-placeholder clearable :error-messages="dateError" @update:model-value="validateDates" />
           </v-col>
           <v-col cols="12" md="3" style="padding-bottom: 22px;">
             <v-tooltip v-bind="tooltipProps" text="Generar" location="bottom">
@@ -84,7 +83,7 @@
               <v-tooltip v-bind="tooltipProps" text="Descargar PDF" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" color="red" dark elevation="4" class="ml-2" :loading="downloadingPdf"
-                    @click="downloadPdf">
+                    :disabled="downloadingPdf" @click="downloadPdf">
                     <v-icon icon="mdi-file-pdf-box" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -92,7 +91,7 @@
               <v-tooltip v-bind="tooltipProps" text="Descargar Excel" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" color="green" dark elevation="4" class="ml-2" :loading="downloadingExcel"
-                    @click="downloadExcel">
+                    :disabled="downloadingExcel" @click="downloadExcel">
                     <v-icon icon="mdi-file-excel-box" size="24"></v-icon>
                   </v-btn>
                 </template>

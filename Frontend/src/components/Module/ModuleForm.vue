@@ -5,10 +5,10 @@
         <span>{{ localModule.idModule ? 'Editar Módulo' : 'Agregar Módulo' }}</span>
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text>
+      <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
-          <v-container>
-            <v-row>
+          <v-container class="pa-0">
+            <v-row density="comfortable">
               <v-col cols="12" md="12">
                 <v-text-field color="indigo" variant="solo" density="compact" v-model="localModule.moduleName"
                   :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25" label="Nombre del módulo"
@@ -18,7 +18,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-4">
+      <v-card-actions class="px-4 pb-3 pt-2">
         <v-btn color="green" dark class="mb-2" elevation="4" @click="saveModule" :disabled="!valid"
           :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark class="mb-2" elevation="4" @click="close">Cancelar</v-btn>

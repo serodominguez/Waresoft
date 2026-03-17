@@ -64,7 +64,7 @@
           </template>
         </v-data-table-server>
       </v-card-text>
-      <v-card-actions class="px-4 pb-4">
+      <v-card-actions class="px-4 pb-4 pt-0">
         <v-spacer></v-spacer>
         <v-btn color="red" dark elevation="4" @click="handleClose">Cerrar</v-btn>
       </v-card-actions>

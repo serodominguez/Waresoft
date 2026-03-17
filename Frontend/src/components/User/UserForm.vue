@@ -5,10 +5,10 @@
         <span>{{ localUser.idUser ? 'Editar Usuario' : 'Agregar Usuario' }}</span>
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text>
+      <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
-          <v-container>
-            <v-row>
+          <v-container class="pa-0">
+            <v-row density="comfortable">
               <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.userName"
                   :rules="[rules.required, rules.onlyLetters]" counter="20" :maxlength="20" @keyup="uppercase"
@@ -21,7 +21,8 @@
               </v-col>
               <v-col v-else cols="6" md="6">
                 <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.passwordHash"
-                  type="password" :rules="[rules.required]" label="Contraseña" clearable required />
+                  type="password" :rules="[rules.required]" label="Contraseña" :clearable="!passwordCleared"
+                  @click:clear="handlePasswordClear" required />
               </v-col>
               <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.names"
@@ -33,8 +34,8 @@
                   required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact"
-                  v-model="localUser.identificationNumber" counter="8" :maxlength="8" label="Carnet" />
+                <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.identificationNumber"
+                  counter="8" :maxlength="8" label="Carnet" />
               </v-col>
               <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.phoneNumber"
@@ -54,7 +55,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-4">
+      <v-card-actions class="px-4 pb-3 pt-2">
         <v-btn color="green" dark elevation="4" @click="saveUser" :disabled="!valid" :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>
       </v-card-actions>
@@ -121,6 +122,7 @@ const saving = ref(false);
 const show = ref(false);
 const localUser = ref<User>({ ...props.user } as User);
 const oldPassword = ref('');
+const passwordCleared = ref(false);
 
 const rules = {
   required: (value: string) => !!value || 'Este campo es requerido.',
@@ -148,8 +150,10 @@ watch(() => props.user, (newUser) => {
     localUser.value = { ...newUser } as User;
     if (newUser.idUser) {
       oldPassword.value = newUser.passwordHash;
+      passwordCleared.value = false;
     } else {
       oldPassword.value = '';
+      passwordCleared.value = false;
     }
   }
 }, { deep: true });
@@ -158,8 +162,13 @@ const uppercase = () => {
   localUser.value.userName = localUser.value.userName.toUpperCase();
 };
 
+const handlePasswordClear = () => {
+  passwordCleared.value = true;
+};
+
 const close = () => {
   isOpen.value = false;
+  passwordCleared.value = false;
 };
 
 const saveUser = async () => {

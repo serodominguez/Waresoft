@@ -233,7 +233,6 @@ namespace Application.Services
 
             try
             {
-
                 var receipt = await _unitOfWork.GoodsReceipt.GetGoodsReceiptByIdAsQueryable(receiptId)
                     .FirstOrDefaultAsync();
 

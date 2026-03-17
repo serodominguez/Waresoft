@@ -2,7 +2,7 @@
   <div>
     <v-card elevation="2">
       <v-toolbar>
-        <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+        <v-toolbar-title> <v-avatar color="indigo" size="36" class="mr-3">
             <v-icon icon="mdi-account-cog" color="white" size="18"></v-icon>
           </v-avatar>Gestión de Permisos</v-toolbar-title>
         <v-spacer></v-spacer>

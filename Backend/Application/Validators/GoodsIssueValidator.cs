@@ -10,8 +10,8 @@ namespace Application.Validators
             RuleFor(x => x.Type)
                 .NotEmpty().WithMessage("El tipo es requerido")
                 .MaximumLength(20).WithMessage("El tipo no puede tener más de 20 caracteres")
-                .Must(type => type == "Consignación" || type == "Ajuste de inventario" || type == "Ajuste de kardex")
-                .WithMessage("El tipo debe ser 'Consignación', 'Ajuste de inventario' o 'Ajuste de kardex'");
+                .Must(type => type == "Consignación" || type == "Baja" || type == "Ajuste de inventario" || type == "Ajuste de kardex")
+                .WithMessage("El tipo debe ser: 'Consignación', 'Baja', 'Ajuste de inventario' o 'Ajuste de kardex'");
 
             RuleFor(x => x.TotalAmount)
                 .GreaterThanOrEqualTo(0).WithMessage("El monto total no puede ser negativo");
@@ -21,7 +21,8 @@ namespace Application.Validators
                 .When(x => !string.IsNullOrWhiteSpace(x.Annotations));
 
             RuleFor(x => x.IdUser)
-                .GreaterThan(0).WithMessage("El identificador del usuario es requerido");
+                .GreaterThan(0).WithMessage("El identificador del usuario es requerido")
+                .When(x => x.Type == "Consignación");
 
             RuleFor(x => x.IdStore)
                 .GreaterThan(0).WithMessage("El identificador del establecimiento es requerido");

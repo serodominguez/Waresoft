@@ -8,7 +8,7 @@
     </v-toolbar>
     <v-card-text>
       <v-form ref="formRef" v-model="valid">
-        <v-row>
+        <v-row align="center">
           <v-col cols="12" md="2">
             <v-autocomplete v-if="!localTransfer.idTransfer" color="indigo" variant="solo" density="compact"
               :items="filteredStores" v-model="localTransfer.idStoreDestination" item-title="storeName"
@@ -29,7 +29,7 @@
             <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.statusTransfer"
               label="Estado" readonly />
           </v-col>
-          <v-col v-if="!localTransfer.idTransfer" cols="12" md="2">
+          <v-col v-if="!localTransfer.idTransfer" cols="12" md="2" style="padding-bottom: 22px;">
             <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" fab dark color="indigo" @click="openProductModal">
@@ -88,7 +88,7 @@
         </v-col>
       </v-form>
     </v-card-text>
-    <v-card-actions class="px-4 pb-4" justify="end">
+    <v-card-actions class="px-4 pb-4 pt-0" justify="end">
       <v-btn v-if="!localTransfer.idTransfer" color="green" dark elevation="4" @click="saveTransfer"
         :disabled="!valid || details.length === 0" :loading="saving">
         Enviar

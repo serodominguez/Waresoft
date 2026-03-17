@@ -6,7 +6,7 @@
           <v-toolbar class="tool-bar-custom" dark>
             <v-toolbar-title>Waresoft</v-toolbar-title>
           </v-toolbar>
-          <v-card-text>
+          <v-card-text class="pb-0">
             <v-text-field v-model="user" color="indigo" label="Usuario" variant="solo" @keyup="uppercase"
               :disabled="loading" required></v-text-field>
             <v-text-field v-model="password" color="indigo" label="Contraseña" variant="solo"
@@ -14,9 +14,9 @@
               :disabled="loading" required></v-text-field>
             <v-alert v-if="errorMessage" type="error">{{ errorMessage }}</v-alert>
           </v-card-text>
-          <v-card-actions class="px-3 pb-3">
+          <v-card-actions class="px-4 pb-3 pt-2">
             <v-spacer></v-spacer>
-            <v-btn @click="login" color="indigo" elevation="4" :loading="loading" :disabled="loading">
+            <v-btn @click="login" color="indigo" elevation="2" :loading="loading" :disabled="loading">
               Iniciar sesión
             </v-btn>
           </v-card-actions>

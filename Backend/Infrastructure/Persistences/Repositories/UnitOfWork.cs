@@ -60,6 +60,7 @@ namespace Infrastructure.Persistences.Repositories
             var transaction = _context.Database.BeginTransaction();
             return transaction.GetDbTransaction();
         }
+
         public void SaveChanges()
         {
             _context.SaveChanges();

@@ -22,7 +22,7 @@
               <v-tooltip v-bind="tooltipProps" text="Editar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Module).statusModule == 'Activo'" icon variant="text"
-                    color="indigo" size="small" @click="$emit('edit-module', item)">
+                    color="blue-darken-1" size="small" @click="$emit('edit-module', item)">
                     <v-icon icon="mdi-pencil" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -30,7 +30,7 @@
               <v-tooltip v-bind="tooltipProps" text="Activar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Module).statusModule == 'Inactivo'" icon
-                    variant="text" color="green" size="small" @click="$emit('open-modal', { module: item, action: 1 })">
+                    variant="text" color="green-darken-1" size="small" @click="$emit('open-modal', { module: item, action: 1 })">
                     <v-icon icon="mdi-check-circle" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -38,14 +38,14 @@
               <v-tooltip v-bind="tooltipProps" text="Inactivar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Module).statusModule == 'Activo'" icon variant="text"
-                    color="red" size="small" @click="$emit('open-modal', { module: item, action: 2 })">
+                    color="red-darken-1" size="small" @click="$emit('open-modal', { module: item, action: 2 })">
                     <v-icon icon="mdi-close-circle" size="24"></v-icon>
                   </v-btn>
                 </template>
               </v-tooltip>
               <v-tooltip v-bind="tooltipProps" text="Eliminar" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" v-if="canDelete" icon variant="text" color="blue-grey" size="small"
+                  <v-btn v-bind="props" v-if="canDelete" icon variant="text" color="blue-grey-darken-1" size="small"
                     @click="$emit('open-modal', { module: item, action: 0 })">
                     <v-icon icon="mdi-trash-can" size="24"></v-icon>
                   </v-btn>
@@ -56,14 +56,14 @@
         </template>
         <template v-slot:top>
           <v-toolbar>
-            <v-toolbar-title> <v-avatar color="purple-darken-1" size="36" class="mr-3">
+            <v-toolbar-title> <v-avatar color="indigo" size="36" class="mr-3">
                 <v-icon icon="mdi-apps" color="white" size="18"></v-icon>
               </v-avatar>Gestión de Módulos</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-tooltip v-bind="tooltipProps" text="Descargar PDF" location="bottom">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="red-darken-1" size="38"
-                  @click="handleDownloadPdf" :loading="downloadingPdf" class="mr-2">
+                <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="red" size="38"
+                  @click="handleDownloadPdf" :loading="downloadingPdf" :disabled="downloadingPdf" class="mr-2">
                   <v-icon icon="mdi-file-pdf-box" size="26"></v-icon>
                 </v-btn>
               </template>
@@ -71,14 +71,14 @@
             <v-tooltip v-bind="tooltipProps" text="Descargar Excel" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="green" size="38"
-                  @click="handleDownloadExcel" :loading="downloadingExcel" class="mr-2">
+                  @click="handleDownloadExcel" :loading="downloadingExcel" :disabled="downloadingExcel" class="mr-2">
                   <v-icon icon="mdi-file-excel-box" size="26"></v-icon>
                 </v-btn>
               </template>
             </v-tooltip>
             <v-tooltip v-bind="tooltipProps" text="Agregar Módulo" location="bottom">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" v-if="canCreate" icon variant="text" color="purple-darken-1" size="38"
+                <v-btn v-bind="props" v-if="canCreate" icon variant="text" color="indigo" size="38"
                   @click="$emit('open-form')" class="mr-2">
                   <v-icon icon="mdi-plus-box" size="26"></v-icon>
                 </v-btn>
