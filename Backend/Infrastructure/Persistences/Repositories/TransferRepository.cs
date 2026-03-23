@@ -16,8 +16,12 @@ namespace Infrastructure.Persistences.Repositories
 
         public async Task<string> GenerateCodeAsync()
         {
+            const string sequenceName = "TRANSFER";
+
             var sequence = await _context.Sequence
-                .FirstOrDefaultAsync(s => s.Name == "TRANSFER");
+                .FromSqlRaw(@"SELECT NAME, CURRENT_VALUE, LAST_UPDATED FROM SEQUENCES WITH (UPDLOCK, ROWLOCK, HOLDLOCK) WHERE NAME = {0}", sequenceName)
+                .AsTracking()
+                .FirstOrDefaultAsync();
 
             if (sequence == null)
             {
@@ -25,20 +29,19 @@ namespace Infrastructure.Persistences.Repositories
                 {
                     Name = "TRANSFER",
                     CurrentValue = 1,
-                    LastUpdated = DateTime.Now
+                    LastUpdated = DateTime.UtcNow
                 };
                 await _context.Sequence.AddAsync(sequence);
             }
             else
             {
                 sequence.CurrentValue++;
-                sequence.LastUpdated = DateTime.Now;
-                _context.Sequence.Update(sequence);
+                sequence.LastUpdated = DateTime.UtcNow;
             }
 
             await _context.SaveChangesAsync();
 
-            return $"TRAS-{sequence.CurrentValue.ToString().PadLeft(6, '0')}";
+            return $"TRP-{sequence.CurrentValue.ToString().PadLeft(6, '0')}";
         }
 
         public IQueryable<TransferEntity> GetTransferQueryableByStore(int storeId)

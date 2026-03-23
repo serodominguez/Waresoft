@@ -20,6 +20,7 @@ namespace Infrastructure.Persistences.Interfaces
         IGoodsReceiptRepository GoodsReceipt { get; }
         IPermissionRepository Permission { get; }
         IProductRepository Product { get; }
+        ISequenceRepository Sequence { get; }
         IStoreInventoryRepository StoreInventory { get; }
         ITransferDetailsRepository TransferDetails { get; }
         ITransferRepository Transfer { get; }

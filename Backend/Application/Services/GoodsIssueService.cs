@@ -5,6 +5,7 @@ using Application.Dtos.Request.GoodsIssue;
 using Application.Dtos.Response.GoodsIssue;
 using Application.Interfaces;
 using Application.Mappers;
+using Domain.Constants;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -134,10 +135,8 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, GoodsIssueRequestDto requestDto)
+        public async Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, int authenticatedUserStoreId, GoodsIssueRequestDto requestDto)
         {
-            const string TypeIssue = "Consignación";
-            const string TypeAdjustment = "Ajuste de kardex";
             var response = new BaseResponse<bool>();
 
             var validationResult = await _validator.ValidateAsync(requestDto);
@@ -154,10 +153,12 @@ namespace Application.Services
 
             try
             {
+                var generatedCode = await _unitOfWork.Sequence.GenerateMovementsCodeAsync(SequenceNames.GoodsIssue, SequencePrefixes.GoodsIssue, authenticatedUserStoreId);
+
                 var entity = GoodsIssueMapp.GoodsIssueMapping(requestDto);
-                entity.Code = await _unitOfWork.GoodsIssue.GenerateCodeAsync();
-                
-                if (entity.Type != TypeIssue ||  entity.IdUser == 0)
+                entity.Code = generatedCode;
+
+                if (entity.Type != GoodsIssueTypes.Consignment ||  entity.IdUser == 0)
                 {
                     entity.IdUser = authenticatedUserId;
                 }
@@ -170,7 +171,7 @@ namespace Application.Services
                 await _unitOfWork.GoodsIssue.AddGoodsIssueAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                if (requestDto.Type != TypeAdjustment)
+                if (requestDto.Type != GoodsIssueTypes.Adjustment)
                 {
                     foreach (var item in entity.GoodsIssueDetails)
                     {

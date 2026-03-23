@@ -5,6 +5,7 @@ using Application.Dtos.Request.Transfer;
 using Application.Dtos.Response.Transfer;
 using Application.Interfaces;
 using Application.Mappers;
+using Domain.Constants;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
@@ -186,8 +187,10 @@ namespace Application.Services
 
             try
             {
+                var generatedCode = await _unitOfWork.Sequence.GenerateTransferCodeAsync(SequenceNames.Transfer, SequencePrefixes.Transfer);
+
                 var entity = TransferMapp.TransferMapping(requestDto);
-                entity.Code = await _unitOfWork.Transfer.GenerateCodeAsync();
+                entity.Code = generatedCode;
                 entity.SendDate = DateTime.Now;
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
@@ -286,6 +289,7 @@ namespace Application.Services
                             AuditCreateUser = authenticatedUserId,
                             AuditCreateDate = DateTime.Now
                         };
+                        await _unitOfWork.StoreInventory.AddStoreInventoryAsync(newStock);
                     }
 
                     var originStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, transfer.IdStoreOrigin)

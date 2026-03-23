@@ -9,7 +9,7 @@ namespace Application.Interfaces
     {
         Task<BaseResponse<IEnumerable<GoodsIssueResponseDto>>> ListGoodsIssueByStore(int authenticatedStoreId, BaseFiltersRequest filters);
         Task<BaseResponse<GoodsIssueWithDetailsResponseDto>> GoodsIssueById(int issueId);
-        Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, GoodsIssueRequestDto requestDto);
+        Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, int authenticatedStoreId, GoodsIssueRequestDto requestDto);
         Task<BaseResponse<bool>> CancelGoodsIssue(int authenticatedUserId, int issueId);
     }
 }

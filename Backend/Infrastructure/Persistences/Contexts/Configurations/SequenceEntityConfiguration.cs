@@ -8,13 +8,16 @@ namespace Infrastructure.Persistences.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<SequenceEntity> builder)
         {
-            builder.ToTable("SEQUENCES");
-
-            builder.HasKey(s => s.Name);
+            builder.ToTable("SEQUENCES")
+                .HasKey(s => new { s.Name, s.IdStore });
 
             builder.Property(s => s.Name)
                 .HasColumnName("NAME")
                 .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(s => s.IdStore)
+                .HasColumnName("PK_STORE")
                 .IsRequired();
 
             builder.Property(s => s.CurrentValue)

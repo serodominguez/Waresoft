@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistences.Repositories
 {
@@ -51,8 +50,29 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<GoodsIssueDetailsEntity> GetGoodsIssueDetailsByProductQueryable(int storeId, int productId)
         {
             return _context.GoodsIssueDetails
-                .Include(d => d.GoodsIssue)
-                .Where(d => d.IdProduct == productId && d.GoodsIssue.IdStore == storeId);
+                    .Where(d => d.IdProduct == productId && d.GoodsIssue.IdStore == storeId)
+                    .Select(d => new GoodsIssueDetailsEntity
+                    {
+                        IdIssue = d.IdIssue,
+                        Item = d.Item,
+                        IdProduct = d.IdProduct,
+                        Quantity = d.Quantity,
+                        UnitPrice = d.UnitPrice,
+                        TotalPrice = d.TotalPrice,
+                        GoodsIssue = new GoodsIssueEntity
+                        {
+                            IdIssue = d.GoodsIssue.IdIssue,
+                            Code = d.GoodsIssue.Code,
+                            Type = d.GoodsIssue.Type,
+                            TotalAmount = d.GoodsIssue.TotalAmount,
+                            Annotations = d.GoodsIssue.Annotations,
+                            IdUser = d.GoodsIssue.IdUser,
+                            IdStore = d.GoodsIssue.IdStore,
+                            AuditCreateDate = d.GoodsIssue.AuditCreateDate,
+                            Status = d.GoodsIssue.Status,
+                            IsActive = d.GoodsIssue.IsActive
+                        },
+                    });
         }
     }
 }

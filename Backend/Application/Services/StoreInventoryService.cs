@@ -189,17 +189,14 @@ namespace Application.Services
 
                 // Obtener todos los movimientos del producto
                 var receipts = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsByProductQueryable(authenticatedStoreId, productId)
-                    .AsNoTracking()
                     .Where(r => r.GoodsReceipt.IsActive)
                     .ToListAsync();
 
                 var issues = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsByProductQueryable(authenticatedStoreId, productId)
-                    .AsNoTracking()
                     .Where(i => i.GoodsIssue.IsActive)
                     .ToListAsync();
 
                 var transfers = await _unitOfWork.TransferDetails.GetTransferDetailsByProductQueryable(authenticatedStoreId, productId)
-                    .AsNoTracking()
                     .Where(t => t.Transfer.IsActive)
                     .ToListAsync();
 
@@ -208,19 +205,19 @@ namespace Application.Services
 
                 // Agregar SOLO Entradas COMPLETADAS
                 movements.AddRange(receipts
-                        .Where(r => r.GoodsReceipt != null && r.GoodsReceipt.Status == 1)
+                        .Where(r => r.GoodsReceipt.Status == 1)
                         .Select(StoreInventoryMapp.MapReceiptToKardexMovement)
                 );
 
                 // Agregar SOLO Salidas COMPLETADAS
                 movements.AddRange(issues
-                        .Where(i => i.GoodsIssue != null && i.GoodsIssue.Status == 1)
+                        .Where(i => i.GoodsIssue.Status == 1)
                         .Select(StoreInventoryMapp.MapIssueToKardexMovement)
                 );
 
                 // Agregar SOLO Traspasos ENVIADOS o RECIBIDOS (no Cancelados ni Pendientes)
                 movements.AddRange(transfers
-                        .Where(t => t.Transfer != null && t.Transfer.Status != 0)
+                        .Where(t => t.Transfer.Status != 0)
                         .Select(t => StoreInventoryMapp.MapTransferToKardexMovement(t, authenticatedStoreId))
                 );
 

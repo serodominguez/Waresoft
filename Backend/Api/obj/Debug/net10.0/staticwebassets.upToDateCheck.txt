@@ -3,6 +3,7 @@ wwwroot\products\34add40f-1d89-4954-bf93-850f4c855692.jpg
 wwwroot\products\3ce9f3cd-5cc5-41b6-9fa4-b419f168cd19.jpg
 wwwroot\products\539b8afc-aced-4a32-9e33-ef010c056715.jpg
 wwwroot\products\60518d69-6c23-4972-bf79-25e6244ba98c.jpg
+wwwroot\products\9c9275cd-11e6-491f-ad05-10f9e329f5c4.jpg
 wwwroot\products\9d389187-175e-4f34-aa6b-e687ba66a0ea.jpg
 wwwroot\products\b0d66e33-83bd-48dc-8197-9059965dce29.jpg
 wwwroot\products\b8c2269f-4dca-4c4f-8694-6ed30fb17cef.jpg

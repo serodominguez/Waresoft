@@ -14,33 +14,6 @@ namespace Infrastructure.Persistences.Repositories
             _context = context;
         }
 
-        public async Task<string> GenerateCodeAsync()
-        {
-            var sequence = await _context.Sequence
-                .FirstOrDefaultAsync(s => s.Name == "GOODS_ISSUE");
-
-            if (sequence == null)
-            {
-                sequence = new SequenceEntity
-                {
-                    Name = "GOODS_ISSUE",
-                    CurrentValue = 1,
-                    LastUpdated = DateTime.Now
-                };
-                await _context.Sequence.AddAsync(sequence);
-            }
-            else
-            {
-                sequence.CurrentValue++;
-                sequence.LastUpdated = DateTime.Now;
-                _context.Sequence.Update(sequence);
-            }
-
-            await _context.SaveChangesAsync();
-
-            return $"SAL-{sequence.CurrentValue.ToString().PadLeft(6, '0')}";
-        }
-
         public IQueryable<GoodsIssueEntity> GetGoodsIssueQueryableByStore(int storeId)
         {
             return _context.GoodsIssue

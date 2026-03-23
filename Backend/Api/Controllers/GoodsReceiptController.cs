@@ -69,7 +69,7 @@ namespace Api.Controllers
         [RequirePermission("Entrada de Productos", "Crear")]
         public async Task<IActionResult> RegisterGoodsReceipt([FromBody] GoodsReceiptRequestDto requestDto)
         {
-            var response = await _goodsReceiptService.RegisterGoodsReceipt(AuthenticatedUserId, requestDto);
+            var response = await _goodsReceiptService.RegisterGoodsReceipt(AuthenticatedUserId, AuthenticatedUserStoreId, requestDto);
             return Ok(response);
         }
 

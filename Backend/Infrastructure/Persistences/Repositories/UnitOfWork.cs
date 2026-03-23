@@ -25,6 +25,7 @@ namespace Infrastructure.Persistences.Repositories
         public IGoodsReceiptRepository _goodsReceipt = null!;
         public IPermissionRepository _permission = null!;
         public IProductRepository _product = null!;
+        public ISequenceRepository _sequence = null!;
         public IStoreInventoryRepository _storeInventory = null!;
         public ITransferDetailsRepository _transferDetails = null!;
         public ITransferRepository _transfer = null!;
@@ -50,6 +51,7 @@ namespace Infrastructure.Persistences.Repositories
         public IGoodsReceiptRepository GoodsReceipt => _goodsReceipt ?? new GoodsReceiptRepository(_context);
         public IPermissionRepository Permission => _permission ?? new PermissionRepository(_context);
         public IProductRepository Product => _product ?? new ProductRepository(_context);   
+        public ISequenceRepository Sequence => _sequence ?? new SequenceRepository(_context);
         public IStoreInventoryRepository StoreInventory => _storeInventory ?? new StoreInventoryRepository(_context);
         public ITransferDetailsRepository TransferDetails => _transferDetails ?? new TransferDetailsRepository(_context);
         public ITransferRepository Transfer => _transfer ?? new TransferRepository(_context);

@@ -40,6 +40,7 @@ namespace Application.Mappers
 
         public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<StoreInventoryEntity> inventory, List<StoreEntity> stores)
         {
+            // 1. Diccionario ID → Nombre (búsqueda rápida)
             var storeDict = stores
                 .Where(s => !string.IsNullOrEmpty(s.StoreName))
                 .ToDictionary(s => s.Id, s => s.StoreName!.ToSentenceCase()!);
@@ -49,7 +50,28 @@ namespace Application.Mappers
                 .Select(g =>
                 {
                     var product = g.First().Product;
+
+                    // 2. Primero creas Dictionary<int, int> (búsqueda por ID - RÁPIDO)
                     var stockByStoreId = g.ToDictionary(i => i.IdStore, i => i.StockAvailable);
+
+                    // 3. Al final transformas a Dictionary<string, int> para el JSON
+                    var stockByStoreName = new Dictionary<string, int>();
+
+                    foreach (var kvp in stockByStoreId)
+                    {
+                        if (storeDict.TryGetValue(kvp.Key, out var storeName))
+                        {
+                            // Manejar duplicados agregando ID si es necesario
+                            var key = storeName;
+                            var suffix = 1;
+                            while (stockByStoreName.ContainsKey(key))
+                            {
+                                key = $"{storeName} ({kvp.Key})";  // Agregar ID si hay duplicado
+                                suffix++;
+                            }
+                            stockByStoreName[key] = kvp.Value;
+                        }
+                    }
 
                     return new StoreInventoryPivotRowResponseDto
                     {
@@ -58,11 +80,7 @@ namespace Application.Mappers
                         BrandName = product.Brand?.BrandName?.ToSentenceCase(),
                         CategoryName = product.Category?.CategoryName?.ToSentenceCase(),
                         AuditCreateDate = product.AuditCreateDate?.ToString("dd/MM/yyyy HH:mm"),
-
-                        StockByStore = storeDict.ToDictionary(
-                            kvp => kvp.Value, 
-                            kvp => stockByStoreId.GetValueOrDefault(kvp.Key, 0)
-                        )
+                        StockByStore = stockByStoreName  // ← Dictionary<string, int>
                     };
                 })
                 .ToList();
@@ -101,9 +119,7 @@ namespace Application.Mappers
                 Date = receipt.GoodsReceipt!.AuditCreateDate.HasValue ? receipt.GoodsReceipt.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 MovementType = "Entrada",
                 Type = receipt.GoodsReceipt.Type?.ToSentenceCase(),
-                State = receipt.GoodsReceipt != null
-                    ? ((Movements)(receipt.GoodsReceipt.Status)).ToString()
-                    : string.Empty,
+                State = ((Movements)receipt.GoodsReceipt.Status).ToString(),
                 AccumulatedStock = 0
             };
         }
@@ -118,16 +134,12 @@ namespace Application.Mappers
                 Date = issue.GoodsIssue!.AuditCreateDate.HasValue ? issue.GoodsIssue.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 MovementType = "Salida",
                 Type = issue.GoodsIssue.Type.ToSentenceCase(),
-                State = issue.GoodsIssue != null
-                    ? ((Movements)(issue.GoodsIssue.Status)).ToString()
-                    : string.Empty,
+                State = ((Movements)issue.GoodsIssue.Status).ToString(),
                 AccumulatedStock = 0
             };
         }
 
-        public static StoreInventoryKardexMovementDto MapTransferToKardexMovement(
-            TransferDetailsEntity transfer,
-            int authenticatedStoreId)
+        public static StoreInventoryKardexMovementDto MapTransferToKardexMovement(TransferDetailsEntity transfer, int authenticatedStoreId)
         {
             bool isOrigin = transfer.Transfer?.IdStoreOrigin == authenticatedStoreId;
 
@@ -141,9 +153,7 @@ namespace Application.Mappers
                     : (transfer.Transfer!.ReceiveDate.HasValue ? transfer.Transfer.ReceiveDate.Value.ToString("dd/MM/yyyy HH:mm") : null),
                 MovementType = "Traspaso",
                 Type = isOrigin ? "Salida" : "Entrada",
-                State = transfer.Transfer != null
-                    ? ((Transfers)(transfer.Transfer.Status)).ToString().ReplaceUnderscoresWithSpace()
-                    : string.Empty,
+                State = ((Transfers)transfer.Transfer.Status).ToString().ReplaceUnderscoresWithSpace(),
                 AccumulatedStock = 0
             };
         }

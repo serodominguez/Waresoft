@@ -5,6 +5,7 @@ using Application.Dtos.Request.GoodsReceipt;
 using Application.Dtos.Response.GoodsReceipt;
 using Application.Interfaces;
 using Application.Mappers;
+using Domain.Constants;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
@@ -140,10 +141,8 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<bool>> RegisterGoodsReceipt(int authenticatedUserId, GoodsReceiptRequestDto requestDto)
+        public async Task<BaseResponse<bool>> RegisterGoodsReceipt(int authenticatedUserId, int authenticatedUserStoreId, GoodsReceiptRequestDto requestDto)
         {
-            const string TypeReceipt = "Adquisición";
-            const string TypeAdjustment = "Ajuste de kardex";
             var response = new BaseResponse<bool>();
 
             var validationResult = await _validator.ValidateAsync(requestDto);
@@ -160,10 +159,12 @@ namespace Application.Services
 
             try
             {
-                var entity = GoodsReceiptMapp.GoodsReceiptMapping(requestDto);
-                entity.Code = await _unitOfWork.GoodsReceipt.GenerateCodeAsync();
+                var generatedCode = await _unitOfWork.Sequence.GenerateMovementsCodeAsync(SequenceNames.GoodsReceipt, SequencePrefixes.GoodsReceipt, authenticatedUserStoreId);
 
-                if (requestDto.Type != TypeReceipt)
+                var entity = GoodsReceiptMapp.GoodsReceiptMapping(requestDto);
+                entity.Code = generatedCode;
+
+                if (requestDto.Type != GoodsReceiptTypes.Acquisition)
                 {
                     entity.DocumentNumber = entity.Code;
                     entity.DocumentDate = DateTime.Now;
@@ -177,7 +178,7 @@ namespace Application.Services
                 await _unitOfWork.GoodsReceipt.AddGoodsReceiptAsync(entity);
                 await _unitOfWork.SaveChangesAsync(); 
 
-                if (requestDto.Type != TypeAdjustment)
+                if (requestDto.Type != GoodsReceiptTypes.Adjustment)
                 {
                     foreach (var item in entity.GoodsReceiptDetails)
                     {

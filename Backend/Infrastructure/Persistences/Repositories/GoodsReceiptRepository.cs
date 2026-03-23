@@ -16,29 +16,32 @@ namespace Infrastructure.Persistences.Repositories
 
         public async Task<string> GenerateCodeAsync()
         {
-                var sequence = await _context.Sequence
-                    .FirstOrDefaultAsync(s => s.Name == "GOODS_RECEIPT");
+            const string sequenceName = "GOODS_RECEIPT";
 
-                if (sequence == null)
+            var sequence = await _context.Sequence
+                .FromSqlRaw(@"SELECT NAME, CURRENT_VALUE, LAST_UPDATED FROM SEQUENCES WITH (UPDLOCK, ROWLOCK, HOLDLOCK) WHERE NAME = {0}", sequenceName)
+                .AsTracking()
+                .FirstOrDefaultAsync();
+
+            if (sequence == null)
+            {
+                sequence = new SequenceEntity
                 {
-                    sequence = new SequenceEntity
-                    {
-                        Name = "GOODS_RECEIPT",
-                        CurrentValue = 1,
-                        LastUpdated = DateTime.Now
-                    };
-                    await _context.Sequence.AddAsync(sequence);
-                }
-                else
-                {
-                    sequence.CurrentValue++;
-                    sequence.LastUpdated = DateTime.Now;
-                    _context.Sequence.Update(sequence);
-                }
+                    Name = "GOODS_RECEIPT",
+                    CurrentValue = 1,
+                    LastUpdated = DateTime.UtcNow
+                };
+                await _context.Sequence.AddAsync(sequence);
+            }
+            else
+            {
+                sequence.CurrentValue++;
+                sequence.LastUpdated = DateTime.UtcNow;
+            }
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return $"ENT-{sequence.CurrentValue.ToString().PadLeft(6, '0')}";
+            return $"ENT-{sequence.CurrentValue.ToString().PadLeft(6, '0')}";
         }
 
         public IQueryable<GoodsReceiptEntity> GetGoodsReceiptQueryableByStore(int storeId)
