@@ -2,6 +2,7 @@ using Api.Extensions;
 using Api.Filters;
 using Application.Extensions;
 using Infrastructure.Extensions;
+using Infrastructure.RateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -36,6 +37,12 @@ builder.Services.AddCors(options =>
         });
 });
 
+// Bindear configuración
+builder.Services.Configure<EndpointRateLimitOptions>(
+    builder.Configuration.GetSection("EndpointRateLimit"));
+
+builder.Services.AddMemoryCache();
+
 var app = builder.Build();
 
 app.UseCors(Cors);
@@ -46,6 +53,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseRouting();
+
+app.UseMiddleware<EndpointRateLimit>();
 
 app.UseStaticFiles();
 
