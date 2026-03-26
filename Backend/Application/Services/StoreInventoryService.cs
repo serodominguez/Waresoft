@@ -139,8 +139,9 @@ namespace Application.Services
 
                 var items = await inventory.ToListAsync();
 
-                var stores = await _unitOfWork.Store.GetAllActiveQueryable()
+                var stores = await _unitOfWork.Store.GetAllAsQueryable()
                     .AsNoTracking()
+                    .Where(s => s.AuditDeleteUser == null && s.AuditDeleteDate == null)
                     .Select(s => new StoreEntity
                     {
                         Id = s.Id,

@@ -87,6 +87,12 @@ namespace Infrastructure.Persistences.Repositories
                     });
         }
 
+        public IQueryable<StoreInventoryEntity> GetStocksByStoreAsQueryable(int storeId)
+        {
+            return _context.StoreInventory
+                .Where(s => s.IdStore == storeId);
+        }
+
         public IQueryable<StoreInventoryEntity> GetStockByIdAsQueryable(int productId, int storeId)
         {
             return _context.StoreInventory

@@ -6,6 +6,7 @@ namespace Infrastructure.Persistences.Interfaces
     {
         IQueryable<StoreInventoryEntity> GetAllInventoryQueryable();
         IQueryable<StoreInventoryEntity> GetInventoryQueryable(int storeId);
+        IQueryable<StoreInventoryEntity> GetStocksByStoreAsQueryable(int storeId);
         IQueryable<StoreInventoryEntity> GetStockByIdAsQueryable(int productId, int storeId);
         Task AddStoreInventoryAsync(StoreInventoryEntity entity);
     }

@@ -32,8 +32,9 @@ namespace Application.Services
 
             try
             {
-                var brands = _unitOfWork.Brand.GetAllActiveQueryable()
-                    .AsNoTracking();
+                var brands = _unitOfWork.Brand.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(b => b.AuditDeleteUser == null && b.AuditDeleteDate == null);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -82,7 +83,7 @@ namespace Application.Services
 
             try
             {
-                var brands = (await _unitOfWork.Brand.GetSelectQueryable()
+                var brands = (await _unitOfWork.Brand.GetAllAsQueryable()
                     .AsNoTracking()
                     .Where(b => b.Status == true)
                     .ToListAsync());

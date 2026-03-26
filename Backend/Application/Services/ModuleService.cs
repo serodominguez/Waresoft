@@ -32,8 +32,9 @@ namespace Application.Services
 
             try
             {
-                var modules = _unitOfWork.Module.GetAllActiveQueryable()
-                    .AsNoTracking();
+                var modules = _unitOfWork.Module.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(m => m.AuditDeleteUser == null && m.AuditDeleteDate == null);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {

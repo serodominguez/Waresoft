@@ -32,8 +32,9 @@ namespace Application.Services
 
             try
             {
-                var suppliers = _unitOfWork.Supplier.GetAllActiveQueryable()
-                    .AsNoTracking();
+                var suppliers = _unitOfWork.Supplier.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(s => s.AuditDeleteUser == null && s.AuditDeleteDate == null);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -84,7 +85,7 @@ namespace Application.Services
 
             try
             {
-                var suppliers = (await _unitOfWork.Supplier.GetSelectQueryable()
+                var suppliers = (await _unitOfWork.Supplier.GetAllAsQueryable()
                     .AsNoTracking()
                     .Where(s => s.Status == true)
                     .ToListAsync());

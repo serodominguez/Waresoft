@@ -32,8 +32,9 @@ namespace Application.Services
 
             try
             {
-                var categories = _unitOfWork.Category.GetAllActiveQueryable()
-                    .AsNoTracking();
+                var categories = _unitOfWork.Category.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(c => c.AuditDeleteUser == null && c.AuditDeleteDate == null);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -85,7 +86,7 @@ namespace Application.Services
 
             try
             {
-                var categories = (await _unitOfWork.Category.GetSelectQueryable()
+                var categories = (await _unitOfWork.Category.GetAllAsQueryable()
                     .AsNoTracking()
                     .Where(c => c.Status == true)
                     .ToListAsync());

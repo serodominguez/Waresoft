@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|d:\\projects\\it solutions\\waresoft\\backend\\application\\services\\transferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|solutionrelative:application\\services\\transferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|d:\\projects\\it solutions\\waresoft\\backend\\application\\services\\goodsissueservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|solutionrelative:application\\services\\goodsissueservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|d:\\projects\\it solutions\\waresoft\\backend\\application\\commons\\helpers\\stockvalidationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A44429C3-3D4B-4F1E-8261-A489F5DF3285}|Application\\Application.csproj|solutionrelative:application\\commons\\helpers\\stockvalidationhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +22,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StockValidationHelper.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Commons\\Helpers\\StockValidationHelper.cs",
+              "RelativeDocumentMoniker": "Application\\Commons\\Helpers\\StockValidationHelper.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Commons\\Helpers\\StockValidationHelper.cs",
+              "RelativeToolTip": "Application\\Commons\\Helpers\\StockValidationHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T20:27:22.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GoodsIssueService.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\GoodsIssueService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\GoodsIssueService.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\GoodsIssueService.cs",
+              "RelativeToolTip": "Application\\Services\\GoodsIssueService.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAwwLAAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T19:18:21.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TransferService.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\TransferService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\TransferService.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Services\\TransferService.cs",
+              "RelativeToolTip": "Application\\Services\\TransferService.cs",
+              "ViewState": "AgIAACEBAAAAAAAAAAAwwHkBAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T19:07:50.913Z",
+              "EditorCaption": ""
             }
           ]
         }

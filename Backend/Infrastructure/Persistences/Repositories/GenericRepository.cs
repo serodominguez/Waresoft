@@ -21,22 +21,9 @@ namespace Infrastructure.Persistences.Repositories
             return _entity;
         }
 
-        public IQueryable<T> GetAllActiveQueryable()
-        {
-            return GetEntityQuery()
-                .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null);
-        }
-
-        public IQueryable<T> GetSelectQueryable()
-        {
-            return _entity
-                .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null);
-        }
-
         public IQueryable<T> GetByIdAsQueryable(int id)
         {
-            return _entity
-                .Where(x => x.Id == id);
+            return GetEntityQuery(x => x.Id == id);
         }
 
         public IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null)

@@ -227,9 +227,13 @@ const openProductModal = () => {
 
 const handleProductAdded = (product: any) => {
   const exists = details.value.find(d => d.idProduct === product.idProduct);
-
   if (exists) {
     toast.warning('Este producto ya está en la lista');
+    return;
+  }
+
+  if ((product.stockAvailable ?? 0) <= 0) {
+    toast.warning('Este producto no cuenta con cantidad disponible');
     return;
   }
 

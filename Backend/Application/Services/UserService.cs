@@ -96,7 +96,7 @@ namespace Application.Services
 
             try
             {
-                var users = (await _unitOfWork.User.GetSelectQueryable()
+                var users = (await _unitOfWork.User.GetAllAsQueryable()
                     .AsNoTracking()
                     .Where(u => u.Status == true)
                     .ToListAsync());

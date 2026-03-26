@@ -1,5 +1,6 @@
 ﻿using Application.Commons.Bases.Request;
 using Application.Commons.Bases.Response;
+using Application.Commons.Helpers;
 using Application.Commons.Ordering;
 using Application.Dtos.Request.Transfer;
 using Application.Dtos.Response.Transfer;
@@ -94,7 +95,7 @@ namespace Application.Services
 
                 DisplayStatusLogic(items, authenticatedStoreId);
 
-                var users = await _unitOfWork.User.GetSelectQueryable()
+                var users = await _unitOfWork.User.GetAllAsQueryable()
                     .AsNoTracking()
                     .ToListAsync();
 
@@ -183,6 +184,22 @@ namespace Application.Services
                 return response;
             }
 
+            var productIds = requestDto.TransferDetails.Select(x => x.IdProduct).ToList();
+            var quantities = requestDto.TransferDetails.ToDictionary(x => x.IdProduct, x => x.Quantity);
+
+            var (isValid, errorMessage) = await StockValidationHelper.ValidateStockAvailabilityAsync(
+                _unitOfWork,
+                productIds,
+                quantities,
+                requestDto.IdStoreOrigin);
+
+            if (!isValid)
+            {
+                response.IsSuccess = false;
+                response.Message = errorMessage;
+                return response;
+            }
+
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
@@ -200,31 +217,24 @@ namespace Application.Services
                 await _unitOfWork.Transfer.AddTransferAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
+                var stocksToUpdate = await _unitOfWork.StoreInventory
+                    .GetStocksByStoreAsQueryable(requestDto.IdStoreOrigin)
+                    .Where(s => productIds.Contains(s.IdProduct))
+                    .AsTracking()
+                    .ToListAsync();
+
                 foreach (var item in entity.TransferDetails)
                 {
-                    var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, requestDto.IdStoreOrigin)
-                        .AsTracking()
-                        .FirstOrDefaultAsync();
-
-                    if (currentStock is null)
-                    {
-                        transaction.Rollback();
-                        response.IsSuccess = false;
-                        response.Message = ReplyMessage.MESSAGE_NOT_FOUND + " para el producto Id:" + item.IdProduct;
-                        return response;
-                    }
-
+                    var currentStock = stocksToUpdate.First(s => s.IdProduct == item.IdProduct);
                     currentStock.StockAvailable -= item.Quantity;
                     currentStock.StockInTransit += item.Quantity;
                     currentStock.AuditUpdateUser = authenticatedUserId;
                     currentStock.AuditUpdateDate = DateTime.Now;
-
                 }
 
                 await _unitOfWork.SaveChangesAsync();
 
                 transaction.Commit();
-
                 response.IsSuccess = true;
                 response.Data = true;
                 response.Message = ReplyMessage.MESSAGE_SAVE;
@@ -242,34 +252,45 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> ReceiveTransfer(int authenticatedUserId, int transferId)
         {
             var response = new BaseResponse<bool>();
+            
+            var transfer = await _unitOfWork.Transfer
+                .GetTransferByIdAsQueryable(transferId)
+                .AsTracking()
+                .FirstOrDefaultAsync();
+
+            if (transfer is null)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                return response;
+            }
+            
+            var details = await _unitOfWork.TransferDetails
+                .GetTransferDetailsQueryable(transfer.IdTransfer)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var productIds = details.Select(x => x.IdProduct).ToList();
+            
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
-                var transfer = await _unitOfWork.Transfer.GetTransferByIdAsQueryable(transferId)
-                    .FirstOrDefaultAsync();
+                var destinationStocks = await _unitOfWork.StoreInventory
+                    .GetStocksByStoreAsQueryable(transfer.IdStoreDestination)
+                    .Where(s => productIds.Contains(s.IdProduct))
+                    .AsTracking()
+                    .ToListAsync();
 
-                if (transfer is null)
-                {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
-                    return response;
-                }
-
-                transfer.ReceiveDate = DateTime.Now;
-                transfer.AuditUpdateUser = authenticatedUserId;
-                transfer.AuditUpdateDate = DateTime.Now;
-                transfer.Status = 2;
-
-                var details = await _unitOfWork.TransferDetails.GetTransferDetailsQueryable(transfer!.IdTransfer)
-                    .AsNoTracking()
+                var originStocks = await _unitOfWork.StoreInventory
+                    .GetStocksByStoreAsQueryable(transfer.IdStoreOrigin)
+                    .Where(s => productIds.Contains(s.IdProduct))
+                    .AsTracking()
                     .ToListAsync();
 
                 foreach (var item in details)
                 {
-                    var destinationStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, transfer.IdStoreDestination)
-                        .AsTracking()
-                        .FirstOrDefaultAsync();
+                    var destinationStock = destinationStocks.FirstOrDefault(s => s.IdProduct == item.IdProduct);
 
                     if (destinationStock is not null)
                     {
@@ -292,9 +313,7 @@ namespace Application.Services
                         await _unitOfWork.StoreInventory.AddStoreInventoryAsync(newStock);
                     }
 
-                    var originStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, transfer.IdStoreOrigin)
-                        .AsTracking()
-                        .FirstOrDefaultAsync();
+                    var originStock = originStocks.FirstOrDefault(s => s.IdProduct == item.IdProduct);
 
                     if (originStock is null)
                     {
@@ -309,8 +328,12 @@ namespace Application.Services
                     originStock.AuditUpdateDate = DateTime.Now;
                 }
 
-                await _unitOfWork.SaveChangesAsync();
+                transfer.ReceiveDate = DateTime.Now;
+                transfer.AuditUpdateUser = authenticatedUserId;
+                transfer.AuditUpdateDate = DateTime.Now;
+                transfer.Status = 2;
 
+                await _unitOfWork.SaveChangesAsync();
                 transaction.Commit();
 
                 response.IsSuccess = true;
@@ -329,34 +352,39 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> CancelTransfer(int authenticatedUserId, int transferId)
         {
             var response = new BaseResponse<bool>();
+            
+            var transfer = await _unitOfWork.Transfer
+                .GetTransferByIdAsQueryable(transferId)
+                .AsTracking()
+                .FirstOrDefaultAsync();
+
+            if (transfer is null)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                return response;
+            }
+
+            var details = await _unitOfWork.TransferDetails
+                .GetTransferDetailsQueryable(transfer.IdTransfer)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var productIds = details.Select(x => x.IdProduct).ToList();
+
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
-                var transfer = await _unitOfWork.Transfer.GetTransferByIdAsQueryable(transferId)
-                    .FirstOrDefaultAsync();
-
-                if (transfer is null)
-                {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
-                    return response;
-                }
-
-                transfer.AuditDeleteUser = authenticatedUserId;
-                transfer.AuditDeleteDate = DateTime.Now;
-                transfer.Status = 0;
-                transfer.IsActive = false;
-
-                var details = await _unitOfWork.TransferDetails.GetTransferDetailsQueryable(transfer!.IdTransfer)
-                    .AsNoTracking()
+                var originStocks = await _unitOfWork.StoreInventory
+                    .GetStocksByStoreAsQueryable(transfer.IdStoreOrigin)
+                    .Where(s => productIds.Contains(s.IdProduct))
+                    .AsTracking()
                     .ToListAsync();
 
                 foreach (var item in details)
                 {
-                    var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, transfer.IdStoreOrigin)
-                        .AsTracking()
-                        .FirstOrDefaultAsync();
+                    var currentStock = originStocks.FirstOrDefault(s => s.IdProduct == item.IdProduct);
 
                     if (currentStock is null)
                     {
@@ -372,8 +400,12 @@ namespace Application.Services
                     currentStock.AuditUpdateDate = DateTime.Now;
                 }
 
+                transfer.AuditDeleteUser = authenticatedUserId;
+                transfer.AuditDeleteDate = DateTime.Now;
+                transfer.Status = 0;
+                transfer.IsActive = false;
+
                 await _unitOfWork.SaveChangesAsync();
-                
                 transaction.Commit();
 
                 response.IsSuccess = true;

@@ -8,6 +8,6 @@
         public int? IdUser { get; set; }
         public int IdStore { get; set; }
 
-        public ICollection<GoodsIssueDetailsRequestDto>? GoodsIssueDetails { get; set; } = new List<GoodsIssueDetailsRequestDto>();
+        public ICollection<GoodsIssueDetailsRequestDto> GoodsIssueDetails { get; set; } = new List<GoodsIssueDetailsRequestDto>();
     }
 }

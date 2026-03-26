@@ -32,8 +32,9 @@ namespace Application.Services
 
             try
             {
-                var roles = _unitOfWork.Role.GetAllActiveQueryable()
-                    .AsNoTracking();
+                var roles = _unitOfWork.Role.GetAllAsQueryable()
+                    .AsNoTracking()
+                    .Where(r => r.AuditDeleteUser == null && r.AuditDeleteDate == null);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -82,7 +83,7 @@ namespace Application.Services
 
             try
             {
-                var roles = (await _unitOfWork.Role.GetSelectQueryable()
+                var roles = (await _unitOfWork.Role.GetAllAsQueryable()
                     .AsNoTracking()
                     .Where(r => r.Status == true)
                     .ToListAsync());

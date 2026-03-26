@@ -149,6 +149,31 @@ namespace Application.Services
                 return response;
             }
 
+            if (requestDto.Type != GoodsIssueTypes.Adjustment)
+            {
+                foreach (var item in requestDto.GoodsIssueDetails)
+                {
+                    var currentStock = await _unitOfWork.StoreInventory
+                        .GetStockByIdAsQueryable(item.IdProduct, requestDto.IdStore)
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
+
+                    if (currentStock is null)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = ReplyMessage.MESSAGE_NOT_FOUND + " para el producto con Id:" + item.IdProduct;
+                        return response;
+                    }
+
+                    if (currentStock.StockAvailable < item.Quantity)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = ReplyMessage.MESSAGE_STOCK_NOT_AVAILABLE + " para el producto con Id:" + item.IdProduct;
+                        return response;
+                    }
+                }
+            }
+
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
