@@ -76,7 +76,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.1.5, )"
+              "version": "[10.1.7, )"
             }
           },
           "imports": [
@@ -586,7 +586,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.2.3, )"
+              "version": "[2026.2.4, )"
             }
           },
           "imports": [
@@ -1293,7 +1293,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.2.3, )"
+              "version": "[2026.2.4, )"
             },
             "SixLabors.ImageSharp": {
               "target": "Package",

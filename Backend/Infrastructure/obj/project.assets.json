@@ -446,7 +446,7 @@
           }
         }
       },
-      "QuestPDF/2026.2.3": {
+      "QuestPDF/2026.2.4": {
         "type": "package",
         "compile": {
           "lib/net10.0/QuestPDF.dll": {
@@ -1308,10 +1308,10 @@
         "microsoft.sqlserver.server.nuspec"
       ]
     },
-    "QuestPDF/2026.2.3": {
-      "sha512": "el20n2otRqY6AXsijlwPcTf12A54vm2KucQZ67k+9N5htrzfsXaBxh+/gU44HhTS4kmRFdYerY6WE47ybHhFYA==",
+    "QuestPDF/2026.2.4": {
+      "sha512": "fajBdRJFr3hu2Mr6mEVsXjvVKD9Q/Q6hfPEUMpV/xlwxWdFebmpGdi0FLQTApMvpapy72v9dvcGuk7e7NQmQyQ==",
       "type": "package",
-      "path": "questpdf/2026.2.3",
+      "path": "questpdf/2026.2.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1368,7 +1368,7 @@
         "lib/net8.0/QuestPDF.xml",
         "lib/netstandard2.0/QuestPDF.dll",
         "lib/netstandard2.0/QuestPDF.xml",
-        "questpdf.2026.2.3.nupkg.sha512",
+        "questpdf.2026.2.4.nupkg.sha512",
         "questpdf.nuspec",
         "runtimes/linux-arm64/native/libQuestPdfSkia.so",
         "runtimes/linux-arm64/native/libqpdf.so",
@@ -1722,7 +1722,7 @@
     "net10.0": [
       "ClosedXML >= 0.105.0",
       "Domain >= 1.0.0",
-      "QuestPDF >= 2026.2.3",
+      "QuestPDF >= 2026.2.4",
       "SixLabors.ImageSharp >= 3.1.12",
       "System.Linq.Dynamic.Core >= 1.7.1",
       "Utilities >= 1.0.0"
@@ -1791,7 +1791,7 @@
           },
           "QuestPDF": {
             "target": "Package",
-            "version": "[2026.2.3, )"
+            "version": "[2026.2.4, )"
           },
           "SixLabors.ImageSharp": {
             "target": "Package",

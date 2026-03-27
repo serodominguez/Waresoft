@@ -5,7 +5,6 @@ using Application.Dtos.Request.GoodsReceipt;
 using Application.Dtos.Response.GoodsReceipt;
 using Application.Interfaces;
 using Application.Mappers;
-using Domain.Constants;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
@@ -159,12 +158,12 @@ namespace Application.Services
 
             try
             {
-                var generatedCode = await _unitOfWork.Sequence.GenerateMovementsCodeAsync(SequenceNames.GoodsReceipt, SequencePrefixes.GoodsReceipt, authenticatedUserStoreId);
+                var generatedCode = await _unitOfWork.Sequence.GenerateMovementsCodeAsync(ContainerConstants.GoodsReceipt, ContainerConstants.GoodsReceiptPrefixes, authenticatedUserStoreId);
 
                 var entity = GoodsReceiptMapp.GoodsReceiptMapping(requestDto);
                 entity.Code = generatedCode;
 
-                if (requestDto.Type != GoodsReceiptTypes.Acquisition)
+                if (requestDto.Type != ContainerConstants.Acquisition)
                 {
                     entity.DocumentNumber = entity.Code;
                     entity.DocumentDate = DateTime.Now;
@@ -176,15 +175,21 @@ namespace Application.Services
                 entity.IsActive = true;
 
                 await _unitOfWork.GoodsReceipt.AddGoodsReceiptAsync(entity);
-                await _unitOfWork.SaveChangesAsync(); 
+                await _unitOfWork.SaveChangesAsync();
 
-                if (requestDto.Type != GoodsReceiptTypes.Adjustment)
+                if (requestDto.Type != ContainerConstants.Adjustment)
                 {
+                    var productIds = entity.GoodsReceiptDetails.Select(x => x.IdProduct).ToList();
+
+                    var existingStocks = await _unitOfWork.StoreInventory
+                        .GetStocksByStoreAsQueryable(requestDto.IdStore)
+                        .Where(s => productIds.Contains(s.IdProduct))
+                        .AsTracking()
+                        .ToListAsync();
+
                     foreach (var item in entity.GoodsReceiptDetails)
                     {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, requestDto.IdStore)
-                            .AsTracking()
-                            .FirstOrDefaultAsync();
+                        var currentStock = existingStocks.FirstOrDefault(s => s.IdProduct == item.IdProduct);
 
                         if (currentStock is not null)
                         {
@@ -230,18 +235,54 @@ namespace Application.Services
         {
             const string TypeAdjustment = "ajuste de kardex";
             var response = new BaseResponse<bool>();
+
+            var receipt = await _unitOfWork.GoodsReceipt
+                .GetGoodsReceiptByIdAsQueryable(receiptId)
+                .AsTracking()
+                .FirstOrDefaultAsync();
+
+            if (receipt is null)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                return response;
+            }
+
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
-                var receipt = await _unitOfWork.GoodsReceipt.GetGoodsReceiptByIdAsQueryable(receiptId)
-                    .FirstOrDefaultAsync();
-
-                if (receipt is null)
+                if (receipt.Type != TypeAdjustment)
                 {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
-                    return response;
+                    var details = await _unitOfWork.GoodsReceiptDetails
+                        .GetGoodsReceiptDetailsQueryable(receipt.IdReceipt)
+                        .AsNoTracking()
+                        .ToListAsync();
+
+                    var productIds = details.Select(x => x.IdProduct).ToList();
+
+                    var stocksToUpdate = await _unitOfWork.StoreInventory
+                        .GetStocksByStoreAsQueryable(receipt.IdStore)
+                        .Where(s => productIds.Contains(s.IdProduct))
+                        .AsTracking()
+                        .ToListAsync();
+
+                    foreach (var detail in details)
+                    {
+                        var currentStock = stocksToUpdate.FirstOrDefault(s => s.IdProduct == detail.IdProduct);
+
+                        if (currentStock is null)
+                        {
+                            transaction.Rollback();
+                            response.IsSuccess = false;
+                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + " para el Id:" + detail.IdProduct;
+                            return response;
+                        }
+
+                        currentStock.StockAvailable -= detail.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
+                    }
                 }
 
                 receipt.AuditDeleteUser = authenticatedUserId;
@@ -249,34 +290,7 @@ namespace Application.Services
                 receipt.Status = 0;
                 receipt.IsActive = false;
 
-                if (receipt.Type != TypeAdjustment)
-                {
-                    var details = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsQueryable(receipt!.IdReceipt)
-                        .AsNoTracking()
-                        .ToListAsync();
-
-                    foreach (var item in details)
-                    {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, receipt.IdStore)
-                            .AsTracking()
-                            .FirstOrDefaultAsync();
-
-                        if (currentStock is null)
-                        {
-                            transaction.Rollback();
-                            response.IsSuccess = false;
-                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + "para el Id:" + item.IdProduct;
-                            return response;
-                        }
-
-                        currentStock.StockAvailable -= item.Quantity;
-                        currentStock.AuditUpdateUser = authenticatedUserId;
-                        currentStock.AuditUpdateDate = DateTime.Now;
-                    }
-                }
-
                 await _unitOfWork.SaveChangesAsync();
-
                 transaction.Commit();
 
                 response.IsSuccess = true;

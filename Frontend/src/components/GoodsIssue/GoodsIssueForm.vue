@@ -47,7 +47,7 @@
               <td class="text-center">{{ item.brandName }}</td>
               <td v-if="!localIssue.idIssue">
                 <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
-                  :rules="[rules.requiredNumber, rules.minValue]"></v-text-field>
+                  :rules="[rules.requiredNumber, rules.minValue, rules.maxStock(item)]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ item.quantity }}</td>
               <td v-if="!localIssue.idIssue">
@@ -161,7 +161,6 @@ const downloading = ref(false);
 const productModal = ref(false);
 const localIssue = ref<GoodsIssue>({ ...props.issue } as GoodsIssue);
 const details = ref<GoodsIssueDetail[]>([]);
-const documentTypes = ref<string[]>([]);
 const { tooltipProps } = useResponsiveTooltip();
 
 const issueTypes = ['Consignación', 'Baja', 'Ajuste de inventario', 'Ajuste de kardex'];
@@ -170,7 +169,8 @@ const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',
   requiredNumber: (value: any) => (value !== null && value !== undefined && value !== '') || 'Este campo es requerido',
   minValue: (value: number) => value > 0 || 'Debe ser mayor a 0',
-  minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0) || 'Debe ser mayor o igual a 0'
+  minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0) || 'Debe ser mayor o igual a 0',
+  maxStock: (item: GoodsIssueDetail) => (value: number) => value <= item.stockAvailable || `Máximo disponible: ${item.stockAvailable}`
 };
 
 const headers = computed(() => {
@@ -241,7 +241,8 @@ const handleProductAdded = (product: any) => {
     brandName: product.brandName,
     quantity: 1,
     unitPrice: product.price,
-    totalPrice: 0
+    totalPrice: 0,
+    stockAvailable: product.stockAvailable 
   });
 
   toast.success('Producto agregado a la lista');

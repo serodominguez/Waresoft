@@ -1,11 +1,11 @@
 ﻿using Application.Commons.Bases.Request;
 using Application.Commons.Bases.Response;
+using Application.Commons.Helpers;
 using Application.Commons.Ordering;
 using Application.Dtos.Request.GoodsIssue;
 using Application.Dtos.Response.GoodsIssue;
 using Application.Interfaces;
 using Application.Mappers;
-using Domain.Constants;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -149,28 +149,22 @@ namespace Application.Services
                 return response;
             }
 
-            if (requestDto.Type != GoodsIssueTypes.Adjustment)
+            if (requestDto.Type != ContainerConstants.Adjustment)
             {
-                foreach (var item in requestDto.GoodsIssueDetails)
+                var productIds = requestDto.GoodsIssueDetails.Select(x => x.IdProduct).ToList();
+                var quantities = requestDto.GoodsIssueDetails.ToDictionary(x => x.IdProduct, x => x.Quantity);
+
+                var (isValid, errorMessage) = await StockValidationHelper.ValidateStockAvailabilityAsync(
+                    _unitOfWork,
+                    productIds,
+                    quantities,
+                    requestDto.IdStore);
+
+                if (!isValid)
                 {
-                    var currentStock = await _unitOfWork.StoreInventory
-                        .GetStockByIdAsQueryable(item.IdProduct, requestDto.IdStore)
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync();
-
-                    if (currentStock is null)
-                    {
-                        response.IsSuccess = false;
-                        response.Message = ReplyMessage.MESSAGE_NOT_FOUND + " para el producto con Id:" + item.IdProduct;
-                        return response;
-                    }
-
-                    if (currentStock.StockAvailable < item.Quantity)
-                    {
-                        response.IsSuccess = false;
-                        response.Message = ReplyMessage.MESSAGE_STOCK_NOT_AVAILABLE + " para el producto con Id:" + item.IdProduct;
-                        return response;
-                    }
+                    response.IsSuccess = false;
+                    response.Message = errorMessage;
+                    return response;
                 }
             }
 
@@ -178,12 +172,12 @@ namespace Application.Services
 
             try
             {
-                var generatedCode = await _unitOfWork.Sequence.GenerateMovementsCodeAsync(SequenceNames.GoodsIssue, SequencePrefixes.GoodsIssue, authenticatedUserStoreId);
+                var generatedCode = await _unitOfWork.Sequence.GenerateMovementsCodeAsync(ContainerConstants.GoodsIssue, ContainerConstants.GoodsIssuePrefixes, authenticatedUserStoreId);
 
                 var entity = GoodsIssueMapp.GoodsIssueMapping(requestDto);
                 entity.Code = generatedCode;
 
-                if (entity.Type != GoodsIssueTypes.Consignment ||  entity.IdUser == 0)
+                if (entity.Type != ContainerConstants.Consignment ||  entity.IdUser == 0)
                 {
                     entity.IdUser = authenticatedUserId;
                 }
@@ -196,22 +190,19 @@ namespace Application.Services
                 await _unitOfWork.GoodsIssue.AddGoodsIssueAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                if (requestDto.Type != GoodsIssueTypes.Adjustment)
+                if (requestDto.Type != ContainerConstants.Adjustment)
                 {
+                    var productIds = entity.GoodsIssueDetails.Select(x => x.IdProduct).ToList();
+
+                    var stocksToUpdate = await _unitOfWork.StoreInventory
+                        .GetStocksByStoreAsQueryable(requestDto.IdStore)
+                        .Where(s => productIds.Contains(s.IdProduct))
+                        .AsTracking()
+                        .ToListAsync();
+
                     foreach (var item in entity.GoodsIssueDetails)
                     {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, requestDto.IdStore)
-                            .AsTracking()
-                            .FirstOrDefaultAsync();
-
-                        if (currentStock is null)
-                        {
-                            transaction.Rollback();
-                            response.IsSuccess = false;
-                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + "para el Id:" + item.IdProduct;
-                            return response;
-                        }
-
+                        var currentStock = stocksToUpdate.First(s => s.IdProduct == item.IdProduct);
                         currentStock.StockAvailable -= item.Quantity;
                         currentStock.AuditUpdateUser = authenticatedUserId;
                         currentStock.AuditUpdateDate = DateTime.Now;
@@ -239,18 +230,54 @@ namespace Application.Services
         {
             const string TypeAdjustment = "ajuste de kardex";
             var response = new BaseResponse<bool>();
+
+            var issue = await _unitOfWork.GoodsIssue
+                .GetGoodsIssueByIdAsQueryable(issueId)
+                .AsTracking()
+                .FirstOrDefaultAsync();
+
+            if (issue is null)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                return response;
+            }
+
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
-                var issue = await _unitOfWork.GoodsIssue.GetGoodsIssueByIdAsQueryable(issueId)
-                    .FirstOrDefaultAsync();
-
-                if (issue is null)
+                if (issue.Type != TypeAdjustment)
                 {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
-                    return response;
+                    var details = await _unitOfWork.GoodsIssueDetails
+                        .GetGoodsIssueDetailsQueryable(issue.IdIssue)
+                        .AsNoTracking()
+                        .ToListAsync();
+
+                    var productIds = details.Select(x => x.IdProduct).ToList();
+
+                    var stocksToUpdate = await _unitOfWork.StoreInventory
+                        .GetStocksByStoreAsQueryable(issue.IdStore)
+                        .Where(s => productIds.Contains(s.IdProduct))
+                        .AsTracking()
+                        .ToListAsync();
+
+                    foreach (var detail in details)
+                    {
+                        var currentStock = stocksToUpdate.FirstOrDefault(s => s.IdProduct == detail.IdProduct);
+
+                        if (currentStock is null)
+                        {
+                            transaction.Rollback();
+                            response.IsSuccess = false;
+                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + " para el Id:" + detail.IdProduct;
+                            return response;
+                        }
+
+                        currentStock.StockAvailable += detail.Quantity;
+                        currentStock.AuditUpdateUser = authenticatedUserId;
+                        currentStock.AuditUpdateDate = DateTime.Now;
+                    }
                 }
 
                 issue.AuditDeleteUser = authenticatedUserId;
@@ -258,34 +285,7 @@ namespace Application.Services
                 issue.Status = 0;
                 issue.IsActive = false;
 
-                if (issue.Type != TypeAdjustment)
-                {
-                    var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsQueryable(issue!.IdIssue)
-                        .AsNoTracking()
-                        .ToListAsync();
-
-                    foreach (var item in details)
-                    {
-                        var currentStock = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(item.IdProduct, issue.IdStore)
-                            .AsTracking()
-                            .FirstOrDefaultAsync();
-
-                        if (currentStock is null)
-                        {
-                            transaction.Rollback();
-                            response.IsSuccess = false;
-                            response.Message = ReplyMessage.MESSAGE_NOT_FOUND + "para el Id:" + item.IdProduct;
-                            return response;
-                        }
-
-                        currentStock.StockAvailable += item.Quantity;
-                        currentStock.AuditUpdateUser = authenticatedUserId;
-                        currentStock.AuditUpdateDate = DateTime.Now;
-                    }
-                }
-
                 await _unitOfWork.SaveChangesAsync();
-
                 transaction.Commit();
 
                 response.IsSuccess = true;

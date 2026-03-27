@@ -86,6 +86,13 @@
                 </v-btn>
               </template>
             </v-tooltip>
+            <v-tooltip v-bind="tooltipProps" text="Actualizar" location="bottom">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" icon variant="text" size="38" @click="handleSearch()" class="mr-2">
+                  <v-icon icon="mdi-refresh" size="26"></v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
             <v-tooltip v-bind="tooltipProps" text="Filtros" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" icon variant="text" size="38" @click="drawerModel = !drawerModel" class="mr-4">

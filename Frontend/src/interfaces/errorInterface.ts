@@ -1,6 +1,3 @@
-import { AxiosError } from 'axios';
-
-
 export enum ErrorType {
   NETWORK = 'NETWORK',           // Sin conexión
   AUTHENTICATION = 'AUTH',       // 401

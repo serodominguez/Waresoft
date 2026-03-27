@@ -20,12 +20,6 @@
           <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
             <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.sendDate"
               label="Fecha envio" readonly />
-          </v-col>
-          <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
-            <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.sendUser"
-              label="Enviado por" readonly />
-          </v-col>
-          <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
             <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.statusTransfer"
               label="Estado" readonly />
           </v-col>
@@ -53,7 +47,7 @@
               <td class="text-center">{{ item.brandName }}</td>
               <td v-if="!localTransfer.idTransfer">
                 <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
-                  :rules="[rules.requiredNumber, rules.minValue]"></v-text-field>
+                  :rules="[rules.requiredNumber, rules.minValue, rules.maxStock(item)]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ item.quantity }}</td>
               <td v-if="!localTransfer.idTransfer">
@@ -171,7 +165,8 @@ const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',
   requiredNumber: (value: any) => (value !== null && value !== undefined && value !== '') || 'Este campo es requerido',
   minValue: (value: number) => value > 0 || 'Debe ser mayor a 0',
-  minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0) || 'Debe ser mayor o igual a 0'
+  minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0) || 'Debe ser mayor o igual a 0',
+  maxStock: (item: TransferDetail) => (value: number) => value <= item.stockAvailable || `Máximo disponible: ${item.stockAvailable}`
 };
 
 const headers = computed(() => {
@@ -247,7 +242,8 @@ const handleProductAdded = (product: any) => {
     brandName: product.brandName,
     quantity: 1,
     unitPrice: product.price,
-    totalPrice: 0
+    totalPrice: 0,
+    stockAvailable: product.stockAvailable 
   });
 
   toast.success('Producto agregado a la lista');

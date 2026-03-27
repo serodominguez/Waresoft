@@ -22,6 +22,7 @@ export interface GoodsIssueDetail {
   quantity: number;
   unitPrice: number;
   totalPrice: number;
+  stockAvailable: number;
 }
 
 export interface GoodsIssueRegister {

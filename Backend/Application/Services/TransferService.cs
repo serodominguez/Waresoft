@@ -6,7 +6,6 @@ using Application.Dtos.Request.Transfer;
 using Application.Dtos.Response.Transfer;
 using Application.Interfaces;
 using Application.Mappers;
-using Domain.Constants;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
@@ -204,7 +203,7 @@ namespace Application.Services
 
             try
             {
-                var generatedCode = await _unitOfWork.Sequence.GenerateTransferCodeAsync(SequenceNames.Transfer, SequencePrefixes.Transfer);
+                var generatedCode = await _unitOfWork.Sequence.GenerateTransferCodeAsync(ContainerConstants.Transfer, ContainerConstants.TransferPrefixes);
 
                 var entity = TransferMapp.TransferMapping(requestDto);
                 entity.Code = generatedCode;
