@@ -10,17 +10,19 @@
       <v-form ref="formRef" v-model="valid">
         <v-row align="center">
           <v-col cols="12" md="2">
-            <v-autocomplete v-if="!localTransfer.idTransfer" color="indigo" variant="solo" density="compact"
+            <v-autocomplete v-if="!localTransfer.idTransfer" color="indigo" variant="outlined" density="compact"
               :items="filteredStores" v-model="localTransfer.idStoreDestination" item-title="storeName"
               item-value="idStore" :rules="[rules.required]" no-data-text="No hay datos disponibles"
               label="Establecimiento" :loading="loadingStores" />
-            <v-text-field v-else color="indigo" variant="solo" density="compact"
+            <v-text-field v-else color="indigo" variant="outlined" density="compact"
               v-model="localTransfer.storeDestination" label="Destino" readonly />
           </v-col>
           <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
-            <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.sendDate"
+            <v-text-field color="indigo" variant="outlined" density="compact" v-model="localTransfer.sendDate"
               label="Fecha envio" readonly />
-            <v-text-field color="indigo" variant="solo" density="compact" v-model="localTransfer.statusTransfer"
+          </v-col>
+          <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
+            <v-text-field color="indigo" variant="outlined" density="compact" v-model="localTransfer.statusTransfer"
               label="Estado" readonly />
           </v-col>
           <v-col v-if="!localTransfer.idTransfer" cols="12" md="2" style="padding-bottom: 22px;">
@@ -33,7 +35,7 @@
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-divider class="my-4"></v-divider>
+        <v-divider class="mb-4 mt-1"></v-divider>
         <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
           :no-data-text="'No hay productos agregados'">
           <template v-slot:item="{ item, index }">

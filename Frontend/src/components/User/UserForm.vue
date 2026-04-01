@@ -8,46 +8,46 @@
       <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
           <v-container class="pa-0">
-            <v-row density="comfortable">
+            <v-row density="compact">
+              <v-col cols="12" md="12">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localUser.names"
+                  :rules="[rules.required, rules.onlyLetters]" counter="30" :maxlength="30" label="Nombres" required />
+              </v-col>
+              <v-col cols="12" md="12">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localUser.lastNames"
+                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Apellidos"
+                  required />
+              </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.userName"
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localUser.identificationNumber"
+                  counter="8" :maxlength="8" label="Carnet" />
+              </v-col>
+              <v-col cols="6" md="6">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localUser.phoneNumber"
+                  counter="8" :rules="[rules.onlyNumbers]" :maxlength="8" label="Teléfono" />
+              </v-col>
+              <v-col cols="6" md="6">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localUser.userName"
                   :rules="[rules.required, rules.onlyLetters]" counter="20" :maxlength="20" @keyup="uppercase"
                   label="Usuario" required />
               </v-col>
               <v-col v-if="!localUser.idUser" cols="6" md="6">
                 <v-text-field v-model="localUser.passwordHash" :type="show ? 'text' : 'password'"
-                  :rules="[rules.required]" label="Contraseña" color="indigo" variant="solo" density="compact"
+                  :rules="[rules.required]" label="Contraseña" color="indigo" variant="outlined" density="compact"
                   @click:append-inner="show = !show"></v-text-field>
               </v-col>
               <v-col v-else cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.passwordHash"
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localUser.passwordHash"
                   type="password" :rules="[rules.required]" label="Contraseña" :clearable="!passwordCleared"
                   @click:clear="handlePasswordClear" required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.names"
-                  :rules="[rules.required, rules.onlyLetters]" counter="30" :maxlength="30" label="Nombres" required />
-              </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.lastNames"
-                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Apellidos"
-                  required />
-              </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.identificationNumber"
-                  counter="8" :maxlength="8" label="Carnet" />
-              </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localUser.phoneNumber"
-                  counter="8" :rules="[rules.onlyNumbers]" :maxlength="8" label="Teléfono" />
-              </v-col>
-              <v-col cols="6" md="6">
-                <v-autocomplete color="indigo" variant="solo" density="compact" :items="rolesArray"
+                <v-autocomplete color="indigo" variant="outlined" density="compact" :items="rolesArray"
                   v-model="localUser.idRole" item-title="roleName" item-value="idRole" :rules="[rules.required]"
                   no-data-text="No hay datos disponibles" label="Rol" required :loading="loadingRoles" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-autocomplete color="indigo" variant="solo" density="compact" :items="storesArray"
+                <v-autocomplete color="indigo" variant="outlined" density="compact" :items="storesArray"
                   v-model="localUser.idStore" item-title="storeName" item-value="idStore" :rules="[rules.required]"
                   no-data-text="No hay datos disponibles" label="Establecimiento" required :loading="loadingStores" />
               </v-col>
@@ -55,7 +55,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-3 pt-2">
+      <v-card-actions class="px-6 pb-4 pt-2">
         <v-btn color="green" dark elevation="4" @click="saveUser" :disabled="!valid" :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>
       </v-card-actions>
@@ -157,6 +157,25 @@ watch(() => props.user, (newUser) => {
     }
   }
 }, { deep: true });
+
+watch(
+  [() => localUser.value.names, () => localUser.value.lastNames],
+  () => {
+    if (!localUser.value.idUser) {
+      generateUserName();
+    }
+  }
+);
+
+const generateUserName = () => {
+  const names = localUser.value.names?.trim() || '';
+  const lastNames = localUser.value.lastNames?.trim() || '';
+
+  const firstNameInitial = names.split(/\s+/)[0]?.[0] || '';
+  const firstLastName = lastNames.split(/\s+/)[0] || '';
+
+  localUser.value.userName = (firstNameInitial + firstLastName).toUpperCase();
+};
 
 const uppercase = () => {
   localUser.value.userName = localUser.value.userName.toUpperCase();

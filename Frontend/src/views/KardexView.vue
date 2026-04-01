@@ -9,19 +9,19 @@
       <v-card-text>
         <v-row align="center" class="mb-0 pb-0">
           <v-col cols="12" md="2">
-            <v-text-field v-model="selectedProduct.code" label="Código" variant="solo" density="compact" color="indigo"
-              readonly />
+            <v-text-field v-model="selectedProduct.code" label="Código" variant="outlined" density="compact"
+              color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="2">
-            <v-text-field v-model="selectedProduct.description" label="Descripción" variant="solo" density="compact"
+            <v-text-field v-model="selectedProduct.description" label="Descripción" variant="outlined" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field v-model="selectedProduct.brandName" label="Marca" variant="solo" density="compact"
+            <v-text-field v-model="selectedProduct.brandName" label="Marca" variant="outlined" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field v-model="selectedProduct.categoryName" label="Categoría" variant="solo" density="compact"
+            <v-text-field v-model="selectedProduct.categoryName" label="Categoría" variant="outlined" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="2" style="padding-bottom: 22px;">
@@ -36,39 +36,40 @@
         </v-row>
         <v-row v-if="kardex" class="mt-0 mb-0">
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.color" label="Color" variant="solo" density="compact" color="indigo"
+            <v-text-field :model-value="kardex.color" label="Color" variant="outlined" density="compact" color="indigo"
               readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.material" label="Material" variant="solo" density="compact"
+            <v-text-field :model-value="kardex.material" label="Material" variant="outlined" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.unitMeasure" label="Unidad de Medida" variant="solo" density="compact"
+            <v-text-field :model-value="kardex.unitMeasure" label="Unidad de Medida" variant="outlined"
+              density="compact" color="indigo" readonly />
+          </v-col>
+          <v-col cols="12" md="1">
+            <v-text-field :model-value="kardex.currentStock" label="Stock Actual" variant="outlined" density="compact"
               color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.currentStock" label="Stock Actual" variant="solo" density="compact"
-              color="indigo" readonly />
+            <v-text-field :model-value="kardex.calculatedStock" label="Stock Calculado" variant="outlined"
+              density="compact" color="indigo" readonly />
           </v-col>
           <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.calculatedStock" label="Stock Calculado" variant="solo" density="compact"
-              color="indigo" readonly />
-          </v-col>
-          <v-col cols="12" md="1">
-            <v-text-field :model-value="kardex.stockDifference" label="Diferencia" variant="solo" density="compact"
+            <v-text-field :model-value="kardex.stockDifference" label="Diferencia" variant="outlined" density="compact"
               :color="kardex.stockDifference !== 0 ? 'red' : 'green'" readonly />
           </v-col>
         </v-row>
         <v-row align="center" class="mt-0">
           <v-col cols="12" md="3">
-            <v-date-input v-model="filters.startDate" label="Fecha Inicio" prepend-icon="" variant="solo"
-              density="compact" persistent-placeholder clearable :error-messages="dateError ? ' ' : ''"
-              @update:model-value="validateDates" />
+            <v-date-input v-model="filters.startDate" label="Fecha Inicio" color="indigo" prepend-icon=""
+              variant="outlined" density="compact" persistent-placeholder clearable
+              :error-messages="dateError ? ' ' : ''" @update:model-value="validateDates" />
           </v-col>
           <v-col cols="12" md="3">
-            <v-date-input v-model="filters.endDate" label="Fecha Fin" prepend-icon="" variant="solo" density="compact"
-              persistent-placeholder clearable :error-messages="dateError" @update:model-value="validateDates" />
+            <v-date-input v-model="filters.endDate" label="Fecha Fin" color="indigo" prepend-icon="" variant="outlined"
+              density="compact" persistent-placeholder clearable :error-messages="dateError"
+              @update:model-value="validateDates" />
           </v-col>
           <v-col cols="12" md="3" style="padding-bottom: 22px;">
             <v-tooltip v-bind="tooltipProps" text="Generar" location="bottom">

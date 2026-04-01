@@ -8,16 +8,16 @@
       <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
           <v-container class="pa-0">
-            <v-row density="comfortable">
+            <v-row density="compact">
               <v-col cols="12" md="12">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localBrand.brandName"
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localBrand.brandName"
                   :rules="[rules.required]" counter="25" :maxlength="25" label="Nombre de la marca" required />
               </v-col>
             </v-row>
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-3 pt-2">
+      <v-card-actions class="px-6 pb-4 pt-2">
         <v-btn color="green" dark elevation="4" @click="saveBrand" :disabled="!valid" :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>
       </v-card-actions>

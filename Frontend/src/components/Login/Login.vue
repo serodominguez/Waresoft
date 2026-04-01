@@ -7,9 +7,9 @@
             <v-toolbar-title>Waresoft</v-toolbar-title>
           </v-toolbar>
           <v-card-text class="pb-0">
-            <v-text-field v-model="user" color="indigo" label="Usuario" variant="solo" @keyup="uppercase"
+            <v-text-field v-model="user" color="indigo" label="Usuario" variant="underlined" @keyup="uppercase"
               :disabled="loading" required></v-text-field>
-            <v-text-field v-model="password" color="indigo" label="Contraseña" variant="solo"
+            <v-text-field v-model="password" color="indigo" label="Contraseña" variant="underlined"
               :type="show ? 'text' : 'password'" @click:append-inner="show = !show" @keyup.enter="login()"
               :disabled="loading" required></v-text-field>
             <v-alert v-if="errorMessage" type="error">{{ errorMessage }}</v-alert>

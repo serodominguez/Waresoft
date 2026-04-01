@@ -10,17 +10,17 @@
       <v-form ref="formRef" v-model="valid">
         <v-row align="center">
           <v-col cols="12" md="2">
-            <v-select v-if="!localIssue.idIssue" color="indigo" variant="solo" density="compact"
+            <v-select v-if="!localIssue.idIssue" color="indigo" variant="outlined" density="compact"
               v-model="localIssue.type" :items="issueTypes" label="Tipo de Salida" :rules="[rules.required]" />
-            <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localIssue.type"
+            <v-text-field v-else color="indigo" variant="outlined" density="compact" v-model="localIssue.type"
               label="Tipo de salida" readonly />
           </v-col>
           <v-col v-if="localIssue.type === 'Consignación'" cols="12" md="2">
-            <v-autocomplete v-if="!localIssue.idIssue" color="indigo" variant="solo" density="compact"
+            <v-autocomplete v-if="!localIssue.idIssue" color="indigo" variant="outlined" density="compact"
               :items="usersArray" v-model="localIssue.idUser" item-title="userName" item-value="idUser"
               :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Personal"
               :loading="loadingUsers" />
-            <v-text-field v-else color="indigo" variant="solo" density="compact" v-model="localIssue.userName"
+            <v-text-field v-else color="indigo" variant="outlined" density="compact" v-model="localIssue.userName"
               label="Personal" readonly />
           </v-col>
           <v-col v-if="!localIssue.idIssue" cols="12" md="2" style="padding-bottom: 22px;">
@@ -33,7 +33,7 @@
             </v-tooltip>
           </v-col>
         </v-row>
-        <v-divider class="my-4"></v-divider>
+        <v-divider class="mb-4 mt-1"></v-divider>
         <v-data-table :headers="headers" :items="details" class="elevation-1" hide-default-footer
           :no-data-text="'No hay productos agregados'">
           <template v-slot:item="{ item, index }">

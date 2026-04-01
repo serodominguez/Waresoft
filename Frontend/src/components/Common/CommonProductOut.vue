@@ -8,11 +8,11 @@
       <v-card-text>
         <v-row justify="center" align="end">
           <v-col cols="4" md="2">
-            <v-select color="indigo" variant="solo" density="compact" v-model="selectedFilter" :items="filterOptions"
-              label="Buscar por" hide-details />
+            <v-select color="indigo" variant="outlined" density="compact" v-model="selectedFilter"
+              :items="filterOptions" label="Buscar por" hide-details />
           </v-col>
           <v-col cols="6" md="6">
-            <v-text-field color="indigo" label="Búsqueda" variant="solo" density="compact" hide-details single-line
+            <v-text-field color="indigo" label="Búsqueda" variant="outlined" density="compact" hide-details single-line
               v-model="search" @keyup.enter="handleSearch">
               <template v-slot:append-inner>
                 <v-tooltip v-bind="tooltipProps" text="Buscar" location="bottom">
@@ -23,11 +23,11 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col class="d-flex align-center" cols="2" md="2">
+          <v-col cols="2" md="2" style="padding-bottom: 3px;">
             <v-tooltip v-bind="tooltipProps" text="Restablecer" location="bottom">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" icon="mdi-backspace" variant="text" color="red" size="small"
-                  @click="clearSearch" />
+                <v-btn v-bind="props" dark elevation="2" color="red" variant="elevated" rounded="lg"
+                  @click="clearSearch"><v-icon icon="mdi-backspace" size="22"></v-icon></v-btn>
               </template>
             </v-tooltip>
           </v-col>

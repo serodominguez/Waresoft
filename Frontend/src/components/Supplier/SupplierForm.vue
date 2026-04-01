@@ -8,29 +8,29 @@
       <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
           <v-container class="pa-0">
-            <v-row density="comfortable">
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localSupplier.companyName"
+            <v-row density="compact">
+              <v-col cols="12" md="12">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localSupplier.companyName"
                   :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Nombre de la empresa"
                   required />
               </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localSupplier.contact"
+              <v-col cols="12" md="12">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localSupplier.contact"
                   :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Contacto" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localSupplier.phoneNumber"
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localSupplier.phoneNumber"
                   counter="8" :rules="[rules.onlyNumbers]" :maxlength="8" label="Teléfono" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localSupplier.email"
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localSupplier.email"
                   counter="50" :rules="[rules.email]" :maxlength="50" label="Correo" />
               </v-col>
             </v-row>
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-3 pt-2">
+      <v-card-actions class="px-6 pb-4 pt-2">
         <v-btn color="green" dark elevation="4" @click="saveSupplier" :disabled="!valid"
           :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>

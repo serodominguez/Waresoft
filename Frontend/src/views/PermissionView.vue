@@ -10,7 +10,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" md="2" style="margin-top: -2px;">
-            <v-autocomplete color="indigo" variant="solo" density="compact" :items="roles" v-model="selectedRoleId"
+            <v-autocomplete color="indigo" variant="outlined" density="compact" :items="roles" v-model="selectedRoleId"
               item-title="roleName" item-value="idRole" no-data-text="No hay datos disponibles" label="Rol"
               :loading="loadingRoles" />
           </v-col>

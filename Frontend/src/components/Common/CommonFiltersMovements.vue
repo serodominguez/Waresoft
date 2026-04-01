@@ -13,23 +13,23 @@
         </div>
       </v-list-item>
       <div class="px-4 pt-4 pb-2">
-        <v-select color="indigo" v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="solo"
+        <v-select color="indigo" v-model="selectedFilterModel" :items="filters" label="Buscar por:" variant="outlined"
           density="compact" hide-details></v-select>
       </div>
       <div class="px-4 py-2">
-        <v-select color="indigo" v-model="stateModel" :items="statusOptions" label="Estado" variant="solo"
+        <v-select color="indigo" v-model="stateModel" :items="statusOptions" label="Estado" variant="outlined"
           density="compact" hide-details></v-select>
       </div>
       <div class="px-4 py-2">
-        <v-date-input color="indigo" v-model="startDateModel" label="Desde:" prepend-icon="" variant="solo"
+        <v-date-input color="indigo" v-model="startDateModel" label="Desde:" prepend-icon="" variant="outlined"
           density="compact" persistent-placeholder hide-details></v-date-input>
       </div>
       <div class="px-4 py-2">
-        <v-date-input color="indigo" v-model="endDateModel" label="Hasta:" prepend-icon="" variant="solo"
+        <v-date-input color="indigo" v-model="endDateModel" label="Hasta:" prepend-icon="" variant="outlined"
           density="compact" persistent-placeholder :error="!!dateError" :error-messages="dateError"
           hide-details="auto"></v-date-input>
       </div>
-      <v-list-item class="pt-6">
+      <v-list-item class="pt-4">
         <v-btn color="indigo" block @click="applyFilters">Aplicar</v-btn>
       </v-list-item>
       <v-list-item>

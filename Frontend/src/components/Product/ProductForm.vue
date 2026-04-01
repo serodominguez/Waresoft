@@ -8,49 +8,50 @@
       <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
           <v-container class="pa-0">
-            <v-row density="comfortable">
+            <v-row density="compact">
               <v-col cols="12" md="12">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.code" counter="25"
-                  :maxlength="25" label="Código" />
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localProduct.code"
+                  counter="25" :maxlength="25" label="Código" />
               </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.description"
+              <v-col cols="12" md="12">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localProduct.description"
                   :rules="[rules.required]" counter="50" :maxlength="50" label="Descripción" required />
               </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.material"
-                  :rules="[rules.onlyLetters]" counter="25" :maxlength="25" label="Material" />
-              </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.color"
-                  :rules="[rules.onlyLetters]" counter="20" :maxlength="20" label="Color" />
-              </v-col>
-              <v-col cols="6" md="6">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localProduct.unitMeasure"
+              <v-col cols="12" md="12">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localProduct.unitMeasure"
                   counter="15" :rules="[rules.required]" :maxlength="15" label="Unidad de medida" required />
               </v-col>
               <v-col cols="6" md="6">
-                <v-autocomplete color="indigo" variant="solo" density="compact" :items="brandsArray"
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localProduct.material"
+                  :rules="[rules.onlyLetters]" counter="25" :maxlength="25" label="Material" />
+              </v-col>
+              <v-col cols="6" md="6">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localProduct.color"
+                  :rules="[rules.onlyLetters]" counter="20" :maxlength="20" label="Color" />
+              </v-col>
+              <v-col cols="6" md="6">
+                <v-autocomplete color="indigo" variant="outlined" density="compact" :items="brandsArray"
                   v-model="localProduct.idBrand" item-title="brandName" item-value="idBrand" :rules="[rules.required]"
                   no-data-text="No hay datos disponibles" label="Marca" required :loading="loadingBrands" />
               </v-col>
               <v-col cols="6" md="6">
-                <v-autocomplete color="indigo" variant="solo" density="compact" :items="categoriesArray"
+                <v-autocomplete color="indigo" variant="outlined" density="compact" :items="categoriesArray"
                   v-model="localProduct.idCategory" item-title="categoryName" item-value="idCategory"
                   :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Categoría" required
                   :loading="loadingCategories" />
               </v-col>
-              <v-col cols="10" md="10" class="mb-0">
-                <v-file-input color="indigo" variant="solo" density="compact" label="Imagen"
+              <v-col cols="12" md="12" class="mb-0">
+                <v-file-input color="indigo" variant="outlined" density="compact" label="Imagen"
                   accept="image/jpeg,image/png,image/webp" prepend-icon="mdi-image" :clearable="true"
                   :rules="[rules.imageSize]" @change="handleImageChange" />
               </v-col>
             </v-row>
-            <v-row v-if="localProduct.image && !selectedImage" align="center" class="mt-0">
-              <v-col cols="10" md="10">
-                <v-img :src="localProduct.image" max-height="100" contain class="border rounded pa-2 elevation-2" />
+            <v-row v-if="localProduct.image && !selectedImage" align="center" justify="center" class="mt-0">
+              <v-col cols="auto">
+                <v-img :src="localProduct.image" max-height="100" contain class="border rounded pa-2 elevation-2"
+                  style="width: 250px;" />
               </v-col>
-              <v-col cols="2" md="2" class="d-flex align-center justify-center">
+              <v-col cols="auto" class="d-flex align-center">
                 <v-tooltip v-bind="tooltipProps" text="Eliminar Imagen" location="bottom">
                   <template v-slot:activator="{ props }">
                     <v-btn v-bind="props" icon variant="text" color="red" size="small" @click="removeCurrentImage">
@@ -63,7 +64,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-3 pt-4">
+      <v-card-actions :class="['px-6', 'pb-4', (localProduct.image && !selectedImage) ? 'pt-4' : 'pt-2']">
         <v-btn color="green" dark elevation="4" @click="saveProduct" :disabled="!valid"
           :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark elevation="4" @click="close">Cancelar</v-btn>

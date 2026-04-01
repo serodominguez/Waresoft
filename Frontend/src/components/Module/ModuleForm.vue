@@ -8,9 +8,9 @@
       <v-card-text class="pb-0">
         <v-form ref="formRef" v-model="valid">
           <v-container class="pa-0">
-            <v-row density="comfortable">
+            <v-row density="compact">
               <v-col cols="12" md="12">
-                <v-text-field color="indigo" variant="solo" density="compact" v-model="localModule.moduleName"
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localModule.moduleName"
                   :rules="[rules.required, rules.onlyLetters]" counter="25" :maxlength="25" label="Nombre del módulo"
                   required />
               </v-col>
@@ -18,7 +18,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-      <v-card-actions class="px-4 pb-3 pt-2">
+      <v-card-actions class="px-6 pb-4 pt-2">
         <v-btn color="green" dark class="mb-2" elevation="4" @click="saveModule" :disabled="!valid"
           :loading="saving">Guardar</v-btn>
         <v-btn color="red" dark class="mb-2" elevation="4" @click="close">Cancelar</v-btn>
