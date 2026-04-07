@@ -13,3 +13,7 @@ export interface Product {
   auditCreateDate: string;
   statusProduct: string;
 }
+
+export interface ProductCode {
+  code: string;
+}

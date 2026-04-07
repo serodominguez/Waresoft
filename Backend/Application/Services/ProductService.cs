@@ -144,6 +144,9 @@ namespace Application.Services
                 if (requestDto.Image is not null)
                     product.Image = await _fileStorageImageService.SaveFile(ContainerConstants.PRODUCTS, requestDto.Image);
 
+                if (string.IsNullOrWhiteSpace(requestDto.Code))
+                    product.Code = await _unitOfWork.Sequence.GenerateProductCodeAsync();
+
                 product.AuditCreateUser = authenticatedUserId;
                 product.AuditCreateDate = DateTime.Now;
                 product.Replenishment = 1;

@@ -1,13 +1,14 @@
 <template>
- <div>
+  <div>
     <GoodsReceiptList v-if="!form" :goodsreceipt="goodsreceipt" :loading="loading"
-      :totalGoodsReceipt="totalGoodsReceipt" :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf"
-      :canCreate="canCreate" :canRead="canRead" :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload"
-      :items-per-page="itemsPerPage" v-model:drawer="drawer" v-model:selectedFilter="selectedFilter"
-      v-model:state="state" v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm"
-      @open-modal="openModal" @view-goodsreceipt="openForm" @fetch-goodsreceipt="fetchGoodsReceipt"
-      @search-goodsreceipt="searchGoodsReceipt" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
-      @download-excel="downloadExcel" @download-pdf="downloadPdf" @print-pdf="printPdf" @clear-filters="clearFilters" />
+      :totalGoodsReceipt="totalGoodsReceipt" :current-page="currentPage" :downloadingExcel="downloadingExcel"
+      :printing-pdf-id="currentPrintingId" :downloadingPdf="downloadingPdf" :canCreate="canCreate" :canRead="canRead"
+      :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage"
+      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
+      v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
+      @view-goodsreceipt="openForm" @fetch-goodsreceipt="fetchGoodsReceipt" @search-goodsreceipt="searchGoodsReceipt"
+      @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
+      @download-pdf="downloadPdf" @print-pdf="printPdf" @clear-filters="clearFilters" />
 
     <GoodsReceiptForm v-if="form" v-model="form" :receipt="selectedGoodsReceipt"
       :receiptDetails="selectedReceiptDetails" @saved="handleSaved" @close="closeForm" />
@@ -60,10 +61,11 @@ const search = ref<string | null>(null);
 const drawer = ref(false);
 const form = ref(false);
 const modal = ref(false);
-const action = ref<0 | 1 | 2| 3>(0);
-  
+const action = ref<0 | 1 | 2 | 3>(0);
+
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
+const currentPrintingId = ref<number | null>(null);
 
 // Computed
 const canCreate = computed(() => authStore.hasPermission('entrada de productos', 'crear'));
@@ -78,7 +80,7 @@ const clearFilters = () => {
   startDate.value = null;
   endDate.value = null;
   search.value = null;
-  
+
   fetchGoodsReceipt();
 };
 
@@ -122,6 +124,7 @@ const closeForm = () => {
   goodsReceiptStore.selectedReceiptDetails = [];
   goodsReceiptStore.selectedItem = null;
   form.value = false;
+  refreshGoodsReceipt();
 };
 
 const fetchGoodsReceipt = async (params?: any) => {
@@ -169,7 +172,13 @@ const refreshGoodsReceipt = () => {
       endDate: endDate.value
     });
   } else {
-    fetchGoodsReceipt();
+    fetchGoodsReceipt({
+      pageNumber: currentPage.value,
+      pageSize: itemsPerPage.value,
+      sort: 'IdReceipt',
+      order: 'desc',
+      ...getFilterParams(null)
+    });
   }
 };
 
@@ -223,6 +232,7 @@ const downloadPdf = async (params: any) => {
 const printPdf = async (goodsreceipt: GoodsReceipt) => {
   if (!goodsreceipt.idReceipt) return;
 
+  currentPrintingId.value = goodsreceipt.idReceipt;
   try {
     const result = await goodsReceiptStore.openGoodsReceiptPdf(goodsreceipt.idReceipt);
 
@@ -233,11 +243,13 @@ const printPdf = async (goodsreceipt: GoodsReceipt) => {
     }
   } catch (error) {
     handleApiError(error, 'Error al abrir el PDF');
+  } finally {
+    currentPrintingId.value = null;
   }
 };
 
 const handleSaved = () => {
-  fetchGoodsReceipt();
+  refreshGoodsReceipt();
 };
 
 const handleActionCompleted = () => {

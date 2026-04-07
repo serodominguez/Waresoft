@@ -7,7 +7,7 @@
         public string? Type { get; set; }
         public decimal TotalAmount { get; set; }
         public string? Annotations { get; set; }
-        public int IdUser { get; set; }
+        public int? IdUser { get; set; }
         public string? UserName { get; set; }
         public int IdStore { get; set; }
         public string? StoreName { get; set; }

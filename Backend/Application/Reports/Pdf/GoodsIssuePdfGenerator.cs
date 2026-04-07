@@ -64,6 +64,15 @@ namespace Application.Reports.Pdf
                         leftColumn.Item().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Fecha de Registro: ").SemiBold();
+                            text.Span($"{_issue.AuditCreateDate}");
+                        });
+
+                        leftColumn.Spacing(5);
+
+                        leftColumn.Item().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Código: ").SemiBold();
                             text.Span($"{_issue.Code}");
                         });
@@ -76,19 +85,20 @@ namespace Application.Reports.Pdf
                             text.Span("Tipo: ").SemiBold();
                             text.Span($"{_issue.Type}");
                         });
-
-                        leftColumn.Spacing(5);
-
-                        leftColumn.Item().Text(text =>
-                        {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Fecha de Registro: ").SemiBold();
-                            text.Span($"{_issue.AuditCreateDate}");
-                        });
                     });
 
                     row.RelativeItem().Column(rightColumn =>
                     {
+
+                        rightColumn.Item().AlignRight().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Registrado por: ").SemiBold();
+                            text.Span($"{_issue.AuditCreateName}");
+                        });
+
+                        rightColumn.Spacing(5);
+
                         rightColumn.Item().AlignRight().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
@@ -98,21 +108,15 @@ namespace Application.Reports.Pdf
 
                         rightColumn.Spacing(5);
 
-                        rightColumn.Item().AlignRight().Text(text =>
+                        if (_issue.Type == "Consignación")
                         {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Personal: ").SemiBold();
-                            text.Span($"{_issue.UserName}");
-                        });
-
-                        rightColumn.Spacing(5);
-
-                        rightColumn.Item().AlignRight().Text(text =>
-                        {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Registrado por: ").SemiBold();
-                            text.Span($"{_issue.AuditCreateName}");
-                        });
+                            rightColumn.Item().AlignRight().Text(text =>
+                            {
+                                text.DefaultTextStyle(x => x.FontSize(10));
+                                text.Span("Personal: ").SemiBold();
+                                text.Span($"{_issue.UserName}");
+                            });
+                        }
                     });
                 });
             });

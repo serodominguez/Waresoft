@@ -7,7 +7,7 @@
         public string? Type { get; set; }
         public decimal TotalAmount { get; set; }
         public string? Annotations { get; set; }
-        public int IdUser { get; set; }
+        public int? IdUser { get; set; }
         public int IdStore { get; set; }
         public int? AuditCreateUser { get; set; }
         public DateTime? AuditCreateDate { get; set; }
@@ -15,7 +15,7 @@
         public DateTime? AuditDeleteDate { get; set; }
         public int Status { get; set; }
         public bool IsActive { get; set; }
-        public virtual UserEntity User { get; set; } = null!;
+        public virtual UserEntity? User { get; set; }
         public virtual StoreEntity Store { get; set; } = null!;
         public virtual ICollection<GoodsIssueDetailsEntity> GoodsIssueDetails { get; set; } = null!;
     }

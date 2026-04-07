@@ -45,7 +45,7 @@ namespace Application.Services
                             receipts = receipts.Where(x => x.Store.StoreName!.Contains(filters.TextFilter));
                             break;
                         case 3:
-                            receipts = receipts.Where(x => x.Supplier.CompanyName!.Contains(filters.TextFilter));
+                            receipts = receipts.Where(x => x.Supplier != null && x.Supplier.CompanyName!.Contains(filters.TextFilter));
                             break;
                     }
                 }
@@ -165,8 +165,7 @@ namespace Application.Services
 
                 if (requestDto.Type != ContainerConstants.Acquisition)
                 {
-                    entity.DocumentNumber = entity.Code;
-                    entity.DocumentDate = DateTime.Now;
+                    entity.DocumentDate = null;
                 }
 
                 entity.AuditCreateUser = authenticatedUserId;

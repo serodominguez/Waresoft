@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { Product } from '@/interfaces/productInterface';
 import { productService } from '@/services/productService';
-import { FilterParams } from '@/interfaces/baseInterface';
+import { BaseResponse, FilterParams } from '@/interfaces/baseInterface';
 
 export const useProductStore = defineStore('product', () => {
   const items = ref<Product[]>([]);
@@ -74,27 +74,27 @@ export const useProductStore = defineStore('product', () => {
   }
 
   async function registerProduct(product: FormData) {
-  try {
-    const resultado = await productService.registerProduct(product);
-    if (resultado.isSuccess) {
-      await fetchProducts(lastFilterParams.value || {});
+    try {
+      const resultado = await productService.registerProduct(product);
+      if (resultado.isSuccess) {
+        await fetchProducts(lastFilterParams.value || {});
+      }
+      return resultado;
+    } catch (err: any) {
+      return { isSuccess: false, message: err.message, errors: err };
     }
-    return resultado;
-  } catch (err: any) {
-    return { isSuccess: false, message: err.message, errors: err };
-  }
   }
 
   async function editProduct(id: number, product: FormData) {
-  try {
-    const resultado = await productService.editProduct(id, product);
-    if (resultado.isSuccess) {
-      await fetchProducts(lastFilterParams.value || {});
+    try {
+      const resultado = await productService.editProduct(id, product);
+      if (resultado.isSuccess) {
+        await fetchProducts(lastFilterParams.value || {});
+      }
+      return resultado;
+    } catch (err: any) {
+      return { isSuccess: false, message: err.message, errors: err };
     }
-    return resultado;
-  } catch (err: any) {
-    return { isSuccess: false, message: err.message, errors: err };
-  }
   }
 
   async function enableProduct(id: number) {
@@ -133,6 +133,20 @@ export const useProductStore = defineStore('product', () => {
     }
   }
 
+async function generateProductCode() {
+  try {
+    const resultado = await productService.generateProductCode();
+    return resultado;
+  } catch (err: any) {
+    return { 
+      isSuccess: false, 
+      data: '', 
+      message: err.message, 
+      errors: err, 
+      totalRecords: 0
+    } as BaseResponse<string>;
+  }
+}
   return {
     items,
     selectedItem,
@@ -154,5 +168,6 @@ export const useProductStore = defineStore('product', () => {
     enableProduct,
     disableProduct,
     removeProduct,
+    generateProductCode,
   };
 });

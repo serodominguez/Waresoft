@@ -16,7 +16,7 @@
             <v-text-field v-else color="indigo" variant="outlined" density="compact" v-model="localReceipt.type"
               label="Tipo de entrada" readonly />
           </v-col>
-          <v-col cols="12" md="2">
+          <v-col v-if="localReceipt.type === 'Adquisición'" cols="12" md="2">
             <v-select v-if="!localReceipt.idReceipt" color="indigo" variant="outlined" density="compact"
               v-model="localReceipt.documentType" :items="documentTypes" label="Tipo de comprobante"
               :rules="[rules.required]" />
@@ -27,7 +27,7 @@
             <v-text-field color="indigo" variant="outlined" density="compact" v-model="localReceipt.documentNumber"
               :rules="[rules.required]" counter="30" :maxlength="30" label="Número del comprobante" />
           </v-col>
-          <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
+          <v-col v-if="localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
             <v-text-field color="indigo" variant="outlined" density="compact" v-model="localReceipt.documentNumber"
               label="Número del comprobante" readonly />
           </v-col>
@@ -36,11 +36,11 @@
               label="Fecha del comprobante" variant="outlined" density="compact" prepend-icon=""
               :rules="[rules.required]" />
           </v-col>
-          <v-col v-if="localReceipt.idReceipt" cols="12" md="2">
-            <v-text-field color="indigo" v-model="localReceipt.documentDate" label="Fecha del comprobante" variant="outlined"
-              density="compact" readonly />
+          <v-col v-if="localReceipt.idReceipt && localReceipt.type === 'Adquisición'" cols="12" md="2">
+            <v-text-field color="indigo" v-model="localReceipt.documentDate" label="Fecha del comprobante"
+              variant="outlined" density="compact" readonly />
           </v-col>
-          <v-col cols="12" md="2">
+          <v-col v-if="localReceipt.type === 'Adquisición'" cols="12" md="2">
             <v-autocomplete v-if="!localReceipt.idReceipt" color="indigo" variant="outlined" density="compact"
               :items="suppliersArray" v-model="localReceipt.idSupplier" item-title="companyName" item-value="idSupplier"
               :rules="[rules.required]" no-data-text="No hay datos disponibles" label="Proveedor"
@@ -71,12 +71,14 @@
               <td class="text-center">{{ item.categoryName }}</td>
               <td class="text-center">{{ item.brandName }}</td>
               <td v-if="!localReceipt.idReceipt">
-                <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
+                <v-text-field v-model.number="item.quantity" variant="outlined" type="number" min="0" density="compact"
+                  hide-details :error="item.quantity <= 0 || item.quantity === null"
                   :rules="[rules.requiredNumber, rules.minValue]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ item.quantity }}</td>
               <td v-if="!localReceipt.idReceipt">
-                <v-text-field v-model.number="item.unitCost" variant="underlined" type="number" min="0"
+                <v-text-field v-model.number="item.unitCost" variant="outlined" type="number" min="0" density="compact"
+                  hide-details style="min-width: 60px;" :error="item.unitCost < 0 || item.unitCost === null"
                   :rules="[rules.requiredNumber, rules.minValueOrZero]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.unitCost) }}</td>
@@ -101,6 +103,11 @@
         <v-col v-else cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(localReceipt.totalAmount) }}
         </v-col>
+        <div v-if="detailErrors.length > 0" class="mt-2 mb-1 px-2">
+          <div v-for="(err, i) in detailErrors" :key="i" class="text-error text-caption">
+            • {{ err }}
+          </div>
+        </div>
         <v-col cols="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localReceipt.annotations" :readonly="!!localReceipt.idReceipt"></v-text-field>
@@ -202,8 +209,10 @@ const typeAdjustment = ['Entrada'];
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',
   requiredNumber: (value: any) => (value !== null && value !== undefined && value !== '') || 'Este campo es requerido',
-  minValue: (value: any) => value > 0 || 'Debe ser mayor a 0',
-  minValueOrZero: (value: any) => value >= 0 || 'Debe ser mayor o igual a 0'
+  minValue: (value: any) => value > 0,
+  minValueOrZero: (value: any) => value >= 0
+  //minValue: (value: any) => value > 0 || 'Debe ser mayor a 0',
+  //minValueOrZero: (value: any) => value >= 0 || 'Debe ser mayor o igual a 0'
 };
 
 // Computed
@@ -216,9 +225,9 @@ const headers = computed(() => {
     { title: 'Color', key: 'color', sortable: false, align: 'center' },
     { title: 'Categoría', key: 'categoryName', sortable: false, align: 'center' },
     { title: 'Marca', key: 'brandName', sortable: false, align: 'center' },
-    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '100px' },
-    { title: 'Costo', key: 'cost', sortable: false, align: 'center', width: '100px' },
-    { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '100px' }
+    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '120px' },
+    { title: 'Costo', key: 'cost', sortable: false, align: 'center', width: '120px' },
+    { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '120px' }
   ];
 
   if (!localReceipt.value.idReceipt) {
@@ -226,6 +235,19 @@ const headers = computed(() => {
   }
 
   return baseHeaders;
+});
+
+const detailErrors = computed(() => {
+  const errors: string[] = [];
+  details.value.forEach((item, index) => {
+    if (!item.quantity || item.quantity <= 0) {
+      errors.push(`Fila ${index + 1} (con código: ${item.code}): La cantidad debe ser mayor a 0`);
+    }
+    if (item.unitCost === null || item.unitCost === undefined || item.unitCost < 0) {
+      errors.push(`Fila ${index + 1} (con código: ${item.code}): El costo debe ser mayor o igual a 0`);
+    }
+  });
+  return errors;
 });
 
 const total = computed(() => {

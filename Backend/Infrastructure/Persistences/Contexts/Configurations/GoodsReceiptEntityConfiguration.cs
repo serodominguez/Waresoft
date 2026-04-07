@@ -25,18 +25,15 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .IsRequired();
 
             builder.Property(r => r.DocumentDate)
-                .HasColumnName("DOCUMENT_DATE")
-                .IsRequired();
+                .HasColumnName("DOCUMENT_DATE");
 
             builder.Property(r => r.DocumentType)
                 .HasColumnName("DOCUMENT_TYPE")
-                .HasMaxLength(15)
-                .IsRequired();
+                .HasMaxLength(15);
 
             builder.Property(r => r.DocumentNumber)
                 .HasColumnName("DOCUMENT_NUMBER")
-                .HasMaxLength(30)
-                .IsRequired();
+                .HasMaxLength(30);
 
             builder.Property(r => r.TotalAmount)
                 .HasColumnName("TOTAL_AMOUNT")
@@ -48,8 +45,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(80);
 
             builder.Property(r => r.IdSupplier)
-                .HasColumnName("PK_SUPPLIER")
-                .IsRequired();
+                .HasColumnName("PK_SUPPLIER");
 
             builder.Property(r => r.IdStore)
                 .HasColumnName("PK_STORE")

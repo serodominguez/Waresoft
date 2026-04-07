@@ -45,7 +45,7 @@ namespace Application.Services
                             issues = issues.Where(x => x.Store.StoreName!.Contains(filters.TextFilter));
                             break;
                         case 3:
-                            issues = issues.Where(x => x.User.UserName!.Contains(filters.TextFilter) || x.User.LastNames!.Contains(filters.TextFilter));
+                            issues = issues.Where(x => x.User != null && (x.User.Names!.Contains(filters.TextFilter) || x.User.LastNames!.Contains(filters.TextFilter)));
                             break;
                     }
                 }
@@ -177,10 +177,10 @@ namespace Application.Services
                 var entity = GoodsIssueMapp.GoodsIssueMapping(requestDto);
                 entity.Code = generatedCode;
 
-                if (entity.Type != ContainerConstants.Consignment ||  entity.IdUser == 0)
-                {
-                    entity.IdUser = authenticatedUserId;
-                }
+                //if (entity.Type != ContainerConstants.Consignment ||  entity.IdUser == 0)
+                //{
+                //    entity.IdUser = authenticatedUserId;
+                //}
 
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;

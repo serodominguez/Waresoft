@@ -1,11 +1,12 @@
 <template>
   <div>
     <GoodsIssueList v-if="!form" :goodsissue="goodsissue" :loading="loading" :totalGoodsIssue="totalGoodsIssue"
-      :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf" :canCreate="canCreate" :canRead="canRead"
-      :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage"
-      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
-      v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
-      @view-goodsissue="openForm" @fetch-goodsissue="fetchGoodsIssue" @search-goodsissue="searchGoodsIssue"
+      :current-page="currentPage" :downloadingExcel="downloadingExcel" :printing-pdf-id="currentPrintingId"
+      :downloadingPdf="downloadingPdf" :canCreate="canCreate" :canRead="canRead" :canEdit="canEdit"
+      :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage" v-model:drawer="drawer"
+      v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
+      v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal" @view-goodsissue="openForm"
+      @fetch-goodsissue="fetchGoodsIssue" @search-goodsissue="searchGoodsIssue"
       @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
       @download-pdf="downloadPdf" @print-pdf="printPdf" @clear-filters="clearFilters" />
 
@@ -61,6 +62,7 @@ const action = ref<0 | 1 | 2 | 3>(0);
 
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
+const currentPrintingId = ref<number | null>(null);
 
 const canCreate = computed(() => authStore.hasPermission('salida de productos', 'crear'));
 const canRead = computed(() => authStore.hasPermission('salida de productos', 'leer'));
@@ -114,6 +116,7 @@ const closeForm = () => {
   goodsIssueStore.selectedIssueDetails = [];
   goodsIssueStore.selectedItem = null;
   form.value = false;
+  refreshGoodsIssue();
 };
 
 const fetchGoodsIssue = async (params?: any) => {
@@ -161,7 +164,13 @@ const refreshGoodsIssue = () => {
       endDate: endDate.value
     });
   } else {
-    fetchGoodsIssue();
+    fetchGoodsIssue({
+      pageNumber: currentPage.value,
+      pageSize: itemsPerPage.value,
+      sort: 'IdIssue',
+      order: 'desc',
+      ...getFilterParams(null)
+    });
   }
 };
 
@@ -215,6 +224,7 @@ const downloadPdf = async (params: any) => {
 const printPdf = async (goodsissue: GoodsIssue) => {
   if (!goodsissue.idIssue) return;
 
+  currentPrintingId.value = goodsissue.idIssue;
   try {
     const result = await goodsIssueStore.openGoodsIssuePdf(goodsissue.idIssue);
 
@@ -225,11 +235,13 @@ const printPdf = async (goodsissue: GoodsIssue) => {
     }
   } catch (error) {
     handleApiError(error, 'Error al abrir el PDF');
+  } finally {
+    currentPrintingId.value = null;
   }
 };
 
 const handleSaved = () => {
-  fetchGoodsIssue();
+  refreshGoodsIssue();
 };
 
 const handleActionCompleted = () => {

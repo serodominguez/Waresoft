@@ -1,13 +1,13 @@
 <template>
   <div>
     <TransferList v-if="!form" :transfers="transfers" :loading="loading" :totalTransfers="totalTransfers"
-      :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf" :canCreate="canCreate" :canRead="canRead"
-      :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage"
-      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
-      v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
-      @view-transfer="openForm" @fetch-transfer="fetchTransfers" @search-transfer="searchTransfers"
-      @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
-      @download-pdf="downloadPdf" @print-pdf="printPdf"  @clear-filters="clearFilters" />
+      :current-page="currentPage" :downloadingExcel="downloadingExcel" :printing-pdf-id="currentPrintingId" :downloadingPdf="downloadingPdf"
+      :canCreate="canCreate" :canRead="canRead" :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload"
+      :items-per-page="itemsPerPage" v-model:drawer="drawer" v-model:selectedFilter="selectedFilter"
+      v-model:state="state" v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm"
+      @open-modal="openModal" @view-transfer="openForm" @fetch-transfer="fetchTransfers"
+      @search-transfer="searchTransfers" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
+      @download-excel="downloadExcel" @download-pdf="downloadPdf" @print-pdf="printPdf" @clear-filters="clearFilters" />
 
     <TransferForm v-if="form" v-model="form" :transfer="selectedTransfer" :transferDetails="selectedTransferDetails"
       @saved="handleSaved" @close="closeForm" />
@@ -62,6 +62,7 @@ const action = ref<0 | 1 | 2 | 3>(0);
 
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
+const currentPrintingId = ref<number | null>(null);
 
 const canCreate = computed(() => authStore.hasPermission('traspaso de productos', 'crear'));
 const canRead = computed(() => authStore.hasPermission('traspaso de productos', 'leer'));
@@ -75,7 +76,7 @@ const clearFilters = () => {
   startDate.value = null;
   endDate.value = null;
   search.value = null;
-  
+
   fetchTransfers();
 };
 
@@ -118,6 +119,7 @@ const closeForm = () => {
   transferStore.selectedTransferDetails = [];
   transferStore.selectedItem = null;
   form.value = false;
+  refreshTransfers();
 };
 
 const fetchTransfers = async (params?: any) => {
@@ -165,7 +167,13 @@ const refreshTransfers = () => {
       endDate: endDate.value
     });
   } else {
-    fetchTransfers();
+    fetchTransfers({
+      pageNumber: currentPage.value,
+      pageSize: itemsPerPage.value,
+      sort: 'IdTransfer',
+      order: 'desc',
+      ...getFilterParams(null)
+    });
   }
 };
 
@@ -219,6 +227,7 @@ const downloadPdf = async (params: any) => {
 const printPdf = async (transfer: Transfer) => {
   if (!transfer.idTransfer) return;
 
+  currentPrintingId.value = transfer.idTransfer;
   try {
     const result = await transferStore.openTransferPdf(transfer.idTransfer);
 
@@ -229,6 +238,8 @@ const printPdf = async (transfer: Transfer) => {
     }
   } catch (error) {
     handleApiError(error, 'Error al abrir el PDF');
+  } finally {
+    currentPrintingId.value = null;
   }
 };
 
@@ -237,7 +248,7 @@ const handleSaved = () => {
 };
 
 const handleActionCompleted = () => {
-  fetchTransfers();
+  refreshTransfers();
 };
 
 onMounted(() => {

@@ -14,8 +14,9 @@ namespace Application.Validators
                 .WithMessage("El tipo debe ser: 'Adquisición', 'Alta', 'Ajuste de inventario' o 'Ajuste de kardex'");
 
             RuleFor(x => x.DocumentType)
-                .NotEmpty().WithMessage("El tipo de documento es requerido")
-                .MaximumLength(15).WithMessage("El tipo de documento no puede tener más de 15 caracteres");
+                .NotEmpty().WithMessage("El tipo de documento es requerido para tipo Adquisición")
+                .MaximumLength(15).WithMessage("El tipo de documento no puede tener más de 15 caracteres")
+                .When(x => x.Type == "Adquisición");
 
             RuleFor(x => x.DocumentDate)
                 .NotEmpty().WithMessage("La fecha del documento es requerida para tipo Adquisición")
@@ -34,7 +35,8 @@ namespace Application.Validators
                 .When(x => !string.IsNullOrWhiteSpace(x.Annotations));
 
             RuleFor(x => x.IdSupplier)
-                .GreaterThan(0).WithMessage("El identificador del proveedor es requerido");
+                .GreaterThan(0).WithMessage("El identificador del proveedor es requerido")
+                .When(x => x.Type == "Adquisición");
 
             RuleFor(x => x.IdStore)
                 .GreaterThan(0).WithMessage("El identificador del establecimiento es requerido");

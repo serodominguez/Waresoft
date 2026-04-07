@@ -1470,6 +1470,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Api.Controllers.SequenceController",
+    "Method": "GenerateProductCode",
+    "RelativePath": "api/Sequence/Product-Code",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Api.Controllers.StoreController",
     "Method": "ListStores",
     "RelativePath": "api/Store",

@@ -11,7 +11,16 @@
             <v-row density="compact">
               <v-col cols="12" md="12">
                 <v-text-field color="indigo" variant="outlined" density="compact" v-model="localProduct.code"
-                  counter="25" :maxlength="25" label="Código" />
+                  counter="25" :maxlength="25" label="Código" :loading="generatingCode">
+                  <template v-slot:append-inner>
+                    <v-tooltip v-bind="tooltipProps" text="Generar Código" location="bottom">
+                      <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props" icon="mdi-barcode" @click="handleGenerateCode" style="cursor: pointer;">
+                        </v-icon>
+                      </template>
+                    </v-tooltip>
+                  </template>
+                </v-text-field>
               </v-col>
               <v-col cols="12" md="12">
                 <v-text-field color="indigo" variant="outlined" density="compact" v-model="localProduct.description"
@@ -130,6 +139,8 @@ const selectedImage = ref<File | null>(null);
 const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
+const imageDeleted = ref(false);
+const generatingCode = ref(false);
 const localProduct = ref<Product>({ ...props.product } as Product);
 
 const rules = {
@@ -238,7 +249,22 @@ const saveProduct = async () => {
   }
 };
 
-const imageDeleted = ref(false);
+const handleGenerateCode = async () => {
+  generatingCode.value = true;
+  try {
+    const result = await productStore.generateProductCode();
+    if (result.isSuccess && result.data) {
+      localProduct.value.code = result.data;
+      toast.success('Código generado exitosamente');
+    } else {
+      toast.warning(result.message || 'No se pudo generar el código');
+    }
+  } catch (error) {
+    handleApiError(error, 'Error al generar el código');
+  } finally {
+    generatingCode.value = false;
+  }
+};
 
 const removeCurrentImage = () => {
   localProduct.value.image = '';

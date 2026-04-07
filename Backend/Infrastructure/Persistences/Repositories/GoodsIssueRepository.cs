@@ -26,12 +26,12 @@ namespace Infrastructure.Persistences.Repositories
                     TotalAmount = i.TotalAmount,
                     Annotations = i.Annotations,
                     IdUser = i.IdUser,
-                    User = new UserEntity
+                    User = i.User != null ? new UserEntity
                     {
                         Id = i.User.Id,
                         Names = i.User.Names,
                         LastNames = i.User.LastNames
-                    },
+                    } : null,
                     IdStore = i.IdStore,
                     Store = new StoreEntity
                     {

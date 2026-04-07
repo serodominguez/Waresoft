@@ -10,7 +10,7 @@
         public string? DocumentNumber { get; set; }
         public decimal TotalAmount { get; set; }
         public string? Annotations { get; set; }
-        public int IdSupplier { get; set; }
+        public int? IdSupplier { get; set; }
         public string? CompanyName { get; set; }
         public int IdStore { get; set; }
         public string? StoreName { get; set; }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card elevation="2">
-      <v-data-table-server :headers="headers" :items="goodsreceipt" :search="search || undefined"
+      <v-data-table-server :headers="headers" :items="goodsreceipt" :page="currentPage" :search="search || undefined"
         :items-per-page-text="pages" :items-per-page-options="[10, 20, 50]" :items-per-page="itemsPerPage"
         :items-length="totalGoodsReceipt" :loading="loading" loading-text="Cargando... Espere por favor"
         @update:items-per-page="$emit('update-items-per-page', $event)" @update:page="$emit('change-page', $event)">
@@ -26,7 +26,8 @@
               <template v-if="canRead">
                 <v-tooltip v-bind="tooltipProps" text="Visualizar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="deep-purple-darken-1" size="small" @click="$emit('view-goodsreceipt', item)">
+                    <v-btn v-bind="props" icon variant="text" color="deep-purple-darken-1" size="small"
+                      @click="$emit('view-goodsreceipt', item)">
                       <v-icon icon="mdi-file-eye" size="24"></v-icon>
                     </v-btn>
                   </template>
@@ -35,7 +36,9 @@
               <template v-if="canRead && (item as GoodsReceipt).statusReceipt == 'Completado'">
                 <v-tooltip v-bind="tooltipProps" text="Imprimir" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" size="small" @click="$emit('print-pdf', item)">
+                    <v-btn v-bind="props" icon variant="text" size="small" @click="$emit('print-pdf', item)"
+                      :loading="printingPdfId === (item as GoodsReceipt).idReceipt"
+                      :disabled="printingPdfId === (item as GoodsReceipt).idReceipt">
                       <v-icon icon="mdi-printer" size="24"></v-icon>
                     </v-btn>
                   </template>
@@ -125,6 +128,8 @@ import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 interface Props extends Omit<BaseListProps<GoodsReceipt>, 'items' | 'totalItems'> {
   goodsreceipt: GoodsReceipt[];
   totalGoodsReceipt: number;
+  currentPage: number;
+  printingPdfId?: number | string | null;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -135,7 +140,9 @@ const props = withDefaults(defineProps<Props>(), {
   endDate: null,
   downloadingExcel: false,
   downloadingPdf: false,
-  itemsPerPage: 10
+  itemsPerPage: 10,
+  currentPage: 1,
+  printingPdfId: null
 });
 
 const emit = defineEmits<{
@@ -190,7 +197,7 @@ const headers = computed(() => [
   { title: 'Fecha del documento', key: 'documentDate', sortable: false },
   { title: 'Número de documento', key: 'documenNumber', sortable: false },
   { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusReceipt', sortable: false, align: 'center' as const  },
+  { title: 'Estado', key: 'statusReceipt', sortable: false, align: 'center' as const },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
@@ -227,7 +234,7 @@ const stateColor = (status: string): string => {
     return 'green';
   } else if (statusLower === 'cancelado') {
     return 'red';
-  } 
+  }
   return 'grey';
 };
 

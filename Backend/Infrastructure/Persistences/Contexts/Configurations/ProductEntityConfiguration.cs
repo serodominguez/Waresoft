@@ -18,7 +18,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(p => p.Code)
                 .HasColumnName("CODE")
-                .HasMaxLength(25);
+                .HasMaxLength(25)
+                .IsRequired();
 
             builder.Property(p => p.Description)
                 .HasColumnName("DESCRIPTION")

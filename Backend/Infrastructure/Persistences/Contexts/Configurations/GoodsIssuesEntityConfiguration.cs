@@ -34,8 +34,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(80);
 
             builder.Property(i => i.IdUser)
-                .HasColumnName("PK_USER")
-                .IsRequired();
+                .HasColumnName("PK_USER");
 
             builder.Property(i => i.IdStore)
                 .HasColumnName("PK_STORE")

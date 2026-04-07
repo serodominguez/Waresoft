@@ -8,7 +8,7 @@
         public string? DocumentNumber { get; set; }
         public decimal TotalAmount { get; set; }
         public string? Annotations { get; set; }
-        public int IdSupplier { get; set; }
+        public int? IdSupplier { get; set; }
         public int IdStore { get; set; }
         public ICollection<GoodsReceiptDetailsRequestDto> GoodsReceiptDetails { get; set; } = new List<GoodsReceiptDetailsRequestDto>();
     }

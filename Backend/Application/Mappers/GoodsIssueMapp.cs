@@ -15,7 +15,7 @@ namespace Application.Mappers
                 Type = dto.Type.NormalizeString(),
                 TotalAmount = dto.TotalAmount,
                 Annotations = dto.Annotations.NormalizeString(),
-                IdUser = dto.IdUser ?? 0,
+                IdUser = dto.IdUser,
                 IdStore = dto.IdStore,
                 GoodsIssueDetails = (dto.GoodsIssueDetails ?? Enumerable.Empty<GoodsIssueDetailsRequestDto>())
                     .Select(details => new GoodsIssueDetailsEntity
@@ -39,7 +39,7 @@ namespace Application.Mappers
                 TotalAmount = entity.TotalAmount,
                 Annotations = entity.Annotations.ToSentenceCaseMultiple(),
                 IdUser = entity.IdUser,
-                UserName = entity.User.Names.ToSentenceCase() + " " + entity.User.LastNames.ToSentenceCase(),
+                UserName = entity.User is not null ? entity.User.Names.ToSentenceCase() + " " + entity.User.LastNames.ToSentenceCase() : null,
                 IdStore = entity.IdStore,
                 StoreName = entity.Store.StoreName.ToTitleCase(),
                 AuditCreateUser = entity.AuditCreateUser,
@@ -58,7 +58,7 @@ namespace Application.Mappers
                 TotalAmount = entity.TotalAmount,
                 Annotations = entity.Annotations.ToSentenceCaseMultiple(),
                 IdUser = entity.IdUser,
-                UserName = entity.User.Names.ToSentenceCase() + " " + entity.User.LastNames.ToSentenceCase(),
+                UserName = entity.User is not null ? entity.User.Names.ToSentenceCase() + " " + entity.User.LastNames.ToSentenceCase() : null,
                 IdStore = entity.IdStore,
                 StoreName = entity.Store.StoreName.ToTitleCase(),
                 AuditCreateUser = entity.AuditCreateUser,

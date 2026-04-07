@@ -20,6 +20,11 @@ class ProductService extends BaseService<Product> {
     const response = await axios.put<BaseResponse<Product>>(`api/Product/Edit/${id}`, data);
     return response.data;
   }
+
+  async generateProductCode(): Promise<BaseResponse<string>> {
+    const response = await axios.get<BaseResponse<string>>(`api/Sequence/Product-Code`);
+    return response.data;
+  }
 }
 
 export const productService = new ProductService();

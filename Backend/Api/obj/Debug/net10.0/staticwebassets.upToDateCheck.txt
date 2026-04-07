@@ -7,4 +7,5 @@ wwwroot\products\9c9275cd-11e6-491f-ad05-10f9e329f5c4.jpg
 wwwroot\products\9d389187-175e-4f34-aa6b-e687ba66a0ea.jpg
 wwwroot\products\b0d66e33-83bd-48dc-8197-9059965dce29.jpg
 wwwroot\products\b8c2269f-4dca-4c4f-8694-6ed30fb17cef.jpg
+wwwroot\products\cbe8e188-3e43-458a-8bd2-6733dabacea9.jpg
 wwwroot\products\de0239ed-e0c9-4b41-8997-cd8fb7e0a3ea.jpg

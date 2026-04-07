@@ -46,12 +46,15 @@
               <td class="text-center">{{ item.categoryName }}</td>
               <td class="text-center">{{ item.brandName }}</td>
               <td v-if="!localIssue.idIssue">
-                <v-text-field v-model.number="item.quantity" variant="underlined" type="number" min="0"
+                <v-text-field v-model.number="item.quantity" variant="outlined" type="number" min="0" density="compact"
+                  hide-details
+                  :error="item.quantity <= 0 || item.quantity === null || item.quantity > item.stockAvailable"
                   :rules="[rules.requiredNumber, rules.minValue, rules.maxStock(item)]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ item.quantity }}</td>
               <td v-if="!localIssue.idIssue">
-                <v-text-field v-model.number="item.unitPrice" variant="underlined" type="number" min="0"
+                <v-text-field v-model.number="item.unitPrice" variant="outlined" type="number" min="0" density="compact"
+                  hide-details style="min-width: 60px;" :error="item.unitPrice < 0 || item.unitPrice === null"
                   :rules="[rules.requiredNumber, rules.minValueOrZero]"></v-text-field>
               </td>
               <td class="text-center" v-else>{{ formatCurrency(item.unitPrice) }}</td>
@@ -76,6 +79,11 @@
         <v-col v-else cols="12" class="d-flex justify-end mt-4 pr-4">
           <strong>Total Bs.</strong>{{ formatCurrency(localIssue.totalAmount) }}
         </v-col>
+        <div v-if="detailErrors.length > 0" class="mt-2 mb-1 px-2">
+          <div v-for="(err, i) in detailErrors" :key="i" class="text-error text-caption">
+            • {{ err }}
+          </div>
+        </div>
         <v-col cols="12">
           <v-text-field color="indigo" variant="underlined" label="Observaciones" counter="80" :maxlength="80"
             v-model="localIssue.annotations" :readonly="!!localIssue.idIssue"></v-text-field>
@@ -168,9 +176,10 @@ const issueTypes = ['Consignación', 'Baja', 'Ajuste de inventario', 'Ajuste de 
 const rules = {
   required: (value: any) => !!value || 'Este campo es requerido',
   requiredNumber: (value: any) => (value !== null && value !== undefined && value !== '') || 'Este campo es requerido',
-  minValue: (value: number) => value > 0 || 'Debe ser mayor a 0',
-  minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0) || 'Debe ser mayor o igual a 0',
-  maxStock: (item: GoodsIssueDetail) => (value: number) => value <= item.stockAvailable || `Máximo disponible: ${item.stockAvailable}`
+  minValue: (value: number) => value > 0,
+  minValueOrZero: (value: number) => (value !== null && value !== undefined && value >= 0),
+  maxStock: (item: GoodsIssueDetail) => (value: number) => value <= item.stockAvailable
+  //maxStock: (item: GoodsIssueDetail) => (value: number) => value <= item.stockAvailable || `Máximo disponible: ${item.stockAvailable}`
 };
 
 const headers = computed(() => {
@@ -182,8 +191,8 @@ const headers = computed(() => {
     { title: 'Color', key: 'color', sortable: false, align: 'center' },
     { title: 'Categoría', key: 'categoryName', sortable: false, align: 'center' },
     { title: 'Marca', key: 'brandName', sortable: false, align: 'center' },
-    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '100px' },
-    { title: 'Precio', key: 'price', sortable: false, align: 'center', width: '100px' },
+    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '120px' },
+    { title: 'Precio', key: 'price', sortable: false, align: 'center', width: '120px' },
     { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '100px' }
   ];
 
@@ -194,6 +203,20 @@ const headers = computed(() => {
   return baseHeaders;
 });
 
+const detailErrors = computed(() => {
+  const errors: string[] = [];
+  details.value.forEach((item, index) => {
+    if (!item.quantity || item.quantity <= 0) {
+      errors.push(`Fila ${index + 1} (con código: ${item.code}): La cantidad debe ser mayor a 0`);
+    } else if (item.quantity > item.stockAvailable) {
+      errors.push(`Fila ${index + 1} (con código: ${item.code}): Máximo disponible: ${item.stockAvailable}`);
+    }
+    if (item.unitPrice === null || item.unitPrice === undefined || item.unitPrice < 0) {
+      errors.push(`Fila ${index + 1} (con código: ${item.code}): El precio debe ser mayor o igual a 0`);
+    }
+  });
+  return errors;
+});
 const total = computed(() => {
   return details.value.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
 });
@@ -242,7 +265,7 @@ const handleProductAdded = (product: any) => {
     quantity: 1,
     unitPrice: product.price,
     totalPrice: 0,
-    stockAvailable: product.stockAvailable 
+    stockAvailable: product.stockAvailable
   });
 
   toast.success('Producto agregado a la lista');

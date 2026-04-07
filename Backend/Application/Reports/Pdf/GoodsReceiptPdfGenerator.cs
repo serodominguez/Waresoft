@@ -65,6 +65,15 @@ namespace Application.Reports.Pdf
                         leftColumn.Item().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Fecha de registro: ").SemiBold();
+                            text.Span($"{_receipt.AuditCreateDate}");
+                        });
+
+                        leftColumn.Spacing(5);
+
+                        leftColumn.Item().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
                             text.Span("Código: ").SemiBold();
                             text.Span($"{_receipt.Code}");
                         });
@@ -80,25 +89,30 @@ namespace Application.Reports.Pdf
 
                         leftColumn.Spacing(5);
 
-                        leftColumn.Item().Text(text =>
+                        if (_receipt.Type == "Adquisición")
                         {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Tipo de documento: ").SemiBold();
-                            text.Span($"{_receipt.DocumentType}");
-                        });
+                            leftColumn.Item().Text(text =>
+                            {
+                                text.DefaultTextStyle(x => x.FontSize(10));
+                                text.Span("Tipo de documento: ").SemiBold();
+                                text.Span($"{_receipt.DocumentType}");
+                            });
 
-                        leftColumn.Spacing(5);
-
-                        leftColumn.Item().Text(text =>
-                        {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Fecha de registro: ").SemiBold();
-                            text.Span($"{_receipt.AuditCreateDate}");
-                        });
+                            leftColumn.Spacing(5);
+                        }
                     });
 
                     row.RelativeItem().Column(rightColumn =>
                     {
+                        rightColumn.Item().AlignRight().Text(text =>
+                        {
+                            text.DefaultTextStyle(x => x.FontSize(10));
+                            text.Span("Registrado por: ").SemiBold();
+                            text.Span($"{_receipt.AuditCreateName}");
+                        });
+
+                        rightColumn.Spacing(5);
+
                         rightColumn.Item().AlignRight().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));
@@ -108,30 +122,29 @@ namespace Application.Reports.Pdf
 
                         rightColumn.Spacing(5);
 
-                        rightColumn.Item().AlignRight().Text(text =>
+                        if (_receipt.Type == "Adquisición")
                         {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Proveedor: ").SemiBold();
-                            text.Span($"{_receipt.CompanyName}");
-                        });
+                            rightColumn.Item().AlignRight().Text(text =>
+                            {
+                                text.DefaultTextStyle(x => x.FontSize(10));
+                                text.Span("Proveedor: ").SemiBold();
+                                text.Span($"{_receipt.CompanyName}");
+                            });
+                        }
 
                         rightColumn.Spacing(5);
 
-                        rightColumn.Item().AlignRight().Text(text =>
+                        if (_receipt.Type == "Adquisición")
                         {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Número de documento: ").SemiBold();
-                            text.Span($"{_receipt.DocumentNumber}");
-                        });
+                            rightColumn.Item().AlignRight().Text(text =>
+                            {
+                                text.DefaultTextStyle(x => x.FontSize(10));
+                                text.Span("Número de documento: ").SemiBold();
+                                text.Span($"{_receipt.DocumentNumber}");
+                            });
 
-                        rightColumn.Spacing(5);
-
-                        rightColumn.Item().AlignRight().Text(text =>
-                        {
-                            text.DefaultTextStyle(x => x.FontSize(10));
-                            text.Span("Registrado por: ").SemiBold();
-                            text.Span($"{_receipt.AuditCreateName}");
-                        });
+                            rightColumn.Spacing(5);
+                        }
                     });
                 });
             });

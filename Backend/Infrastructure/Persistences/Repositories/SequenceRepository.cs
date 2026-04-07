@@ -1,4 +1,5 @@
-﻿using Infrastructure.Persistences.Contexts;
+﻿using Domain.Entities;
+using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,46 @@ namespace Infrastructure.Persistences.Repositories
         public SequenceRepository(DbContextSystem context)
         {
             _context = context;
+        }
+
+        public async Task<string> ViewProductCodeAsync()
+        {
+            var sequence = await _context.Sequence
+                .FirstOrDefaultAsync(s => s.Name == "PRODUCT");
+
+            var nextValue = sequence == null ? 1 : sequence.CurrentValue + 1;
+
+            var date = DateTime.Now.ToString("yyyyMMdd");
+            var sequential = nextValue.ToString().PadLeft(3, '0');
+
+            return $"{date}{sequential}";
+        }
+
+        public async Task<string> GenerateProductCodeAsync()
+        {
+            var sequence = await _context.Sequence
+                .FromSqlRaw("SELECT NAME, PK_STORE, CURRENT_VALUE, LAST_UPDATED FROM SEQUENCES WITH (UPDLOCK, ROWLOCK) WHERE NAME = 'PRODUCT'")
+                .FirstOrDefaultAsync();
+
+            if (sequence == null)
+            {
+                sequence = new SequenceEntity
+                {
+                    Name = "PRODUCT",
+                    CurrentValue = 1,
+                    LastUpdated = DateTime.Now
+                };
+                await _context.Sequence.AddAsync(sequence);
+            }
+            else
+            {
+                sequence.CurrentValue++;
+                sequence.LastUpdated = DateTime.Now;
+                _context.Sequence.Update(sequence);
+            }
+
+            var date = DateTime.Now.ToString("yyyyMMdd");
+            return $"{date}{sequence.CurrentValue.ToString().PadLeft(3, '0')}";
         }
 
         public async Task<string> GenerateMovementsCodeAsync(string sequenceName, string prefix, int storeId)

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card elevation="2">
-      <v-data-table-server :headers="headers" :items="transfers" :search="search || undefined"
+      <v-data-table-server :headers="headers" :items="transfers" :page="currentPage" :search="search || undefined"
         :items-per-page-text="pages" :items-per-page-options="[10, 20, 50]" :items-per-page="itemsPerPage"
         :items-length="totalTransfers" :loading="loading" loading-text="Cargando... Espere por favor"
         @update:items-per-page="$emit('update-items-per-page', $event)" @update:page="$emit('change-page', $event)">
@@ -35,7 +35,9 @@
                 <v-tooltip v-bind="tooltipProps" text="Imprimir" location="bottom">
                   <template v-slot:activator="{ props }">
                     <template v-if="canRead && (item as Transfer).statusTransfer != 'Cancelado'">
-                      <v-btn v-bind="props" icon variant="text" size="small" @click="$emit('print-pdf', item)">
+                      <v-btn v-bind="props" icon variant="text" size="small" @click="$emit('print-pdf', item)"
+                        :loading="printingPdfId === (item as Transfer).idTransfer"
+                        :disabled="printingPdfId === (item as Transfer).idTransfer">
                         <v-icon icon="mdi-printer" size="24"></v-icon>
                       </v-btn>
                     </template>
@@ -136,6 +138,8 @@ import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
   transfers: Transfer[];
   totalTransfers: number;
+  currentPage: number; 
+  printingPdfId?: number | string | null;
 }
 const authStore = useAuthStore();
 const { currentUser } = storeToRefs(authStore);
@@ -148,7 +152,9 @@ const props = withDefaults(defineProps<Props>(), {
   endDate: null,
   downloadingExcel: false,
   downloadingPdf: false,
-  itemsPerPage: 10
+  itemsPerPage: 10,
+  currentPage: 1,
+  printingPdfId: null
 });
 
 const emit = defineEmits<{

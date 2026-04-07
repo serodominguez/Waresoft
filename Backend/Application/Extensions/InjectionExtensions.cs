@@ -43,6 +43,7 @@ namespace Application.Extensions
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ISequenceService, SequenceService>();
             services.AddScoped<IStoreInventoryService, StoreInventoryService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<ISupplierService, SupplierService>();

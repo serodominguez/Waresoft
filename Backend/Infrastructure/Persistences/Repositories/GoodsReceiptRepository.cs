@@ -14,36 +14,6 @@ namespace Infrastructure.Persistences.Repositories
             _context = context;
         }
 
-        public async Task<string> GenerateCodeAsync()
-        {
-            const string sequenceName = "GOODS_RECEIPT";
-
-            var sequence = await _context.Sequence
-                .FromSqlRaw(@"SELECT NAME, CURRENT_VALUE, LAST_UPDATED FROM SEQUENCES WITH (UPDLOCK, ROWLOCK, HOLDLOCK) WHERE NAME = {0}", sequenceName)
-                .AsTracking()
-                .FirstOrDefaultAsync();
-
-            if (sequence == null)
-            {
-                sequence = new SequenceEntity
-                {
-                    Name = "GOODS_RECEIPT",
-                    CurrentValue = 1,
-                    LastUpdated = DateTime.UtcNow
-                };
-                await _context.Sequence.AddAsync(sequence);
-            }
-            else
-            {
-                sequence.CurrentValue++;
-                sequence.LastUpdated = DateTime.UtcNow;
-            }
-
-            await _context.SaveChangesAsync();
-
-            return $"ENT-{sequence.CurrentValue.ToString().PadLeft(6, '0')}";
-        }
-
         public IQueryable<GoodsReceiptEntity> GetGoodsReceiptQueryableByStore(int storeId)
         {
             return _context.GoodsReceipt
@@ -59,11 +29,11 @@ namespace Infrastructure.Persistences.Repositories
                     TotalAmount = r.TotalAmount,
                     Annotations = r.Annotations,
                     IdSupplier = r.IdSupplier,
-                    Supplier = new SupplierEntity
+                    Supplier = r.Supplier != null ? new SupplierEntity
                     {
                         Id = r.Supplier.Id,
                         CompanyName = r.Supplier.CompanyName
-                    },
+                    } : null,
                     IdStore = r.IdStore,
                     Store = new StoreEntity
                     {
