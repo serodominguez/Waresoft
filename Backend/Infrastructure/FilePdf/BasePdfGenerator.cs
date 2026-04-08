@@ -49,7 +49,8 @@ namespace Infrastructure.FilePdf
             return container
                 .BorderBottom(1)
                 .BorderColor(Colors.Grey.Lighten2)
-                .PaddingVertical(1);
+                .PaddingVertical(1)
+                .PaddingHorizontal(3);
         }
 
         protected void ComposeSignatureSection(IContainer container)
@@ -60,14 +61,14 @@ namespace Infrastructure.FilePdf
                 {
                     leftColumn.Item().Text("Entregado por:").FontSize(10).SemiBold();
                     leftColumn.Item().PaddingTop(30);
-                    leftColumn.Item().Element(signLine =>
+                    leftColumn.Item().Width(150).Element(signLine =>
                     {
                         signLine.Column(col =>
                         {
                             col.Item().Height(0).BorderBottom(1).BorderColor(Colors.Black);
                         });
                     });
-                    leftColumn.Item().PaddingTop(4).AlignCenter().Text("Firma").FontSize(8);
+                    leftColumn.Item().Width(150).PaddingTop(4).AlignCenter().Text("Firma").FontSize(8);
                 });
 
                 row.ConstantItem(50);
@@ -76,14 +77,14 @@ namespace Infrastructure.FilePdf
                 {
                     rightColumn.Item().Text("Recibido por:").FontSize(10).SemiBold();
                     rightColumn.Item().PaddingTop(30);
-                    rightColumn.Item().Element(signLine =>
+                    rightColumn.Item().Width(150).Element(signLine =>
                     {
                         signLine.Column(col =>
                         {
                             col.Item().Height(0).BorderBottom(1).BorderColor(Colors.Black);
                         });
                     });
-                    rightColumn.Item().PaddingTop(4).AlignCenter().Text("Firma").FontSize(8);
+                    rightColumn.Item().Width(150).PaddingTop(4).AlignCenter().Text("Firma").FontSize(8);
                 });
             });
         }

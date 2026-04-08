@@ -16,6 +16,7 @@ export interface Inventory {
 }
 
 export interface InventoryPivotRow {
+  image: string;
   code: string;
   color: string;
   brandName: string;

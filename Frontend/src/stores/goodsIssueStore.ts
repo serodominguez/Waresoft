@@ -148,6 +148,11 @@ export const useGoodsIssueStore = defineStore('goodsIssue', () => {
     }
   }
 
+  async function getBlobGoodsIssuePdf(issueId: number): Promise<Blob> {
+    const { blob } = await goodsIssueService.exportPdf(issueId);
+    return blob;
+  }
+
   return {
     items,
     selectedItem,
@@ -169,5 +174,6 @@ export const useGoodsIssueStore = defineStore('goodsIssue', () => {
     disableGoodsIssue,
     exportGoodsIssuePdf,
     openGoodsIssuePdf,
+    getBlobGoodsIssuePdf
   };
 });

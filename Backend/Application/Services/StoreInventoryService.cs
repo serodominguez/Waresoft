@@ -137,6 +137,7 @@ namespace Application.Services
                     inventory = inventory.Where(x => x.Product.AuditCreateDate >= startDate && x.Product.AuditCreateDate < endDate);
                 }
 
+                inventory = inventory.OrderByDescending(x => x.Product.Id);
                 var items = await inventory.ToListAsync();
 
                 var stores = await _unitOfWork.Store.GetAllAsQueryable()

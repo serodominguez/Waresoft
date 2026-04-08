@@ -24,6 +24,17 @@
                 {{ (item as KardexMovement).state }}
               </v-chip>
             </td>
+            <td class="text-center">
+              <v-tooltip text="Visualizar" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" icon size="small" variant="text" color="deep-purple-darken-1"
+                    :loading="loadingPdfId === (item as KardexMovement).idMovement"
+                    @click="handleOpenPdf(item as KardexMovement)">
+                    <v-icon icon="mdi-file-eye" size="24" />
+                  </v-btn>
+                </template>
+              </v-tooltip>
+            </td>
           </tr>
         </template>
         <template v-slot:no-data>
@@ -31,12 +42,18 @@
         </template>
       </v-data-table-server>
     </v-card>
+    <KardexViewPdf v-model="pdfModal" :title="pdfModalTitle" :url="pdfUrl" :error="pdfError"
+      @close="handleClosePdfModal" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { KardexMovement } from '@/interfaces/kardexInterface';
+import { useGoodsIssueStore } from '@/stores/goodsIssueStore';
+import { useGoodsReceiptStore } from '@/stores/goodsReceiptStore';
+import { useTransferStore } from '@/stores/transferStore';
+import KardexViewPdf from './KardexViewPdf.vue';
 
 interface Props {
   movements: KardexMovement[];
@@ -54,16 +71,42 @@ defineEmits<{
   'change-page': [page: number];
 }>();
 
+const goodsIssueStore = useGoodsIssueStore();
+const goodsReceiptStore = useGoodsReceiptStore();
+const transferStore = useTransferStore();
+
 const pages = 'Movimientos por Página';
+
+const pdfModal = ref(false);
+const pdfUrl = ref<string | null>(null);
+const pdfError = ref(false);
+const pdfModalTitle = ref('');
+const loadingPdfId = ref<number | null>(null);
+
+const MOVEMENT_MAP: Record<string, { getBlob: (id: number) => Promise<Blob>; label: string }> = {
+  'Entrada': {
+    getBlob: (id) => goodsReceiptStore.getBlobGoodsReceiptPdf(id),
+    label: 'Entrada',
+  },
+  'Salida': {
+    getBlob: (id) => goodsIssueStore.getBlobGoodsIssuePdf(id),
+    label: 'Salida',
+  },
+  'Traspaso': {
+    getBlob: (id) => transferStore.getBlobTransferPdf(id),
+    label: 'Traspaso',
+  },
+};
 
 const headers = computed(() => [
   { title: 'Código', key: 'code', sortable: false, align: 'center' as const },
   { title: 'Fecha', key: 'date', sortable: false, align: 'center' as const },
-  { title: 'Movimiento', key: 'movementType',     sortable: false, align: 'center' as const },
+  { title: 'Movimiento', key: 'movementType', sortable: false, align: 'center' as const },
   { title: 'Tipo', key: 'type', sortable: false, align: 'center' as const },
   { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center' as const },
   { title: 'Acumulado', key: 'accumulatedStock', sortable: false, align: 'center' as const },
   { title: 'Estado', key: 'state', sortable: false, align: 'center' as const },
+  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
 const stateColor = (state: string): string => {
@@ -73,5 +116,36 @@ const stateColor = (state: string): string => {
     'Enviado': 'orange',
   };
   return map[state] ?? 'grey';
+};
+
+const handleOpenPdf = async (item: KardexMovement) => {
+  const handler = MOVEMENT_MAP[item.movementType];
+  if (!handler) {
+    console.warn(`movementType no mapeado: "${item.movementType}"`);
+    return;
+  }
+
+  pdfUrl.value = null;
+  pdfError.value = false;
+  pdfModalTitle.value = `${handler.label} — ${item.code}`;
+  pdfModal.value = true;
+  loadingPdfId.value = item.idMovement;
+
+  try {
+    const blob = await handler.getBlob(item.idMovement);
+    pdfUrl.value = window.URL.createObjectURL(blob);
+  } catch {
+    pdfError.value = true;
+  } finally {
+    loadingPdfId.value = null;
+  }
+};
+
+const handleClosePdfModal = () => {
+  if (pdfUrl.value) {
+    window.URL.revokeObjectURL(pdfUrl.value);
+    pdfUrl.value = null;
+  }
+  pdfError.value = false;
 };
 </script>

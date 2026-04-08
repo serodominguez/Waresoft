@@ -147,6 +147,11 @@ export const useGoodsReceiptStore = defineStore('goodsReceipt', () => {
     }
   }
 
+  async function getBlobGoodsReceiptPdf(receiptId: number): Promise<Blob> {
+    const { blob } = await goodsReceiptService.exportPdf(receiptId);
+    return blob;
+  }
+
   return {
     items,
     selectedItem,
@@ -168,5 +173,6 @@ export const useGoodsReceiptStore = defineStore('goodsReceipt', () => {
     disableGoodsReceipt,
     exportGoodsReceiptPdf,
     openGoodsReceiptPdf,
+    getBlobGoodsReceiptPdf
   };
 });

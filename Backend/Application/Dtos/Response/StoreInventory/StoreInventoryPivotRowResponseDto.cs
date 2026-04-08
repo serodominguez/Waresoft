@@ -2,6 +2,7 @@
 {
     public class StoreInventoryPivotRowResponseDto
     {
+        public string? Image { get; set; }
         public string? Code { get; set; }
         public string? Color { get; set; }
         public string? BrandName { get; set; }

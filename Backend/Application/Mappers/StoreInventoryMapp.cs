@@ -75,6 +75,7 @@ namespace Application.Mappers
 
                     return new StoreInventoryPivotRowResponseDto
                     {
+                        Image = product.Image,
                         Code = product.Code,
                         Color = product.Color?.ToSentenceCase(),
                         BrandName = product.Brand?.BrandName?.ToSentenceCase(),
@@ -115,6 +116,7 @@ namespace Application.Mappers
             {
                 IdProduct = receipt.IdProduct,
                 Quantity = receipt.Quantity,
+                IdMovement = receipt.IdReceipt,
                 Code = receipt.GoodsReceipt.Code,
                 Date = receipt.GoodsReceipt!.AuditCreateDate.HasValue ? receipt.GoodsReceipt.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 MovementType = "Entrada",
@@ -130,6 +132,7 @@ namespace Application.Mappers
             {
                 IdProduct = issue.IdProduct,
                 Quantity = -issue.Quantity,
+                IdMovement = issue.IdIssue,
                 Code = issue.GoodsIssue.Code,
                 Date = issue.GoodsIssue!.AuditCreateDate.HasValue ? issue.GoodsIssue.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 MovementType = "Salida",
@@ -147,6 +150,7 @@ namespace Application.Mappers
             {
                 IdProduct = transfer.IdProduct,
                 Quantity = isOrigin ? -transfer.Quantity : transfer.Quantity,
+                IdMovement = transfer.IdTransfer,
                 Code = transfer.Transfer!.Code,
                 Date = isOrigin
                     ? (transfer.Transfer!.SendDate.ToString("dd/MM/yyyy HH:mm"))

@@ -21,7 +21,7 @@ namespace Infrastructure.Persistences.Repositories
 
             var nextValue = sequence == null ? 1 : sequence.CurrentValue + 1;
 
-            var date = DateTime.Now.ToString("yyyyMMdd");
+            var date = DateTime.Now.ToString("yyMMdd");
             var sequential = nextValue.ToString().PadLeft(3, '0');
 
             return $"{date}{sequential}";
@@ -50,7 +50,7 @@ namespace Infrastructure.Persistences.Repositories
                 _context.Sequence.Update(sequence);
             }
 
-            var date = DateTime.Now.ToString("yyyyMMdd");
+            var date = DateTime.Now.ToString("yyMMdd");
             return $"{date}{sequence.CurrentValue.ToString().PadLeft(3, '0')}";
         }
 

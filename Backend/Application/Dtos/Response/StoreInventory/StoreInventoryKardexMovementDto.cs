@@ -6,6 +6,7 @@ namespace Application.Dtos.Response.StoreInventory
     {
         public int IdProduct { get; set; }
         public int Quantity { get; set; }
+        public int IdMovement { get; set; }
         public string? Code { get; set; }
         public string? Date { get; set; }
         public string? MovementType { get; set; }

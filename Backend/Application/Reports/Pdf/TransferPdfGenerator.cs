@@ -153,7 +153,7 @@ namespace Application.Reports.Pdf
                     text.Span($"{FormatCurrency(_transfer.TotalAmount)}").Bold();
                 });
 
-                column.Item().PaddingTop(10).Element(container =>
+                column.Item().PaddingTop(5).Element(container =>
                     ComposeObservationsWithSingleSignature(container, _transfer.Annotations ?? string.Empty, "Responsable:"));
             });
         }
@@ -165,7 +165,7 @@ namespace Application.Reports.Pdf
                 table.ColumnsDefinition(colums =>
                 {
                     colums.RelativeColumn(1);
-                    colums.RelativeColumn(2);
+                    colums.RelativeColumn(3);
                     colums.RelativeColumn(4);
                     colums.RelativeColumn(3);
                     colums.RelativeColumn(3);
@@ -176,11 +176,11 @@ namespace Application.Reports.Pdf
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(HeaderCellStyle).Text("Nº").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).Text("Código").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).Text("Descripción").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).Text("Material").FontSize(10);
-                    header.Cell().Element(HeaderCellStyle).Text("Color").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignCenter().Text("Nº").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignLeft().Text("Código").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignLeft().Text("Descripción").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignLeft().Text("Material").FontSize(10);
+                    header.Cell().Element(HeaderCellStyle).AlignLeft().Text("Color").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Cantidad").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Precio").FontSize(10);
                     header.Cell().Element(HeaderCellStyle).AlignRight().Text("Subtotal").FontSize(10);
@@ -194,11 +194,11 @@ namespace Application.Reports.Pdf
 
                 foreach (var item in _transfer.TransferDetails)
                 {
-                    table.Cell().Element(BodyCellStyle).Text(item.Item.ToString()).FontSize(9);
-                    table.Cell().Element(BodyCellStyle).Text(item.Code ?? string.Empty).FontSize(9);
-                    table.Cell().Element(BodyCellStyle).Text(item.Description ?? string.Empty).FontSize(9);
-                    table.Cell().Element(BodyCellStyle).Text(item.Material ?? string.Empty).FontSize(9);
-                    table.Cell().Element(BodyCellStyle).Text(item.Color ?? string.Empty).FontSize(9);
+                    table.Cell().Element(BodyCellStyle).AlignCenter().Text(item.Item.ToString()).FontSize(9);
+                    table.Cell().Element(BodyCellStyle).AlignLeft().Text(item.Code ?? string.Empty).FontSize(9);
+                    table.Cell().Element(BodyCellStyle).AlignLeft().Text(item.Description ?? string.Empty).FontSize(9);
+                    table.Cell().Element(BodyCellStyle).AlignLeft().Text(item.Material ?? string.Empty).FontSize(9);
+                    table.Cell().Element(BodyCellStyle).AlignLeft().Text(item.Color ?? string.Empty).FontSize(9);
                     table.Cell().Element(BodyCellStyle).AlignRight().Text(item.Quantity.ToString()).FontSize(9);
                     table.Cell().Element(BodyCellStyle).AlignRight().Text(FormatCurrency(item.UnitPrice)).FontSize(9);
                     table.Cell().Element(BodyCellStyle).AlignRight().Text(FormatCurrency(item.TotalPrice)).FontSize(9);

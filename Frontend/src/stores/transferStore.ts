@@ -160,6 +160,12 @@ export const useTransferStore = defineStore('transfer', () => {
     }
   }
 
+  async function getBlobTransferPdf(transferId: number): Promise<Blob> {
+    const { blob } = await transferService.exportPdf(transferId);
+    return blob;
+  }
+
+
   return {
     items,
     selectedItem,
@@ -182,5 +188,6 @@ export const useTransferStore = defineStore('transfer', () => {
     disableTransfer,
     exportTransferPdf,
     openTransferPdf,
+    getBlobTransferPdf
   };
 });

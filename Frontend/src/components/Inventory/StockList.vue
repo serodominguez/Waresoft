@@ -7,6 +7,11 @@
         @update:items-per-page="$emit('update-items-per-page', $event)" @update:page="$emit('change-page', $event)">
         <template v-slot:item="{ item }">
           <tr>
+            <td>
+              <v-img v-if="(item as InventoryPivotRow).image" :src="(item as InventoryPivotRow).image" width="60"
+                height="60" contain class="rounded product-image" />
+              <v-icon v-else color="grey" icon="mdi-image-off" size="40"></v-icon>
+            </td>
             <td>{{ (item as InventoryPivotRow).code }}</td>
             <td>{{ (item as InventoryPivotRow).color }}</td>
             <td>{{ (item as InventoryPivotRow).brandName }}</td>
@@ -41,8 +46,7 @@
             </v-tooltip>
             <v-tooltip v-bind="tooltipProps" text="Filtros" location="bottom">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" icon variant="text" size="38" @click="drawerModel = !drawerModel"
-                  class="mr-4">
+                <v-btn v-bind="props" icon variant="text" size="38" @click="drawerModel = !drawerModel" class="mr-4">
                   <v-icon icon="mdi-tune-variant" size="26"></v-icon>
                 </v-btn>
               </template>
@@ -136,6 +140,7 @@ const { tooltipProps } = useResponsiveTooltip();
 const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Marca', 'Categoría']);
 
 const dynamicHeaders = computed(() => [
+  { title: 'Imagen', key: 'image', sortable: false },
   { title: 'Código', key: 'code', sortable: false },
   { title: 'Color', key: 'color', sortable: false },
   { title: 'Marca', key: 'brandName', sortable: false },
@@ -199,3 +204,23 @@ const handleDownloadPdf = () => {
   });
 };
 </script>
+
+<style scoped>
+.product-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(1);
+  cursor: pointer;
+  z-index: 10;
+  background-color: #ffffff; 
+}
+
+.product-image:hover {
+  transform: scale(1.5);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  border: 2px solid #012e67;
+  z-index: 20;
+}
+td {
+  overflow: visible;
+}
+</style>

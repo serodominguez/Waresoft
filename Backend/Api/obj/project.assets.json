@@ -1355,7 +1355,7 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "System.Linq.Dynamic.Core/1.7.1": {
+      "System.Linq.Dynamic.Core/1.7.2": {
         "type": "package",
         "compile": {
           "lib/net10.0/System.Linq.Dynamic.Core.dll": {
@@ -1460,7 +1460,7 @@
           "Domain": "1.0.0",
           "QuestPDF": "2026.2.4",
           "SixLabors.ImageSharp": "3.1.12",
-          "System.Linq.Dynamic.Core": "1.7.1",
+          "System.Linq.Dynamic.Core": "1.7.2",
           "Utilities": "1.0.0"
         },
         "compile": {
@@ -4075,10 +4075,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Linq.Dynamic.Core/1.7.1": {
-      "sha512": "qlgku/j9r0fei52yxR5ho9nC/fWGZuaELqPkZmJm24QZbBW4cL3sVWri1dZ0cKgARD7cgFKBdRqzxYoIG5Q0Cg==",
+    "System.Linq.Dynamic.Core/1.7.2": {
+      "sha512": "11SGBy8DCywOVElSs2J+Cd4WFHruFrBnaaQ86q2HWHBGcCAQDLnbA0ivpFvMeXGPqcEPE+Q3HZtXaXN4F8JLQg==",
       "type": "package",
-      "path": "system.linq.dynamic.core/1.7.1",
+      "path": "system.linq.dynamic.core/1.7.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4136,7 +4136,7 @@
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.pri",
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.xml",
         "logo.png",
-        "system.linq.dynamic.core.1.7.1.nupkg.sha512",
+        "system.linq.dynamic.core.1.7.2.nupkg.sha512",
         "system.linq.dynamic.core.nuspec"
       ]
     },

@@ -138,7 +138,7 @@ import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
   transfers: Transfer[];
   totalTransfers: number;
-  currentPage: number; 
+  currentPage: number;
   printingPdfId?: number | string | null;
 }
 const authStore = useAuthStore();
@@ -188,7 +188,7 @@ const emit = defineEmits<{
   'print-pdf': [item: Transfer];
   'update:drawer': [value: boolean];
   'update:selectedFilter': [value: string];
-  'update:state': [value: string]; 
+  'update:state': [value: string];
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
   'clear-filters': [];
@@ -254,9 +254,9 @@ const stateColor = (status: string): string => {
 
 const stateIcon = (status: string): string => {
   const statusLower = status.toLowerCase();
-  if (statusLower === 'enviado')   return 'mdi-truck-delivery';
+  if (statusLower === 'enviado') return 'mdi-truck-delivery';
   if (statusLower === 'pendiente') return 'mdi-clock-outline';
-  if (statusLower === 'recibido')  return 'mdi-package-variant-closed-check';
+  if (statusLower === 'recibido') return 'mdi-package-variant-closed-check';
   if (statusLower === 'cancelado') return 'mdi-archive-cancel';
   return 'mdi-circle-outline';
 }

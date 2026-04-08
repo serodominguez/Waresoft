@@ -28,6 +28,7 @@ namespace Infrastructure.Persistences.Repositories
                         Product = new ProductEntity
                         {
                             Id = i.Product.Id,
+                            Image = i.Product.Image,
                             Code = i.Product.Code,
                             Description = i.Product.Description,
                             Color = i.Product.Color,

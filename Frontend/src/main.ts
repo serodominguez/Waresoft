@@ -48,12 +48,16 @@ const toastOptions = {
   // Inicialización
  async function initializeApp() {
   
-  // Suprimir warning de next() (bug interno de Vuetify con Vue Router 5)
-  const originalWarn = console.warn
-  console.warn = (...args) => {
-    if (typeof args[0] === 'string' && args[0].includes('next()') && args[0].includes('navigation guards')) return
-    originalWarn(...args)
-  }
+// Suprimir warning de next() (bug Vuetify #22632, sin fix aún)
+const originalWarn = console.warn
+console.warn = (...args: unknown[]) => {
+  if (
+    typeof args[0] === 'string' &&
+    args[0].includes('next()') &&
+    args[0].includes('navigation guards')
+  ) return
+  originalWarn.apply(console, args)
+}
 
   // Crear la aplicación
   const app = createApp(App)

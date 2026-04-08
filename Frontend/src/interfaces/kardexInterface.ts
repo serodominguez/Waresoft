@@ -1,6 +1,7 @@
 export interface KardexMovement {
   idProduct: number;
   quantity: number;
+  idMovement: number;
   code: string;
   date: string;
   movementType: 'Entrada' | 'Salida' | 'Traspaso';
