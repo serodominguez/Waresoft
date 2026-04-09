@@ -14,7 +14,7 @@ builder.Services.AddInjectionInfrastructure(Configuration);
 builder.Services.AddInjectionApplication(Configuration);
 builder.Services.AddAuthentication(Configuration);
 builder.Services.AddScoped<PermissionAuthorizationFilter>();
-builder.Services.AddControllers(options =>
+builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<PermissionAuthorizationFilter>();
 });
@@ -45,8 +45,6 @@ builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
-app.UseCors(Cors);
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -54,20 +52,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseRouting();
+
+app.UseCors(Cors);
 
 app.UseMiddleware<EndpointRateLimit>();
 
 app.UseStaticFiles();
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapFallbackToController("Index", "Home");
 
 app.Run();
 
