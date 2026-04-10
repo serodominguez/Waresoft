@@ -9,7 +9,7 @@
           <tr>
             <td>
               <v-img v-if="(item as Product).image" :src="(item as Product).image" width="60" height="60" contain
-                class="rounded product-image" />
+                style="cursor: pointer;" @click="openImageModal((item as Product))" />
               <v-icon v-else color="grey" icon="mdi-image-off" size="40"></v-icon>
             </td>
             <td>{{ (item as Product).code }}</td>
@@ -49,7 +49,8 @@
               <v-tooltip v-bind="tooltipProps" text="Inactivar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Product).statusProduct == 'Activo'" icon
-                    variant="text" color="red-darken-1" size="small" @click="$emit('open-modal', { product: item, action: 2 })">
+                    variant="text" color="red-darken-1" size="small"
+                    @click="$emit('open-modal', { product: item, action: 2 })">
                     <v-icon icon="mdi-close-circle" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -122,6 +123,7 @@
     <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
       v-model:state="stateModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
       @apply-filters="handleSearch" />
+    <CommonViewerImage v-model="imageModalOpen" :image-src="selectedImage" :product-code="selectedCode" />
   </div>
 </template>
 
@@ -130,6 +132,7 @@ import { ref, computed } from 'vue';
 import { Product } from '@/interfaces/productInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
+import CommonViewerImage from '../Common/CommonViewerImage.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface Props extends Omit<BaseListProps<Product>, 'items' | 'totalItems'> {
@@ -187,6 +190,17 @@ const pages = ref("Productos por Página");
 const search = ref<string | null>(null);
  const { tooltipProps } = useResponsiveTooltip(); 
 const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Categoría', 'Marca']);
+
+const imageModalOpen = ref(false);
+const selectedImage = ref<string | null>(null);
+const selectedCode = ref<string | null>(null);
+
+ const openImageModal = (product: Product) => {
+  if (!product.image) return;
+  selectedImage.value = product.image;
+  selectedCode.value = product.code ?? null;
+  imageModalOpen.value = true;
+}; 
 
 const headers = computed(() => [
   { title: 'Imagen', key: 'image', sortable: false },
@@ -256,23 +270,3 @@ const handleDownloadPdf = () => {
   });
 };
 </script>
-
-<style scoped>
-.product-image {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  transform: scale(1);
-  cursor: pointer;
-  z-index: 10;
-  background-color: #ffffff; 
-}
-
-.product-image:hover {
-  transform: scale(1.5);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  border: 2px solid #012e67;
-  z-index: 20;
-}
-td {
-  overflow: visible;
-}
-</style>

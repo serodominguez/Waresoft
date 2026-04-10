@@ -42,7 +42,7 @@
         </template>
       </v-data-table-server>
     </v-card>
-    <KardexViewPdf v-model="pdfModal" :title="pdfModalTitle" :url="pdfUrl" :error="pdfError"
+    <CommonViewerPdf v-model="pdfModal" :title="pdfModalTitle" :url="pdfUrl" :error="pdfError"
       @close="handleClosePdfModal" />
   </div>
 </template>
@@ -53,7 +53,7 @@ import { KardexMovement } from '@/interfaces/kardexInterface';
 import { useGoodsIssueStore } from '@/stores/goodsIssueStore';
 import { useGoodsReceiptStore } from '@/stores/goodsReceiptStore';
 import { useTransferStore } from '@/stores/transferStore';
-import KardexViewPdf from './KardexViewPdf.vue';
+import CommonViewerPdf from '../Common/CommonViewerPdf.vue';
 
 interface Props {
   movements: KardexMovement[];

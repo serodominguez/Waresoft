@@ -7,11 +7,11 @@
       <v-divider></v-divider>
       <v-card-text>
         <v-row justify="center" align="end">
-          <v-col cols="4" md="2">
+          <v-col cols="12" md="2">
             <v-select color="indigo" variant="outlined" density="compact" v-model="selectedFilter"
               :items="filterOptions" label="Buscar por" hide-details />
           </v-col>
-          <v-col cols="6" md="6">
+          <v-col cols="9" md="6">
             <v-text-field color="indigo" label="Búsqueda" variant="outlined" density="compact" hide-details single-line
               v-model="search" @keyup.enter="handleSearch">
               <template v-slot:append-inner>
@@ -23,11 +23,11 @@
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="2" md="2" style="padding-bottom: 3px;">
+          <v-col cols="3" md="2" style="padding-bottom: 6px;">
             <v-tooltip v-bind="tooltipProps" text="Restablecer" location="bottom">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" dark elevation="2" color="red" variant="elevated" rounded="lg"
-                  @click="clearSearch"><v-icon icon="mdi-backspace" size="22"></v-icon></v-btn>
+                <v-btn v-bind="props" dark elevation="2" color="red" variant="elevated" size="small"
+                  @click="clearSearch"><v-icon icon="mdi-backspace" size="24"></v-icon></v-btn>
               </template>
             </v-tooltip>
           </v-col>
