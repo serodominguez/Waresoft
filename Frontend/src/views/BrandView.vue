@@ -6,7 +6,8 @@
       v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
       v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal" @edit-brand="openForm"
       @fetch-brands="fetchBrands" @search-brands="searchBrands" @update-items-per-page="updateItemsPerPage"
-      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf" />
+      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf"
+      @clear-filters="clearFilters" />
 
     <BrandForm v-model="form" :brand="selectedBrand" @saved="handleSaved" />
 
@@ -71,6 +72,16 @@ const canRead = computed((): boolean => authStore.hasPermission('marcas', 'leer'
 const canEdit = computed((): boolean => authStore.hasPermission('marcas', 'editar'));
 const canDelete = computed((): boolean => authStore.hasPermission('marcas', 'eliminar'));
 const canDownload = computed((): boolean => authStore.hasPermission('marcas', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Marca';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchBrands();
+};
 
 // Métodos
 const openModal = (payload: { brand: Brand, action: 0 | 1 | 2 }) => {

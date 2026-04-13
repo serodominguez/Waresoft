@@ -7,7 +7,7 @@
       v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
       @edit-supplier="openForm" @fetch-supplier="fetchSuppliers" @search-suppliers="searchSuppliers"
       @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
-      @download-pdf="downloadPdf" />
+      @download-pdf="downloadPdf" @clear-filters="clearFilters" />
 
     <SupplierForm v-model="form" :supplier="selectedSupplier" @saved="handleSaved" />
 
@@ -61,6 +61,16 @@ const canRead = computed((): boolean => authStore.hasPermission('proveedores', '
 const canEdit = computed((): boolean => authStore.hasPermission('proveedores', 'editar'));
 const canDelete = computed((): boolean => authStore.hasPermission('proveedores', 'eliminar'));
 const canDownload = computed((): boolean => authStore.hasPermission('proveedores', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Empresa';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchSuppliers();
+};
 
 const openModal = (payload: { supplier: Supplier, action: 0 | 1 | 2 }) => {
   selectedSupplier.value = payload.supplier;

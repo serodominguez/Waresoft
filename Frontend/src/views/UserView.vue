@@ -6,7 +6,8 @@
       v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
       v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal" @edit-user="openForm"
       @fetch-users="fetchUsers" @search-users="searchUsers" @update-items-per-page="updateItemsPerPage"
-      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf" />
+      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf"
+      @clear-filters="clearFilters" />
 
     <UserForm v-model="form" :user="selectedUser" @saved="handleSaved" />
 
@@ -63,6 +64,16 @@ const canRead = computed((): boolean => authStore.hasPermission('usuarios', 'lee
 const canEdit = computed((): boolean => authStore.hasPermission('usuarios', 'editar'));
 const canDelete = computed((): boolean => authStore.hasPermission('usuarios', 'eliminar'));
 const canDownload = computed((): boolean => authStore.hasPermission('usuarios', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Usuario';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchUsers();
+};
 
 const openModal = (payload: { user: User, action: 0 | 1 | 2 }) => {
   selectedUser.value = payload.user;

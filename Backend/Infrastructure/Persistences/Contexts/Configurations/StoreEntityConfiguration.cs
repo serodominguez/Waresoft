@@ -43,6 +43,10 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasColumnName("EMAIL")
                 .HasMaxLength(50);
 
+            builder.Property(s => s.ProfitMargin)
+                .HasColumnName("PROFIT_MARGIN")
+                .IsRequired();
+
             builder.Property(s => s.Type)
                 .HasColumnName("TYPE")
                 .HasMaxLength(15)

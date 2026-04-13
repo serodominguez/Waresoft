@@ -37,6 +37,10 @@ namespace Application.Validators
                 .Must(HaveMaximum8Digits).WithMessage("El número de teléfono no puede tener más de 8 dígitos")
                 .When(x => x.PhoneNumber.HasValue);
 
+            RuleFor(x => x.ProfitMargin)
+                .NotNull().WithMessage("El margen de ganancia es requerido")
+                .InclusiveBetween(0.10m, 0.95m).WithMessage("El margen de ganancia debe estar entre 0.10 y 0.95");
+
             RuleFor(x => x.Type)
                 .NotEmpty().WithMessage("El tipo es requerido")
                 .MaximumLength(15).WithMessage("El tipo no puede tener más de 15 caracteres")

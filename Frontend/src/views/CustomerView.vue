@@ -2,11 +2,12 @@
   <div>
     <CustomerList :customers="customers" :loading="loading" :totalCustomers="totalCustomers"
       :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf" :canCreate="canCreate" :canRead="canRead"
-      :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage" v-model:drawer="drawer"
-      v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
-      v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal" @edit-customer="openForm"
-      @fetch-customers="fetchCustomers" @search-customers="searchCustomers" @update-items-per-page="updateItemsPerPage"
-      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf" />
+      :canEdit="canEdit" :canDelete="canDelete" :canDownload="canDownload" :items-per-page="itemsPerPage"
+      v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
+      v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
+      @edit-customer="openForm" @fetch-customers="fetchCustomers" @search-customers="searchCustomers"
+      @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
+      @download-pdf="downloadPdf" @clear-filters="clearFilters" />
 
     <CustomerForm v-model="form" :customer="selectedCustomer" @saved="handleSaved" />
 
@@ -65,6 +66,16 @@ const canRead = computed((): boolean => authStore.hasPermission('clientes', 'lee
 const canEdit = computed((): boolean => authStore.hasPermission('clientes', 'editar'));
 const canDelete = computed((): boolean => authStore.hasPermission('clientes', 'eliminar'));
 const canDownload = computed((): boolean => authStore.hasPermission('clientes', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Nombres';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchCustomers();
+};
 
 const openModal = (payload: { customer: Customer; action: 0 | 1 | 2 }) => {
   selectedCustomer.value = payload.customer;

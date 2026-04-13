@@ -27,7 +27,7 @@ export function useModelSync<T>(
  * Composable específico para filtros
  * Agrupa toda la lógica de sincronización de filtros
  */
-export function useFiltersSync(props: any, emit: any) {
+export function useFiltersSync(props: any, emit: any, stateDefault = 'Activos') {
   const drawerModel = useModelSync<boolean>(props, emit, 'modelValue');
   const selectedFilterModel = useModelSync<string>(props, emit, 'selectedFilter');
   const stateModel = useModelSync<string>(props, emit, 'state');
@@ -38,7 +38,7 @@ export function useFiltersSync(props: any, emit: any) {
     if (props.filters.length > 0) {
       selectedFilterModel.value = props.filters[0];
     }
-    stateModel.value = 'Activos';
+    stateModel.value = stateDefault;;
     startDateModel.value = null;
     endDateModel.value = null;
   };

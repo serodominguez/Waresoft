@@ -6,7 +6,8 @@
       v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
       v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal" @edit-role="openForm"
       @fetch-roles="fetchRoles" @search-roles="searchRoles" @update-items-per-page="updateItemsPerPage"
-      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf" />
+      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf"
+      @clear-filters="clearFilters" />
 
     <RoleForm v-model="form" :role="selectedRole" @saved="handleSaved" />
 
@@ -61,6 +62,16 @@ const canRead = computed((): boolean => authStore.hasPermission('roles', 'leer')
 const canEdit = computed((): boolean => authStore.hasPermission('roles', 'editar'));
 const canDelete = computed((): boolean => authStore.hasPermission('roles', 'eliminar'));
 const canDownload = computed((): boolean => authStore.hasPermission('roles', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Rol';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchRoles();
+};
 
 const openModal = (payload: { role: Role, action: 0 | 1 | 2 }) => {
   selectedRole.value = payload.role;

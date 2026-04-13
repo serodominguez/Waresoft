@@ -7,7 +7,7 @@
       v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal"
       @edit-category="openForm" @fetch-categories="fetchCategories" @search-categories="searchCategories"
       @update-items-per-page="updateItemsPerPage" @change-page="changePage" @download-excel="downloadExcel"
-      @download-pdf="downloadPdf" />
+      @download-pdf="downloadPdf" @clear-filters="clearFilters" />
 
     <CategoryForm v-model="form" :category="selectedCategory" @saved="handleSaved" />
 
@@ -65,6 +65,16 @@ const canRead = computed((): boolean => authStore.hasPermission('categorias', 'l
 const canEdit = computed((): boolean => authStore.hasPermission('categorias', 'editar'));
 const canDelete = computed((): boolean => authStore.hasPermission('categorias', 'eliminar'));
 const canDownload = computed((): boolean => authStore.hasPermission('categorias', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Categoría';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchCategories();
+};
 
 const openModal = (payload: { category: Category, action: 0 | 1 | 2 }) => {
   selectedCategory.value = payload.category;

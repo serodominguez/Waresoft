@@ -31,8 +31,11 @@ namespace Application.Services
             var response = new BaseResponse<IEnumerable<StoreInventoryResponseDto>>();
             try
             {
-                var inventory = _unitOfWork.StoreInventory.GetInventoryQueryable(authenticatedStoreId)
-                    .Where(i => (i.Product.AuditDeleteUser == null && i.Product.AuditDeleteDate == null) || i.StockAvailable != 0 || i.StockInTransit != 0);
+                var inventory = _unitOfWork.StoreInventory
+                    .GetInventoryWithCalculatedStockQueryable(authenticatedStoreId) 
+                    .Where(i => (i.Product.AuditDeleteUser == null && i.Product.AuditDeleteDate == null)
+                             || i.StockAvailable != 0
+                             || i.StockInTransit != 0);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -51,7 +54,10 @@ namespace Application.Services
                             inventory = inventory.Where(x => x.Product.Color!.Contains(filters.TextFilter));
                             break;
                         case 5:
-                            inventory = inventory.Where(x => x.Price.ToString().Contains(filters.TextFilter));
+                            if (decimal.TryParse(filters.TextFilter, out decimal priceValue))
+                            {
+                                inventory = inventory.Where(x => x.Price == priceValue);
+                            }
                             break;
                         case 6:
                             inventory = inventory.Where(x => x.Product.Brand!.BrandName!.Contains(filters.TextFilter));
@@ -74,14 +80,22 @@ namespace Application.Services
                     var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
                     inventory = inventory.Where(x => x.Product.AuditCreateDate >= startDate && x.Product.AuditCreateDate < endDate);
                 }
+
                 response.TotalRecords = await inventory.CountAsync();
 
                 filters.Sort ??= "IdProduct";
                 var items = await _orderingQuery.Ordering(filters, inventory, true).ToListAsync();
-                response.IsSuccess = true;
-                response.Data = items.Select(StoreInventoryMapp.StoreInventoryMapping);
-                response.Message = ReplyMessage.MESSAGE_QUERY;
 
+                response.Data = items.Select(item =>
+                {
+                    var dto = StoreInventoryMapp.StoreInventoryMapping(item);
+                    dto.CalculatedStock = item.CalculatedStock;
+                    dto.StockDifference = item.StockAvailable - item.CalculatedStock;
+                    return dto;
+                });
+
+                response.IsSuccess = true;
+                response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception ex)
             {

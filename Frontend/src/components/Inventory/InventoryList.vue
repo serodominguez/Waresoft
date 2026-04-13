@@ -17,6 +17,13 @@
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockAvailable ?? 0) <= 0 }">
               {{ (item as Inventory).stockAvailable }}
             </td>
+            <td class="text-center"
+              :class="{ 'text-red': ((item as Inventory).calculatedStock ?? 0) !== ((item as Inventory).stockAvailable ?? 0) }">
+              {{ (item as Inventory).calculatedStock }}
+            </td>
+            <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockDifference ?? 0) != 0 }">
+              {{ (item as Inventory).stockDifference }}
+            </td>
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockInTransit ?? 0) > 0 }">
               {{ (item as Inventory).stockInTransit }}
             </td>
@@ -53,7 +60,8 @@
             <v-tooltip v-bind="tooltipProps" text="Planilla Inventario" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="indigo" size="38"
-                  @click="handleDownloadInventorySheet" :loading="downloadingSheet" :disabled="downloadingSheet" class="mr-2">
+                  @click="handleDownloadInventorySheet" :loading="downloadingSheet" :disabled="downloadingSheet"
+                  class="mr-2">
                   <v-icon icon="mdi-file-document" size="26"></v-icon>
                 </v-btn>
               </template>
@@ -100,7 +108,7 @@
     </v-card>
     <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
       v-model:state="stateModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
-      @apply-filters="handleSearch" />
+      @apply-filters="handleSearch" @clear-filters="handleClearFilters" />
   </div>
 </template>
 
@@ -172,6 +180,7 @@ const emit = defineEmits<{
   'update:state': [value: string];
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
+  'clear-filters': [];
 }>();
 
 // Estado reactivo
@@ -190,6 +199,8 @@ const headers = computed(() => [
   { title: 'Marca', key: 'brandName', sortable: false },
   { title: 'Unidad', key: 'unitMeasure', sortable: false },
   { title: 'Existencias', key: 'stockAvailable', sortable: false, align: 'center' as const },
+  { title: 'Calculado', key: 'calculatedStock', sortable: false, align: 'center' as const },
+  { title: 'Diferencias', key: 'stockDifference', sortable: false, align: 'center' as const },
   { title: 'En transito', key: 'stockInTransit', sortable: false, align: 'center' as const },
   { title: 'Precio', key: 'price', sortable: false, align: 'center' as const },
   { title: 'Fecha de creación', key: 'replenishment', sortable: false },
@@ -284,5 +295,10 @@ const handleDownloadInventorySheet = () => {
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });
+};
+
+const handleClearFilters = () => {
+  search.value = null;
+  emit('clear-filters');
 };
 </script>

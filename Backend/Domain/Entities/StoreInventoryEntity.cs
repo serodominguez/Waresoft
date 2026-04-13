@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Entities
 {
     public class StoreInventoryEntity
     {
@@ -13,5 +15,8 @@
         public DateTime? AuditUpdateDate { get; set; }
         public virtual ProductEntity Product { get; set; } = null!;
         public virtual StoreEntity Store { get; set; } = null!;
+
+        [NotMapped]
+        public int CalculatedStock { get; set; }
     }
 }

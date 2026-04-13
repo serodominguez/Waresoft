@@ -7,6 +7,7 @@ export interface Store {
   city: string;
   email: string;
   type: string;
+  profitMargin: number | null;
   auditCreateDate: string;
   statusStore: string;
 }

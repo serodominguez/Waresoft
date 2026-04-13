@@ -12,6 +12,7 @@ namespace Infrastructure.Persistences.Repositories
         {
             _context = context;
         }
+
         public IQueryable<StoreInventoryEntity> GetAllInventoryQueryable()
         {
             return _context.StoreInventory
@@ -86,6 +87,72 @@ namespace Infrastructure.Persistences.Repositories
                             AuditDeleteDate = i.Product.AuditDeleteDate
                         }
                     });
+        }
+
+        public IQueryable<StoreInventoryEntity> GetInventoryWithCalculatedStockQueryable(int storeId)
+        {
+            return _context.StoreInventory
+                .Where(i => i.IdStore == storeId)
+                .Select(item => new StoreInventoryEntity
+                {
+                    // Propiedades propias
+                    IdProduct = item.IdProduct,
+                    IdStore = item.IdStore,
+                    Price = item.Price,
+                    StockAvailable = item.StockAvailable,
+                    StockInTransit = item.StockInTransit,
+
+                    // Navegación necesaria para filtros y mapeo
+                    Product = new ProductEntity
+                    {
+                        Id = item.Product.Id,
+                        Code = item.Product.Code,
+                        Description = item.Product.Description,
+                        Material = item.Product.Material,
+                        Color = item.Product.Color,
+                        UnitMeasure = item.Product.UnitMeasure,
+                        Replenishment = item.Product.Replenishment,
+                        Status = item.Product.Status,
+                        AuditCreateDate = item.Product.AuditCreateDate,
+                        AuditDeleteUser = item.Product.AuditDeleteUser,
+                        AuditDeleteDate = item.Product.AuditDeleteDate,
+                        Brand = new BrandEntity { BrandName = item.Product.Brand!.BrandName },
+                        Category = new CategoryEntity { CategoryName = item.Product.Category!.CategoryName },
+                    },
+
+                    // ✅ Campo calculado que vive en la entidad
+                    CalculatedStock = 
+                        (_context.GoodsReceiptDetails
+                            .Where(r => r.IdProduct == item.IdProduct && 
+                                r.GoodsReceipt.IdStore == storeId &&
+                                r.GoodsReceipt.IsActive &&
+                                r.GoodsReceipt.Status == 1)
+                            .Sum(r => (int?)r.Quantity) ?? 0)
+
+                        - (_context.GoodsIssueDetails
+                            .Where(d =>
+                                d.IdProduct == item.IdProduct &&
+                                d.GoodsIssue.IdStore == storeId &&
+                                d.GoodsIssue.IsActive &&
+                                d.GoodsIssue.Status == 1)
+                            .Sum(d => (int?)d.Quantity) ?? 0)
+
+                        - (_context.TransferDetails
+                            .Where(t =>
+                                t.IdProduct == item.IdProduct &&
+                                t.Transfer.IdStoreOrigin == storeId &&
+                                t.Transfer.IsActive &&
+                                t.Transfer.Status != 0)
+                            .Sum(t => (int?)t.Quantity) ?? 0)
+
+                        + (_context.TransferDetails
+                            .Where(t =>
+                                t.IdProduct == item.IdProduct &&
+                                t.Transfer.IdStoreDestination == storeId &&
+                                t.Transfer.IsActive &&
+                                t.Transfer.Status != 0)
+                            .Sum(t => (int?)t.Quantity) ?? 0),
+                });
         }
 
         public IQueryable<StoreInventoryEntity> GetStocksByStoreAsQueryable(int storeId)

@@ -30,7 +30,7 @@
                     hide-details="auto"></v-date-input>
             </div>
             <v-list-item class="pt-4">
-                <v-btn color="indigo" block :disabled="!!dateError" @click="emit('apply-filters')">Aplicar</v-btn>
+                <v-btn color="indigo" block :disabled="!!dateError" @click="applyFilters">Aplicar</v-btn>
             </v-list-item>
             <v-list-item>
                 <v-btn color="indigo" block @click="clearFilters">Restablecer</v-btn>
@@ -70,6 +70,7 @@ const emit = defineEmits<{
     'update:startDate': [value: Date | null];
     'update:endDate': [value: Date | null];
     'apply-filters': [];
+    'clear-filters': [];
 }>();
 
 // Usa el composable para toda la lógica de sincronización
@@ -78,9 +79,16 @@ const {
     selectedFilterModel,
     stateModel,
     startDateModel,
-    endDateModel,
-    clearFilters
+    endDateModel
 } = useFiltersSync(props, emit);
+
+const applyFilters = () => {
+  emit('apply-filters');
+};
+
+const clearFilters = () => {
+  emit('clear-filters');
+};
 
 const dateError = computed(() => {
     if (startDateModel.value && endDateModel.value) {

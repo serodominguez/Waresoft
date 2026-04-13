@@ -8,6 +8,7 @@
         public int? PhoneNumber { get; set; }
         public string? City { get; set; }
         public string? Email { get; set; }
+        public decimal ProfitMargin { get; set; }
         public string? Type { get; set; }
         public virtual ICollection<UserEntity> User { get; set; } = new List<UserEntity>();
         public virtual ICollection<StoreInventoryEntity> Inventory { get; set; } = new List<StoreInventoryEntity>();

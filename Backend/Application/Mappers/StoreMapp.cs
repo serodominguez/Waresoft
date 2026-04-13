@@ -18,6 +18,7 @@ namespace Application.Mappers
                 PhoneNumber = dto.PhoneNumber,
                 City = dto.City.NormalizeString(),
                 Email = dto.Email,
+                ProfitMargin = dto.ProfitMargin,
                 Type = dto.Type.NormalizeString()
             };
         }
@@ -33,6 +34,7 @@ namespace Application.Mappers
                 PhoneNumber = entity.PhoneNumber,
                 City = entity.City.ToTitleCase(),
                 Email = entity.Email,
+                ProfitMargin= entity.ProfitMargin,
                 Type = entity.Type.ToSentenceCase(),
                 AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 Status = entity.Status,

@@ -178,6 +178,11 @@ namespace Application.Services
 
                 if (requestDto.Type != ContainerConstants.Adjustment)
                 {
+                    var profitMargin = await _unitOfWork.Store.GetByIdAsQueryable(authenticatedUserStoreId)
+                                                    .AsNoTracking()
+                                                    .Select(x => x.ProfitMargin)
+                                                    .FirstOrDefaultAsync();
+
                     var productIds = entity.GoodsReceiptDetails.Select(x => x.IdProduct).ToList();
 
                     var existingStocks = await _unitOfWork.StoreInventory
@@ -204,7 +209,7 @@ namespace Application.Services
                                 IdStore = requestDto.IdStore,
                                 StockAvailable = item.Quantity,
                                 StockInTransit = 0,
-                                Price = 0,
+                                Price = item.UnitCost/profitMargin,
                                 AuditCreateUser = authenticatedUserId,
                                 AuditCreateDate = DateTime.Now
                             };

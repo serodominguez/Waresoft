@@ -263,18 +263,18 @@ namespace Application.Services
                 response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                 return response;
             }
-            
-            var details = await _unitOfWork.TransferDetails
-                .GetTransferDetailsQueryable(transfer.IdTransfer)
-                .AsNoTracking()
-                .ToListAsync();
 
-            var productIds = details.Select(x => x.IdProduct).ToList();
-            
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
+                var details = await _unitOfWork.TransferDetails
+                    .GetTransferDetailsQueryable(transfer.IdTransfer)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                var productIds = details.Select(x => x.IdProduct).ToList();
+
                 var destinationStocks = await _unitOfWork.StoreInventory
                     .GetStocksByStoreAsQueryable(transfer.IdStoreDestination)
                     .Where(s => productIds.Contains(s.IdProduct))
@@ -364,17 +364,17 @@ namespace Application.Services
                 return response;
             }
 
-            var details = await _unitOfWork.TransferDetails
-                .GetTransferDetailsQueryable(transfer.IdTransfer)
-                .AsNoTracking()
-                .ToListAsync();
-
-            var productIds = details.Select(x => x.IdProduct).ToList();
-
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
+                var details = await _unitOfWork.TransferDetails
+                    .GetTransferDetailsQueryable(transfer.IdTransfer)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                var productIds = details.Select(x => x.IdProduct).ToList();
+
                 var originStocks = await _unitOfWork.StoreInventory
                     .GetStocksByStoreAsQueryable(transfer.IdStoreOrigin)
                     .Where(s => productIds.Contains(s.IdProduct))

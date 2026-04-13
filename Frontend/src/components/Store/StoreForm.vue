@@ -35,7 +35,12 @@
                 <v-text-field color="indigo" variant="outlined" density="compact" v-model="localStore.email"
                   counter="50" :rules="[rules.email]" :maxlength="50" label="Correo" />
               </v-col>
-              <v-col cols="12" md="12">
+              <v-col cols="6" md="6">
+                <v-text-field color="indigo" variant="outlined" density="compact" v-model="localStore.profitMargin"
+                  :rules="[rules.required, rules.profitMargin]" label="Margen" type="number" :min="0.10" :max="0.95"
+                  :step="0.05" placeholder="0.10 - 0.95" />
+              </v-col>
+              <v-col cols="6" md="6">
                 <v-select color="indigo" variant="outlined" density="compact" :rules="[rules.required]"
                   v-model="localStore.type" :items="types" label="Tipo" required />
               </v-col>
@@ -76,6 +81,7 @@ const props = withDefaults(defineProps<Props>(), {
     phoneNumber: null,
     city: '',
     email: '',
+    profitMargin: null,
     type: '',
     auditCreateDate: '',
     statusStore: ''
@@ -102,6 +108,13 @@ const rules = {
   onlyLetters: (value: string) => !value || /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(value) || 'Solo se permiten letras.',
   onlyNumbers: (value: string) => !value || /^[0-9]+$/.test(value) || 'Solo se permiten números.',
   email: (value: string) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Formato de correo inválido.',
+  profitMargin: (value: any) => { 
+    if (!value && value !== 0) return 'Este campo es requerido.';
+    const num = parseFloat(value);
+    if (isNaN(num)) return 'Debe ser un número válido.';
+    if (num < 0.10 || num > 0.95) return 'El margen debe estar entre 0.10 y 0.95.';
+    return true;
+  },
 };
 
 watch(() => props.modelValue, (newValue: boolean) => {

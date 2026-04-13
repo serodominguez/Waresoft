@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useFiltersSync } from '@/composables/useModelSync'; 
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
 interface Props {
@@ -71,30 +72,21 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const drawerModel = computed({
-  get: () => props.modelValue,
-  set: (value: boolean) => emit('update:modelValue', value)
-});
+const {
+  drawerModel,
+  selectedFilterModel,
+  stateModel,
+  startDateModel,
+  endDateModel
+} = useFiltersSync(props, emit, 'Todos');
 
-const selectedFilterModel = computed({
-  get: () => props.selectedFilter,
-  set: (value: string) => emit('update:selectedFilter', value)
-});
+const applyFilters = () => {
+  emit('apply-filters');
+};
 
-const stateModel = computed({
-  get: () => props.state,
-  set: (value: string) => emit('update:state', value)
-});
-
-const startDateModel = computed({
-  get: () => props.startDate,
-  set: (value: Date | null) => emit('update:startDate', value)
-});
-
-const endDateModel = computed({
-  get: () => props.endDate,
-  set: (value: Date | null) => emit('update:endDate', value)
-});
+const clearFilters = () => {
+  emit('clear-filters');
+};
 
 const dateError = computed(() => {
   if (startDateModel.value && endDateModel.value) {
@@ -104,12 +96,4 @@ const dateError = computed(() => {
   }
   return '';
 });
-
-const applyFilters = () => {
-  emit('apply-filters');
-};
-
-const clearFilters = () => {
-  emit('clear-filters');
-};
 </script>

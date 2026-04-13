@@ -1,15 +1,3 @@
-export interface KardexMovement {
-  idProduct: number;
-  quantity: number;
-  idMovement: number;
-  code: string;
-  date: string;
-  movementType: 'Entrada' | 'Salida' | 'Traspaso';
-  type: string;
-  state: string;
-  accumulatedStock: number;
-}
-
 export interface KardexDetail {
   idProduct: number;
   code: string;
@@ -21,6 +9,18 @@ export interface KardexDetail {
   calculatedStock: number;
   stockDifference: number;
   movements: KardexMovement[];
+}
+
+export interface KardexMovement {
+  idProduct: number;
+  quantity: number;
+  idMovement: number;
+  code: string;
+  date: string;
+  movementType: 'Entrada' | 'Salida' | 'Traspaso';
+  type: string;
+  state: string;
+  accumulatedStock: number;
 }
 
 export interface KardexResponse {

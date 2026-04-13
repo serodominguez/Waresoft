@@ -7,6 +7,8 @@ export interface Inventory {
   color: string;
   unitMeasure: string,
   stockAvailable: number | null;
+  calculatedStock: number | null;
+  stockDifference: number | null;
   stockInTransit: number | null;
   price: number | null;
   replenishment: string;

@@ -231,6 +231,7 @@ namespace Application.Services
                 store.PhoneNumber = requestDto.PhoneNumber;
                 store.City = requestDto.City.NormalizeString();
                 store.Email = requestDto.Email;
+                store.ProfitMargin = requestDto.ProfitMargin;
                 store.Type = requestDto.Type.NormalizeString();
                 store.AuditUpdateUser = authenticatedUserId;
                 store.AuditUpdateDate = DateTime.Now;

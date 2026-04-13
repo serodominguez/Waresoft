@@ -7,7 +7,8 @@
       v-model:state="state" v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm"
       @open-modal="openModal" @edit-inventory="openForm" @fetch-inventories="fetchInventories"
       @search-inventories="searchInventories" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
-      @download-excel="downloadExcel" @download-pdf="downloadPdf" @download-inventory-sheet="downloadInventorySheet" />
+      @download-excel="downloadExcel" @download-pdf="downloadPdf" @clear-filters="clearFilters"
+      @download-inventory-sheet="downloadInventorySheet" />
 
     <PriceForm v-model="form" :inventory="selectedInventory" @saved="handleSaved" />
 
@@ -79,6 +80,16 @@ const canEdit = computed((): boolean => authStore.hasPermission('inventario', 'e
 const canDelete = computed(() => authStore.hasPermission('inventario', 'eliminar'));
 const canDownload = computed(() => authStore.hasPermission('inventario', 'descargar'));
 
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchInventories();
+};
+
 // Métodos
 const openModal = (payload: { inventory: Inventory; action: 0 | 1 | 2 }) => {
   selectedInventory.value = payload.inventory;
@@ -96,6 +107,8 @@ const openForm = (inventory?: Inventory) => {
     color: '',
     unitMeasure: '',
     stockAvailable: null,
+    calculatedStock: null,
+    stockDifference: null,
     stockInTransit: null,
     price: null,
     replenishment: '',
@@ -128,17 +141,17 @@ const searchInventories = async (params: any) => {
   endDate.value = params.endDate;
 
   try {
-await inventoryStore.fetchInventories({
-  pageNumber: 1,
-  pageSize: itemsPerPage.value,
-  sort: 'IdProduct',  // <-- agregar esto
-  order: 'desc',
-  ...getFilterParams(params.search)
-});
-    currentPage.value = 1;
-  } catch (error) {
-    handleApiError(error, 'Error al buscar productos');
-  }
+        await inventoryStore.fetchInventories({
+          pageNumber: 1,
+          pageSize: itemsPerPage.value,
+          sort: 'IdProduct',
+          order: 'desc',
+          ...getFilterParams(params.search)
+        });
+        currentPage.value = 1;
+      } catch (error) {
+        handleApiError(error, 'Error al buscar productos');
+    }
 };
 
 const refreshInventories = () => {

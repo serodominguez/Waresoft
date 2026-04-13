@@ -6,7 +6,8 @@
       v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
       v-model:endDate="endDate" @open-form="openForm" @open-modal="openModal" @edit-store="openForm"
       @fetch-stores="fetchStores" @search-stores="searchStores" @update-items-per-page="updateItemsPerPage"
-      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf" />
+      @change-page="changePage" @download-excel="downloadExcel" @download-pdf="downloadPdf"
+      @clear-filters="clearFilters" />
 
     <StoreForm v-model="form" :store="selectedStore" @saved="handleSaved" />
 
@@ -63,6 +64,16 @@ const canEdit = computed((): boolean => authStore.hasPermission('establecimiento
 const canDelete = computed((): boolean => authStore.hasPermission('establecimientos', 'eliminar'));
 const canDownload = computed((): boolean => authStore.hasPermission('establecimientos', 'descargar'));
 
+const clearFilters = () => {
+  selectedFilter.value = 'Establecimiento';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchStores();
+};
+
 const openModal = (payload: { store: Store, action: 0 | 1 | 2 }) => {
   selectedStore.value = payload.store;
   action.value = payload.action;
@@ -79,6 +90,7 @@ const openForm = (storeData?: Store) => {
     city: '',
     email: '',
     type: '',
+    profitMargin: null,
     auditCreateDate: '',
     statusStore: ''
   };

@@ -1,8 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Dynamic.Core;
 
 namespace Infrastructure.Persistences.Repositories
 {

@@ -5,7 +5,7 @@
       :items-per-page="itemsPerPage" v-model:drawer="drawer" v-model:selectedFilter="selectedFilter"
       v-model:state="state" v-model:startDate="startDate" v-model:endDate="endDate" @fetch-stock="fetchStock"
       @search-stock="searchStock" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
-      @download-excel="downloadExcel" @download-pdf="downloadPdf" />
+      @download-excel="downloadExcel" @download-pdf="downloadPdf" @clear-filters="clearFilters" />
   </div>
 </template>
 
@@ -47,6 +47,16 @@ const rows = computed(() => inventoryStore.inventoryPivot?.rows ?? []);
 
 const canRead = computed((): boolean => authStore.hasPermission('inventario', 'leer'));
 const canDownload = computed(() => authStore.hasPermission('inventario', 'descargar'));
+
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value = 'Activos';
+  startDate.value = null;
+  endDate.value = null;
+  search.value = null;
+  
+  fetchStock();
+};
 
 const fetchStock = async (params?: any) => {
   try {

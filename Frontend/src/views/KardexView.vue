@@ -181,6 +181,17 @@ const handleProductSelected = (product: any) => {
     brandName: product.brandName,
     categoryName: product.categoryName,
   };
+
+  if (product.auditCreateDate) {
+    const [datePart] = product.auditCreateDate.split(' ');
+    const [day, month, year] = datePart.split('/');
+    filters.value.startDate = new Date(`${year}-${month}-${day}`).toISOString();
+    filters.value.endDate = new Date().toISOString(); // 👈 fecha de hoy como fin
+  } else {
+    filters.value.startDate = '';
+    filters.value.endDate = '';
+  }
+
   productModal.value = false;
   toast.success(`Producto ${product.code} seleccionado`);
 };

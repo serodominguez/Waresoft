@@ -110,7 +110,7 @@
     </v-card>
     <CommonFilters v-model="drawerModel" :filters="filterOptions" v-model:selected-filter="selectedFilterModel"
       v-model:state="stateModel" v-model:start-date="startDateModel" v-model:end-date="endDateModel"
-      @apply-filters="handleSearch" />
+      @apply-filters="handleSearch" @clear-filters="handleClearFilters" />
   </div>
 </template>
 
@@ -178,6 +178,7 @@ const emit = defineEmits<{
   'update:state': [value: string];
   'update:startDate': [value: Date | null];
   'update:endDate': [value: Date | null];
+  'clear-filters': [];
 }>();
 
 // Estado reactivo
@@ -257,5 +258,11 @@ const handleDownloadPdf = () => {
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });
+};
+
+//Espera que los filtros se reseteen en los computed
+const handleClearFilters = () => {
+  search.value = null;
+  emit('clear-filters');
 };
 </script>
