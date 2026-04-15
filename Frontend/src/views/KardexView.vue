@@ -104,7 +104,7 @@
     </v-card>
     <KardexTable :movements="kardex?.movements ?? []" :total-movements="totalKardex" :loading="loading"
       :items-per-page="filters.pageSize" @update-items-per-page="handleItemsPerPage" @change-page="handleChangePage" />
-    <CommonProductOut v-model="productModal" @close="productModal = false" @product-added="handleProductSelected" />
+    <CommonProductOut ref="productModalRef" v-model="productModal" @close="productModal = false" @product-added="handleProductSelected" />
   </v-container>
 </template>
 
@@ -130,6 +130,7 @@ const productModal = ref(false);
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
 const dateError = ref<string>('');
+const productModalRef = ref<InstanceType<typeof CommonProductOut> | null>(null);
 
 const selectedProduct = ref({
   idProduct: null as number | null,
@@ -186,13 +187,14 @@ const handleProductSelected = (product: any) => {
     const [datePart] = product.auditCreateDate.split(' ');
     const [day, month, year] = datePart.split('/');
     filters.value.startDate = new Date(`${year}-${month}-${day}`).toISOString();
-    filters.value.endDate = new Date().toISOString(); // 👈 fecha de hoy como fin
+    filters.value.endDate = new Date().toISOString();
   } else {
     filters.value.startDate = '';
     filters.value.endDate = '';
   }
 
   productModal.value = false;
+  productModalRef.value?.resetModalState();
   toast.success(`Producto ${product.code} seleccionado`);
 };
 

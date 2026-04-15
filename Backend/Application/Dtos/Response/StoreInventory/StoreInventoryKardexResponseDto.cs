@@ -8,7 +8,6 @@
         public string? Material { get; set; }
         public string? Color { get; set; }
         public string? UnitMeasure { get; set; }
-        public string? AuditCreateDate { get; set; }
         public int CurrentStock { get; set; }
         public int CalculatedStock { get; set; }
         public int StockDifference { get; set; }

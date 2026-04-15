@@ -5,10 +5,10 @@ using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
 using Application.Interfaces;
 using Application.Mappers;
-using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 using Utilities.Static;
 
 namespace Application.Services
@@ -31,68 +31,31 @@ namespace Application.Services
             var response = new BaseResponse<IEnumerable<StoreInventoryResponseDto>>();
             try
             {
-                var inventory = _unitOfWork.StoreInventory
-                    .GetInventoryWithCalculatedStockQueryable(authenticatedStoreId) 
-                    .Where(i => (i.Product.AuditDeleteUser == null && i.Product.AuditDeleteDate == null)
-                             || i.StockAvailable != 0
-                             || i.StockInTransit != 0);
+                DateTime? startDate = string.IsNullOrEmpty(filters.StartDate)
+                    ? null : Convert.ToDateTime(filters.StartDate).Date;
 
-                if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
-                {
-                    switch (filters.NumberFilter)
-                    {
-                        case 1:
-                            inventory = inventory.Where(x => x.Product.Code!.Contains(filters.TextFilter));
-                            break;
-                        case 2:
-                            inventory = inventory.Where(x => x.Product.Description!.Contains(filters.TextFilter));
-                            break;
-                        case 3:
-                            inventory = inventory.Where(x => x.Product.Material!.Contains(filters.TextFilter));
-                            break;
-                        case 4:
-                            inventory = inventory.Where(x => x.Product.Color!.Contains(filters.TextFilter));
-                            break;
-                        case 5:
-                            if (decimal.TryParse(filters.TextFilter, out decimal priceValue))
-                            {
-                                inventory = inventory.Where(x => x.Price == priceValue);
-                            }
-                            break;
-                        case 6:
-                            inventory = inventory.Where(x => x.Product.Brand!.BrandName!.Contains(filters.TextFilter));
-                            break;
-                        case 7:
-                            inventory = inventory.Where(x => x.Product.Category!.CategoryName!.Contains(filters.TextFilter));
-                            break;
-                    }
-                }
+                DateTime? endDate = string.IsNullOrEmpty(filters.EndDate)
+                    ? null : Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
 
-                if (filters.StateFilter is not null)
-                {
-                    var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    inventory = inventory.Where(x => x.Product.Status == stateValue);
-                }
+                bool? stateFilter = filters.StateFilter != null
+                    ? Convert.ToBoolean(filters.StateFilter) : null;
 
-                if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
-                {
-                    var startDate = Convert.ToDateTime(filters.StartDate).Date;
-                    var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
-                    inventory = inventory.Where(x => x.Product.AuditCreateDate >= startDate && x.Product.AuditCreateDate < endDate);
-                }
+                bool isDownload = filters.Download ?? false;
+                int pageNumber = isDownload ? 1 : filters.NumberPage;
+                int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
 
-                response.TotalRecords = await inventory.CountAsync();
+                var (items, total) = await _unitOfWork.StoreInventory.GetInventoryListAsync(
+                    authenticatedStoreId,
+                    filters.NumberFilter,
+                    filters.TextFilter,
+                    stateFilter,
+                    startDate,
+                    endDate,
+                    pageNumber,
+                    pageSize);
 
-                filters.Sort ??= "IdProduct";
-                var items = await _orderingQuery.Ordering(filters, inventory, true).ToListAsync();
-
-                response.Data = items.Select(item =>
-                {
-                    var dto = StoreInventoryMapp.StoreInventoryMapping(item);
-                    dto.CalculatedStock = item.CalculatedStock;
-                    dto.StockDifference = item.StockAvailable - item.CalculatedStock;
-                    return dto;
-                });
+                response.TotalRecords = total;
+                response.Data = items.Select(StoreInventoryMapp.StoreInventoryMapping);
 
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
@@ -109,81 +72,34 @@ namespace Application.Services
         public async Task<BaseResponse<StoreInventoryPivotResponseDto>> ListInventoryPivot(BaseFiltersRequest filters)
         {
             var response = new BaseResponse<StoreInventoryPivotResponseDto>();
-            try
-            {
-                var inventory = _unitOfWork.StoreInventory.GetAllInventoryQueryable();
 
-                if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
-                {
-                    switch (filters.NumberFilter)
-                    {
-                        case 1:
-                            inventory = inventory.Where(x => x.Product.Code!.Contains(filters.TextFilter));
-                            break;
-                        case 2:
-                            inventory = inventory.Where(x => x.Product.Description!.Contains(filters.TextFilter));
-                            break;
-                        case 3:
-                            inventory = inventory.Where(x => x.Product.Material!.Contains(filters.TextFilter));
-                            break;
-                        case 4:
-                            inventory = inventory.Where(x => x.Product.Color!.Contains(filters.TextFilter));
-                            break;
-                        case 5:
-                            inventory = inventory.Where(x => x.Product.Brand!.BrandName!.Contains(filters.TextFilter));
-                            break;
-                        case 6:
-                            inventory = inventory.Where(x => x.Product.Category!.CategoryName!.Contains(filters.TextFilter));
-                            break;
-                    }
-                }
+            DateTime? start = string.IsNullOrEmpty(filters.StartDate) ? null : Convert.ToDateTime(filters.StartDate);
+            DateTime? end = string.IsNullOrEmpty(filters.EndDate) ? null : Convert.ToDateTime(filters.EndDate).AddDays(1);
+            bool? state = filters.StateFilter != null ? Convert.ToBoolean(filters.StateFilter) : null;
 
-                if (filters.StateFilter is not null)
-                {
-                    var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    inventory = inventory.Where(x => x.Product.Status == stateValue);
-                }
+            bool isDownload = filters.Download ?? false;
+            int pageNumber = isDownload ? 1 : filters.NumberPage;
+            int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
 
-                if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
-                {
-                    var startDate = Convert.ToDateTime(filters.StartDate).Date;
-                    var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
-                    inventory = inventory.Where(x => x.Product.AuditCreateDate >= startDate && x.Product.AuditCreateDate < endDate);
-                }
+            var (items, total) = await _unitOfWork.StoreInventory.GetInventoryPivotAsync(
+                filters.NumberFilter,
+                filters.TextFilter,
+                state, 
+                start, 
+                end,
+                pageNumber,
+                pageSize);
 
-                inventory = inventory.OrderByDescending(x => x.Product.Id);
-                var items = await inventory.ToListAsync();
+            var stores = await _unitOfWork.Store.GetAllAsQueryable()
+                                                  .AsNoTracking()
+                                                  .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null)
+                                                  .ToListAsync();
 
-                var stores = await _unitOfWork.Store.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(s => s.AuditDeleteUser == null && s.AuditDeleteDate == null)
-                    .Select(s => new StoreEntity
-                    {
-                        Id = s.Id,
-                        StoreName = s.StoreName
-                    })
-                    .ToListAsync();
+            response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
+            response.TotalRecords = total;
+            response.IsSuccess = true;
+            response.Message = ReplyMessage.MESSAGE_QUERY;
 
-                var pivot = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
-
-                response.TotalRecords = pivot.Rows.Count;
-
-                pivot.Rows = !(bool)filters.Download!
-                    ? pivot.Rows
-                        .Skip((filters.NumberPage - 1) * filters.NumberRecordsPage)
-                        .Take(filters.NumberRecordsPage)
-                        .ToList()
-                    : pivot.Rows;
-
-                response.Data = pivot;
-                response.IsSuccess = true;
-                response.Message = ReplyMessage.MESSAGE_QUERY;
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
-            }
             return response;
         }
 
@@ -192,8 +108,9 @@ namespace Application.Services
             var response = new BaseResponse<StoreInventoryKardexResponseDto>();
             try
             {
-                // Obtener el inventario del producto (StoreInventoryEntity)
-                var inventory = await _unitOfWork.StoreInventory.GetInventoryQueryable(authenticatedStoreId)
+                var inventory = await _unitOfWork.StoreInventory
+                    .GetInventoryQueryable(authenticatedStoreId)
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(i => i.IdProduct == productId);
 
                 if (inventory is null)
@@ -203,85 +120,17 @@ namespace Application.Services
                     return response;
                 }
 
-                // Obtener todos los movimientos del producto
-                var receipts = await _unitOfWork.GoodsReceiptDetails.GetGoodsReceiptDetailsByProductQueryable(authenticatedStoreId, productId)
-                    .Where(r => r.GoodsReceipt.IsActive)
-                    .ToListAsync();
+                DateTime? startDate = string.IsNullOrEmpty(filters.StartDate)
+                    ? null : Convert.ToDateTime(filters.StartDate).Date;
 
-                var issues = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsByProductQueryable(authenticatedStoreId, productId)
-                    .Where(i => i.GoodsIssue.IsActive)
-                    .ToListAsync();
+                DateTime? endDate = string.IsNullOrEmpty(filters.EndDate)
+                    ? null : Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
 
-                var transfers = await _unitOfWork.TransferDetails.GetTransferDetailsByProductQueryable(authenticatedStoreId, productId)
-                    .Where(t => t.Transfer.IsActive)
-                    .ToListAsync();
+                var movements = await _unitOfWork.StoreInventory
+                    .GetKardexByProductAsync(authenticatedStoreId, productId, startDate, endDate);
 
-                // Crear lista de movimientos usando mappers
-                var movements = new List<StoreInventoryKardexMovementDto>();
-
-                // Agregar SOLO Entradas COMPLETADAS
-                movements.AddRange(receipts
-                        .Where(r => r.GoodsReceipt.Status == 1)
-                        .Select(StoreInventoryMapp.MapReceiptToKardexMovement)
-                );
-
-                // Agregar SOLO Salidas COMPLETADAS
-                movements.AddRange(issues
-                        .Where(i => i.GoodsIssue.Status == 1)
-                        .Select(StoreInventoryMapp.MapIssueToKardexMovement)
-                );
-
-                // Agregar SOLO Traspasos ENVIADOS o RECIBIDOS (no Cancelados ni Pendientes)
-                movements.AddRange(transfers
-                        .Where(t => t.Transfer.Status != 0)
-                        .Select(t => StoreInventoryMapp.MapTransferToKardexMovement(t, authenticatedStoreId))
-                );
-
-                // Ordenar por fecha (Date ya es string en formato "dd/MM/yyyy HH:mm")
-                movements = movements
-                    .OrderBy(m => {
-                        if (DateTime.TryParseExact(m.Date, "dd/MM/yyyy HH:mm",
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            System.Globalization.DateTimeStyles.None, out DateTime date))
-                            return date;
-                        return DateTime.MinValue;
-                    })
-                    .ToList();
-
-                //Aplicar filtro de fechas DESPUÉS de ordenar
-                if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
-                {
-                    var startDate = Convert.ToDateTime(filters.StartDate).Date;
-                    var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
-
-                    movements = movements
-                        .Where(m => {
-                            if (DateTime.TryParseExact(m.Date, "dd/MM/yyyy HH:mm",
-                                System.Globalization.CultureInfo.InvariantCulture,
-                                System.Globalization.DateTimeStyles.None, out DateTime date))
-                                return date >= startDate && date < endDate;
-                            return false;
-                        })
-                        .ToList();
-                }
-
-                // Calcular stock acumulado ANTES de paginar (importante para mantener consistencia)
-                int runningStock = 0;
-                foreach (var movement in movements)
-                {
-                    runningStock += movement.Quantity;
-                    movement.AccumulatedStock = runningStock;
-                }
-
-                // Calcular la diferencia de stock
-                var currentStock = inventory.StockAvailable;
-                var calculatedStock = runningStock;
-                var stockDifference = currentStock - calculatedStock;
-
-                // Total de registros ANTES de paginar
                 response.TotalRecords = movements.Count;
 
-                // Aplicar paginación
                 var paginatedMovements = !(bool)filters.Download!
                     ? movements
                         .Skip((filters.NumberPage - 1) * filters.NumberRecordsPage)
@@ -289,8 +138,12 @@ namespace Application.Services
                         .ToList()
                     : movements;
 
-                // Usar mapper para crear respuesta final
-                response.Data = StoreInventoryMapp.StoreInventoryKardexMapping(inventory, paginatedMovements, calculatedStock, stockDifference);
+                var calculatedStock = movements.LastOrDefault()?.AccumulatedStock ?? 0;
+                var stockDifference = inventory.StockAvailable - calculatedStock;
+
+                response.Data = StoreInventoryMapp
+                    .StoreInventoryKardexMapping(inventory, paginatedMovements, calculatedStock, stockDifference);
+
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }

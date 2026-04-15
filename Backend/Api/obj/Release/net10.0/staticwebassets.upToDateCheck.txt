@@ -1,90 +1,92 @@
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\chunk-vendors.b16d0dd9.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\832.5608895d.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\763.341da21e.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\881.8746a52b.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\832.fe977009.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\170.d7b056bb.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\service-worker.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\763.b678409b.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\index.53afbdd5.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\860.7f765dec.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\590.d05ab849.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\609.2b532400.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\index.html
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\84.45f1f7d8.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\136.12a6864c.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\30.92698603.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\860.7a773441.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\845.d8f882d4.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\170.38aa3722.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\393.c3dd696a.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\590.066496ae.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\845.d05ab849.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\safari-pinned-tab.svg
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\488.5a031d1c.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\21.443436dc.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\520.51022a8e.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\768.e9ae161e.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\21.443436dc.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\590.7093a2b5.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\367.78167d8b.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\729.367ec096.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\30.257617e9.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\860.7a773441.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\941.f544232f.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\488.257617e9.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\520.51022a8e.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\768.a9b5101b.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\84.45f1f7d8.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\763.d05ab849.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\chunk-vendors.e1e77273.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\chunk-vendors.57de2edf.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\webfontloader.be875c81.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\33.b9523e35.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\729.ad861812.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\667.62e9e1ec.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\941.f544232f.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\520.3d7e64b6.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\405.b6dbc1bb.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\index.4cbf722c.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\favicon.svg
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\832.fe977009.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\590.066496ae.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\21.ba5c5b5e.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\favicon.ico
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\chunk-vendors.e1e77273.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\845.d8f882d4.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\667.d598bf26.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\84.d05ece72.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\763.b678409b.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\667.d05ab849.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\488.5a031d1c.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\648.bff9c320.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\21.ba5c5b5e.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\405.b6dbc1bb.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\136.53423165.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\33.9c2c8120.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\webfontloader.be875c81.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\832.4c77a809.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\729.367ec096.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\367.d05ece72.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\393.c3dd696a.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\763.341da21e.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\393.d05ab849.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\workbox-6567b62a.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\84.3655ff81.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\33.9c2c8120.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\148.7a4cc6fd.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\768.e9ae161e.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\667.62e9e1ec.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\84.3655ff81.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\309.d05ab849.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\workbox-6567b62a.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\148.2387f830.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\520.d05ab849.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\367.94b216b5.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\845.df9ba67a.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\30.92698603.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\609.2b532400.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\484.2ac6bb04.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\robots.txt
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\648.51b6e279.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\393.cfabc591.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\768.a9b5101b.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\136.12a6864c.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\520.3d7e64b6.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\309.5808e706.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\881.8746a52b.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\648.bff9c320.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\729.d05ab849.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\367.78167d8b.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\393.cfabc591.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\170.38aa3722.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\manifest.json
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\590.7093a2b5.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\729.ad861812.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\index.53afbdd5.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\667.d598bf26.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\484.2ac6bb04.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\index.4f0bbe65.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\21.d05ab849.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\832.5608895d.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\309.5808e706.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\148.2387f830.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\css\33.d05ece72.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\chunk-vendors.57de2edf.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\367.94b216b5.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\845.df9ba67a.js.map
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\service-worker.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\33.b9523e35.js.map
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\index.4cbf722c.js.map
+wwwroot\css\136.53423165.css
 wwwroot\css\148.7a4cc6fd.css
-wwwroot\css\170.d7b056bb.css
 wwwroot\css\21.d05ab849.css
+wwwroot\css\30.257617e9.css
+wwwroot\css\309.d05ab849.css
 wwwroot\css\33.d05ece72.css
 wwwroot\css\367.d05ece72.css
 wwwroot\css\393.d05ab849.css
-wwwroot\css\488.257617e9.css
 wwwroot\css\520.d05ab849.css
 wwwroot\css\590.d05ab849.css
-wwwroot\css\648.51b6e279.css
 wwwroot\css\667.d05ab849.css
 wwwroot\css\729.d05ab849.css
 wwwroot\css\763.d05ab849.css
@@ -116,55 +118,68 @@ wwwroot\img\icons\msapplication-icon-144x144.png
 wwwroot\img\icons\mstile-150x150-logo.png
 wwwroot\img\icons\safari-pinned-tab.svg
 wwwroot\index.html
+wwwroot\js\136.12a6864c.js
+wwwroot\js\136.12a6864c.js.map
 wwwroot\js\148.2387f830.js
 wwwroot\js\148.2387f830.js.map
-wwwroot\js\170.38aa3722.js
-wwwroot\js\170.38aa3722.js.map
-wwwroot\js\21.443436dc.js
-wwwroot\js\21.443436dc.js.map
-wwwroot\js\33.b9523e35.js
-wwwroot\js\33.b9523e35.js.map
-wwwroot\js\367.78167d8b.js
-wwwroot\js\367.78167d8b.js.map
-wwwroot\js\393.cfabc591.js
-wwwroot\js\393.cfabc591.js.map
-wwwroot\js\488.5a031d1c.js
-wwwroot\js\488.5a031d1c.js.map
-wwwroot\js\520.51022a8e.js
-wwwroot\js\520.51022a8e.js.map
-wwwroot\js\590.7093a2b5.js
-wwwroot\js\590.7093a2b5.js.map
+wwwroot\js\21.ba5c5b5e.js
+wwwroot\js\21.ba5c5b5e.js.map
+wwwroot\js\30.92698603.js
+wwwroot\js\30.92698603.js.map
+wwwroot\js\309.5808e706.js
+wwwroot\js\309.5808e706.js.map
+wwwroot\js\33.9c2c8120.js
+wwwroot\js\33.9c2c8120.js.map
+wwwroot\js\367.94b216b5.js
+wwwroot\js\367.94b216b5.js.map
+wwwroot\js\393.c3dd696a.js
+wwwroot\js\393.c3dd696a.js.map
+wwwroot\js\405.b6dbc1bb.js
+wwwroot\js\405.b6dbc1bb.js.map
+wwwroot\js\484.2ac6bb04.js
+wwwroot\js\484.2ac6bb04.js.map
+wwwroot\js\520.3d7e64b6.js
+wwwroot\js\520.3d7e64b6.js.map
+wwwroot\js\590.066496ae.js
+wwwroot\js\590.066496ae.js.map
 wwwroot\js\609.2b532400.js
 wwwroot\js\609.2b532400.js.map
-wwwroot\js\648.bff9c320.js
-wwwroot\js\648.bff9c320.js.map
-wwwroot\js\667.62e9e1ec.js
-wwwroot\js\667.62e9e1ec.js.map
-wwwroot\js\729.ad861812.js
-wwwroot\js\729.ad861812.js.map
-wwwroot\js\763.b678409b.js
-wwwroot\js\763.b678409b.js.map
-wwwroot\js\768.e9ae161e.js
-wwwroot\js\768.e9ae161e.js.map
-wwwroot\js\832.fe977009.js
-wwwroot\js\832.fe977009.js.map
-wwwroot\js\84.3655ff81.js
-wwwroot\js\84.3655ff81.js.map
-wwwroot\js\845.d8f882d4.js
-wwwroot\js\845.d8f882d4.js.map
+wwwroot\js\667.d598bf26.js
+wwwroot\js\667.d598bf26.js.map
+wwwroot\js\729.367ec096.js
+wwwroot\js\729.367ec096.js.map
+wwwroot\js\763.341da21e.js
+wwwroot\js\763.341da21e.js.map
+wwwroot\js\768.a9b5101b.js
+wwwroot\js\768.a9b5101b.js.map
+wwwroot\js\832.5608895d.js
+wwwroot\js\832.5608895d.js.map
+wwwroot\js\84.45f1f7d8.js
+wwwroot\js\84.45f1f7d8.js.map
+wwwroot\js\845.df9ba67a.js
+wwwroot\js\845.df9ba67a.js.map
 wwwroot\js\860.7a773441.js
 wwwroot\js\860.7a773441.js.map
 wwwroot\js\881.8746a52b.js
 wwwroot\js\881.8746a52b.js.map
-wwwroot\js\941.f544232f.js
-wwwroot\js\941.f544232f.js.map
-wwwroot\js\chunk-vendors.e1e77273.js
-wwwroot\js\chunk-vendors.e1e77273.js.map
-wwwroot\js\index.53afbdd5.js
-wwwroot\js\index.53afbdd5.js.map
+wwwroot\js\chunk-vendors.57de2edf.js
+wwwroot\js\chunk-vendors.57de2edf.js.map
+wwwroot\js\index.4cbf722c.js
+wwwroot\js\index.4cbf722c.js.map
 wwwroot\js\webfontloader.be875c81.js
 wwwroot\js\webfontloader.be875c81.js.map
 wwwroot\manifest.json
+wwwroot\products\12cc754c-0920-4327-affd-a5236908704b.jpg
+wwwroot\products\34add40f-1d89-4954-bf93-850f4c855692.jpg
+wwwroot\products\3ce9f3cd-5cc5-41b6-9fa4-b419f168cd19.jpg
+wwwroot\products\539b8afc-aced-4a32-9e33-ef010c056715.jpg
+wwwroot\products\60518d69-6c23-4972-bf79-25e6244ba98c.jpg
+wwwroot\products\9c9275cd-11e6-491f-ad05-10f9e329f5c4.jpg
+wwwroot\products\9d389187-175e-4f34-aa6b-e687ba66a0ea.jpg
+wwwroot\products\b0d66e33-83bd-48dc-8197-9059965dce29.jpg
+wwwroot\products\b8c2269f-4dca-4c4f-8694-6ed30fb17cef.jpg
+wwwroot\products\cbe8e188-3e43-458a-8bd2-6733dabacea9.jpg
+wwwroot\products\de0239ed-e0c9-4b41-8997-cd8fb7e0a3ea.jpg
 wwwroot\robots.txt
 wwwroot\service-worker.js
 wwwroot\service-worker.js.map

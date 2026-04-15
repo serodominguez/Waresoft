@@ -46,36 +46,5 @@ namespace Infrastructure.Persistences.Repositories
                         TotalCost = r.TotalCost,
                     });
         }
-
-        public IQueryable<GoodsReceiptDetailsEntity> GetGoodsReceiptDetailsByProductQueryable(int storeId, int productId)
-        {
-            return _context.GoodsReceiptDetails
-                    .Where(d => d.IdProduct == productId && d.GoodsReceipt.IdStore == storeId)
-                    .Select(d => new GoodsReceiptDetailsEntity
-                    {
-                        IdReceipt = d.IdReceipt,
-                        Item = d.Item,
-                        IdProduct = d.IdProduct,
-                        Quantity = d.Quantity,
-                        UnitCost = d.UnitCost,
-                        TotalCost = d.TotalCost,
-                        GoodsReceipt = new GoodsReceiptEntity
-                        {
-                            IdReceipt = d.GoodsReceipt.IdReceipt,
-                            Code = d.GoodsReceipt.Code,
-                            Type = d.GoodsReceipt.Type,
-                            DocumentDate = d.GoodsReceipt.DocumentDate,
-                            DocumentType = d.GoodsReceipt.DocumentType,
-                            DocumentNumber = d.GoodsReceipt.DocumentNumber,
-                            TotalAmount = d.GoodsReceipt.TotalAmount,
-                            Annotations = d.GoodsReceipt.Annotations,
-                            IdSupplier = d.GoodsReceipt.IdSupplier,
-                            IdStore = d.GoodsReceipt.IdStore,
-                            AuditCreateDate = d.GoodsReceipt.AuditCreateDate,
-                            Status = d.GoodsReceipt.Status,
-                            IsActive = d.GoodsReceipt.IsActive
-                        },
-                    });
-        }
     }
 }

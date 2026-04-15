@@ -130,7 +130,7 @@ const headers = computed(() => [
   { title: 'Categoría', key: 'categoryName', sortable: false },
   { title: 'Marca', key: 'brandName', sortable: false },
   { title: 'Precio', key: 'price', sortable: false,  align: 'center' as const },
-  { title: 'Cantidad', key: 'stockAvaiblable', sortable: false,  align: 'center' as const },
+  { title: 'Cantidad', key: 'stockAvailable', sortable: false,  align: 'center' as const },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
@@ -221,4 +221,6 @@ const handleClose = () => {
   emit('update:modelValue', false);
   emit('close');
 };
+
+defineExpose({ resetModalState });
 </script>

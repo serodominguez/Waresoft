@@ -45,12 +45,9 @@ builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+var enableSwagger = app.Configuration.GetValue<bool>("EnableSwagger");
+
+// Pipeline.
 
 app.UseRouting();
 
@@ -59,6 +56,17 @@ app.UseCors(Cors);
 app.UseMiddleware<EndpointRateLimit>();
 
 app.UseStaticFiles();
+
+if (enableSwagger)
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+        options.RoutePrefix = "swagger"; 
+    });
+}
+;
 
 if (app.Environment.IsDevelopment())
 {

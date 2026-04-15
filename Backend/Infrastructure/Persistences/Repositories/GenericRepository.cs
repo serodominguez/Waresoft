@@ -23,7 +23,7 @@ namespace Infrastructure.Persistences.Repositories
 
         public IQueryable<T> GetByIdAsQueryable(int id)
         {
-            return GetEntityQuery(x => x.Id == id);
+            return _entity.Where(e => e.Id == id);
         }
 
         public IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null)

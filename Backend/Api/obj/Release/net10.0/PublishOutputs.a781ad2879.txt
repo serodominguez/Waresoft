@@ -27,6 +27,7 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\Azu
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\Azure.Identity.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\ClosedXML.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\ClosedXML.Parser.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\Dapper.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\DocumentFormat.OpenXml.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\DocumentFormat.OpenXml.Framework.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\obj\Release\net10.0\PubTmp\Out\ExcelNumberFormat.dll

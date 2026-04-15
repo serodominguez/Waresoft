@@ -17,11 +17,11 @@ namespace Infrastructure.Extensions
             var assembly = typeof(DbContextSystem).Assembly.FullName;
             services.AddDbContext<DbContextSystem>(
                 options => options.UseSqlServer(
-                    configuration.GetConnectionString("DbConnection"), b => b.MigrationsAssembly(assembly)), ServiceLifetime.Transient);
+                    configuration.GetConnectionString("DbConnection"), b => b.MigrationsAssembly(assembly)), ServiceLifetime.Scoped);
 
 
             ;
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IFileStorageImage, FileStorageImage>();
             services.AddTransient<IGenerateExcel, GenerateExcel>();
             services.AddTransient<IListPdfGeneratorFactory, ListPdfGeneratorFactory>();
