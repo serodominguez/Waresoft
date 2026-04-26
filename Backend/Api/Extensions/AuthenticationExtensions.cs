@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Api.Extensions
+namespace Web.Api.Extensions
 {
     public static class AuthenticationExtensions
     {

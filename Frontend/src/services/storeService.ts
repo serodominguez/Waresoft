@@ -5,7 +5,7 @@ class StoreService extends BaseService<Store> {
   constructor() {
     super({
       endpoint: 'Store',
-      downloadFileName: 'Tiendas',
+      downloadFileName: 'Unidades',
     });
   }
 }

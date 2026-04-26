@@ -4,6 +4,7 @@ using Domain.Models;
 using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Infrastructure.Persistences.Repositories
 {
@@ -58,7 +59,6 @@ namespace Infrastructure.Persistences.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("StoreId", storeId);
 
-            // Filtros base
             string productFilters = " AND p.AUDIT_DELETE_USER IS NULL AND p.AUDIT_DELETE_DATE IS NULL";
 
             if (numberFilter.HasValue && !string.IsNullOrEmpty(textFilter))
@@ -69,7 +69,7 @@ namespace Infrastructure.Persistences.Repositories
                     2 => "p.DESCRIPTION",
                     3 => "p.MATERIAL",
                     4 => "p.COLOR",
-                    5 => "si.PRICE",        // Agregada opción 5
+                    5 => "si.PRICE",
                     6 => "b.BRAND_NAME",
                     7 => "c.CATEGORY_NAME",
                     _ => null
@@ -77,11 +77,13 @@ namespace Infrastructure.Persistences.Repositories
 
                 if (column != null)
                 {
-                    // Usamos LIKE para strings y = o CAST para el precio según necesites
                     if (numberFilter == 5)
                     {
-                        productFilters += $" AND {column} = @Text";
-                        parameters.Add("Text", textFilter);
+                        if (decimal.TryParse(textFilter, out var priceValue))
+                        {
+                            productFilters += $" AND {column} = @Text";
+                            parameters.Add("Text", priceValue);
+                        }
                     }
                     else
                     {
@@ -94,72 +96,105 @@ namespace Infrastructure.Persistences.Repositories
             if (stateFilter.HasValue)
             {
                 productFilters += " AND p.STATUS = @State";
-                parameters.Add("State", stateFilter.Value);
+                parameters.Add("State", stateFilter.Value ? 1 : 0, DbType.Int16);
             }
 
             if (startDate.HasValue && endDate.HasValue)
             {
                 productFilters += " AND p.AUDIT_CREATE_DATE >= @Start AND p.AUDIT_CREATE_DATE < @End";
-                parameters.Add("Start", startDate.Value);
-                parameters.Add("End", endDate.Value);
+                parameters.Add("Start", startDate.Value.Date);
+                parameters.Add("End", endDate.Value.Date.AddDays(1));
             }
 
-            bool paginate = pageSize != int.MaxValue;
-            parameters.Add("Offset", paginate ? (pageNumber - 1) * pageSize : 0);
-            parameters.Add("PageSize", paginate ? pageSize : int.MaxValue);
+            parameters.Add("Offset", (pageNumber - 1) * pageSize);
+            parameters.Add("PageSize", pageSize);
 
             var sql = $@"
-        -- A. COUNT (Agregamos JOINs para que el filtro de marca/categoría no falle)
-        SELECT COUNT(*) 
-        FROM STORES_INVENTORY si 
-        INNER JOIN PRODUCTS p ON si.PK_PRODUCT = p.PK_PRODUCT
-        LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
-        LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
-        WHERE si.PK_STORE = @StoreId {productFilters};
+                            SELECT COUNT(*) 
+                            FROM STORES_INVENTORY si 
+                            INNER JOIN PRODUCTS p ON si.PK_PRODUCT = p.PK_PRODUCT
+                            LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
+                            LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
+                            WHERE si.PK_STORE = @StoreId {productFilters};
 
-        -- B. CTE de Movimientos
-        WITH TotalMovementCTE AS (
-            SELECT IdProduct, SUM(Quantity) AS Total 
-            FROM (
-                SELECT d.PK_PRODUCT AS IdProduct, d.QUANTITY AS Quantity 
-                FROM GOODS_RECEIPT_DETAILS d 
-                INNER JOIN GOODS_RECEIPT r ON r.PK_RECEIPT = d.PK_RECEIPT 
-                WHERE r.PK_STORE = @StoreId AND r.ACTIVE = 1 AND r.STATUS = 1
-                UNION ALL
-                SELECT d.PK_PRODUCT, -d.QUANTITY 
-                FROM GOODS_ISSUE_DETAILS d 
-                INNER JOIN GOODS_ISSUE i ON i.PK_ISSUE = d.PK_ISSUE 
-                WHERE i.PK_STORE = @StoreId AND i.ACTIVE = 1 AND i.STATUS = 1
-                UNION ALL
-                SELECT d.PK_PRODUCT, d.QUANTITY 
-                FROM TRANSFERS_DETAILS d 
-                INNER JOIN TRANSFERS t ON t.PK_TRANSFER = d.PK_TRANSFER 
-                WHERE t.PK_STORE_DESTINATION = @StoreId AND t.ACTIVE = 1 AND t.STATUS != 0
-                UNION ALL
-                SELECT d.PK_PRODUCT, -d.QUANTITY 
-                FROM TRANSFERS_DETAILS d 
-                INNER JOIN TRANSFERS t ON t.PK_TRANSFER = d.PK_TRANSFER 
-                WHERE t.PK_STORE_ORIGIN = @StoreId AND t.ACTIVE = 1 AND t.STATUS != 0
-            ) t 
-            GROUP BY IdProduct
-        )
-        -- C. SELECT Paginado
-        SELECT  si.PK_STORE AS IdStore, si.PK_PRODUCT AS IdProduct, si.STOCK_AVAILABLE AS StockAvailable,
-                si.STOCK_IN_TRANSIT AS StockInTransit, si.PRICE AS Price, p.REPLENISHMENT AS Replenishment,
-                p.CODE AS Code, p.DESCRIPTION AS Description, p.MATERIAL AS Material, p.COLOR AS Color,
-                p.UNIT_MEASURE AS UnitMeasure, b.BRAND_NAME AS BrandName, c.CATEGORY_NAME AS CategoryName,
-                p.AUDIT_CREATE_DATE AS AuditCreateDate,
-                COALESCE(cs.Total, 0) AS CalculatedStock
-        FROM STORES_INVENTORY si
-        INNER JOIN PRODUCTS p ON si.PK_PRODUCT = p.PK_PRODUCT
-        LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
-        LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
-        LEFT JOIN TotalMovementCTE cs ON si.PK_PRODUCT = cs.IdProduct
-        WHERE si.PK_STORE = @StoreId {productFilters}
-        ORDER BY p.PK_PRODUCT DESC
-        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+                        -- B. OBTENER IDs DE LA PÁGINA ACTUAL
+                            DROP TABLE IF EXISTS #PagedIds;
+        
+                            SELECT si.PK_PRODUCT INTO #PagedIds
+                            FROM STORES_INVENTORY si
+                            INNER JOIN PRODUCTS p ON si.PK_PRODUCT = p.PK_PRODUCT
+                            LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
+                            LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
+                            WHERE si.PK_STORE = @StoreId {productFilters}
+                            ORDER BY p.PK_PRODUCT DESC
+                            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+
+                        -- C. SELECT FINAL con CTE de movimientos
+                            ;WITH TotalMovementCTE AS (
+                            SELECT IdProduct, SUM(Quantity) AS Total 
+                            FROM (
+
+                        -- Entradas por recepción
+                            SELECT d.PK_PRODUCT AS IdProduct, d.QUANTITY AS Quantity 
+                            FROM GOODS_RECEIPT_DETAILS d 
+                            INNER JOIN GOODS_RECEIPT r ON r.PK_RECEIPT = d.PK_RECEIPT 
+                            WHERE r.PK_STORE = @StoreId 
+                            AND r.ACTIVE = 1 
+                            AND r.STATUS = 1
+                            AND d.PK_PRODUCT IN (SELECT PK_PRODUCT FROM #PagedIds)
+                            UNION ALL
+                
+                        -- Salidas por despacho
+                            SELECT d.PK_PRODUCT, -d.QUANTITY 
+                            FROM GOODS_ISSUE_DETAILS d 
+                            INNER JOIN GOODS_ISSUE i ON i.PK_ISSUE = d.PK_ISSUE 
+                            WHERE i.PK_STORE = @StoreId 
+                            AND i.ACTIVE = 1 
+                            AND i.STATUS = 1
+                            AND d.PK_PRODUCT IN (SELECT PK_PRODUCT FROM #PagedIds)
+                            UNION ALL
+                
+                        -- Entradas por transferencia (destino)
+                            SELECT d.PK_PRODUCT, d.QUANTITY 
+                            FROM TRANSFERS_DETAILS d 
+                            INNER JOIN TRANSFERS t ON t.PK_TRANSFER = d.PK_TRANSFER 
+                            WHERE t.PK_STORE_DESTINATION = @StoreId 
+                            AND t.ACTIVE = 1 
+                            AND t.STATUS != 0
+                            AND d.PK_PRODUCT IN (SELECT PK_PRODUCT FROM #PagedIds)
+                            UNION ALL
+                
+                        -- Salidas por transferencia (origen)
+                            SELECT d.PK_PRODUCT, -d.QUANTITY 
+                            FROM TRANSFERS_DETAILS d 
+                            INNER JOIN TRANSFERS t ON t.PK_TRANSFER = d.PK_TRANSFER 
+                            WHERE t.PK_STORE_ORIGIN = @StoreId 
+                            AND t.ACTIVE = 1 
+                            AND t.STATUS != 0
+                            AND d.PK_PRODUCT IN (SELECT PK_PRODUCT FROM #PagedIds)) t GROUP BY IdProduct)
+        
+                        -- D. SELECT FINAL
+                            SELECT  si.PK_STORE AS IdStore, si.PK_PRODUCT AS IdProduct,
+                                    si.STOCK_AVAILABLE AS StockAvailable, si.STOCK_IN_TRANSIT AS StockInTransit, si.PRICE AS Price,
+                                    p.REPLENISHMENT AS Replenishment, p.CODE AS Code, p.DESCRIPTION AS Description,
+                                    p.MATERIAL AS Material, p.COLOR AS Color, p.UNIT_MEASURE AS UnitMeasure,
+                                    b.BRAND_NAME AS BrandName, c.CATEGORY_NAME AS CategoryName, p.AUDIT_CREATE_DATE AS AuditCreateDate,
+                            COALESCE(cs.Total, 0) AS CalculatedStock
+                            FROM STORES_INVENTORY si
+                            INNER JOIN #PagedIds pi ON si.PK_PRODUCT = pi.PK_PRODUCT
+                            INNER JOIN PRODUCTS p ON si.PK_PRODUCT = p.PK_PRODUCT
+                            LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
+                            LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
+                            LEFT JOIN TotalMovementCTE cs ON si.PK_PRODUCT = cs.IdProduct
+                            WHERE si.PK_STORE = @StoreId
+                            ORDER BY p.PK_PRODUCT DESC;
+
+                            DROP TABLE IF EXISTS #PagedIds;";
 
             var connection = _context.Database.GetDbConnection();
+            if (connection.State == ConnectionState.Closed)
+                await connection.OpenAsync();
+
             using var multi = await connection.QueryMultipleAsync(sql, parameters);
             var total = await multi.ReadFirstAsync<int>();
             var data = (await multi.ReadAsync<StoreInventoryModel>()).ToList();
@@ -235,7 +270,7 @@ namespace Infrastructure.Persistences.Repositories
             return result.ToList();
         }
 
-        public async Task<(List<InventoryPivotModel> Data, int TotalRecords)> GetInventoryPivotAsync(int? numberFilter, string? textFilter, bool? stateFilter, DateTime? startDate, DateTime? endDate, int pageNumber, int pageSize)
+        public async Task<(List<InventoryPivotModel> Data, int TotalRecords)> GetInventoryPivotAsync(int? numberFilter, string? textFilter, bool? stateFilter,DateTime? startDate, DateTime? endDate, int pageNumber, int pageSize)
         {
             var parameters = new DynamicParameters();
 
@@ -253,6 +288,7 @@ namespace Infrastructure.Persistences.Repositories
                     6 => "c.CATEGORY_NAME",
                     _ => null
                 };
+
                 if (column != null)
                 {
                     filters += $" AND {column} LIKE @Text";
@@ -263,61 +299,68 @@ namespace Infrastructure.Persistences.Repositories
             if (stateFilter.HasValue)
             {
                 filters += " AND p.STATUS = @State";
-                parameters.Add("State", stateFilter.Value);
+                parameters.Add("State", stateFilter.Value ? 1 : 0, DbType.Int16);
             }
 
             if (startDate.HasValue && endDate.HasValue)
             {
                 filters += " AND p.AUDIT_CREATE_DATE >= @Start AND p.AUDIT_CREATE_DATE < @End";
-                parameters.Add("Start", startDate.Value);
-                parameters.Add("End", endDate.Value);
+                parameters.Add("Start", startDate.Value.Date);
+                parameters.Add("End", endDate.Value.Date.AddDays(1));
             }
 
-            parameters.Add("Offset", pageSize != int.MaxValue ? (pageNumber - 1) * pageSize : 0);
-            parameters.Add("PageSize", pageSize != int.MaxValue ? pageSize : int.MaxValue);
+            parameters.Add("Offset", (pageNumber - 1) * pageSize);
+            parameters.Add("PageSize", pageSize);
 
             var sql = $@"
-                         -- 1. Contar productos únicos
-                                SELECT COUNT(DISTINCT p.PK_PRODUCT) 
-                                FROM PRODUCTS p 
-                                INNER JOIN STORES_INVENTORY si ON p.PK_PRODUCT = si.PK_PRODUCT
-                                LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
-                                LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
-                                WHERE 1=1 {filters};
+                        -- A. CONTAR PRODUCTOS ÚNICOS
+                            SELECT COUNT(DISTINCT p.PK_PRODUCT) 
+                            FROM PRODUCTS p 
+                            INNER JOIN STORES_INVENTORY si ON p.PK_PRODUCT = si.PK_PRODUCT
+                            LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
+                            LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
+                            WHERE 1=1 {filters};
 
-                        -- 2. Data paginada
-                                WITH ProductPage AS (
-                                SELECT  p.PK_PRODUCT, p.IMAGE AS Image, p.CODE AS Code,
-                                        p.DESCRIPTION AS Description, p.MATERIAL AS Material, p.COLOR AS Color,
-                                        b.BRAND_NAME AS BrandName, c.CATEGORY_NAME AS CategoryName, p.AUDIT_CREATE_DATE AS AuditCreateDate
-                                FROM PRODUCTS p
-                                INNER JOIN STORES_INVENTORY si ON p.PK_PRODUCT = si.PK_PRODUCT
-                                LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
-                                LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
-                                WHERE 1=1 {filters}
-                                GROUP BY 
+                        -- B. OBTENER IDs DE LA PÁGINA ACTUAL
+                            DROP TABLE IF EXISTS #PagedProductIds;
+
+                            SELECT DISTINCT p.PK_PRODUCT 
+                            INTO #PagedProductIds
+                            FROM PRODUCTS p
+                            INNER JOIN STORES_INVENTORY si ON p.PK_PRODUCT = si.PK_PRODUCT
+                            LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
+                            LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
+                            WHERE 1=1 {filters}
+                            ORDER BY p.PK_PRODUCT DESC
+                            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+
+                        -- C. DATA FINAL
+                            SELECT  p.IMAGE AS Image, p.CODE AS Code,p.DESCRIPTION AS Description, 
+                                    p.MATERIAL AS Material, p.COLOR AS Color,b.BRAND_NAME AS BrandName, 
+                                    c.CATEGORY_NAME AS CategoryName, p.AUDIT_CREATE_DATE AS AuditCreateDate,
+                            STRING_AGG(CONCAT(si.PK_STORE, ':', si.STOCK_AVAILABLE), ',') AS StoreStocks
+                            FROM PRODUCTS p
+                            INNER JOIN #PagedProductIds ppi ON p.PK_PRODUCT = ppi.PK_PRODUCT
+                            INNER JOIN STORES_INVENTORY si ON p.PK_PRODUCT = si.PK_PRODUCT
+                            LEFT JOIN CATEGORIES c ON p.PK_CATEGORY = c.PK_CATEGORY
+                            LEFT JOIN BRANDS b ON p.PK_BRAND = b.PK_BRAND
+                            GROUP BY 
                                     p.PK_PRODUCT, p.IMAGE, p.CODE, p.DESCRIPTION,
                                     p.MATERIAL, p.COLOR, b.BRAND_NAME, c.CATEGORY_NAME, p.AUDIT_CREATE_DATE
-                                ORDER BY p.PK_PRODUCT DESC
-                                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY)
-                                SELECT pp.Image, pp.Code, pp.Description, pp.Material,
-                                       pp.Color, pp.BrandName, pp.CategoryName, pp.AuditCreateDate,
-                                STRING_AGG(CONCAT(si.PK_STORE, ':', si.STOCK_AVAILABLE), ',') AS StoreStocks
-                                FROM ProductPage pp
-                                INNER JOIN STORES_INVENTORY si ON pp.PK_PRODUCT = si.PK_PRODUCT
-                                GROUP BY 
-                                    pp.PK_PRODUCT, pp.Image, pp.Code, pp.Description,
-                                    pp.Material, pp.Color, pp.BrandName, pp.CategoryName, pp.AuditCreateDate
-                                ORDER BY pp.PK_PRODUCT DESC;";
+                            ORDER BY p.PK_PRODUCT DESC;
+
+                            DROP TABLE IF EXISTS #PagedProductIds;";
 
             var connection = _context.Database.GetDbConnection();
+            if (connection.State == ConnectionState.Closed)
+                await connection.OpenAsync();
+
             using var multi = await connection.QueryMultipleAsync(sql, parameters);
             var total = await multi.ReadFirstAsync<int>();
             var data = (await multi.ReadAsync<InventoryPivotModel>()).ToList();
 
             return (data, total);
         }
-
 
         public IQueryable<StoreInventoryEntity> GetStocksByStoreAsQueryable(int storeId)
         {

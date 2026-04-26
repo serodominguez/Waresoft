@@ -12,7 +12,7 @@
     <StoreForm v-model="form" :store="selectedStore" @saved="handleSaved" />
 
     <CommonModal v-model="modal" :itemId="selectedStore?.idStore || 0" :item="selectedStore?.storeName || ''"
-      :action="action" moduleName="store" entityName="Store" name="Establecimiento" gender="male"
+      :action="action" moduleName="store" entityName="Store" name="Unidad" gender="male"
       @action-completed="handleActionCompleted" />
   </div>
 </template>
@@ -35,12 +35,12 @@ const authStore = useAuthStore();
 const toast = useToast();
 
 const filterMap: Record<string, number> = {
-  "Establecimiento": 1,
+  "Unidad": 1,
   "Encargado": 2,
   "Dirección": 3,
   "Ciudad": 4
 };
-const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Establecimiento', filterMap);
+const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Unidad', filterMap);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
@@ -58,14 +58,14 @@ const stores = computed(() => storeStore.stores);
 const loading = computed(() => storeStore.loading);
 const totalStores = computed(() => storeStore.totalStores);
 
-const canCreate = computed((): boolean => authStore.hasPermission('establecimientos', 'crear'));
-const canRead = computed((): boolean => authStore.hasPermission('establecimientos', 'leer'));
-const canEdit = computed((): boolean => authStore.hasPermission('establecimientos', 'editar'));
-const canDelete = computed((): boolean => authStore.hasPermission('establecimientos', 'eliminar'));
-const canDownload = computed((): boolean => authStore.hasPermission('establecimientos', 'descargar'));
+const canCreate = computed((): boolean => authStore.hasPermission('unidades', 'crear'));
+const canRead = computed((): boolean => authStore.hasPermission('unidades', 'leer'));
+const canEdit = computed((): boolean => authStore.hasPermission('unidades', 'editar'));
+const canDelete = computed((): boolean => authStore.hasPermission('unidades', 'eliminar'));
+const canDownload = computed((): boolean => authStore.hasPermission('unidades', 'descargar'));
 
 const clearFilters = () => {
-  selectedFilter.value = 'Establecimiento';
+  selectedFilter.value = 'Unidad';
   state.value = 'Activos';
   startDate.value = null;
   endDate.value = null;
@@ -124,7 +124,7 @@ const searchStores = async (params: any) => {
     });
     currentPage.value = 1;
   } catch (error) {
-    handleApiError(error, 'Error al buscar establecimientos');
+    handleApiError(error, 'Error al buscar unidades');
   }
 };
 

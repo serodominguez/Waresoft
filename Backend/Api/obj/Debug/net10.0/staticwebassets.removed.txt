@@ -1,6 +1,0 @@
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\index.071ffe2e.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\30.fbdf24dc.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\768.3c479097.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\30.fbdf24dc.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\768.3c479097.js.map
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\js\index.071ffe2e.js

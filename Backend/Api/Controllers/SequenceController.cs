@@ -2,7 +2,7 @@
 using Application.Security;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Web.Api.Controllers
 {
     [Route("api/[controller]")]
     public class SequenceController : BaseApiController

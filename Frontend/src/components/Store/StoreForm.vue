@@ -2,7 +2,7 @@
   <v-dialog v-model="isOpen" max-width="500px" persistent>
     <v-card>
       <v-card-title class="bg-surface-light pt-4">
-        <span>{{ localStore.idStore ? 'Editar Establecimiento' : 'Agregar Establecimiento' }}</span>
+        <span>{{ localStore.idStore ? 'Editar Unidad' : 'Agregar Unidad' }}</span>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pb-0">
@@ -11,7 +11,7 @@
             <v-row density="compact">
               <v-col cols="12" md="12">
                 <v-text-field color="indigo" variant="outlined" density="compact" v-model="localStore.storeName"
-                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Establecimiento"
+                  :rules="[rules.required, rules.onlyLetters]" counter="50" :maxlength="50" label="Unidad"
                   required />
               </v-col>
               <v-col cols="12" md="12">
@@ -172,8 +172,8 @@ const saveStore = async () => {
 
     if (result.isSuccess) {
       const successMsg = isEditing
-        ? 'Establecimiento editado con éxito!'
-        : 'Establecimiento agregado con éxito!';
+        ? 'Unidad editado con éxito!'
+        : 'Unidad agregado con éxito!';
 
       toast.success(successMsg);
       emit('saved');
@@ -183,8 +183,8 @@ const saveStore = async () => {
   } catch (error: any) {
     const isEditing = !!localStore.value.idStore;
     const customMessage = isEditing
-      ? 'Error en editar el establecimiento'
-      : 'Error en agregar el establecimiento';
+      ? 'Error en editar la unidad'
+      : 'Error en agregar la unidad';
 
     handleApiError(error, customMessage);
   } finally {

@@ -1,5 +1,5 @@
-using Api.Extensions;
-using Api.Filters;
+using Web.Api.Extensions;
+using Web.Api.Filters;
 using Application.Extensions;
 using Infrastructure.Extensions;
 using Infrastructure.RateLimit;

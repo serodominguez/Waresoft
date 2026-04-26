@@ -7351,9 +7351,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Api.csproj",
-      "projectName": "Api",
-      "projectPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Api.csproj",
+      "projectUniqueName": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj",
+      "projectName": "Web.Api",
+      "projectPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj",
       "packagesPath": "C:\\Users\\Sergio\\.nuget\\packages\\",
       "outputPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\obj\\",
       "projectStyle": "PackageReference",
@@ -7374,6 +7374,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
             "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Application.csproj": {
@@ -7402,6 +7403,7 @@
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -7454,7 +7456,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

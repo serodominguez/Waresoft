@@ -74,6 +74,7 @@ namespace Application.Reports.Pdf
                 table.ColumnsDefinition(columns =>
                 {
                     columns.RelativeColumn(2);   // Código
+                    columns.RelativeColumn(2.5f);   // Descripción
                     columns.RelativeColumn(2);   // Color
                     columns.RelativeColumn(2.5f); // Marca
                     columns.RelativeColumn(3);   // Categoría
@@ -87,17 +88,18 @@ namespace Application.Reports.Pdf
                 table.Header(header =>
                 {
                     header.Cell().Element(HeaderCellStyle).Text("Código").FontSize(9);
+                    header.Cell().Element(HeaderCellStyle).Text("Descripción").FontSize(9);
                     header.Cell().Element(HeaderCellStyle).Text("Color").FontSize(9);
                     header.Cell().Element(HeaderCellStyle).Text("Marca").FontSize(9);
                     header.Cell().Element(HeaderCellStyle).Text("Categoría").FontSize(9);
-                    header.Cell().Element(HeaderCellStyle).Text("Fecha Alta").FontSize(9);
+                    header.Cell().Element(HeaderCellStyle).Text("Fecha creación").FontSize(9);
 
                     foreach (var store in stores)
                         header.Cell().Element(HeaderCellStyle).AlignCenter().Text(store).FontSize(9);
 
                     // Línea separadora bajo encabezado
                     header.Cell()
-                        .ColumnSpan((uint)(5 + stores.Count))
+                        .ColumnSpan((uint)(6 + stores.Count))
                         .BorderBottom(1)
                         .BorderColor(Colors.Black)
                         .Height(0);
@@ -107,6 +109,7 @@ namespace Application.Reports.Pdf
                 foreach (var row in _pivot.Rows)
                 {
                     table.Cell().Element(BodyCellStyle).Text(row.Code ?? string.Empty).FontSize(8);
+                    table.Cell().Element(BodyCellStyle).Text(row.Description ?? string.Empty).FontSize(8);
                     table.Cell().Element(BodyCellStyle).Text(row.Color ?? string.Empty).FontSize(8);
                     table.Cell().Element(BodyCellStyle).Text(row.BrandName ?? string.Empty).FontSize(8);
                     table.Cell().Element(BodyCellStyle).Text(row.CategoryName ?? string.Empty).FontSize(8);

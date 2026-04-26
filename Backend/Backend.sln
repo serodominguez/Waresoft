@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{19DFF64E-7B70-4E0C-BD67-7C6D404B20F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{9CA6168F-4418-4775-8C03-3074F993390A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Api", "Api\Web.Api.csproj", "{9CA6168F-4418-4775-8C03-3074F993390A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

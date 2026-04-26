@@ -24,6 +24,7 @@ namespace Application.Reports.Excel
             var columns = new List<(string ColumnName, string PropertyName)>
             {
                 ("Código", "Code"),
+                ("Descripción", "Description"),
                 ("Color", "Color"),
                 ("Marca", "BrandName"),
                 ("Categoría", "CategoryName"),
@@ -38,6 +39,7 @@ namespace Application.Reports.Excel
                 var dict = new Dictionary<string, object?>
                 {
                     ["Code"] = row.Code,
+                    ["Description"] = row.Description,
                     ["Color"] = row.Color,
                     ["BrandName"] = row.BrandName,
                     ["CategoryName"] = row.CategoryName,

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Utilities.Extensions;
 using Utilities.Static;
 
-namespace Api.Controllers
+namespace Web.Api.Controllers
 {
     [Route("api/[controller]")]
     public class StoreController : BaseApiController
@@ -23,7 +23,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [RequirePermission("Establecimientos", "Leer")]
+        [RequirePermission("Unidades", "Leer")]
         public async Task<IActionResult> ListStores([FromQuery] BaseFiltersRequest filters, [FromQuery] string? downloadType = "excel")
         {
             var response = await _storeService.ListStores(filters);
@@ -36,10 +36,10 @@ namespace Api.Controllers
                     var fileBytes = _generatePdfService.GenerateListPdf(
                         response.Data!,
                         columnNames,
-                        "Reporte de Establecimientos",
+                        "Reporte de Unidades",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, "application/pdf", $"Establecimientos_{DateTime.Now:yyyyMMdd}.pdf");
+                    return File(fileBytes, "application/pdf", $"Unidades_{DateTime.Now:yyyyMMdd}.pdf");
                 }
                 else
                 {
@@ -47,10 +47,10 @@ namespace Api.Controllers
                     var fileBytes = _generateExcelService.GenerateToExcel(
                         response.Data!, 
                         columnNames,
-                        "Reporte de Establecimientos",
+                        "Reporte de Unidades",
                         subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
                     );
-                    return File(fileBytes, ContentType.ContentTypeExcel, $"Establecimientos_{DateTime.Now:yyyyMMdd}.xlsx");
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Unidades_{DateTime.Now:yyyyMMdd}.xlsx");
                 }
             }
 
@@ -58,7 +58,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("Select")]
-        [RequirePermission("Establecimientos", "Leer")]
+        [RequirePermission("Unidades", "Leer")]
         public async Task<IActionResult> ListSelectStores()
         {
             var response = await _storeService.ListSelectStores();
@@ -66,7 +66,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{storeId:int}")]
-        [RequirePermission("Establecimientos", "Leer")]
+        [RequirePermission("Unidades", "Leer")]
         public async Task<IActionResult> StoreById(int storeId)
         {
             var response = await _storeService.StoreById(storeId);
@@ -74,7 +74,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("Register")]
-        [RequirePermission("Establecimientos", "Crear")]
+        [RequirePermission("Unidades", "Crear")]
         public async Task<IActionResult> RegisterStore([FromBody] StoreRequestDto requestDto)
         {
             var response = await _storeService.RegisterStore(AuthenticatedUserId, requestDto);
@@ -82,7 +82,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("Edit/{storeId:int}")]
-        [RequirePermission("Establecimientos", "Editar")]
+        [RequirePermission("Unidades", "Editar")]
         public async Task<IActionResult> EditStore(int storeId, [FromBody] StoreRequestDto requestDto)
         {
             var response = await _storeService.EditStore(AuthenticatedUserId, storeId, requestDto);
@@ -90,7 +90,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("Enable/{storeId:int}")]
-        [RequirePermission("Establecimientos", "Editar")]
+        [RequirePermission("Unidades", "Editar")]
         public async Task<IActionResult> EnableStore(int storeId)
         {
             var response = await _storeService.EnableStore(AuthenticatedUserId, storeId);
@@ -98,7 +98,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("Disable/{storeId:int}")]
-        [RequirePermission("Establecimientos", "Editar")]
+        [RequirePermission("Unidades", "Editar")]
         public async Task<IActionResult> DisableStore(int storeId)
         {
             var response = await _storeService.DisableStore(AuthenticatedUserId, storeId);
@@ -106,7 +106,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("Remove/{storeId:int}")]
-        [RequirePermission("Establecimientos", "Eliminar")]
+        [RequirePermission("Unidades", "Eliminar")]
         public async Task<IActionResult> RemoveStore(int storeId)
         {
             var response = await _storeService.RemoveStore(AuthenticatedUserId, storeId);

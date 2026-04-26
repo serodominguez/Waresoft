@@ -139,12 +139,12 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/establecimientos",
+    path: "/unidades",
     name: "store",
     component: () => import("@/views/StoreView.vue"),
     meta: {
       requiresAuth: true,
-      module: "establecimientos",
+      module: "unidades",
     },
   },
   {

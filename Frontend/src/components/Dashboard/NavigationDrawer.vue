@@ -10,7 +10,7 @@
           <v-list-item v-bind="props" title="Almacén"></v-list-item>
         </template>
 
-        <v-list-item v-for="link in visibleDirectStoreLinks" :key="link.text" :to="link.route" rounded="xl"
+        <v-list-item v-for="link in visibleStoreLinks" :key="link.text" :to="link.route" rounded="xl"
           class="ma-0 ml-n10">
           <template v-slot:prepend>
             <v-icon :icon="link.icon" style="font-size: 20px; margin-right: -20px;"></v-icon>
@@ -30,6 +30,21 @@
             <v-list-item-title v-text="link.text" style="font-size: 15px;"></v-list-item-title>
           </v-list-item>
         </v-list-group>
+      </v-list-group>
+
+      
+      <v-list-group v-if="hasSalesPermissions">
+        <template v-slot:activator="{ props }">
+          <v-list-item v-bind="props" title="Comercial"></v-list-item>
+        </template>
+
+        <v-list-item v-for="link in visibleSalesLinks" :key="link.text" :to="link.route" rounded="xl"
+          class="ma-0 ml-n10">
+          <template v-slot:prepend>
+            <v-icon :icon="link.icon" style="font-size: 20px; margin-right: -20px;"></v-icon>
+          </template>
+          <v-list-item-title v-text="link.text" style="font-size: 15px;"></v-list-item-title>
+        </v-list-item>
       </v-list-group>
 
       <v-list-group v-if="hasQueriesPermissions">
@@ -109,14 +124,18 @@ const emit = defineEmits<{
 const authStore = useAuthStore();
 
 // Enlaces directos del menú de Almacén
-const linkDirectStore: Link[] = [
+const linkStore: Link[] = [
   { icon: 'mdi-shape', text: 'Categorías', route: '/categorias', module: 'categorias' },
-  { icon: 'mdi-account-box', text: 'Clientes', route: '/clientes', module: 'clientes' },
-  { icon: 'mdi-store', text: 'Establecimientos', route: '/establecimientos', module: 'establecimientos' },
   { icon: 'mdi-warehouse', text: 'Inventario', route: '/inventario', module: 'inventario' },
   { icon: 'mdi-copyright', text: 'Marcas', route: '/marcas', module: 'marcas' },
   { icon: 'mdi-archive', text: 'Productos', route: '/productos', module: 'productos' },
   { icon: 'mdi-contacts', text: 'Proveedores', route: '/proveedores', module: 'proveedores' },
+  { icon: 'mdi-store', text: 'Unidades', route: '/unidades', module: 'unidades' },
+];
+
+// Enlaces directos del menú de Comercial
+const linkSales: Link[] = [
+  { icon: 'mdi-account-box', text: 'Clientes', route: '/clientes', module: 'clientes' },
 ];
 
 // Enlaces del subgrupo Movimientos
@@ -177,9 +196,14 @@ const isOpen = computed({
   set: (value: boolean): void => emit('update:modelValue', value)
 });
 
-// Filtra los enlaces directos de Almacén según los permisos del usuario
-const visibleDirectStoreLinks = computed((): Link[] => 
-  linkDirectStore.filter(link => hasModuleAccess(link.module))
+// Filtra los enlaces de Almacén según los permisos del usuario
+const visibleStoreLinks = computed((): Link[] => 
+  linkStore.filter(link => hasModuleAccess(link.module))
+);
+
+// Filtra los enlaces de Comercial según los permisos del usuario
+const visibleSalesLinks = computed((): Link[] => 
+  linkSales.filter(link => hasModuleAccess(link.module))
 );
 
 // Filtra los enlaces de Movimientos según los permisos del usuario
@@ -204,7 +228,12 @@ const visibleAuthorizationLinks = computed((): Link[] =>
 
 // Verifica si se debe mostrar la sección de Almacén
 const hasStorePermissions = computed((): boolean => 
-  visibleDirectStoreLinks.value.length > 0 || visibleMovementLinks.value.length > 0
+  visibleStoreLinks.value.length > 0 || visibleMovementLinks.value.length > 0
+);
+
+// Verifica si se debe mostrar la sección de Comercial
+const hasSalesPermissions = computed((): boolean => 
+  visibleSalesLinks.value.length > 0
 );
 
 // Verifica si se debe mostrar el subgrupo de Movimientos

@@ -61,7 +61,7 @@
           <v-toolbar>
             <v-toolbar-title> <v-avatar color="indigo" size="36" class="mr-3">
                 <v-icon icon="mdi-store" color="white" size="18"></v-icon>
-              </v-avatar>Gestión de Establecimientos</v-toolbar-title>
+              </v-avatar>Gestión de Unidades</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-tooltip v-bind="tooltipProps" text="Descargar PDF" location="bottom">
               <template v-slot:activator="{ props }">
@@ -79,7 +79,7 @@
                 </v-btn>
               </template>
             </v-tooltip>
-            <v-tooltip v-bind="tooltipProps" text="Agregar Establecimiento" location="bottom">
+            <v-tooltip v-bind="tooltipProps" text="Agregar Unidad" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" v-if="canCreate" icon variant="text" color="indigo" size="38"
                   @click="$emit('open-form')" class="mr-2">
@@ -131,7 +131,7 @@ interface Props extends Omit<BaseListProps<Store>, 'items' | 'totalItems'> {
 
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
-  selectedFilter: 'Establecimiento',
+  selectedFilter: 'Unidad',
   state: 'Activos',
   startDate: null,
   endDate: null,
@@ -176,13 +176,13 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Establecimientos por Página");
+const pages = ref("Unidades por Página");
 const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
-const filterOptions = ref(['Establecimiento', 'Encargado', 'Dirección', 'Ciudad']);
+const filterOptions = ref(['Unidad', 'Encargado', 'Dirección', 'Ciudad']);
 
 const headers = computed(() => [
-  { title: 'Establecimiento', key: 'storeName', sortable: false },
+  { title: 'Unidad', key: 'storeName', sortable: false },
   { title: 'Encargado', key: 'manager', sortable: false },
   { title: 'Dirección', key: 'address', sortable: false },
   { title: 'Ciudad', key: 'city', sortable: false },

@@ -13,6 +13,8 @@
               <v-icon v-else color="grey" icon="mdi-image-off" size="40"></v-icon>
             </td>
             <td>{{ (item as InventoryPivotRow).code }}</td>
+            <td>{{ (item as InventoryPivotRow).description }}</td>
+            <td>{{ (item as InventoryPivotRow).material }}</td>
             <td>{{ (item as InventoryPivotRow).color }}</td>
             <td>{{ (item as InventoryPivotRow).brandName }}</td>
             <td>{{ (item as InventoryPivotRow).categoryName }}</td>
@@ -156,6 +158,8 @@ const selectedCode = ref<string | null>(null);
 const dynamicHeaders = computed(() => [
   { title: 'Imagen', key: 'image', sortable: false },
   { title: 'Código', key: 'code', sortable: false },
+  { title: 'Descripción', key: 'description', sortable: false },
+  { title: 'Material', key: 'material', sortable: false },
   { title: 'Color', key: 'color', sortable: false },
   { title: 'Marca', key: 'brandName', sortable: false },
   { title: 'Categoría', key: 'categoryName', sortable: false },

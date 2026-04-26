@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Api.Controllers
+namespace Web.Api.Controllers
 {
     [Authorize]
     [ApiController]

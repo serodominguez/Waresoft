@@ -70,29 +70,31 @@ namespace Application.Reports.Pdf
             {
                 table.ColumnsDefinition(columns =>
                 {
-                    columns.RelativeColumn(2);      // Categoría
-                    columns.RelativeColumn(1.5f);   // Marca
-                    columns.RelativeColumn(2);      // Descripción
                     columns.RelativeColumn(1.5f);   // Código
+                    columns.RelativeColumn(2);      // Descripción
                     columns.RelativeColumn(1.5f);   // Color
                     columns.RelativeColumn(1.5f);   // Material
+                    columns.RelativeColumn(2);      // Categoría
+                    columns.RelativeColumn(1.5f);   // Marca
+                    columns.RelativeColumn(1.5f);   // Medida
                     columns.RelativeColumn(1);      // Precio
-                    columns.RelativeColumn(1);      // Cantidad
+                    columns.RelativeColumn(1.5f);   // Cantidad
                 });
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(InventoryHeaderCellStyle).Text("Categoría").FontSize(9);
-                    header.Cell().Element(InventoryHeaderCellStyle).Text("Marca").FontSize(9);
-                    header.Cell().Element(InventoryHeaderCellStyle).Text("Descripción").FontSize(9);
                     header.Cell().Element(InventoryHeaderCellStyle).Text("Código").FontSize(9);
+                    header.Cell().Element(InventoryHeaderCellStyle).Text("Descripción").FontSize(9);
                     header.Cell().Element(InventoryHeaderCellStyle).Text("Color").FontSize(9);
                     header.Cell().Element(InventoryHeaderCellStyle).Text("Material").FontSize(9);
-                    header.Cell().Element(InventoryHeaderCellStyle).AlignRight().Text("Precio").FontSize(9);
-                    header.Cell().Element(InventoryHeaderCellStyle).AlignRight().Text("Cantidad").FontSize(9);
+                    header.Cell().Element(InventoryHeaderCellStyle).Text("Categoría").FontSize(9);
+                    header.Cell().Element(InventoryHeaderCellStyle).Text("Marca").FontSize(9);
+                    header.Cell().Element(InventoryHeaderCellStyle).Text("Medida").FontSize(9);
+                    header.Cell().Element(InventoryHeaderCellStyle).Text("Precio").FontSize(9);
+                    header.Cell().Element(InventoryHeaderCellStyle).Text("Cantidad").FontSize(9);
 
                     header.Cell()
-                        .ColumnSpan(8)
+                        .ColumnSpan(9)
                         .BorderBottom(1)
                         .BorderColor(Colors.Black)
                         .Height(0);
@@ -100,14 +102,15 @@ namespace Application.Reports.Pdf
 
                 foreach (var item in _inventory)
                 {
-                    table.Cell().Element(InventoryBodyCellStyle).Text(item.CategoryName ?? "").FontSize(8);
-                    table.Cell().Element(InventoryBodyCellStyle).Text(item.BrandName ?? "").FontSize(8);
-                    table.Cell().Element(InventoryBodyCellStyle).Text(item.Description ?? "").FontSize(8);
                     table.Cell().Element(InventoryBodyCellStyle).Text(item.Code ?? "").FontSize(8);
+                    table.Cell().Element(InventoryBodyCellStyle).Text(item.Description ?? "").FontSize(8);
                     table.Cell().Element(InventoryBodyCellStyle).Text(item.Color ?? "").FontSize(8);
                     table.Cell().Element(InventoryBodyCellStyle).Text(item.Material ?? "").FontSize(8);
-                    table.Cell().Element(InventoryBodyCellStyle).AlignRight().Text(FormatCurrency(item.Price)).FontSize(8);
-                    table.Cell().Element(InventoryBodyCellStyle).AlignRight().Text($"{item.StockAvailable}/........").FontSize(8);
+                    table.Cell().Element(InventoryBodyCellStyle).Text(item.CategoryName ?? "").FontSize(8);
+                    table.Cell().Element(InventoryBodyCellStyle).Text(item.BrandName ?? "").FontSize(8);
+                    table.Cell().Element(InventoryBodyCellStyle).Text(item.UnitMeasure ?? "").FontSize(8);
+                    table.Cell().Element(InventoryBodyCellStyle).Text(FormatCurrency(item.Price)).FontSize(8);
+                    table.Cell().Element(InventoryBodyCellStyle).Text($"{item.StockAvailable}/..........").FontSize(8);
                 }
             });
         }

@@ -237,7 +237,7 @@ const handleSaved = () => {
   fetchInventories();
 };
 
-/* onMounted(() => {
-  fetchInventories();
-}); */
+onMounted(() => {
+   fetchInventories();
+});
 </script>

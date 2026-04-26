@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi;
 
-namespace Api.Extensions
+namespace Web.Api.Extensions
 {
     public static class SwaggerExtensions
     {

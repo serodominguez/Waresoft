@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Utilities.Extensions;
 using Utilities.Static;
 
-namespace Api.Controllers
+namespace Web.Api.Controllers
 {
     [Route("api/[controller]")]
     public class UserController : BaseApiController

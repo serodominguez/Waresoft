@@ -113,6 +113,8 @@
                 ("Marca", "BrandName"),
                 ("Unidad", "UnitMeasure"),
                 ("Existencias", "StockAvailable"),
+                ("Calculado", "CalculatedStock"),
+                ("Diferencias", "StockDifference"),
                 ("En transito", "StockInTransit"),
                 ("Precio", "Price"),
                 ("Reposición", "Replenishment")
@@ -174,7 +176,7 @@
         {
             var columnsProperties = new List<(string ColumnName, string PropertyName)>
             {
-                ("Establecimiento", "StoreName"),
+                ("Unidad", "StoreName"),
                 ("Encargado", "Manager"),
                 ("Dirección", "Address"),
                 ("Ciudad", "City"),

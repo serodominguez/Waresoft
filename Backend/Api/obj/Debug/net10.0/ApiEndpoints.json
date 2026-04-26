@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "Api.Controllers.AuthorizationController",
+    "ContainingType": "Web.Api.Controllers.AuthorizationController",
     "Method": "GenerateToken",
     "RelativePath": "api/Authorization/Generate/Token",
     "HttpMethod": "POST",
@@ -16,7 +16,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "ListBrands",
     "RelativePath": "api/Brand",
     "HttpMethod": "GET",
@@ -87,7 +87,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "BrandById",
     "RelativePath": "api/Brand/{brandId}",
     "HttpMethod": "GET",
@@ -103,7 +103,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "DisableBrand",
     "RelativePath": "api/Brand/Disable/{brandId}",
     "HttpMethod": "PUT",
@@ -119,7 +119,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "EditBrand",
     "RelativePath": "api/Brand/Edit/{brandId}",
     "HttpMethod": "PUT",
@@ -140,7 +140,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "EnableBrand",
     "RelativePath": "api/Brand/Enable/{brandId}",
     "HttpMethod": "PUT",
@@ -156,7 +156,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "RegisterBrand",
     "RelativePath": "api/Brand/Register",
     "HttpMethod": "POST",
@@ -172,7 +172,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "RemoveBrand",
     "RelativePath": "api/Brand/Remove/{brandId}",
     "HttpMethod": "PUT",
@@ -188,7 +188,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.BrandController",
+    "ContainingType": "Web.Api.Controllers.BrandController",
     "Method": "ListSelectBrands",
     "RelativePath": "api/Brand/Select",
     "HttpMethod": "GET",
@@ -198,7 +198,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "ListCategories",
     "RelativePath": "api/Category",
     "HttpMethod": "GET",
@@ -269,7 +269,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "CategoryById",
     "RelativePath": "api/Category/{categoryId}",
     "HttpMethod": "GET",
@@ -285,7 +285,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "DisableCategory",
     "RelativePath": "api/Category/Disable/{categoryId}",
     "HttpMethod": "PUT",
@@ -301,7 +301,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "EditCategory",
     "RelativePath": "api/Category/Edit/{categoryId}",
     "HttpMethod": "PUT",
@@ -322,7 +322,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "EnableCategory",
     "RelativePath": "api/Category/Enable/{categoryId}",
     "HttpMethod": "PUT",
@@ -338,7 +338,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "RegisterCategory",
     "RelativePath": "api/Category/Register",
     "HttpMethod": "POST",
@@ -354,7 +354,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "RemoveCategory",
     "RelativePath": "api/Category/Remove/{categoryId}",
     "HttpMethod": "PUT",
@@ -370,7 +370,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CategoryController",
+    "ContainingType": "Web.Api.Controllers.CategoryController",
     "Method": "ListSelectCategories",
     "RelativePath": "api/Category/Select",
     "HttpMethod": "GET",
@@ -380,7 +380,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CustomerController",
+    "ContainingType": "Web.Api.Controllers.CustomerController",
     "Method": "ListCustomers",
     "RelativePath": "api/Customer",
     "HttpMethod": "GET",
@@ -451,7 +451,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CustomerController",
+    "ContainingType": "Web.Api.Controllers.CustomerController",
     "Method": "CustomerById",
     "RelativePath": "api/Customer/{customerId}",
     "HttpMethod": "GET",
@@ -467,7 +467,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CustomerController",
+    "ContainingType": "Web.Api.Controllers.CustomerController",
     "Method": "DisableCustomer",
     "RelativePath": "api/Customer/Disable/{customerId}",
     "HttpMethod": "PUT",
@@ -483,7 +483,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CustomerController",
+    "ContainingType": "Web.Api.Controllers.CustomerController",
     "Method": "EditCustomer",
     "RelativePath": "api/Customer/Edit/{customerId}",
     "HttpMethod": "PUT",
@@ -504,7 +504,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CustomerController",
+    "ContainingType": "Web.Api.Controllers.CustomerController",
     "Method": "EnableCustomer",
     "RelativePath": "api/Customer/Enable/{customerId}",
     "HttpMethod": "PUT",
@@ -520,7 +520,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CustomerController",
+    "ContainingType": "Web.Api.Controllers.CustomerController",
     "Method": "RegisterCustomer",
     "RelativePath": "api/Customer/Register",
     "HttpMethod": "POST",
@@ -536,7 +536,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.CustomerController",
+    "ContainingType": "Web.Api.Controllers.CustomerController",
     "Method": "RemoveCustomer",
     "RelativePath": "api/Customer/Remove/{customerId}",
     "HttpMethod": "PUT",
@@ -552,7 +552,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsIssueController",
+    "ContainingType": "Web.Api.Controllers.GoodsIssueController",
     "Method": "ListGoodsIssue",
     "RelativePath": "api/GoodsIssue",
     "HttpMethod": "GET",
@@ -623,7 +623,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsIssueController",
+    "ContainingType": "Web.Api.Controllers.GoodsIssueController",
     "Method": "GoodsIssueById",
     "RelativePath": "api/GoodsIssue/{issueId}",
     "HttpMethod": "GET",
@@ -639,7 +639,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsIssueController",
+    "ContainingType": "Web.Api.Controllers.GoodsIssueController",
     "Method": "CancelGoodsIssue",
     "RelativePath": "api/GoodsIssue/Disable/{issueId}",
     "HttpMethod": "PUT",
@@ -655,7 +655,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsIssueController",
+    "ContainingType": "Web.Api.Controllers.GoodsIssueController",
     "Method": "ExportPdfGoodsIssue",
     "RelativePath": "api/GoodsIssue/ExportPdf/{issueId}",
     "HttpMethod": "GET",
@@ -671,7 +671,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsIssueController",
+    "ContainingType": "Web.Api.Controllers.GoodsIssueController",
     "Method": "RegisterGoodsIssue",
     "RelativePath": "api/GoodsIssue/Register",
     "HttpMethod": "POST",
@@ -687,7 +687,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsReceiptController",
+    "ContainingType": "Web.Api.Controllers.GoodsReceiptController",
     "Method": "ListGoodsReceipt",
     "RelativePath": "api/GoodsReceipt",
     "HttpMethod": "GET",
@@ -758,7 +758,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsReceiptController",
+    "ContainingType": "Web.Api.Controllers.GoodsReceiptController",
     "Method": "GoodsReceiptById",
     "RelativePath": "api/GoodsReceipt/{receiptId}",
     "HttpMethod": "GET",
@@ -774,7 +774,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsReceiptController",
+    "ContainingType": "Web.Api.Controllers.GoodsReceiptController",
     "Method": "CancelGoodsReceipt",
     "RelativePath": "api/GoodsReceipt/Disable/{receiptId}",
     "HttpMethod": "PUT",
@@ -790,7 +790,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsReceiptController",
+    "ContainingType": "Web.Api.Controllers.GoodsReceiptController",
     "Method": "ExportPdfGoodsReceipt",
     "RelativePath": "api/GoodsReceipt/ExportPdf/{receiptId}",
     "HttpMethod": "GET",
@@ -806,7 +806,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.GoodsReceiptController",
+    "ContainingType": "Web.Api.Controllers.GoodsReceiptController",
     "Method": "RegisterGoodsReceipt",
     "RelativePath": "api/GoodsReceipt/Register",
     "HttpMethod": "POST",
@@ -822,7 +822,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ModuleController",
+    "ContainingType": "Web.Api.Controllers.ModuleController",
     "Method": "ListModules",
     "RelativePath": "api/Module",
     "HttpMethod": "GET",
@@ -893,7 +893,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ModuleController",
+    "ContainingType": "Web.Api.Controllers.ModuleController",
     "Method": "ModuleById",
     "RelativePath": "api/Module/{moduleId}",
     "HttpMethod": "GET",
@@ -909,7 +909,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ModuleController",
+    "ContainingType": "Web.Api.Controllers.ModuleController",
     "Method": "DisableModule",
     "RelativePath": "api/Module/Disable/{moduleId}",
     "HttpMethod": "PUT",
@@ -925,7 +925,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ModuleController",
+    "ContainingType": "Web.Api.Controllers.ModuleController",
     "Method": "EditModule",
     "RelativePath": "api/Module/Edit/{moduleId}",
     "HttpMethod": "PUT",
@@ -946,7 +946,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ModuleController",
+    "ContainingType": "Web.Api.Controllers.ModuleController",
     "Method": "EnableModule",
     "RelativePath": "api/Module/Enable/{moduleId}",
     "HttpMethod": "PUT",
@@ -962,7 +962,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ModuleController",
+    "ContainingType": "Web.Api.Controllers.ModuleController",
     "Method": "RegisterModule",
     "RelativePath": "api/Module/Register",
     "HttpMethod": "POST",
@@ -978,7 +978,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ModuleController",
+    "ContainingType": "Web.Api.Controllers.ModuleController",
     "Method": "RemoveModule",
     "RelativePath": "api/Module/Remove/{moduleId}",
     "HttpMethod": "PUT",
@@ -994,7 +994,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.PermissionController",
+    "ContainingType": "Web.Api.Controllers.PermissionController",
     "Method": "RolePermissions",
     "RelativePath": "api/Permission/Role/{roleId}",
     "HttpMethod": "GET",
@@ -1010,7 +1010,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.PermissionController",
+    "ContainingType": "Web.Api.Controllers.PermissionController",
     "Method": "UpdatePermissions",
     "RelativePath": "api/Permission/Update",
     "HttpMethod": "PUT",
@@ -1026,7 +1026,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.PermissionController",
+    "ContainingType": "Web.Api.Controllers.PermissionController",
     "Method": "UserPermissions",
     "RelativePath": "api/Permission/User",
     "HttpMethod": "GET",
@@ -1036,7 +1036,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ProductController",
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "ListProducts",
     "RelativePath": "api/Product",
     "HttpMethod": "GET",
@@ -1107,7 +1107,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ProductController",
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "ProductById",
     "RelativePath": "api/Product/{productId}",
     "HttpMethod": "GET",
@@ -1123,7 +1123,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ProductController",
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "DisableProduct",
     "RelativePath": "api/Product/Disable/{productId}",
     "HttpMethod": "PUT",
@@ -1139,7 +1139,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ProductController",
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "EditProduct",
     "RelativePath": "api/Product/Edit/{productId}",
     "HttpMethod": "PUT",
@@ -1200,7 +1200,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ProductController",
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "EnableProduct",
     "RelativePath": "api/Product/Enable/{productId}",
     "HttpMethod": "PUT",
@@ -1216,7 +1216,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ProductController",
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "RegisterProduct",
     "RelativePath": "api/Product/Register",
     "HttpMethod": "POST",
@@ -1272,7 +1272,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.ProductController",
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "RemoveProduct",
     "RelativePath": "api/Product/Remove/{productId}",
     "HttpMethod": "PUT",
@@ -1288,7 +1288,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "ListRoles",
     "RelativePath": "api/Role",
     "HttpMethod": "GET",
@@ -1359,7 +1359,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "RoleById",
     "RelativePath": "api/Role/{roleId}",
     "HttpMethod": "GET",
@@ -1375,7 +1375,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "DisableRole",
     "RelativePath": "api/Role/Disable/{roleId}",
     "HttpMethod": "PUT",
@@ -1391,7 +1391,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "EditRole",
     "RelativePath": "api/Role/Edit/{roleId}",
     "HttpMethod": "PUT",
@@ -1412,7 +1412,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "EnableRole",
     "RelativePath": "api/Role/Enable/{roleId}",
     "HttpMethod": "PUT",
@@ -1428,7 +1428,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "RegisterRole",
     "RelativePath": "api/Role/Register",
     "HttpMethod": "POST",
@@ -1444,7 +1444,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "RemoveRole",
     "RelativePath": "api/Role/Remove/{roleId}",
     "HttpMethod": "PUT",
@@ -1460,7 +1460,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.RoleController",
+    "ContainingType": "Web.Api.Controllers.RoleController",
     "Method": "ListSelectRoles",
     "RelativePath": "api/Role/Select",
     "HttpMethod": "GET",
@@ -1470,7 +1470,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SequenceController",
+    "ContainingType": "Web.Api.Controllers.SequenceController",
     "Method": "GenerateProductCode",
     "RelativePath": "api/Sequence/Product-Code",
     "HttpMethod": "GET",
@@ -1480,7 +1480,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "ListStores",
     "RelativePath": "api/Store",
     "HttpMethod": "GET",
@@ -1551,7 +1551,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "StoreById",
     "RelativePath": "api/Store/{storeId}",
     "HttpMethod": "GET",
@@ -1567,7 +1567,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "DisableStore",
     "RelativePath": "api/Store/Disable/{storeId}",
     "HttpMethod": "PUT",
@@ -1583,7 +1583,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "EditStore",
     "RelativePath": "api/Store/Edit/{storeId}",
     "HttpMethod": "PUT",
@@ -1604,7 +1604,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "EnableStore",
     "RelativePath": "api/Store/Enable/{storeId}",
     "HttpMethod": "PUT",
@@ -1620,7 +1620,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "RegisterStore",
     "RelativePath": "api/Store/Register",
     "HttpMethod": "POST",
@@ -1636,7 +1636,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "RemoveStore",
     "RelativePath": "api/Store/Remove/{storeId}",
     "HttpMethod": "PUT",
@@ -1652,7 +1652,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreController",
+    "ContainingType": "Web.Api.Controllers.StoreController",
     "Method": "ListSelectStores",
     "RelativePath": "api/Store/Select",
     "HttpMethod": "GET",
@@ -1662,7 +1662,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreInventoryController",
+    "ContainingType": "Web.Api.Controllers.StoreInventoryController",
     "Method": "ListInventory",
     "RelativePath": "api/StoreInventory",
     "HttpMethod": "GET",
@@ -1733,7 +1733,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreInventoryController",
+    "ContainingType": "Web.Api.Controllers.StoreInventoryController",
     "Method": "EditInventory",
     "RelativePath": "api/StoreInventory/Edit",
     "HttpMethod": "PUT",
@@ -1749,7 +1749,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreInventoryController",
+    "ContainingType": "Web.Api.Controllers.StoreInventoryController",
     "Method": "InventorySheet",
     "RelativePath": "api/StoreInventory/ExportPdf",
     "HttpMethod": "GET",
@@ -1820,7 +1820,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreInventoryController",
+    "ContainingType": "Web.Api.Controllers.StoreInventoryController",
     "Method": "ListInventoryKardex",
     "RelativePath": "api/StoreInventory/Kardex",
     "HttpMethod": "GET",
@@ -1896,7 +1896,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.StoreInventoryController",
+    "ContainingType": "Web.Api.Controllers.StoreInventoryController",
     "Method": "ListInventoryPivot",
     "RelativePath": "api/StoreInventory/Pivot",
     "HttpMethod": "GET",
@@ -1967,7 +1967,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "ListSuppliers",
     "RelativePath": "api/Supplier",
     "HttpMethod": "GET",
@@ -2038,7 +2038,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "SupplierById",
     "RelativePath": "api/Supplier/{supplierId}",
     "HttpMethod": "GET",
@@ -2054,7 +2054,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "DisableSupplier",
     "RelativePath": "api/Supplier/Disable/{supplierId}",
     "HttpMethod": "PUT",
@@ -2070,7 +2070,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "EditSupplier",
     "RelativePath": "api/Supplier/Edit/{supplierId}",
     "HttpMethod": "PUT",
@@ -2091,7 +2091,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "EnableSupplier",
     "RelativePath": "api/Supplier/Enable/{supplierId}",
     "HttpMethod": "PUT",
@@ -2107,7 +2107,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "RegisterSupplier",
     "RelativePath": "api/Supplier/Register",
     "HttpMethod": "POST",
@@ -2123,7 +2123,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "RemoveSupplier",
     "RelativePath": "api/Supplier/Remove/{supplierId}",
     "HttpMethod": "PUT",
@@ -2139,7 +2139,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.SupplierController",
+    "ContainingType": "Web.Api.Controllers.SupplierController",
     "Method": "ListSelectSuppliers",
     "RelativePath": "api/Supplier/Select",
     "HttpMethod": "GET",
@@ -2149,7 +2149,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.TransferController",
+    "ContainingType": "Web.Api.Controllers.TransferController",
     "Method": "ListTransfer",
     "RelativePath": "api/Transfer",
     "HttpMethod": "GET",
@@ -2220,7 +2220,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.TransferController",
+    "ContainingType": "Web.Api.Controllers.TransferController",
     "Method": "TransferById",
     "RelativePath": "api/Transfer/{transferId}",
     "HttpMethod": "GET",
@@ -2236,7 +2236,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.TransferController",
+    "ContainingType": "Web.Api.Controllers.TransferController",
     "Method": "CancelGoodsIssue",
     "RelativePath": "api/Transfer/Disable/{transferId}",
     "HttpMethod": "PUT",
@@ -2252,7 +2252,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.TransferController",
+    "ContainingType": "Web.Api.Controllers.TransferController",
     "Method": "ExportPdfTransfer",
     "RelativePath": "api/Transfer/ExportPdf/{transferId}",
     "HttpMethod": "GET",
@@ -2268,7 +2268,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.TransferController",
+    "ContainingType": "Web.Api.Controllers.TransferController",
     "Method": "ReceiveTransfer",
     "RelativePath": "api/Transfer/Receive/{transferId}",
     "HttpMethod": "PUT",
@@ -2284,7 +2284,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.TransferController",
+    "ContainingType": "Web.Api.Controllers.TransferController",
     "Method": "SendTransfer",
     "RelativePath": "api/Transfer/Send",
     "HttpMethod": "POST",
@@ -2300,7 +2300,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "ListUsers",
     "RelativePath": "api/User",
     "HttpMethod": "GET",
@@ -2371,7 +2371,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "UserById",
     "RelativePath": "api/User/{userId}",
     "HttpMethod": "GET",
@@ -2387,7 +2387,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "DisableUser",
     "RelativePath": "api/User/Disable/{userId}",
     "HttpMethod": "PUT",
@@ -2403,7 +2403,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "EditUser",
     "RelativePath": "api/User/Edit/{userId}",
     "HttpMethod": "PUT",
@@ -2424,7 +2424,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "EnableUser",
     "RelativePath": "api/User/Enable/{userId}",
     "HttpMethod": "PUT",
@@ -2440,7 +2440,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "RegisterUser",
     "RelativePath": "api/User/Register",
     "HttpMethod": "POST",
@@ -2456,7 +2456,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "RemoveUser",
     "RelativePath": "api/User/Remove/{userId}",
     "HttpMethod": "PUT",
@@ -2472,7 +2472,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Api.Controllers.UserController",
+    "ContainingType": "Web.Api.Controllers.UserController",
     "Method": "ListSelectUsers",
     "RelativePath": "api/User/Select",
     "HttpMethod": "GET",

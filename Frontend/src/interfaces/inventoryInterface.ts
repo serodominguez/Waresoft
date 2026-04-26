@@ -20,6 +20,8 @@ export interface Inventory {
 export interface InventoryPivotRow {
   image: string;
   code: string;
+  description: string;
+  material: string;
   color: string;
   brandName: string;
   categoryName: string;
