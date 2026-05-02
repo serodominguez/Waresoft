@@ -61,7 +61,6 @@ import { useInventoryStore } from '@/stores/inventoryStore';
 import { Inventory } from '@/interfaces/inventoryInterface';
 import { handleApiError } from '@/helpers/errorHandler';
 
-// Props
 interface Props {
   modelValue: boolean;
   inventory?: Inventory | null;
@@ -77,6 +76,8 @@ const props = withDefaults(defineProps<Props>(), {
     color: '',
     unitMeasure: '',
     stockAvailable: null,
+    calculatedStock: null,
+    stockDifference: null,
     stockInTransit: null,
     price: null,
     replenishment: '',
@@ -86,43 +87,34 @@ const props = withDefaults(defineProps<Props>(), {
   })
 });
 
-// Emits
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
   'saved': [];
 }>();
 
-// Servicios
 const inventoryStore = useInventoryStore();
 const toast = useToast();
 
-// Referencias del template
 const formRef = ref<{ validate: () => Promise<{ valid: boolean }> }>();
 const priceFieldRef = ref<HTMLInputElement>();
-
-// Estado reactivo
 const valid = ref(false);
 const saving = ref(false);
 const localInventory = reactive<Inventory>({ ...props.inventory } as Inventory);
 
-// Reglas de validación
 const rules = {
   required: (value: string | number) => !!value || 'Este campo es requerido.',
   onlyNumbers: (value: string) => !value || /^[0-9]+$/.test(value) || 'Solo se permiten números.',
 };
 
-// Computed bidireccional para v-model
 const isOpen = computed({
   get: () => props.modelValue,
   set: (value: boolean) => emit('update:modelValue', value)
 });
 
-// Watchers
 watch(
   () => props.modelValue,
   (newValue) => {
     if (newValue) {
-      // Espera a que el modal se renderice completamente
       nextTick(() => {
         if (priceFieldRef.value) {
           priceFieldRef.value.focus();
@@ -142,7 +134,6 @@ watch(
   { deep: true }
 );
 
-// Métodos
 const close = () => {
   isOpen.value = false;
 };
@@ -151,7 +142,7 @@ const savePrice = async () => {
   if (!formRef.value) return;
 
   const { valid: isValid } = await formRef.value.validate();
-  
+
   if (!isValid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;

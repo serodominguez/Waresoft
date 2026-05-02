@@ -118,7 +118,7 @@ import { Inventory } from '@/interfaces/inventoryInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
-// Props
+
 interface Props extends Omit<BaseListProps<Inventory>, 'items' | 'totalItems'> {
   inventories: Inventory[];
   totalInventories: number;
@@ -139,7 +139,6 @@ const props = withDefaults(defineProps<Props>(), {
   itemsPerPage: 10
 });
 
-// Emits
 const emit = defineEmits<{
   'open-form': [];
   'open-modal': [payload: { inventory: Inventory; action: 0 | 1 | 2 }];
@@ -183,13 +182,12 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-// Estado reactivo
+const { tooltipProps } = useResponsiveTooltip();
+
 const pages = ref("Productos por Página");
 const search = ref<string | null>(null);
-const { tooltipProps } = useResponsiveTooltip();
 const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Precio', 'Categoría', 'Marca']);
 
-// Computed properties
 const headers = computed(() => [
   { title: 'Código', key: 'code', sortable: false },
   { title: 'Descripción', key: 'description', sortable: false },
@@ -208,7 +206,6 @@ const headers = computed(() => [
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
-// Computed bidireccionales para v-model
 const drawerModel = computed({
   get: () => props.drawer,
   set: (value: boolean) => emit('update:drawer', value)
@@ -234,18 +231,11 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
-// Métodos
 const getStatusColor = (status: string): string => {
   const statusLower = status.toLowerCase();
-
-  if (statusLower === 'disponible') {
-    return 'green';
-  } else if (statusLower === 'no disponible') {
-    return 'orange';
-  } else if (statusLower === 'descontinuado') {
-    return 'red';
-  }
-
+  if (statusLower === 'disponible') return 'green';
+  if (statusLower === 'no disponible') return 'orange';
+  if (statusLower === 'descontinuado') return 'red';
   return 'grey';
 };
 

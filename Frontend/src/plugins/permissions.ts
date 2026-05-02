@@ -1,5 +1,5 @@
 import { App, DirectiveBinding } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 
 interface PermissionBinding {
   module: string

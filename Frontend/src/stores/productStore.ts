@@ -1,173 +1,61 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { defineStore, storeToRefs } from 'pinia';
+import { createBaseStore } from '@/stores/baseStore';
 import { Product } from '@/interfaces/productInterface';
 import { productService } from '@/services/productService';
-import { BaseResponse, FilterParams } from '@/interfaces/baseInterface';
+
+const useBaseProductStore = createBaseStore<Product>('product-base', productService);
 
 export const useProductStore = defineStore('product', () => {
-  const items = ref<Product[]>([]);
-  const selectedItem = ref<Product | null>(null);
-  const totalItems = ref<number>(0);
-  const loading = ref<boolean>(false);
-  const error = ref<string | null>(null);
-  const lastFilterParams = ref<FilterParams | undefined>(undefined);
+  const base = useBaseProductStore();
 
-  const products = computed(() => items.value);
-  const selectedProduct = computed(() => selectedItem.value);
-  const totalProducts = computed(() => totalItems.value || 0);
-
-  async function fetchProducts(params: FilterParams = {}) {
-    loading.value = true;
-    items.value = [];
-    lastFilterParams.value = params;
-
-    try {
-      const resultado = await productService.fetchAll(params);
-      if (resultado.isSuccess) {
-        items.value = resultado.data;
-        totalItems.value = resultado.totalRecords;
-      } else {
-        error.value = resultado.message || resultado.errors;
-      }
-    } catch (err: any) {
-      error.value = err.message;
-    } finally {
-      loading.value = false;
-    }
-  }
-
-  async function downloadProductsExcel(params?: FilterParams) {
-    try {
-      const filtrosParams = params || lastFilterParams.value || {};
-      await productService.downloadExcel(filtrosParams);
-    } catch (err: any) {
-      console.error('Error al descargar Excel:', err);
-      throw err;
-    }
-  }
-
-  async function downloadProductsPdf(params?: FilterParams) {
-    try {
-      const filterParams = params || lastFilterParams.value || {};
-      await productService.downloadPdf(filterParams);
-    } catch (err: any) {
-      console.error('Error al descargar PDF:', err);
-      throw err;
-    }
-  }
-
-  async function fetchProductById(id: number) {
-    loading.value = true;
-
-    try {
-      const resultado = await productService.fetchById(id);
-      if (resultado.isSuccess) {
-        selectedItem.value = resultado.data;
-      } else {
-        error.value = resultado.message || resultado.errors;
-      }
-    } catch (err: any) {
-      error.value = err.message;
-    } finally {
-      loading.value = false;
-    }
-  }
+  // Estado reactivo del base
+  const {
+    items, selectedItem, totalItems, loading, lastFilterParams,
+    list, selected, total
+  } = storeToRefs(base);
 
   async function registerProduct(product: FormData) {
-    try {
-      const resultado = await productService.registerProduct(product);
-      if (resultado.isSuccess) {
-        await fetchProducts(lastFilterParams.value || {});
-      }
-      return resultado;
-    } catch (err: any) {
-      return { isSuccess: false, message: err.message, errors: err };
-    }
+    const result = await productService.registerProduct(product);
+    if (!result.isSuccess) throw new Error(result.message ?? result.errors);
+    await base.fetchAll(base.lastFilterParams ?? {});
+    return result;
   }
 
   async function editProduct(id: number, product: FormData) {
-    try {
-      const resultado = await productService.editProduct(id, product);
-      if (resultado.isSuccess) {
-        await fetchProducts(lastFilterParams.value || {});
-      }
-      return resultado;
-    } catch (err: any) {
-      return { isSuccess: false, message: err.message, errors: err };
-    }
+    const result = await productService.editProduct(id, product);
+    if (!result.isSuccess) throw new Error(result.message ?? result.errors);
+    await base.fetchAll(base.lastFilterParams ?? {});
+    return result;
   }
 
-  async function enableProduct(id: number) {
-    try {
-      const resultado = await productService.enable(id);
-      if (resultado.isSuccess) {
-        await fetchProducts(lastFilterParams.value || {});
-      }
-      return resultado;
-    } catch (err: any) {
-      return { isSuccess: false, message: err.message, errors: err };
-    }
+  async function generateProductCode() {
+    const result = await productService.generateProductCode();
+    if (!result.isSuccess) throw new Error(result.message ?? result.errors);
+    return result;
   }
 
-  async function disableProduct(id: number) {
-    try {
-      const resultado = await productService.disable(id);
-      if (resultado.isSuccess) {
-        await fetchProducts(lastFilterParams.value || {});
-      }
-      return resultado;
-    } catch (err: any) {
-      return { isSuccess: false, message: err.message, errors: err };
-    }
-  }
-
-  async function removeProduct(id: number) {
-    try {
-      const resultado = await productService.remove(id);
-      if (resultado.isSuccess) {
-        await fetchProducts(lastFilterParams.value || {});
-      }
-      return resultado;
-    } catch (err: any) {
-      return { isSuccess: false, message: err.message, errors: err };
-    }
-  }
-
-async function generateProductCode() {
-  try {
-    const resultado = await productService.generateProductCode();
-    return resultado;
-  } catch (err: any) {
-    return { 
-      isSuccess: false, 
-      data: '', 
-      message: err.message, 
-      errors: err, 
-      totalRecords: 0
-    } as BaseResponse<string>;
-  }
-}
   return {
+    // Estado (reactivo via storeToRefs)
     items,
     selectedItem,
     totalItems,
     loading,
-    error,
     lastFilterParams,
-
-    products,
-    selectedProduct,
-    totalProducts,
-
-    fetchProducts,
-    downloadProductsExcel,
-    downloadProductsPdf,
-    fetchProductById,
+    list,
+    selected,
+    total,
+    // Métodos del base
+    fetchAll: base.fetchAll,
+    fetchForSelect: base.fetchForSelect,
+    fetchById: base.fetchById,
+    downloadExcel: base.downloadExcel,
+    downloadPdf: base.downloadPdf,
+    enable: base.enable,
+    disable: base.disable,
+    remove: base.remove,
+    // Métodos propios
     registerProduct,
     editProduct,
-    enableProduct,
-    disableProduct,
-    removeProduct,
     generateProductCode,
   };
 });

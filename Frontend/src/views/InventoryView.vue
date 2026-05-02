@@ -11,7 +11,6 @@
       @download-inventory-sheet="downloadInventorySheet" />
 
     <PriceForm v-model="form" :inventory="selectedInventory" @saved="handleSaved" />
-
   </div>
 </template>
 
@@ -19,175 +18,143 @@
 import { ref, computed, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useInventoryStore } from '@/stores/inventoryStore';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { Inventory } from '@/interfaces/inventoryInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useFilters } from '@/composables/useFilters';
+import { usePagination } from '@/composables/usePagination';
 import InventoryList from '@/components/Inventory/InventoryList.vue';
 import PriceForm from '@/components/Inventory/PriceForm.vue';
 
-// Inicialización
 const inventoryStore = useInventoryStore();
-const authStore = useAuthStore();
-const toast = useToast();
+const authStore      = useAuthStore();
+const toast          = useToast();
 
-// Composable de filtros
 const filterMap: Record<string, number> = {
-  "Código": 1,
-  "Descripción": 2,
-  "Material": 3,
-  "Color": 4,
-  "Precio": 5,
-  "Marca": 6,
-  "Categoría": 7
+  "Código": 1, "Descripción": 2, "Material": 3, "Color": 4, "Precio": 5, "Marca": 6, "Categoría": 7
 };
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Código', filterMap);
 
-// Control de paginación
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-
-// Control de búsqueda
-const search = ref<string | null>(null);
-const drawer = ref(false);
-
-// Control de modales y formularios
-const form = ref(false);
-const modal = ref(false);
-
-// Inventario seleccionado
+const search           = ref<string | null>(null);
+const drawer           = ref(false);
+const form             = ref(false);
+const modal            = ref(false);
 const selectedInventory = ref<Inventory | null>(null);
-
-// Tipo de acción
-const action = ref<0 | 1 | 2>(0);
-
-// Estado de descargas
+const action           = ref<0 | 1 | 2>(0);
 const downloadingExcel = ref(false);
-const downloadingPdf = ref(false);
+const downloadingPdf   = ref(false);
 const downloadingSheet = ref(false);
 
-// Computed properties
-const inventories = computed(() => inventoryStore.inventories);
-const loading = computed(() => inventoryStore.loading);
+const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePagination(
+  (params) => {
+    inventoryStore.fetchInventories({
+      pageNumber:  params.pageNumber,
+      pageSize:    params.pageSize,
+      sort:        'IdProduct',
+      order:       'desc',
+      ...getFilterParams(search.value),
+    });
+  }
+);
+
+const inventories     = computed(() => inventoryStore.inventories);
+const loading         = computed(() => inventoryStore.loading);
 const totalInventories = computed(() => inventoryStore.totalInventories);
 
-const stateFilter = computed<number>(() => state.value === 'Activos' ? 1 : 0);
-
-// Permisos
-const canCreate = computed(() => authStore.hasPermission('inventario', 'crear'));
-const canRead = computed((): boolean => authStore.hasPermission('inventario', 'leer'));
-const canEdit = computed((): boolean => authStore.hasPermission('inventario', 'editar'));
-const canDelete = computed(() => authStore.hasPermission('inventario', 'eliminar'));
+const canCreate   = computed(() => authStore.hasPermission('inventario', 'crear'));
+const canRead     = computed(() => authStore.hasPermission('inventario', 'leer'));
+const canEdit     = computed(() => authStore.hasPermission('inventario', 'editar'));
+const canDelete   = computed(() => authStore.hasPermission('inventario', 'eliminar'));
 const canDownload = computed(() => authStore.hasPermission('inventario', 'descargar'));
 
-const clearFilters = () => {
-  selectedFilter.value = 'Código';
-  state.value = 'Activos';
-  startDate.value = null;
-  endDate.value = null;
-  search.value = null;
-  
-  fetchInventories();
-};
-
-// Métodos
 const openModal = (payload: { inventory: Inventory; action: 0 | 1 | 2 }) => {
   selectedInventory.value = payload.inventory;
-  action.value = payload.action;
-  modal.value = true;
+  action.value            = payload.action;
+  modal.value             = true;
 };
 
 const openForm = (inventory?: Inventory) => {
   selectedInventory.value = inventory ? { ...inventory } : {
-    idStore: null,
-    idProduct: null,
-    code: '',
-    description: '',
-    material: '',
-    color: '',
-    unitMeasure: '',
-    stockAvailable: null,
-    calculatedStock: null,
-    stockDifference: null,
-    stockInTransit: null,
-    price: null,
-    replenishment: '',
-    brandName: '',
-    categoryName: '',
-    auditCreateDate: ''
+    idStore:           null,
+    idProduct:         null,
+    code:              '',
+    description:       '',
+    material:          '',
+    color:             '',
+    unitMeasure:       '',
+    stockAvailable:    null,
+    calculatedStock:   null,
+    stockDifference:   null,
+    stockInTransit:    null,
+    price:             null,
+    replenishment:     '',
+    brandName:         '',
+    categoryName:      '',
+    auditCreateDate:   ''
   };
   form.value = true;
 };
 
-const fetchInventories = async (params?: any) => {
+const fetchInventories = async () => {
   try {
-    await inventoryStore.fetchInventories(params || {
-      pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdProduct',
-      order: 'desc',
-      stateFilter: stateFilter.value
+    await inventoryStore.fetchInventories({
+      pageNumber:  currentPage.value,
+      pageSize:    itemsPerPage.value,
+      sort:        'IdProduct',
+      order:       'desc',
+      stateFilter: state.value === 'Activos' ? 1 : 0,
     });
   } catch (error) {
     handleSilentError(error);
   }
 };
 
-const searchInventories = async (params: any) => {
-  search.value = params.search;
-  selectedFilter.value = params.selectedFilter;
-  state.value = params.state;
-  startDate.value = params.startDate;
-  endDate.value = params.endDate;
+const searchInventories = async (params: {
+  search: string | null;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}) => {
+  search.value          = params.search;
+  selectedFilter.value  = params.selectedFilter;
+  state.value           = params.state;
+  startDate.value       = params.startDate;
+  endDate.value         = params.endDate;
+  currentPage.value     = 1;
 
   try {
-        await inventoryStore.fetchInventories({
-          pageNumber: 1,
-          pageSize: itemsPerPage.value,
-          sort: 'IdProduct',
-          order: 'desc',
-          ...getFilterParams(params.search)
-        });
-        currentPage.value = 1;
-      } catch (error) {
-        handleApiError(error, 'Error al buscar productos');
-    }
-};
-
-const refreshInventories = () => {
-  if (search.value?.trim()) {
-    searchInventories({
-      search: search.value,
-      selectedFilter: selectedFilter.value,
-      state: state.value,
-      startDate: startDate.value,
-      endDate: endDate.value
+    await inventoryStore.fetchInventories({
+      pageNumber: 1,
+      pageSize:   itemsPerPage.value,
+      sort:       'IdProduct',
+      order:      'desc',
+      ...getFilterParams(params.search),
     });
-  } else {
-    fetchInventories();
+  } catch (error) {
+    handleApiError(error, 'Error al buscar productos');
   }
 };
 
-const updateItemsPerPage = (newItemsPerPage: number) => {
-  itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1;
-  refreshInventories();
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value          = 'Activos';
+  startDate.value      = null;
+  endDate.value        = null;
+  search.value         = null;
+  currentPage.value    = 1;
+  fetchInventories();
 };
 
-const changePage = (page: number) => {
-  currentPage.value = page;
-  refreshInventories();
-};
-
-const downloadExcel = async (params: any) => {
+const downloadExcel = async (params: { search: string | null }) => {
   downloadingExcel.value = true;
   try {
     await inventoryStore.downloadInventoriesExcel({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdProduct',
-      order: 'desc',
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdProduct',
+      order:      'desc',
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
   } catch (error) {
@@ -197,15 +164,15 @@ const downloadExcel = async (params: any) => {
   }
 };
 
-const downloadPdf = async (params: any) => {
+const downloadPdf = async (params: { search: string | null }) => {
   downloadingPdf.value = true;
   try {
     await inventoryStore.downloadInventoriesPdf({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdProduct',
-      order: 'desc',
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdProduct',
+      order:      'desc',
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');
   } catch (error) {
@@ -215,15 +182,15 @@ const downloadPdf = async (params: any) => {
   }
 };
 
-const downloadInventorySheet = async (params: any) => {
+const downloadInventorySheet = async (params: { search: string | null }) => {
   downloadingSheet.value = true;
   try {
     await inventoryStore.downloadInventorySheet({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdProduct',
-      order: 'desc',
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdProduct',
+      order:      'desc',
+      ...getFilterParams(params.search),
     });
     toast.success('Planilla descargada correctamente');
   } catch (error) {
@@ -238,6 +205,6 @@ const handleSaved = () => {
 };
 
 onMounted(() => {
-   fetchInventories();
+  fetchInventories();
 });
 </script>

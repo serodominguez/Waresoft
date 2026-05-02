@@ -27,6 +27,7 @@ import { ref, computed } from 'vue';
 import { useToast } from 'vue-toastification';
 import { handleApiError } from '@/helpers/errorHandler';
 import { useStoreMapper } from '@/composables/useStoreMapper';
+import type { StoreMap } from '@/composables/useStoreMapper';
 
 // Props del componente
 interface Props {
@@ -34,8 +35,7 @@ interface Props {
     itemId: number;
     item: string;
     action: 0 | 1 | 2 | 3;
-    moduleName: string;
-    entityName: string;
+    moduleName: keyof StoreMap;
     name: string;
     gender?: 'male' | 'female';
 }
@@ -115,7 +115,7 @@ const handleAction = async () => {
             successMsg: `${props.name} inactivad${genderSuffix} con éxito!`,
             errorMsg: `Error al inactivar ${props.name.toLowerCase()}`
         },
-        3: { 
+        3: {
             actionType: 'cancelar' as const,
             successMsg: `${props.name} cancelad${genderSuffix} con éxito!`,
             errorMsg: `Error al cancelar ${props.name.toLowerCase()}`
@@ -125,20 +125,18 @@ const handleAction = async () => {
     const currentAction = actionMap[props.action];
 
     try {
-        // Obtener la acción del store correspondiente
-        const storeAction = getStoreAction(
-            props.moduleName,
-            currentAction.actionType,
-            props.entityName
-        );
+const storeAction = getStoreAction(
+    props.moduleName,
+    currentAction.actionType,
+);
 
-        const result = await storeAction(props.itemId);
+const result = await storeAction(props.itemId);
 
-        if (result.isSuccess) {
-            toast.success(currentAction.successMsg);
-            emit('action-completed');
-            close();
-        }
+if (result.isSuccess) {
+    toast.success(currentAction.successMsg);
+    emit('action-completed');
+    close();
+}
     } catch (error: any) {
         handleApiError(error, currentAction.errorMsg);
     } finally {

@@ -21,69 +21,61 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useToast } from 'vue-toastification';
 import { storeToRefs } from 'pinia';
+import { useToast } from 'vue-toastification';
 import { useGoodsIssueStore } from '@/stores/goodsIssueStore';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { GoodsIssue } from '@/interfaces/goodsIssueInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useMovementFilters } from '@/composables/useMovementFilters';
+import { usePagination } from '@/composables/usePagination';
 import { GoodsStateMap } from '@/constants/goodsStatus';
 import GoodsIssueList from '@/components/GoodsIssue/GoodsIssueList.vue';
 import GoodsIssueForm from '@/components/GoodsIssue/GoodsIssueForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
 
 const goodsIssueStore = useGoodsIssueStore();
-const authStore = useAuthStore();
-const toast = useToast();
+const authStore       = useAuthStore();
+const toast           = useToast();
 
 const { goodsissue, selectedGoodsIssue, selectedIssueDetails, loading, totalGoodsIssue } = storeToRefs(goodsIssueStore);
 
-const filterMap = {
-  "Código": 1,
-  "Tienda": 2,
-  "Personal": 3
-};
-
+const filterMap = { "Código": 1, "Tienda": 2, "Personal": 3 };
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useMovementFilters(
-  'Código', 
-  filterMap,
-  GoodsStateMap,
-  'Completado'
-)
+  'Código', filterMap, GoodsStateMap, 'Completado'
+);
 
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-const search = ref<string | null>(null);
-const drawer = ref(false);
-const form = ref(false);
-const modal = ref(false);
-const action = ref<0 | 1 | 2 | 3>(0);
-
-const downloadingExcel = ref(false);
-const downloadingPdf = ref(false);
+const search            = ref<string | null>(null);
+const drawer            = ref(false);
+const form              = ref(false);
+const modal             = ref(false);
+const action            = ref<0 | 1 | 2 | 3>(0);
+const downloadingExcel  = ref(false);
+const downloadingPdf    = ref(false);
 const currentPrintingId = ref<number | null>(null);
 
-const canCreate = computed(() => authStore.hasPermission('salida de productos', 'crear'));
-const canRead = computed(() => authStore.hasPermission('salida de productos', 'leer'));
-const canEdit = computed(() => authStore.hasPermission('salida de productos', 'editar'));
-const canDelete = computed(() => authStore.hasPermission('salida de productos', 'eliminar'));
+const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePagination(
+  (params) => {
+    goodsIssueStore.fetchGoodsIssue({
+      pageNumber: params.pageNumber,
+      pageSize:   params.pageSize,
+      sort:       'IdIssue',
+      order:      'desc',
+      ...getFilterParams(search.value),
+    });
+  }
+);
+
+const canCreate   = computed(() => authStore.hasPermission('salida de productos', 'crear'));
+const canRead     = computed(() => authStore.hasPermission('salida de productos', 'leer'));
+const canEdit     = computed(() => authStore.hasPermission('salida de productos', 'editar'));
+const canDelete   = computed(() => authStore.hasPermission('salida de productos', 'eliminar'));
 const canDownload = computed(() => authStore.hasPermission('salida de productos', 'descargar'));
 
-const clearFilters = () => {
-  selectedFilter.value = 'Código';
-  state.value = 'Completado';
-  startDate.value = null;
-  endDate.value = null;
-  search.value = null;
-  
-  fetchGoodsIssue();
-};
-
-const openModal = (payload: { goodsissue: GoodsIssue, action: 0 | 1 | 2 | 3 }) => {
+const openModal = (payload: { goodsissue: GoodsIssue; action: 0 | 1 | 2 | 3 }) => {
   goodsIssueStore.selectedItem = payload.goodsissue;
-  action.value = payload.action;
-  modal.value = true;
+  action.value                 = payload.action;
+  modal.value                  = true;
 };
 
 const openForm = async (goodsissue?: GoodsIssue) => {
@@ -96,104 +88,88 @@ const openForm = async (goodsissue?: GoodsIssue) => {
     }
   } else {
     goodsIssueStore.selectedItem = {
-      idIssue: null,
-      code: '',
-      type: '',
-      storeName: '',
-      idUser: null,
-      userName: '',
-      totalAmount: 0,
-      annotations: '',
+      idIssue:       null,
+      code:          '',
+      type:          '',
+      storeName:     '',
+      idUser:        null,
+      userName:      '',
+      totalAmount:   0,
+      annotations:   '',
       auditCreateDate: '',
-      statusIssue: ''
+      statusIssue:   ''
     };
   }
-
   form.value = true;
 };
 
 const closeForm = () => {
   goodsIssueStore.selectedIssueDetails = [];
-  goodsIssueStore.selectedItem = null;
-  form.value = false;
-  refreshGoodsIssue();
+  goodsIssueStore.selectedItem         = null;
+  form.value                           = false;
+  fetchGoodsIssue();
 };
 
-const fetchGoodsIssue = async (params?: any) => {
+const fetchGoodsIssue = async () => {
   try {
-    await goodsIssueStore.fetchGoodsIssue(params || {
-      pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdIssue',
-      order: 'desc',
-      ...getFilterParams(null)
+    await goodsIssueStore.fetchGoodsIssue({
+      pageNumber:  currentPage.value,
+      pageSize:    itemsPerPage.value,
+      sort:        'IdIssue',
+      order:       'desc',
+      stateFilter: state.value === 'Completado' ? 1 : 0,
     });
   } catch (error) {
     handleSilentError(error);
   }
 };
 
-const searchGoodsIssue = async (params: any) => {
-  search.value = params.search;
-  selectedFilter.value = params.selectedFilter;
-  state.value = params.state;
-  startDate.value = params.startDate;
-  endDate.value = params.endDate;
+const searchGoodsIssue = async (params: {
+  search: string | null;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}) => {
+  search.value          = params.search;
+  selectedFilter.value  = params.selectedFilter;
+  state.value           = params.state;
+  startDate.value       = params.startDate;
+  endDate.value         = params.endDate;
+  currentPage.value     = 1;
 
   try {
     await goodsIssueStore.fetchGoodsIssue({
       pageNumber: 1,
-      pageSize: itemsPerPage.value,
-      sort: 'IdIssue',
-      order: 'desc',
-      ...getFilterParams(search.value)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdIssue',
+      order:      'desc',
+      ...getFilterParams(params.search),
     });
-    currentPage.value = 1;
   } catch (error) {
     handleApiError(error, 'Error al buscar las salidas');
   }
 };
 
-const refreshGoodsIssue = () => {
-  if (search.value?.trim()) {
-    searchGoodsIssue({
-      search: search.value,
-      selectedFilter: selectedFilter.value,
-      state: state.value,
-      startDate: startDate.value,
-      endDate: endDate.value
-    });
-  } else {
-    fetchGoodsIssue({
-      pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdIssue',
-      order: 'desc',
-      ...getFilterParams(null)
-    });
-  }
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value          = 'Completado';
+  startDate.value      = null;
+  endDate.value        = null;
+  search.value         = null;
+  currentPage.value    = 1;
+  fetchGoodsIssue();
 };
 
-const updateItemsPerPage = (newItemsPerPage: number) => {
-  itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1;
-  refreshGoodsIssue();
-};
-
-const changePage = (page: number) => {
-  currentPage.value = page;
-  refreshGoodsIssue();
-};
-
-const downloadExcel = async (params: any) => {
+const downloadExcel = async (params: { search: string | null }) => {
   downloadingExcel.value = true;
   try {
     await goodsIssueStore.downloadGoodsIssueExcel({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdIssue',
-      order: 'desc',
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdIssue',
+      order:      'desc',
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
   } catch (error) {
@@ -203,15 +179,15 @@ const downloadExcel = async (params: any) => {
   }
 };
 
-const downloadPdf = async (params: any) => {
+const downloadPdf = async (params: { search: string | null }) => {
   downloadingPdf.value = true;
   try {
     await goodsIssueStore.downloadGoodsIssuePdf({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdIssue',
-      order: 'desc',
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdIssue',
+      order:      'desc',
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');
   } catch (error) {
@@ -226,13 +202,8 @@ const printPdf = async (goodsissue: GoodsIssue) => {
 
   currentPrintingId.value = goodsissue.idIssue;
   try {
-    const result = await goodsIssueStore.openGoodsIssuePdf(goodsissue.idIssue);
-
-    if (result.isSuccess) {
-      toast.success('PDF abierto correctamente');
-    } else {
-      toast.error('Error al abrir el PDF');
-    }
+    await goodsIssueStore.openGoodsIssuePdf(goodsissue.idIssue);
+    toast.success('PDF abierto correctamente');
   } catch (error) {
     handleApiError(error, 'Error al abrir el PDF');
   } finally {
@@ -241,7 +212,7 @@ const printPdf = async (goodsissue: GoodsIssue) => {
 };
 
 const handleSaved = () => {
-  refreshGoodsIssue();
+  fetchGoodsIssue();
 };
 
 const handleActionCompleted = () => {

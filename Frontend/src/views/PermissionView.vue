@@ -70,7 +70,7 @@ const hasChanges = ref(false);
 const saving = ref(false);
 
 //Computed properties
-const roles = computed(() => Array.isArray(roleStore.roles) ? roleStore.roles : []);
+const roles = computed(() => Array.isArray(roleStore.list) ? roleStore.list : []);
 const loadingRoles = computed<boolean>(() => roleStore.loading);
 const permissionsByModule = computed<PermissionsByModule[]>(() => permissionStore.permissionsByModule);
 const permissions = computed(() => permissionStore.permissions);
@@ -120,18 +120,15 @@ const savePermissions = async () => {
     });
 
     //Llamar al store
-    const response = await permissionStore.updatePermissions(updatedPermissions);
-    if (response && response.success) {
+      await permissionStore.updatePermissions(updatedPermissions);
       toast.success('Permisos actualizados correctamente');
       hasChanges.value = false;
+
       if (selectedRoleId.value) {
         await permissionStore.fetchPermissionsByRole(selectedRoleId.value);
       }
-    } else {
-      toast.error(response?.message || 'Error al actualizar permisos');
-    }
   } catch (error) {
-    handleApiError(error, 'Error al guardar los permisos');
+    handleApiError(error, 'Error al actualizar los permisos');
   } finally {
     saving.value = false;
   }
@@ -147,6 +144,6 @@ const clearPermissions = () => {
 
 //Lifecycle hooks
 onMounted(() => {
-  roleStore.selectRole();
+  roleStore.fetchForSelect();
 });
 </script>

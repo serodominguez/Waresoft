@@ -32,7 +32,6 @@ import { useBrandStore } from '@/stores/brandStore';
 import { Brand } from '@/interfaces/brandInterface';
 import { handleApiError } from '@/helpers/errorHandler';
 
-// Interfaz para el tipo de referencia del formulario
 interface FormRef {
   validate: () => Promise<{ valid: boolean }>;
 }
@@ -47,6 +46,7 @@ interface Props {
   brand?: Brand | null;
 }
 
+//Props & Emits
 const props = withDefaults(defineProps<Props>(), {
   brand: () => ({
     idBrand: null,
@@ -56,31 +56,28 @@ const props = withDefaults(defineProps<Props>(), {
   })
 });
 
-// Definir emits
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
   'saved': [];
 }>();
 
-// Inicialización de servicios
+//Servicios
 const brandStore = useBrandStore();
 const toast = useToast();
 
-// Referencias del formulario - IMPORTANTE: el nombre debe coincidir con ref="formRef" en el template
+//Refs
 const formRef = ref<FormRef | null>(null);
-
-// Estado reactivo del componente
 const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
 const localBrand = ref<Brand>({ ...props.brand } as Brand);
 
-// Reglas de validación
+//Reglas de validación
 const rules = {
   required: (value: string) => !!value || 'Este campo es requerido.'
 };
 
-// Watchers para sincronizar props con estado local
+//Watchers
 watch(() => props.modelValue, (newValue: boolean) => {
   isOpen.value = newValue;
 });
@@ -95,21 +92,19 @@ watch(() => props.brand, (newBrand) => {
   }
 }, { deep: true });
 
-// Cierra el diálogo
+//Methods
 const close = () => {
   isOpen.value = false;
 };
 
-// Guarda o actualiza la entidad
 const saveBrand = async () => {
-  // Valida el formulario
   if (!formRef.value) {
     toast.warning('Error al acceder al formulario');
     return;
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -118,22 +113,18 @@ const saveBrand = async () => {
   saving.value = true;
 
   try {
-    // Determina si es edición o creación según si existe id de la entidad
     const isEditing = !!localBrand.value.idBrand;
     let result;
 
     if (isEditing && localBrand.value.idBrand !== null) {
-      // Llama a la action de Pinia para editar entidad existente
-      result = await brandStore.editBrand(
+      result = await brandStore.edit(
         localBrand.value.idBrand,
         { ...localBrand.value }
       );
     } else {
-      // Llama a la action de Pinia para registrar nuevo
-      result = await brandStore.registerBrand({ ...localBrand.value });
+      result = await brandStore.register({ ...localBrand.value });
     }
 
-    // Si la operación fue exitosa
     if (result.isSuccess) {
       const successMsg = isEditing
         ? 'Marca editada con éxito!'
@@ -145,7 +136,6 @@ const saveBrand = async () => {
     }
 
   } catch (error: any) {
-    // Manejo de errores
     const isEditing = !!localBrand.value.idBrand;
     const customMessage = isEditing
       ? 'Error al editar la marca'

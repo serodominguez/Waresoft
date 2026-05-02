@@ -13,7 +13,8 @@ class KardexService extends BaseService<KardexDetail> {
 
   async fetchKardex(
     productId: number,
-    params: FilterParams = {}
+    params: FilterParams = {},
+    signal?: AbortSignal
   ): Promise<BaseResponse<KardexDetail>> {
     const queryParams = {
       ...this.buildParams(params),
@@ -22,74 +23,57 @@ class KardexService extends BaseService<KardexDetail> {
 
     const response = await axios.get<BaseResponse<KardexDetail>>(
       `api/${this.endpoint}/Kardex`,
-      { params: queryParams }
+      { params: queryParams, signal }
     );
     return response.data;
   }
 
+  private buildDownloadLink(blob: Blob, filename: string): void {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode?.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
+
   async downloadKardexExcel(productId: number, params: FilterParams = {}): Promise<void> {
-    try {
-      const queryParams = {
-        ...this.buildParams(params),
-        productId,
-        Download: true,
-      };
+    const queryParams = {
+      ...this.buildParams(params),
+      productId,
+      Download: true,
+    };
 
-      const response = await axios.get(`api/${this.endpoint}/Kardex`, {
-        params: queryParams,
-        responseType: 'blob',
-      });
+    const response = await axios.get(`api/${this.endpoint}/Kardex`, {
+      params: queryParams,
+      responseType: 'blob',
+    });
 
-      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-
-      const date = new Date().toISOString().split('T')[0];
-      link.setAttribute('download', `${this.downloadFileName}_${date}.xlsx`);
-
-      document.body.appendChild(link);
-      link.click();
-
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error al descargar Excel:', error);
-      throw error;
-    }
+    const date = new Date().toISOString().split('T')[0];
+    const blob = new Blob([response.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    this.buildDownloadLink(blob, `${this.downloadFileName}_${date}.xlsx`);
   }
 
   async downloadKardexPdf(productId: number, params: FilterParams = {}): Promise<void> {
-    try {
-      const queryParams = {
-        ...this.buildParams(params),
-        productId,
-        Download: true,
-        DownloadType: 'pdf',
-      };
+    const queryParams = {
+      ...this.buildParams(params),
+      productId,
+      Download: true,
+      DownloadType: 'pdf',
+    };
 
-      const response = await axios.get(`api/${this.endpoint}/Kardex`, {
-        params: queryParams,
-        responseType: 'blob',
-      });
+    const response = await axios.get(`api/${this.endpoint}/Kardex`, {
+      params: queryParams,
+      responseType: 'blob',
+    });
 
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-
-      const date = new Date().toISOString().split('T')[0];
-      link.setAttribute('download', `${this.downloadFileName}_${date}.pdf`);
-
-      document.body.appendChild(link);
-      link.click();
-
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error al descargar PDF:', error);
-      throw error;
-    }
+    const date = new Date().toISOString().split('T')[0];
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    this.buildDownloadLink(blob, `${this.downloadFileName}_${date}.pdf`);
   }
 }
 

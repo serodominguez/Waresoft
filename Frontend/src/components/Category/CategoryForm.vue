@@ -65,7 +65,6 @@ const categoryStore = useCategoryStore();
 const toast = useToast();
 
 const formRef = ref<FormRef | null>(null);
-
 const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
@@ -114,12 +113,12 @@ const saveCategory = async () => {
     let result;
 
     if (isEditing && localCategory.value.idCategory !== null) {
-      result = await categoryStore.editCategory(
+      result = await categoryStore.edit(
         localCategory.value.idCategory,
         { ...localCategory.value }
       );
     } else {
-      result = await categoryStore.registerCategory({ ...localCategory.value });
+      result = await categoryStore.register({ ...localCategory.value });
     }
 
     if (result.isSuccess) {
@@ -131,7 +130,6 @@ const saveCategory = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     const isEditing = !!localCategory.value.idCategory;
     const customMessage = isEditing

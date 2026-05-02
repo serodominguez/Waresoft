@@ -76,7 +76,6 @@ const customerStore = useCustomerStore();
 const toast = useToast();
 
 const formRef = ref<FormRef | null>(null);
-
 const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
@@ -117,7 +116,7 @@ const saveCustomer = async () => {
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -127,22 +126,18 @@ const saveCustomer = async () => {
 
   try {
     const isEditing = !!localCustomer.value.idCustomer;
-    let result;
 
     const customerData = {
       ...localCustomer.value,
-      phoneNumber: localCustomer.value.phoneNumber 
-        ? localCustomer.value.phoneNumber 
-        : null
+      phoneNumber: localCustomer.value.phoneNumber ?? null
     };
 
+    let result;
+
     if (isEditing && localCustomer.value.idCustomer !== null) {
-      result = await customerStore.editCustomer(
-        localCustomer.value.idCustomer,
-        customerData
-      );
+      result = await customerStore.edit(localCustomer.value.idCustomer, customerData);
     } else {
-      result = await customerStore.registerCustomer(customerData);
+      result = await customerStore.register(customerData);
     }
 
     if (result.isSuccess) {
@@ -154,7 +149,6 @@ const saveCustomer = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     const isEditing = !!localCustomer.value.idCustomer;
     const customMessage = isEditing

@@ -127,8 +127,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/authStore';
 import { Transfer } from '@/interfaces/transferInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFiltersMovements.vue';
@@ -141,8 +141,6 @@ interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
   currentPage: number;
   printingPdfId?: number | string | null;
 }
-const authStore = useAuthStore();
-const { currentUser } = storeToRefs(authStore);
 
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
@@ -174,14 +172,14 @@ const emit = defineEmits<{
   'download-excel': [params: {
     search: string | null;
     selectedFilter: string;
-    state: string;
+    stateFilter: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
   'download-pdf': [params: {
     search: string | null;
     selectedFilter: string;
-    state: string;
+    stateFilter: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
@@ -194,21 +192,26 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = "Traspasos por Página";
-const search = ref<string | null>(null);
+const authStore = useAuthStore();
+const { currentUser } = storeToRefs(authStore);
+
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = 'Traspasos por Página';
 const filterOptions = ['Código', 'Origen', 'Destino'];
 
+const search = ref<string | null>(null);
+
 const headers = computed(() => [
-  { title: 'Código', key: 'code', sortable: false },
-  { title: 'Origen', key: 'storeOrigin', sortable: false },
-  { title: 'Fecha de envio', key: 'sendDate', sortable: false },
-  { title: 'Enviado por', key: 'sendUser', sortable: false },
-  { title: 'Destino', key: 'storeDestination', sortable: false },
-  { title: 'Fecha de recepción ', key: 'receiveDate', sortable: false },
-  { title: 'Recibido por', key: 'receiveUser', sortable: false },
-  { title: 'Estado', key: 'statusTransfer', sortable: false, align: 'center' as const },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Código',              key: 'code',             sortable: false },
+  { title: 'Origen',              key: 'storeOrigin',      sortable: false },
+  { title: 'Fecha de envio',      key: 'sendDate',         sortable: false },
+  { title: 'Enviado por',         key: 'sendUser',         sortable: false },
+  { title: 'Destino',             key: 'storeDestination', sortable: false },
+  { title: 'Fecha de recepción',  key: 'receiveDate',      sortable: false },
+  { title: 'Recibido por',        key: 'receiveUser',      sortable: false },
+  { title: 'Estado',              key: 'statusTransfer',   sortable: false, align: 'center' as const },
+  { title: 'Acciones',            key: 'actions',          sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({
@@ -238,28 +241,21 @@ const endDateModel = computed({
 
 const stateColor = (status: string): string => {
   const statusLower = status.toLowerCase();
-
-  if (statusLower === 'enviado') {
-    return 'blue-darken-2';
-  } else if (statusLower === 'pendiente') {
-    return 'orange';
-  } else if (statusLower === 'recibido') {
-    return 'green';
-  } else if (statusLower === 'cancelado') {
-    return 'red';
-  }
-
+  if (statusLower === 'enviado')   return 'blue-darken-2';
+  if (statusLower === 'pendiente') return 'orange';
+  if (statusLower === 'recibido')  return 'green';
+  if (statusLower === 'cancelado') return 'red';
   return 'grey';
 };
 
 const stateIcon = (status: string): string => {
   const statusLower = status.toLowerCase();
-  if (statusLower === 'enviado') return 'mdi-truck-delivery';
+  if (statusLower === 'enviado')   return 'mdi-truck-delivery';
   if (statusLower === 'pendiente') return 'mdi-clock-outline';
-  if (statusLower === 'recibido') return 'mdi-package-variant-closed-check';
+  if (statusLower === 'recibido')  return 'mdi-package-variant-closed-check';
   if (statusLower === 'cancelado') return 'mdi-archive-cancel';
   return 'mdi-circle-outline';
-}
+};
 
 const handleSearch = () => {
   emit('search-transfer', {
@@ -280,7 +276,7 @@ const handleDownloadExcel = () => {
   emit('download-excel', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    state: stateModel.value,
+    stateFilter: stateModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });
@@ -290,7 +286,7 @@ const handleDownloadPdf = () => {
   emit('download-pdf', {
     search: search.value,
     selectedFilter: selectedFilterModel.value,
-    state: stateModel.value,
+    stateFilter: stateModel.value,
     startDate: startDateModel.value,
     endDate: endDateModel.value
   });

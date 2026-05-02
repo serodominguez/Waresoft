@@ -79,7 +79,7 @@
                 </v-btn>
               </template>
             </v-tooltip>
-            <v-tooltip v-bind="tooltipProps" text="Registrar Salida" location="bottom">
+            <v-tooltip v-bind="tooltipProps" text="Registrar Entrada" location="bottom">
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" v-if="canCreate" icon variant="text" color="indigo" size="38"
                   @click="$emit('open-form')" class="mr-2">
@@ -121,7 +121,7 @@
 import { ref, computed } from 'vue';
 import { GoodsReceipt } from '@/interfaces/goodsReceiptInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
-import CommonFilters from '@/components/Common/CommonFiltersMovements.vue'
+import CommonFilters from '@/components/Common/CommonFiltersMovements.vue';
 import { GoodsStatusOptions } from '@/constants/goodsStatus';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
@@ -182,23 +182,23 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-// Data
-const pages = "Entradas por Página";
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = 'Entradas por Página';
 const filterOptions = ['Código', 'Tienda', 'Proveedor'];
 
-// Computed
+const search = ref<string | null>(null);
+
 const headers = computed(() => [
-  { title: 'Código', key: 'code', sortable: false },
-  { title: 'Tipo', key: 'type', sortable: false },
-  { title: 'Proveedor', key: 'companyName', sortable: false },
-  { title: 'Tipo de documento', key: 'documentType', sortable: false },
-  { title: 'Fecha del documento', key: 'documentDate', sortable: false },
-  { title: 'Número de documento', key: 'documenNumber', sortable: false },
-  { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusReceipt', sortable: false, align: 'center' as const },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Código',               key: 'code',            sortable: false },
+  { title: 'Tipo',                 key: 'type',            sortable: false },
+  { title: 'Proveedor',            key: 'companyName',     sortable: false },
+  { title: 'Tipo de documento',    key: 'documentType',    sortable: false },
+  { title: 'Fecha del documento',  key: 'documentDate',    sortable: false },
+  { title: 'Número de documento',  key: 'documentNumber',  sortable: false },
+  { title: 'Fecha de registro',    key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',               key: 'statusReceipt',   sortable: false, align: 'center' as const },
+  { title: 'Acciones',             key: 'actions',         sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({
@@ -226,15 +226,10 @@ const endDateModel = computed({
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
-// Methods
 const stateColor = (status: string): string => {
   const statusLower = status.toLowerCase();
-
-  if (statusLower === 'completado') {
-    return 'green';
-  } else if (statusLower === 'cancelado') {
-    return 'red';
-  }
+  if (statusLower === 'completado') return 'green';
+  if (statusLower === 'cancelado') return 'red';
   return 'grey';
 };
 
@@ -258,7 +253,7 @@ const handleSearch = () => {
 const handleClearFilters = () => {
   search.value = null;
   emit('clear-filters');
-}
+};
 
 const handleDownloadExcel = () => {
   emit('download-excel', {

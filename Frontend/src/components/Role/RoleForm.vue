@@ -95,7 +95,7 @@ const saveRole = async () => {
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -108,12 +108,12 @@ const saveRole = async () => {
     let result;
 
     if (isEditing && localRole.value.idRole !== null) {
-      result = await roleStore.editRole(
+      result = await roleStore.edit(
         localRole.value.idRole,
         { ...localRole.value }
       );
     } else {
-      result = await roleStore.registerRole({ ...localRole.value });
+      result = await roleStore.register({ ...localRole.value });
     }
 
     if (result.isSuccess) {
@@ -125,7 +125,6 @@ const saveRole = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     const isEditing = !!localRole.value.idRole;
     const customMessage = isEditing

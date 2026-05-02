@@ -30,7 +30,7 @@
 import axios, { AxiosError } from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 
 interface ApiResponse {
   isSuccess: boolean;

@@ -5,6 +5,21 @@ import { FilterParams, BaseResponse, ServiceConfig } from '@/interfaces/baseInte
  * Servicio base genérico para operaciones CRUD
  * @template T - Tipo de la entidad (Brand, Category, etc.)
  */
+
+interface QueryParams {
+  NumberPage: number;
+  NumberRecordsPage: number;
+  Order: string;
+  Sort: string;
+  StateFilter: number;
+  TextFilter?: string;
+  NumberFilter?: number;
+  StartDate?: string;
+  EndDate?: string;
+  Download?: boolean;
+  DownloadType?: 'pdf' | 'excel';
+}
+
 export class BaseService<T> {
   protected endpoint: string;
   protected downloadFileName: string;
@@ -18,9 +33,20 @@ export class BaseService<T> {
     this.customEndpoints = config.customEndpoints || {};
   }
 
+  private triggerDownload(blob: Blob, filename: string): void {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode?.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
+
   // Construye los parámetros de consulta
-  protected buildParams(params: FilterParams = {}): any {
-    const queryParams: any = {
+  protected buildParams(params: FilterParams = {}): QueryParams {
+    const queryParams: QueryParams = {
       NumberPage: params.pageNumber || 1,
       NumberRecordsPage: params.pageSize || 10,
       Order: params.order || 'desc',
@@ -32,14 +58,8 @@ export class BaseService<T> {
       queryParams.TextFilter = params.textFilter;
       queryParams.NumberFilter = params.numberFilter;
     }
-
-    if (params.startDate) {
-      queryParams.StartDate = params.startDate;
-    }
-
-    if (params.endDate) {
-      queryParams.EndDate = params.endDate;
-    }
+    if (params.startDate) queryParams.StartDate = params.startDate;
+    if (params.endDate) queryParams.EndDate = params.endDate;
 
     return queryParams;
   }
@@ -47,7 +67,7 @@ export class BaseService<T> {
   // Sobrecarga de tipos
   async fetchAll(params?: FilterParams, download?: false): Promise<BaseResponse<T[]>>;
   async fetchAll(params: FilterParams, download: true): Promise<Blob>;
-  
+
   // Implementación (mantener como está)
   async fetchAll(
     params: FilterParams = {},
@@ -74,60 +94,19 @@ export class BaseService<T> {
 
   // Descarga Excel de items
   async downloadExcel(params: FilterParams = {}): Promise<void> {
-    try {
-      const blob = await this.fetchAll(params, true); // Ya no necesita "as Blob"
-      
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      
-      const date = new Date().toISOString().split('T')[0];
-      link.setAttribute('download', `${this.downloadFileName}_${date}.xlsx`);
-      
-      document.body.appendChild(link);
-      link.click();
-      
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error al descargar Excel:', error);
-      throw error;
-    }
+    const blob = await this.fetchAll(params, true);
+    const date = new Date().toISOString().split('T')[0];
+    this.triggerDownload(blob, `${this.downloadFileName}_${date}.xlsx`);
   }
 
   // Descarga PDF de items
   async downloadPdf(params: FilterParams = {}): Promise<void> {
-    try {
-      const queryParams: any = {
-        ...this.buildParams(params),
-        Download: true,
-        DownloadType: 'pdf'
-      };
-
-      const response = await axios.get(`api/${this.endpoint}`, {
-        params: queryParams,
-        responseType: 'blob'
-      });
-
-      const blob = new Blob([response.data], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-
-      const date = new Date().toISOString().split('T')[0];
-      link.setAttribute('download', `${this.downloadFileName}_${date}.pdf`);
-
-      document.body.appendChild(link);
-      link.click();
-
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error al descargar PDF:', error);
-      throw error;
-    }
+    const queryParams = { ...this.buildParams(params), Download: true, DownloadType: 'pdf' };
+    const response = await axios.get(`api/${this.endpoint}`, { params: queryParams, responseType: 'blob' });
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const date = new Date().toISOString().split('T')[0];
+    this.triggerDownload(blob, `${this.downloadFileName}_${date}.pdf`);
   }
-  
   // Obtiene lista para selects (sin paginación)
   async select(): Promise<BaseResponse<T[]>> {
     const response = await axios.get<BaseResponse<T[]>>(`api/${this.selectEndpoint}`);

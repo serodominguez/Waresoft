@@ -108,7 +108,7 @@ const rules = {
   onlyLetters: (value: string) => !value || /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(value) || 'Solo se permiten letras.',
   onlyNumbers: (value: string) => !value || /^[0-9]+$/.test(value) || 'Solo se permiten números.',
   email: (value: string) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Formato de correo inválido.',
-  profitMargin: (value: any) => { 
+  profitMargin: (value: any) => {
     if (!value && value !== 0) return 'Este campo es requerido.';
     const num = parseFloat(value);
     if (isNaN(num)) return 'Debe ser un número válido.';
@@ -142,7 +142,7 @@ const saveStore = async () => {
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -152,22 +152,18 @@ const saveStore = async () => {
 
   try {
     const isEditing = !!localStore.value.idStore;
-    let result;
 
     const storeData = {
       ...localStore.value,
-      phoneNumber: localStore.value.phoneNumber 
-        ? localStore.value.phoneNumber 
-        : null
+      phoneNumber: localStore.value.phoneNumber ?? null
     };
 
+    let result;
+
     if (isEditing && localStore.value.idStore !== null) {
-      result = await storeStore.editStore(
-        localStore.value.idStore,
-        storeData
-      );
+      result = await storeStore.edit(localStore.value.idStore, storeData);
     } else {
-      result = await storeStore.registerStore(storeData);
+      result = await storeStore.register(storeData);
     }
 
     if (result.isSuccess) {
@@ -179,7 +175,6 @@ const saveStore = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     const isEditing = !!localStore.value.idStore;
     const customMessage = isEditing

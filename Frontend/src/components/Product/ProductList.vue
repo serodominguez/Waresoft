@@ -153,7 +153,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { product: Product; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { product: Product; action: 0 | 1 | 2 }];
   'edit-product': [product: Product];
   'fetch-products': [];
   'search-products': [params: {
@@ -187,33 +187,26 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Productos por Página");
-const search = ref<string | null>(null);
- const { tooltipProps } = useResponsiveTooltip(); 
-const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Categoría', 'Marca']);
+const { tooltipProps } = useResponsiveTooltip();
 
+const pages = ref('Productos por Página');
+const search = ref<string | null>(null);
+const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Categoría', 'Marca']);
 const imageModalOpen = ref(false);
 const selectedImage = ref<string | null>(null);
 const selectedCode = ref<string | null>(null);
 
- const openImageModal = (product: Product) => {
-  if (!product.image) return;
-  selectedImage.value = product.image;
-  selectedCode.value = product.code ?? null;
-  imageModalOpen.value = true;
-}; 
-
 const headers = computed(() => [
-  { title: 'Imagen', key: 'image', sortable: false },
-  { title: 'Código', key: 'code', sortable: false },
-  { title: 'Descripción', key: 'description', sortable: false },
-  { title: 'Material', key: 'material', sortable: false },
-  { title: 'Color', key: 'color', sortable: false },
-  { title: 'Categoría', key: 'categoryName', sortable: false },
-  { title: 'Marca', key: 'brandName', sortable: false },
-  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusProduct', sortable: false },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Imagen',           key: 'image',          sortable: false },
+  { title: 'Código',           key: 'code',           sortable: false },
+  { title: 'Descripción',      key: 'description',    sortable: false },
+  { title: 'Material',         key: 'material',       sortable: false },
+  { title: 'Color',            key: 'color',          sortable: false },
+  { title: 'Categoría',        key: 'categoryName',   sortable: false },
+  { title: 'Marca',            key: 'brandName',      sortable: false },
+  { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',           key: 'statusProduct',  sortable: false },
+  { title: 'Acciones',         key: 'actions',        sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({
@@ -240,6 +233,13 @@ const endDateModel = computed({
   get: () => props.endDate,
   set: (value: Date | null) => emit('update:endDate', value)
 });
+
+const openImageModal = (product: Product) => {
+  if (!product.image) return;
+  selectedImage.value = product.image;
+  selectedCode.value = product.code ?? null;
+  imageModalOpen.value = true;
+};
 
 const handleSearch = () => {
   emit('search-products', {
@@ -273,6 +273,6 @@ const handleDownloadPdf = () => {
 
 const handleClearFilters = () => {
   search.value = null;
-  emit('clear-filters');;
+  emit('clear-filters');
 };
 </script>

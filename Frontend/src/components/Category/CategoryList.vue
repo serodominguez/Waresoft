@@ -141,7 +141,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { category: Category; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { category: Category; action: 0 | 1 | 2 }];
   'edit-category': [category: Category];
   'fetch-categories': [];
   'search-categories': [params: {
@@ -160,7 +160,7 @@ const emit = defineEmits<{
     startDate: Date | null;
     endDate: Date | null;
   }];
-  'download-pdf': [params: { 
+  'download-pdf': [params: {
     search: string | null;
     selectedFilter: string;
     stateFilter: string;
@@ -175,17 +175,18 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Categorías por Página");
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = ref('Categorías por Página');
+const search = ref<string | null>(null);
 const filterOptions = ref(['Categoría', 'Descripción']);
 
 const headers = computed(() => [
-  { title: 'Categoría', key: 'categoryName', sortable: false },
-  { title: 'Descripción', key: 'description', sortable: false },
-  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusCategory', sortable: false },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Categoría',        key: 'categoryName',    sortable: false },
+  { title: 'Descripción',      key: 'description',     sortable: false },
+  { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',           key: 'statusCategory',  sortable: false },
+  { title: 'Acciones',         key: 'actions',         sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({

@@ -21,137 +21,121 @@
 import { ref, computed, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useRoleStore } from '@/stores/roleStore';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { Role } from '@/interfaces/roleInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useFilters } from '@/composables/useFilters';
+import { usePagination } from '@/composables/usePagination';
 import RoleList from '@/components/Role/RoleList.vue';
 import RoleForm from '@/components/Role/RoleForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
 
 const roleStore = useRoleStore();
 const authStore = useAuthStore();
-
-const toast = useToast();
+const toast     = useToast();
 
 const filterMap: Record<string, number> = { "Rol": 1 };
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Rol', filterMap);
 
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-
-const search = ref<string | null>(null);
-const drawer = ref(false);
-
-const form = ref(false);
-const modal = ref(false);
-
-const selectedRole = ref<Role | null>(null);
-
-const action = ref<0 | 1 | 2>(0);
-
+const search        = ref<string | null>(null);
+const drawer        = ref(false);
+const form          = ref(false);
+const modal         = ref(false);
+const selectedRole  = ref<Role | null>(null);
+const action        = ref<0 | 1 | 2>(0);
 const downloadingExcel = ref(false);
-const downloadingPdf = ref(false);
+const downloadingPdf   = ref(false);
 
-const roles = computed(() => roleStore.roles);
-const loading = computed(() => roleStore.loading);
-const totalRoles = computed(() => roleStore.totalRoles);
+const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePagination(
+  (params) => {
+    roleStore.fetchAll({
+      pageNumber:  params.pageNumber,
+      pageSize:    params.pageSize,
+      ...getFilterParams(search.value),
+    });
+  }
+);
 
-const canCreate = computed((): boolean => authStore.hasPermission('roles', 'crear'));
-const canRead = computed((): boolean => authStore.hasPermission('roles', 'leer'));
-const canEdit = computed((): boolean => authStore.hasPermission('roles', 'editar'));
-const canDelete = computed((): boolean => authStore.hasPermission('roles', 'eliminar'));
-const canDownload = computed((): boolean => authStore.hasPermission('roles', 'descargar'));
+const roles       = computed(() => roleStore.list);
+const loading     = computed(() => roleStore.loading);
+const totalRoles  = computed(() => roleStore.total);
 
-const clearFilters = () => {
-  selectedFilter.value = 'Rol';
-  state.value = 'Activos';
-  startDate.value = null;
-  endDate.value = null;
-  search.value = null;
-  
-  fetchRoles();
-};
+const canCreate   = computed(() => authStore.hasPermission('roles', 'crear'));
+const canRead     = computed(() => authStore.hasPermission('roles', 'leer'));
+const canEdit     = computed(() => authStore.hasPermission('roles', 'editar'));
+const canDelete   = computed(() => authStore.hasPermission('roles', 'eliminar'));
+const canDownload = computed(() => authStore.hasPermission('roles', 'descargar'));
 
-const openModal = (payload: { role: Role, action: 0 | 1 | 2 }) => {
+const openModal = (payload: { role: Role; action: 0 | 1 | 2 }) => {
   selectedRole.value = payload.role;
-  action.value = payload.action;
-  modal.value = true;
+  action.value       = payload.action;
+  modal.value        = true;
 };
 
 const openForm = (role?: Role) => {
   selectedRole.value = role ? { ...role } : {
-    idRole: null,
-    roleName: '',
+    idRole:        null,
+    roleName:      '',
     auditCreateDate: '',
-    statusRole: ''
+    statusRole:    ''
   };
   form.value = true;
 };
 
-const fetchRoles = async (params?: any) => {
+const fetchRoles = async () => {
   try {
-    await roleStore.fetchRoles(params || {
-      pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      stateFilter: state.value === 'Activos' ? 1 : 0
+    await roleStore.fetchAll({
+      pageNumber:  currentPage.value,
+      pageSize:    itemsPerPage.value,
+      stateFilter: state.value === 'Activos' ? 1 : 0,
     });
   } catch (error) {
     handleSilentError(error);
   }
 };
 
-const searchRoles = async (params: any) => {
-  search.value = params.search;
-  selectedFilter.value = params.selectedFilter;
-  state.value = params.state;
-  startDate.value = params.startDate;
-  endDate.value = params.endDate;
+const searchRoles = async (params: {
+  search: string | null;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}) => {
+  search.value          = params.search;
+  selectedFilter.value  = params.selectedFilter;
+  state.value           = params.state;
+  startDate.value       = params.startDate;
+  endDate.value         = params.endDate;
+  currentPage.value     = 1;
 
   try {
-    await roleStore.fetchRoles({
+    await roleStore.fetchAll({
       pageNumber: 1,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
-    currentPage.value = 1;
   } catch (error) {
     handleApiError(error, 'Error al buscar roles');
   }
 };
 
-const refreshRoles = () => {
-  if (search.value?.trim()) {
-    searchRoles({
-      search: search.value,
-      selectedFilter: selectedFilter.value,
-      state: state.value,
-      startDate: startDate.value,
-      endDate: endDate.value
-    });
-  } else {
-    fetchRoles();
-  }
+const clearFilters = () => {
+  selectedFilter.value = 'Rol';
+  state.value          = 'Activos';
+  startDate.value      = null;
+  endDate.value        = null;
+  search.value         = null;
+  currentPage.value    = 1;
+  fetchRoles();
 };
 
-const updateItemsPerPage = (newItemsPerPage: number) => {
-  itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1;
-  refreshRoles();
-};
-
-const changePage = (page: number) => {
-  currentPage.value = page;
-  refreshRoles();
-};
-
-const downloadExcel = async (params: any) => {
+const downloadExcel = async (params: { search: string | null }) => {
   downloadingExcel.value = true;
   try {
-    await roleStore.downloadRolesExcel({
+    await roleStore.downloadExcel({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
   } catch (error) {
@@ -161,13 +145,13 @@ const downloadExcel = async (params: any) => {
   }
 };
 
-const downloadPdf = async (params: any) => {
+const downloadPdf = async (params: { search: string | null }) => {
   downloadingPdf.value = true;
   try {
-    await roleStore.downloadRolesPdf({
+    await roleStore.downloadPdf({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');
   } catch (error) {

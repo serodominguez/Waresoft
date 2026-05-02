@@ -61,7 +61,6 @@ const moduleStore = useModuleStore();
 const toast = useToast();
 
 const formRef = ref<FormRef | null>(null);
-
 const isOpen = ref(props.modelValue);
 const valid = ref(false);
 const saving = ref(false);
@@ -97,7 +96,7 @@ const saveModule = async () => {
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -110,12 +109,12 @@ const saveModule = async () => {
     let result;
 
     if (isEditing && localModule.value.idModule !== null) {
-      result = await moduleStore.editModule(
+      result = await moduleStore.edit(
         localModule.value.idModule,
         { ...localModule.value }
       );
     } else {
-      result = await moduleStore.registerModule({ ...localModule.value });
+      result = await moduleStore.register({ ...localModule.value });
     }
 
     if (result.isSuccess) {
@@ -127,7 +126,6 @@ const saveModule = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     const isEditing = !!localModule.value.idModule;
     const customMessage = isEditing

@@ -121,15 +121,12 @@ import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-/**
- * Props recibidas del componente padre
- * Incluye datos, permisos y configuración de filtros
- */
 interface Props extends Omit<BaseListProps<Brand>, 'items' | 'totalItems'> {
-  brands: Brand[];      // En lugar de 'items'
-  totalBrands: number;  // En lugar de 'totalItems'
+  brands: Brand[];
+  totalBrands: number;
 }
 
+//Props & Emits
 const props = withDefaults(defineProps<Props>(), {
   drawer: false,
   selectedFilter: 'Marca',
@@ -141,13 +138,9 @@ const props = withDefaults(defineProps<Props>(), {
   itemsPerPage: 10
 });
 
-/**
- * Eventos que este componente puede emitir al padre
- * Sigue el patrón de comunicación padre-hijo de Vue
- */
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { brand: Brand; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { brand: Brand; action: 0 | 1 | 2 }];
   'edit-brand': [brand: Brand];
   'fetch-brands': [];
   'search-brands': [params: {
@@ -166,7 +159,7 @@ const emit = defineEmits<{
     startDate: Date | null;
     endDate: Date | null;
   }];
-    'download-pdf': [params: {
+  'download-pdf': [params: {
     search: string | null;
     selectedFilter: string;
     stateFilter: string;
@@ -181,13 +174,15 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-// Estado reactivo
+//Composables
+const { tooltipProps } = useResponsiveTooltip();
+
+//Refs
 const pages = ref("Marcas por Página");
 const search = ref<string | null>(null);
-const { tooltipProps } = useResponsiveTooltip();
 const filterOptions = ref(['Marca']);
 
-// Define las columnas/encabezados de la tabla
+//Computed
 const headers = computed(() => [
   { title: 'Marca', key: 'brandName', sortable: false },
   { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
@@ -195,39 +190,32 @@ const headers = computed(() => [
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 
-// Computed properties bidireccionales para v-model
-
-// Drawer de filtros
 const drawerModel = computed({
   get: () => props.drawer,
   set: (value: boolean) => emit('update:drawer', value)
 });
 
-// Filtro seleccionado
 const selectedFilterModel = computed({
   get: () => props.selectedFilter,
   set: (value: string) => emit('update:selectedFilter', value)
 });
 
-// Estado del filtro
 const stateModel = computed({
   get: () => props.state,
   set: (value: string) => emit('update:state', value)
 });
 
-// Fecha de inicio
 const startDateModel = computed({
   get: () => props.startDate,
   set: (value: Date | null) => emit('update:startDate', value)
 });
 
-// Fecha de fin
 const endDateModel = computed({
   get: () => props.endDate,
   set: (value: Date | null) => emit('update:endDate', value)
 });
 
-// Maneja la búsqueda de marcas con todos los filtros activos
+//Methods
 const handleSearch = () => {
   emit('search-brands', {
     search: search.value,
@@ -238,7 +226,6 @@ const handleSearch = () => {
   });
 };
 
-// Maneja la descarga del reporte Excel
 const handleDownloadExcel = () => {
   emit('download-excel', {
     search: search.value,
@@ -249,7 +236,6 @@ const handleDownloadExcel = () => {
   });
 };
 
-// Maneja la descarga del reporte Pdf
 const handleDownloadPdf = () => {
   emit('download-pdf', {
     search: search.value,
@@ -260,7 +246,6 @@ const handleDownloadPdf = () => {
   });
 };
 
-//Espera que los filtros se reseteen en los computed
 const handleClearFilters = () => {
   search.value = null;
   emit('clear-filters');

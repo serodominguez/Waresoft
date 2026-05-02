@@ -2,9 +2,12 @@
   <v-container fluid>
     <v-card elevation="2" class="mb-4">
       <v-toolbar>
-        <v-toolbar-title> <v-avatar color="indigo" size="36" class="mr-3">
+        <v-toolbar-title>
+          <v-avatar color="indigo" size="36" class="mr-3">
             <v-icon icon="mdi-clipboard-text" color="white" size="18"></v-icon>
-          </v-avatar>Kardex del Producto</v-toolbar-title>
+          </v-avatar>
+          Kardex del Producto
+        </v-toolbar-title>
       </v-toolbar>
       <v-card-text>
         <v-row align="center" class="mb-0 pb-0">
@@ -103,33 +106,42 @@
       </v-card-text>
     </v-card>
     <KardexTable :movements="kardex?.movements ?? []" :total-movements="totalKardex" :loading="loading"
-      :items-per-page="filters.pageSize" @update-items-per-page="handleItemsPerPage" @change-page="handleChangePage" />
-    <CommonProductOut ref="productModalRef" v-model="productModal" @close="productModal = false" @product-added="handleProductSelected" />
+      :items-per-page="itemsPerPage" @update-items-per-page="updateItemsPerPage" @change-page="changePage" />
+    <CommonProductOut ref="productModalRef" v-model="productModal" @close="productModal = false"
+      @product-added="handleProductSelected" />
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onUnmounted } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useToast } from 'vue-toastification';
+import { useAuthStore } from '@/stores/authStore';
 import { useKardexStore } from '@/stores/kardexStore';
-import { useAuthStore } from '@/stores/auth';
-import { handleApiError } from '@/helpers/errorHandler';
-import KardexTable from '@/components/Kardex/KardexList.vue';
-import CommonProductOut from '@/components/Common/CommonProductOut.vue';
-import { FilterParams } from '@/interfaces/baseInterface';
+import { useToast } from 'vue-toastification';
+import { usePagination } from '@/composables/usePagination';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
+import CommonProductOut from '@/components/Common/CommonProductOut.vue';
+import KardexTable from '@/components/Kardex/KardexList.vue';
+import { handleApiError } from '@/helpers/errorHandler';
+import type { FilterParams } from '@/interfaces/baseInterface';
+import type { ProductOutSelection } from '@/interfaces/productSelectionInterface';
 
-const kardexStore = useKardexStore();
+//Stores
 const authStore = useAuthStore();
-const toast = useToast();
+const kardexStore = useKardexStore();
 
 const { kardex, loading, totalKardex } = storeToRefs(kardexStore);
+
+//Composables
+const toast = useToast();
 const { tooltipProps } = useResponsiveTooltip();
-const productModal = ref(false);
+
+//Refs
+const abortController = ref<AbortController | null>(null);
+const dateError = ref<string>('');
 const downloadingExcel = ref(false);
 const downloadingPdf = ref(false);
-const dateError = ref<string>('');
+const productModal = ref(false);
 const productModalRef = ref<InstanceType<typeof CommonProductOut> | null>(null);
 
 const selectedProduct = ref({
@@ -141,38 +153,73 @@ const selectedProduct = ref({
 });
 
 const filters = ref<FilterParams>({
+  endDate: '',
+  order: 'asc',
   pageNumber: 1,
   pageSize: 10,
-  order: 'asc',
   sort: 'Id',
   startDate: '',
-  endDate: '',
 });
 
-const canDownload = computed((): boolean => authStore.hasPermission('inventario', 'descargar'));
+//Computed
+const canDownload = computed((): boolean =>
+  authStore.hasPermission('inventario', 'descargar')
+);
 
-const validateDates = () => {
-  const start = filters.value.startDate;
-  const end = filters.value.endDate;
-  if (start && end && new Date(start) > new Date(end)) {
-    dateError.value = 'La fecha fin no puede ser menor a la fecha inicio';
-  } else {
-    dateError.value = '';
-  }
-};
-
-const isEnabled = computed(() => {
+const isEnabled = computed((): boolean => {
   const hasProduct = selectedProduct.value.idProduct !== null;
-  const hasStartDate = filters.value.startDate && filters.value.startDate !== '' && filters.value.startDate !== null;
-  const hasEndDate = filters.value.endDate && filters.value.endDate !== '' && filters.value.endDate !== null;
+  const hasStartDate = !!filters.value.startDate;
+  const hasEndDate = !!filters.value.endDate;
   return hasProduct && hasStartDate && hasEndDate && !dateError.value;
 });
 
-const handleProductSelected = (product: any) => {
+//Pagination
+const refreshKardex = (params?: Partial<FilterParams>) => {
+  if (!selectedProduct.value.idProduct) return;
+
+  abortController.value?.abort();
+  abortController.value = new AbortController();
+
+  kardexStore.fetchKardex(
+    selectedProduct.value.idProduct,
+    {
+      ...filters.value,
+      startDate: filters.value.startDate || undefined,
+      endDate: filters.value.endDate || undefined,
+      ...params,
+    },
+    abortController.value.signal
+  ).catch((error) => {
+    if (error instanceof DOMException && error.name === 'AbortError') return;
+    handleApiError(error, 'Error al generar el kardex');
+  });
+};
+
+const { currentPage, itemsPerPage, updateItemsPerPage, changePage } =
+  usePagination(refreshKardex);
+
+//Methods
+const validateDates = (): void => {
+  const start = filters.value.startDate;
+  const end = filters.value.endDate;
+  dateError.value =
+    start && end && new Date(start) > new Date(end)
+      ? 'La fecha fin no puede ser menor a la fecha inicio'
+      : '';
+};
+
+const generateKardex = (): void => {
+  if (!selectedProduct.value.idProduct) {
+    toast.warning('Seleccione un producto primero');
+    return;
+  }
+  filters.value.pageNumber = currentPage.value;
+  filters.value.pageSize = itemsPerPage.value;
+  refreshKardex();
+};
+
+const handleProductSelected = (product: ProductOutSelection): void => {
   kardexStore.clearKardex();
-  filters.value.startDate = '';
-  filters.value.endDate = '';
-  filters.value.pageNumber = 1;
   dateError.value = '';
 
   selectedProduct.value = {
@@ -193,28 +240,15 @@ const handleProductSelected = (product: any) => {
     filters.value.endDate = '';
   }
 
+  filters.value.pageNumber = 1;
+  filters.value.pageSize = itemsPerPage.value;
+
   productModal.value = false;
   productModalRef.value?.resetModalState();
   toast.success(`Producto ${product.code} seleccionado`);
 };
 
-const generateKardex = async () => {
-  if (!selectedProduct.value.idProduct) {
-    toast.warning('Seleccione un producto primero');
-    return;
-  }
-  try {
-    await kardexStore.fetchKardex(selectedProduct.value.idProduct, {
-      ...filters.value,
-      startDate: filters.value.startDate || undefined,
-      endDate: filters.value.endDate || undefined,
-    });
-  } catch (error) {
-    handleApiError(error, 'Error al generar el kardex');
-  }
-};
-
-const downloadExcel = async () => {
+const downloadExcel = async (): Promise<void> => {
   downloadingExcel.value = true;
   try {
     await kardexStore.downloadKardexExcel({
@@ -230,7 +264,7 @@ const downloadExcel = async () => {
   }
 };
 
-const downloadPdf = async () => {
+const downloadPdf = async (): Promise<void> => {
   downloadingPdf.value = true;
   try {
     await kardexStore.downloadKardexPdf({
@@ -246,18 +280,9 @@ const downloadPdf = async () => {
   }
 };
 
-const handleItemsPerPage = (value: number) => {
-  filters.value.pageSize = value;
-  filters.value.pageNumber = 1;
-  generateKardex();
-};
-
-const handleChangePage = (page: number) => {
-  filters.value.pageNumber = page;
-  generateKardex();
-};
-
+//Lifecycle
 onUnmounted(() => {
+  abortController.value?.abort();
   kardexStore.clearKardex();
   selectedProduct.value = {
     idProduct: null,

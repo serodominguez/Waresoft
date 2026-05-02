@@ -30,7 +30,7 @@ namespace Application.Extensions
             services.AddTransient<IOrderingQuery, OrderingQuery>();
             services.AddTransient<IFileStorageImageService, FileStorageImageService>();
             services.AddTransient<IGeneratePdfService, GeneratePdfService>();
-            services.AddTransient<ISecurity, SecurityApplication>();
+            services.AddTransient<ISecurityApplication, SecurityApplication>();
 
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IGenerateExcelService, GenerateExcelService>();

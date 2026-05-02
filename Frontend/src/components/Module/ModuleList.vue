@@ -139,7 +139,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { module: Module; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { module: Module; action: 0 | 1 | 2 }];
   'edit-module': [module: Module];
   'fetch-modules': [];
   'search-modules': [params: {
@@ -173,16 +173,17 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Módulos por Página");
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = ref('Módulos por Página');
+const search = ref<string | null>(null);
 const filterOptions = ref(['Módulo']);
 
 const headers = computed(() => [
-  { title: 'Módulo', key: 'moduleName', sortable: false },
-  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusModule', sortable: false },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Módulo',           key: 'moduleName',     sortable: false },
+  { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',           key: 'statusModule',   sortable: false },
+  { title: 'Acciones',         key: 'actions',        sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({

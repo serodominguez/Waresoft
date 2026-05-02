@@ -85,8 +85,8 @@ import CommonFilters from '@/components/Common/CommonFilters.vue';
 import CommonViewerImage from '../Common/CommonViewerImage.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-interface Props extends Pick<BaseListProps<InventoryPivotRow>, 'loading' | 'canRead' | 'canDownload' | 'itemsPerPage' | 'drawer' | 'selectedFilter' | 
-  'state' | 'startDate' | 'endDate' | 'downloadingExcel'| 'downloadingPdf'> {
+interface Props extends Pick<BaseListProps<InventoryPivotRow>, 'loading' | 'canRead' | 'canDownload' | 'itemsPerPage' | 'drawer' | 'selectedFilter' |
+  'state' | 'startDate' | 'endDate' | 'downloadingExcel' | 'downloadingPdf'> {
   stores: string[];
   rows: InventoryPivotRow[];
   totalRows: number;
@@ -115,14 +115,14 @@ const emit = defineEmits<{
     startDate: Date | null;
     endDate: Date | null;
   }];
-    'download-excel': [params: {
+  'download-excel': [params: {
     search: string | null;
     selectedFilter: string;
     stateFilter: string;
     startDate: Date | null;
     endDate: Date | null;
   }];
-    'download-pdf': [params: {
+  'download-pdf': [params: {
     search: string | null;
     selectedFilter: string;
     stateFilter: string;
@@ -139,21 +139,14 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
+const { tooltipProps } = useResponsiveTooltip();
+
 const pages = ref('Artículos por Página');
 const search = ref<string | null>(null);
-const { tooltipProps } = useResponsiveTooltip();
 const filterOptions = ref(['Código', 'Descripción', 'Material', 'Color', 'Marca', 'Categoría']);
-
 const imageModalOpen = ref(false);
 const selectedImage = ref<string | null>(null);
 const selectedCode = ref<string | null>(null);
-
- const openImageModal = (inventory: InventoryPivotRow) => {
-  if (!inventory.image) return;
-  selectedImage.value = inventory.image;
-  selectedCode.value = inventory.code ?? null;
-  imageModalOpen.value = true;
-};
 
 const dynamicHeaders = computed(() => [
   { title: 'Imagen', key: 'image', sortable: false },
@@ -191,6 +184,13 @@ const endDateModel = computed({
   get: () => props.endDate,
   set: (value: Date | null) => emit('update:endDate', value)
 });
+
+const openImageModal = (inventory: InventoryPivotRow) => {
+  if (!inventory.image) return;
+  selectedImage.value = inventory.image;
+  selectedCode.value = inventory.code ?? null;
+  imageModalOpen.value = true;
+};
 
 const handleSearch = () => {
   emit('search-stock', {

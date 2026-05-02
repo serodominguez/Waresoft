@@ -21,83 +21,69 @@
 import { ref, computed, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useProductStore } from '@/stores/productStore';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { Product } from '@/interfaces/productInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useFilters } from '@/composables/useFilters';
+import { usePagination } from '@/composables/usePagination';
 import ProductList from '@/components/Product/ProductList.vue';
 import ProductForm from '@/components/Product/ProductForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
 
 const productStore = useProductStore();
-const authStore = useAuthStore();
+const authStore    = useAuthStore();
+const toast        = useToast();
 
-const toast = useToast();
-
-const filterMap: Record<string, number> = {
-  "Código": 1,
-  "Descripción": 2,
-  "Material": 3,
-  "Color": 4,
-  "Marca": 5,
-  "Categoría": 6
-};
+const filterMap: Record<string, number> = { "Código": 1, "Descripción": 2, "Material": 3, "Color": 4, "Marca": 5, "Categoría": 6 };
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Código', filterMap);
 
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-
-const search = ref<string | null>(null);
-const drawer = ref(false);
-
-const form = ref(false);
-const modal = ref(false);
-
+const search          = ref<string | null>(null);
+const drawer          = ref(false);
+const form            = ref(false);
+const modal           = ref(false);
 const selectedProduct = ref<Product | null>(null);
-
-const action = ref<0 | 1 | 2>(0);
-
+const action          = ref<0 | 1 | 2>(0);
 const downloadingExcel = ref(false);
-const downloadingPdf = ref(false);
+const downloadingPdf   = ref(false);
 
-const products = computed(() => productStore.products);
-const loading = computed(() => productStore.loading);
-const totalProducts = computed(() => productStore.totalProducts);
+const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePagination(
+  (params) => {
+    productStore.fetchAll({
+      pageNumber:  params.pageNumber,
+      pageSize:    params.pageSize,
+      ...getFilterParams(search.value),
+    });
+  }
+);
 
-const canCreate = computed((): boolean => authStore.hasPermission('productos', 'crear'));
-const canRead = computed((): boolean => authStore.hasPermission('productos', 'leer'));
-const canEdit = computed((): boolean => authStore.hasPermission('productos', 'editar'));
-const canDelete = computed((): boolean => authStore.hasPermission('productos', 'eliminar'));
-const canDownload = computed((): boolean => authStore.hasPermission('productos', 'descargar'));
+const products      = computed(() => productStore.list);
+const loading       = computed(() => productStore.loading);
+const totalProducts = computed(() => productStore.total);
 
-const clearFilters = () => {
-  selectedFilter.value = 'Código';
-  state.value = 'Activos';
-  startDate.value = null;
-  endDate.value = null;
-  search.value = null;
-  
-  fetchProducts();
-};
+const canCreate   = computed(() => authStore.hasPermission('productos', 'crear'));
+const canRead     = computed(() => authStore.hasPermission('productos', 'leer'));
+const canEdit     = computed(() => authStore.hasPermission('productos', 'editar'));
+const canDelete   = computed(() => authStore.hasPermission('productos', 'eliminar'));
+const canDownload = computed(() => authStore.hasPermission('productos', 'descargar'));
 
-const openModal = (payload: { product: Product, action: 0 | 1 | 2 }) => {
+const openModal = (payload: { product: Product; action: 0 | 1 | 2 }) => {
   selectedProduct.value = payload.product;
-  action.value = payload.action;
-  modal.value = true;
+  action.value          = payload.action;
+  modal.value           = true;
 };
 
 const openForm = (product?: Product) => {
   selectedProduct.value = product ? { ...product } : {
-    idProduct: null,
-    code: '',
-    description: '',
-    material: '',
-    color: '',
-    unitMeasure: '',
-    image: '',
-    idBrand: null,
-    brandName: '',
-    idCategory: null,
+    idProduct:    null,
+    code:         '',
+    description:  '',
+    material:     '',
+    color:        '',
+    unitMeasure:  '',
+    image:        '',
+    idBrand:      null,
+    brandName:    '',
+    idCategory:   null,
     categoryName: '',
     auditCreateDate: '',
     statusProduct: ''
@@ -105,69 +91,60 @@ const openForm = (product?: Product) => {
   form.value = true;
 };
 
-const fetchProducts = async (params?: any) => {
+const fetchProducts = async () => {
   try {
-    await productStore.fetchProducts(params || {
-      pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      stateFilter: state.value === 'Activos' ? 1 : 0
+    await productStore.fetchAll({
+      pageNumber:  currentPage.value,
+      pageSize:    itemsPerPage.value,
+      stateFilter: state.value === 'Activos' ? 1 : 0,
     });
   } catch (error) {
     handleSilentError(error);
   }
 };
 
-const searchProducts = async (params: any) => {
-  search.value = params.search;
-  selectedFilter.value = params.selectedFilter;
-  state.value = params.state;
-  startDate.value = params.startDate;
-  endDate.value = params.endDate;
+const searchProducts = async (params: {
+  search: string | null;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}) => {
+  search.value          = params.search;
+  selectedFilter.value  = params.selectedFilter;
+  state.value           = params.state;
+  startDate.value       = params.startDate;
+  endDate.value         = params.endDate;
+  currentPage.value     = 1;
 
   try {
-    await productStore.fetchProducts({
+    await productStore.fetchAll({
       pageNumber: 1,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
-    currentPage.value = 1;
   } catch (error) {
     handleApiError(error, 'Error al buscar productos');
   }
 };
 
-const refreshProducts = () => {
-  if (search.value?.trim()) {
-    searchProducts({
-      search: search.value,
-      selectedFilter: selectedFilter.value,
-      state: state.value,
-      startDate: startDate.value,
-      endDate: endDate.value
-    });
-  } else {
-    fetchProducts();
-  }
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value          = 'Activos';
+  startDate.value      = null;
+  endDate.value        = null;
+  search.value         = null;
+  currentPage.value    = 1;
+  fetchProducts();
 };
 
-const updateItemsPerPage = (newItemsPerPage: number) => {
-  itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1;
-  refreshProducts();
-};
-
-const changePage = (page: number) => {
-  currentPage.value = page;
-  refreshProducts();
-};
-
-const downloadExcel = async (params: any) => {
+const downloadExcel = async (params: { search: string | null }) => {
   downloadingExcel.value = true;
   try {
-    await productStore.downloadProductsExcel({
+    await productStore.downloadExcel({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
   } catch (error) {
@@ -177,13 +154,13 @@ const downloadExcel = async (params: any) => {
   }
 };
 
-const downloadPdf = async (params: any) => {
+const downloadPdf = async (params: { search: string | null }) => {
   downloadingPdf.value = true;
   try {
-    await productStore.downloadProductsPdf({
+    await productStore.downloadPdf({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');
   } catch (error) {

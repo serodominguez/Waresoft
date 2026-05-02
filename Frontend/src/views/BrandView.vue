@@ -21,148 +21,131 @@
 import { ref, computed, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useBrandStore } from '@/stores/brandStore';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { Brand } from '@/interfaces/brandInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useFilters } from '@/composables/useFilters';
+import { usePagination } from '@/composables/usePagination';
 import BrandList from '@/components/Brand/BrandList.vue';
 import BrandForm from '@/components/Brand/BrandForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
 
-// Pinia store
+//Stores
 const brandStore = useBrandStore();
-const authStore = useAuthStore();
+const authStore  = useAuthStore();
+const toast      = useToast();
 
-const toast = useToast();
-
-// Composable de filtros
+//Filtros
 const filterMap: Record<string, number> = { "Marca": 1 };
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Marca', filterMap);
 
-// Control de paginación
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-
-// Control de búsqueda
-const search = ref<string | null>(null);
-const drawer = ref(false);
-
-// Control de modales y formularios
-const form = ref(false);
-const modal = ref(false);
-
-// Marca seleccionada para edición o eliminación
-const selectedBrand = ref<Brand | null>(null);
-
-// Tipo de acción a realizar en el modal (0: eliminar, 1: activar, 2: desactivar)
-const action = ref<0 | 1 | 2>(0);
-
-// Estado de descarga de Excel y Pdf
+//Estado local
+const search          = ref<string | null>(null);
+const drawer          = ref(false);
+const form            = ref(false);
+const modal           = ref(false);
+const selectedBrand   = ref<Brand | null>(null);
+const action          = ref<0 | 1 | 2>(0);
 const downloadingExcel = ref(false);
-const downloadingPdf = ref(false);
+const downloadingPdf   = ref(false);
 
-// Computed properties - Ahora usan Pinia
-const brands = computed(() => brandStore.brands);
-const loading = computed(() => brandStore.loading);
-const totalBrands = computed(() => brandStore.totalBrands);
+//Paginación
+// usePagination recibe el callback que se ejecuta al cambiar página
+// o items por página. Aquí decide si usar los filtros activos o no.
+const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePagination(
+  (params) => {
+    brandStore.fetchAll({
+      pageNumber:  params.pageNumber,
+      pageSize:    params.pageSize,
+      ...getFilterParams(search.value),
+    });
+  }
+);
 
-// Permisos del usuario (ahora usan Pinia - authStore)
-const canCreate = computed((): boolean => authStore.hasPermission('marcas', 'crear'));
-const canRead = computed((): boolean => authStore.hasPermission('marcas', 'leer'));
-const canEdit = computed((): boolean => authStore.hasPermission('marcas', 'editar'));
-const canDelete = computed((): boolean => authStore.hasPermission('marcas', 'eliminar'));
-const canDownload = computed((): boolean => authStore.hasPermission('marcas', 'descargar'));
+//Computed
+const brands      = computed(() => brandStore.list);
+const loading     = computed(() => brandStore.loading);
+const totalBrands = computed(() => brandStore.total);
 
-const clearFilters = () => {
-  selectedFilter.value = 'Marca';
-  state.value = 'Activos';
-  startDate.value = null;
-  endDate.value = null;
-  search.value = null;
-  
-  fetchBrands();
-};
+const canCreate   = computed(() => authStore.hasPermission('marcas', 'crear'));
+const canRead     = computed(() => authStore.hasPermission('marcas', 'leer'));
+const canEdit     = computed(() => authStore.hasPermission('marcas', 'editar'));
+const canDelete   = computed(() => authStore.hasPermission('marcas', 'eliminar'));
+const canDownload = computed(() => authStore.hasPermission('marcas', 'descargar'));
 
-// Métodos
-const openModal = (payload: { brand: Brand, action: 0 | 1 | 2 }) => {
+//Métodos
+const openModal = (payload: { brand: Brand; action: 0 | 1 | 2 }) => {
   selectedBrand.value = payload.brand;
-  action.value = payload.action;
-  modal.value = true;
+  action.value        = payload.action;
+  modal.value         = true;
 };
 
 const openForm = (brand?: Brand) => {
   selectedBrand.value = brand ? { ...brand } : {
-    idBrand: null,
-    brandName: '',
+    idBrand:         null,
+    brandName:       '',
     auditCreateDate: '',
-    statusBrand: ''
+    statusBrand:     ''
   };
   form.value = true;
 };
 
-const fetchBrands = async (params?: any) => {
+//Carga inicial y recarga tras acciones (guardar, activar, eliminar)
+const fetchBrands = async () => {
   try {
-    await brandStore.fetchBrands(params || {
-      pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      stateFilter: state.value === 'Activos' ? 1 : 0
+    await brandStore.fetchAll({
+      pageNumber:  currentPage.value,
+      pageSize:    itemsPerPage.value,
+      stateFilter: state.value === 'Activos' ? 1 : 0,
     });
   } catch (error) {
     handleSilentError(error);
   }
 };
 
-const searchBrands = async (params: any) => {
-  search.value = params.search;
-  selectedFilter.value = params.selectedFilter;
-  state.value = params.state;
-  startDate.value = params.startDate;
-  endDate.value = params.endDate;
+//Búsqueda con filtros activos
+const searchBrands = async (params: {
+  search: string | null;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}) => {
+  search.value          = params.search;
+  selectedFilter.value  = params.selectedFilter;
+  state.value           = params.state;
+  startDate.value       = params.startDate;
+  endDate.value         = params.endDate;
+  currentPage.value     = 1;
 
   try {
-    await brandStore.fetchBrands({
+    await brandStore.fetchAll({
       pageNumber: 1,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
-    currentPage.value = 1;
   } catch (error) {
     handleApiError(error, 'Error al buscar marcas');
   }
 };
 
-const refreshBrands = () => {
-  if (search.value?.trim()) {
-    searchBrands({
-      search: search.value,
-      selectedFilter: selectedFilter.value,
-      state: state.value,
-      startDate: startDate.value,
-      endDate: endDate.value
-    });
-  } else {
-    fetchBrands();
-  }
+const clearFilters = () => {
+  selectedFilter.value = 'Marca';
+  state.value          = 'Activos';
+  startDate.value      = null;
+  endDate.value        = null;
+  search.value         = null;
+  currentPage.value    = 1;
+  fetchBrands();
 };
 
-const updateItemsPerPage = (newItemsPerPage: number) => {
-  itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1;
-  refreshBrands();
-};
-
-const changePage = (page: number) => {
-  currentPage.value = page;
-  refreshBrands();
-};
-
-const downloadExcel = async (params: any) => {
+const downloadExcel = async (params: { search: string | null }) => {
   downloadingExcel.value = true;
   try {
-    await brandStore.downloadBrandsExcel({
+    await brandStore.downloadExcel({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
   } catch (error) {
@@ -172,13 +155,13 @@ const downloadExcel = async (params: any) => {
   }
 };
 
-const downloadPdf = async (params: any) => {
+const downloadPdf = async (params: { search: string | null }) => {
   downloadingPdf.value = true;
   try {
-    await brandStore.downloadBrandsPdf({
+    await brandStore.downloadPdf({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');
   } catch (error) {
@@ -196,6 +179,7 @@ const handleActionCompleted = () => {
   fetchBrands();
 };
 
+//Lifecycle
 onMounted(() => {
   fetchBrands();
 });

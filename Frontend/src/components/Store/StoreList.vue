@@ -142,7 +142,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { store: Store; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { store: Store; action: 0 | 1 | 2 }];
   'edit-store': [store: Store];
   'fetch-stores': [];
   'search-stores': [params: {
@@ -176,19 +176,20 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Unidades por Página");
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = ref('Unidades por Página');
+const search = ref<string | null>(null);
 const filterOptions = ref(['Unidad', 'Encargado', 'Dirección', 'Ciudad']);
 
 const headers = computed(() => [
-  { title: 'Unidad', key: 'storeName', sortable: false },
-  { title: 'Encargado', key: 'manager', sortable: false },
-  { title: 'Dirección', key: 'address', sortable: false },
-  { title: 'Ciudad', key: 'city', sortable: false },
-  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusStore', sortable: false },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Unidad',           key: 'storeName',      sortable: false },
+  { title: 'Encargado',        key: 'manager',        sortable: false },
+  { title: 'Dirección',        key: 'address',        sortable: false },
+  { title: 'Ciudad',           key: 'city',           sortable: false },
+  { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',           key: 'statusStore',    sortable: false },
+  { title: 'Acciones',         key: 'actions',        sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({

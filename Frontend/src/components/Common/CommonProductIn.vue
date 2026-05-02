@@ -179,14 +179,14 @@ const fetchProducts = async () => {
   try {
     loading.value = true;
 
-    await productStore.fetchProducts({
+    await productStore.fetchAll({
       pageNumber: currentPage.value,
       pageSize: itemsPerPage.value,
       ...buildFilterParams()
     });
 
-    products.value = productStore.products || [];
-    totalProducts.value = productStore.totalProducts || 0;
+    products.value = productStore.list || [];
+    totalProducts.value = productStore.total || 0;
     hasSearched.value = true;
 
   } catch (error) {

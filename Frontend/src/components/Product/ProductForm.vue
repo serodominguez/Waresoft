@@ -130,8 +130,8 @@ const brandStore = useBrandStore();
 const categoryStore = useCategoryStore();
 const toast = useToast();
 
-const { brands, loading: loadingBrands } = storeToRefs(brandStore);
-const { categories, loading: loadingCategories } = storeToRefs(categoryStore);
+const { list: brands, loading: loadingBrands } = storeToRefs(brandStore);
+const { list: categories, loading: loadingCategories } = storeToRefs(categoryStore);
 const { tooltipProps } = useResponsiveTooltip();
 
 const formRef = ref<FormRef | null>(null);
@@ -147,16 +147,14 @@ const rules = {
   required: (value: string) => !!value || 'Este campo es requerido.',
   onlyLetters: (value: string) => !value || /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(value) || 'Solo se permiten letras.',
   onlyNumbers: (value: string) => !value || /^[0-9]+$/.test(value) || 'Solo se permiten números.',
-    imageSize: (value: File | File[]) => {
+  imageSize: (value: File | File[]) => {
     if (!value) return true;
     const file = Array.isArray(value) ? value[0] : value;
     if (!file) return true;
-    const maxSize = 2 * 1024 * 1024; // 2MB
+    const maxSize = 2 * 1024 * 1024;
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!allowedTypes.includes(file.type))
-      return 'Solo se permiten imágenes jpg, jpeg, png o webp.';
-    if (file.size > maxSize)
-      return 'La imagen no puede superar los 2MB.';
+    if (!allowedTypes.includes(file.type)) return 'Solo se permiten imágenes jpg, jpeg, png o webp.';
+    if (file.size > maxSize) return 'La imagen no puede superar los 2MB.';
     return true;
   }
 };
@@ -167,12 +165,10 @@ const categoriesArray = computed(() => Array.isArray(categories.value) ? categor
 watch(() => props.modelValue, (newValue: boolean) => {
   isOpen.value = newValue;
   if (newValue) {
-    brandStore.selectBrand();
-    categoryStore.selectCategory();
-    // Resetear el estado de la imagen seleccionada al abrir el diálogo
+    brandStore.fetchForSelect();
+    categoryStore.fetchForSelect();
     selectedImage.value = null;
     imageDeleted.value = false;
-    // Asegurar que el producto local tenga los datos correctos del prop
     localProduct.value = { ...props.product } as Product;
   }
 });
@@ -184,7 +180,6 @@ watch(isOpen, (newValue: boolean) => {
 watch(() => props.product, (newProduct) => {
   if (newProduct) {
     localProduct.value = { ...newProduct } as Product;
-    // Resetear la imagen seleccionada cuando cambia el producto
     selectedImage.value = null;
     imageDeleted.value = false;
   }
@@ -192,7 +187,6 @@ watch(() => props.product, (newProduct) => {
 
 const close = () => {
   isOpen.value = false;
-  // Resetear también al cerrar para evitar estados residuales
   selectedImage.value = null;
   imageDeleted.value = false;
 };
@@ -204,7 +198,7 @@ const saveProduct = async () => {
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -241,7 +235,6 @@ const saveProduct = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     handleApiError(error, isEditing ? 'Error en editar el producto' : 'Error en agregar el producto');
   } finally {
@@ -273,10 +266,6 @@ const removeCurrentImage = () => {
 
 const handleImageChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
-  if (target.files && target.files.length > 0) {
-    selectedImage.value = target.files[0];
-  } else {
-    selectedImage.value = null;
-  }
+  selectedImage.value = target.files?.length ? target.files[0] : null;
 };
 </script>

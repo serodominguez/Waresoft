@@ -17,11 +17,11 @@ namespace Application.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISecurity _security;
+        private readonly ISecurityApplication _security;
         private readonly IValidator<UserRequestDto> _validator;
         private readonly IOrderingQuery _orderingQuery;
 
-        public UserService(IUnitOfWork unitOfWork, ISecurity security, IValidator<UserRequestDto> validator, IOrderingQuery orderingQuery)
+        public UserService(IUnitOfWork unitOfWork, ISecurityApplication security, IValidator<UserRequestDto> validator, IOrderingQuery orderingQuery)
         {
             _unitOfWork = unitOfWork;
             _security = security;

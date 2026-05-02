@@ -113,7 +113,7 @@ const saveSupplier = async () => {
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -123,22 +123,18 @@ const saveSupplier = async () => {
 
   try {
     const isEditing = !!localSupplier.value.idSupplier;
-    let result;
 
     const supplierData = {
       ...localSupplier.value,
-      phoneNumber: localSupplier.value.phoneNumber 
-        ? localSupplier.value.phoneNumber 
-        : null
+      phoneNumber: localSupplier.value.phoneNumber ?? null
     };
 
+    let result;
+
     if (isEditing && localSupplier.value.idSupplier !== null) {
-      result = await supplierStore.editSupplier(
-        localSupplier.value.idSupplier,
-        supplierData
-      );
+      result = await supplierStore.edit(localSupplier.value.idSupplier, supplierData);
     } else {
-      result = await supplierStore.registerSupplier(supplierData);
+      result = await supplierStore.register(supplierData);
     }
 
     if (result.isSuccess) {
@@ -150,7 +146,6 @@ const saveSupplier = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     const isEditing = !!localSupplier.value.idSupplier;
     const customMessage = isEditing

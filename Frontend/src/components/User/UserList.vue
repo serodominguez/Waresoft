@@ -143,7 +143,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { user: User; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { user: User; action: 0 | 1 | 2 }];
   'edit-user': [user: User];
   'fetch-users': [];
   'search-users': [params: {
@@ -177,21 +177,22 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Usuarios por Página");
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = ref('Usuarios por Página');
+const search = ref<string | null>(null);
 const filterOptions = ref(['Usuario', 'Nombres', 'Apellidos', 'Tienda', 'Rol']);
 
 const headers = computed(() => [
-  { title: 'Usuario', key: 'userName', sortable: false },
-  { title: 'Nombres', key: 'names', sortable: false },
-  { title: 'Apellidos', key: 'lastNames', sortable: false },
-  { title: 'Teléfono', key: 'phoneNumber', sortable: false },
-  { title: 'Rol', key: 'roleName', sortable: false },
-  { title: 'Establecimiento', key: 'storeName', sortable: false },
-  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusUser', sortable: false },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Usuario',          key: 'userName',       sortable: false },
+  { title: 'Nombres',          key: 'names',          sortable: false },
+  { title: 'Apellidos',        key: 'lastNames',      sortable: false },
+  { title: 'Teléfono',         key: 'phoneNumber',    sortable: false },
+  { title: 'Rol',              key: 'roleName',       sortable: false },
+  { title: 'Establecimiento',  key: 'storeName',      sortable: false },
+  { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',           key: 'statusUser',     sortable: false },
+  { title: 'Acciones',         key: 'actions',        sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({

@@ -114,12 +114,13 @@ import { storeToRefs } from 'pinia';
 import { useToast } from 'vue-toastification';
 import { useTransferStore } from '@/stores/transferStore';
 import { useStoreStore } from '@/stores/storeStore';
-import { useAuthStore } from '@/stores/auth';
-import { handleApiError } from '@/helpers/errorHandler';
-import CommonProductOut from '@/components/Common/CommonProductOut.vue';
-import { formatCurrency } from '@/utils/currency';
+import { useAuthStore } from '@/stores/authStore';
 import { Transfer, TransferDetail } from '@/interfaces/transferInterface';
+import type { ProductOutSelection } from '@/interfaces/productSelectionInterface';
+import CommonProductOut from '@/components/Common/CommonProductOut.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
+import { formatCurrency } from '@/utils/currency';
+import { handleApiError } from '@/helpers/errorHandler';
 
 interface FormRef {
   validate: () => boolean;
@@ -158,16 +159,8 @@ const storeStore = useStoreStore();
 const authStore = useAuthStore();
 const toast = useToast();
 
-const { stores, loading: loadingStores } = storeToRefs(storeStore);
+const { list: stores, loading: loadingStores } = storeToRefs(storeStore);
 
-const formRef = ref<FormRef | null>(null);
-const isOpen = ref(props.modelValue);
-const valid = ref(false);
-const saving = ref(false);
-const downloading = ref(false);
-const productModal = ref(false);
-const localTransfer = ref<Transfer>({ ...props.transfer } as Transfer);
-const details = ref<TransferDetail[]>([]);
 const { tooltipProps } = useResponsiveTooltip();
 
 const rules = {
@@ -178,18 +171,34 @@ const rules = {
   maxStock: (item: TransferDetail) => (value: number) => value <= item.stockAvailable
 };
 
+const formRef = ref<FormRef | null>(null);
+const isOpen = ref(props.modelValue);
+const valid = ref(false);
+const saving = ref(false);
+const downloading = ref(false);
+const productModal = ref(false);
+const localTransfer = ref<Transfer>({ ...props.transfer } as Transfer);
+const details = ref<TransferDetail[]>([]);
+
+const storesArray = computed(() => Array.isArray(stores.value) ? stores.value : []);
+
+const filteredStores = computed(() => {
+  const currentStoreId = authStore.currentUser?.storeId;
+  return storesArray.value.filter(store => store.idStore !== currentStoreId);
+});
+
 const headers = computed(() => {
-  const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center', width?: string; }> = [
-    { title: 'Item', key: 'item', sortable: false, align: 'center' },
-    { title: 'Código', key: 'code', sortable: false, align: 'center' },
-    { title: 'Descripción', key: 'description', sortable: false, align: 'center' },
-    { title: 'Material', key: 'material', sortable: false, align: 'center' },
-    { title: 'Color', key: 'color', sortable: false, align: 'center' },
-    { title: 'Categoría', key: 'categoryName', sortable: false, align: 'center' },
-    { title: 'Marca', key: 'brandName', sortable: false, align: 'center' },
-    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '120px' },
-    { title: 'Precio', key: 'price', sortable: false, align: 'center', width: '120px' },
-    { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '120px' }
+  const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center', width?: string }> = [
+    { title: 'Item',        key: 'item',         sortable: false, align: 'center' },
+    { title: 'Código',      key: 'code',         sortable: false, align: 'center' },
+    { title: 'Descripción', key: 'description',  sortable: false, align: 'center' },
+    { title: 'Material',    key: 'material',     sortable: false, align: 'center' },
+    { title: 'Color',       key: 'color',        sortable: false, align: 'center' },
+    { title: 'Categoría',   key: 'categoryName', sortable: false, align: 'center' },
+    { title: 'Marca',       key: 'brandName',    sortable: false, align: 'center' },
+    { title: 'Cantidad',    key: 'quantity',     sortable: false, align: 'center', width: '120px' },
+    { title: 'Precio',      key: 'price',        sortable: false, align: 'center', width: '120px' },
+    { title: 'SubTotal',    key: 'subtotal',     sortable: false, align: 'center', width: '120px' },
   ];
 
   if (!localTransfer.value.idTransfer) {
@@ -212,16 +221,9 @@ const detailErrors = computed(() => {
   return errors;
 });
 
-const filteredStores = computed(() => {
-  const currentStoreId = authStore.currentUser?.storeId;
-  return storesArray.value.filter(store => store.idStore !== currentStoreId);
-});
-
-const totalPrice = computed(() => {
-  return details.value.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
-});
-
-const storesArray = computed(() => Array.isArray(stores.value) ? stores.value : []);
+const totalPrice = computed(() =>
+  details.value.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0)
+);
 
 watch(() => props.modelValue, (newValue) => {
   isOpen.value = newValue;
@@ -242,38 +244,34 @@ const openProductModal = () => {
   productModal.value = true;
 };
 
-const handleProductAdded = (product: any) => {
+const handleProductAdded = (product: ProductOutSelection) => {
   const exists = details.value.find(d => d.idProduct === product.idProduct);
   if (exists) {
-    toast.warning('Este producto ya está en la lista');
+    toast.warning('Este producto ya se encuentra en la lista');
     return;
   }
-
-  if ((product.stockAvailable ?? 0) <= 0) {
+  if (!product.stockAvailable || product.stockAvailable <= 0) {
     toast.warning('Este producto no cuenta con cantidad disponible');
     return;
   }
-
   details.value.push({
-    idProduct: product.idProduct,
-    code: product.code,
-    description: product.description,
-    material: product.material,
-    color: product.color,
-    categoryName: product.categoryName,
-    brandName: product.brandName,
-    quantity: 1,
-    unitPrice: product.price,
-    totalPrice: 0,
-    stockAvailable: product.stockAvailable 
+    idProduct:      product.idProduct ?? 0,
+    code:           product.code,
+    description:    product.description,
+    material:       product.material,
+    color:          product.color,
+    categoryName:   product.categoryName,
+    brandName:      product.brandName,
+    quantity:       1,
+    unitPrice:      product.price ?? 0,
+    totalPrice:     0,
+    stockAvailable: product.stockAvailable ?? 0
   });
-
   toast.success('Producto agregado a la lista');
 };
 
 const removeProduct = (product: TransferDetail) => {
   const index = details.value.findIndex(d => d.idProduct === product.idProduct);
-
   if (index !== -1) {
     details.value.splice(index, 1);
     toast.error(`Producto ${product.code} eliminado de la lista`);
@@ -281,6 +279,14 @@ const removeProduct = (product: TransferDetail) => {
 };
 
 const saveTransfer = async () => {
+  const destinationId = localTransfer.value.idStoreDestination;
+  const originId = authStore.currentUser?.storeId;
+
+  if (!destinationId || !originId) {
+    toast.warning('Falta seleccionar la tienda de origen o destino');
+    return;
+  }
+
   if (!formRef.value?.validate()) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -290,15 +296,15 @@ const saveTransfer = async () => {
 
   try {
     const transferData = {
-      totalAmount: totalPrice.value,
-      annotations: localTransfer.value.annotations || '',
-      idStoreDestination: localTransfer.value.idStoreDestination,
-      idStoreOrigin: authStore.currentUser?.storeId,
+      totalAmount:        totalPrice.value,
+      annotations:        localTransfer.value.annotations || '',
+      idStoreDestination: destinationId,
+      idStoreOrigin:      originId,
       transferDetails: details.value.map((d, index) => ({
-        item: index + 1,
-        idProduct: d.idProduct,
-        quantity: d.quantity,
-        unitPrice: d.unitPrice,
+        item:       index + 1,
+        idProduct:  d.idProduct,
+        quantity:   d.quantity,
+        unitPrice:  d.unitPrice,
         totalPrice: d.quantity * d.unitPrice
       }))
     };
@@ -349,6 +355,6 @@ const close = () => {
 
 onMounted(() => {
   details.value = [...props.transferDetails];
-  storeStore.selectStore();
+  storeStore.fetchForSelect();
 });
 </script>

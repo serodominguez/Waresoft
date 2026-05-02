@@ -9,11 +9,57 @@ import {
   ERROR_TYPE_MESSAGES,
 } from '@/interfaces/errorInterface';
 
-// Clase principal para manejo centralizado de errores
+// ─── Type Guards ────────────────────────────────────────────────────────────
+
+interface TokenExpiredErrorShape {
+  isTokenExpired: true;
+  message: string;
+}
+
+function isTokenExpiredError(error: unknown): error is TokenExpiredErrorShape {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'isTokenExpired' in error &&
+    (error as Record<string, unknown>).isTokenExpired === true
+  );
+}
+
+function isAxiosError(error: unknown): error is AxiosError<ApiErrorResponse> {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'isAxiosError' in error &&
+    (error as Record<string, unknown>).isAxiosError === true
+  );
+}
+
+function isNetworkError(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string' &&
+    (error as Record<string, unknown>).message === 'Network Error'
+  );
+}
+
+function isAppError(error: unknown): error is AppError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'type' in error &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string'
+  );
+}
+
+// ─── Clase principal ─────────────────────────────────────────────────────────
+
 export class ErrorHandler {
   private static toast = useToast();
 
-  // Determina el tipo de error basado en el código de estado
+  // Determina el tipo de error basado en el código de estado HTTP
   private static getErrorType(statusCode?: number): ErrorType {
     if (!statusCode) return ErrorType.NETWORK;
 
@@ -27,19 +73,19 @@ export class ErrorHandler {
     return ErrorType.UNKNOWN;
   }
 
-  // Normaliza un error de Axios a AppError
-  private static normalizeAxiosError(error: AxiosError): AppError {
+  // Normaliza un AxiosError tipado a AppError
+  private static normalizeAxiosError(
+    error: AxiosError<ApiErrorResponse>
+  ): AppError {
     const statusCode = error.response?.status;
     const type = this.getErrorType(statusCode);
-    
-    // Intentar obtener mensaje del servidor
-    const apiResponse = error.response?.data as ApiErrorResponse | undefined;
+
+    const apiResponse = error.response?.data;
     let message = '';
 
     if (apiResponse?.message) {
       message = apiResponse.message;
     } else if (apiResponse?.errors) {
-      // Manejar errores de validación
       message = this.formatValidationErrors(apiResponse.errors);
     } else if (statusCode && ERROR_MESSAGES[statusCode]) {
       message = ERROR_MESSAGES[statusCode];
@@ -56,7 +102,7 @@ export class ErrorHandler {
     };
   }
 
-  // Formatea errores de validación
+  // Formatea errores de validación del servidor
   private static formatValidationErrors(
     errors: string[] | Record<string, string[]>
   ): string {
@@ -64,7 +110,6 @@ export class ErrorHandler {
       return errors.join(', ');
     }
 
-    // Si es un objeto con campos
     const messages: string[] = [];
     Object.entries(errors).forEach(([field, fieldErrors]) => {
       messages.push(`${field}: ${fieldErrors.join(', ')}`);
@@ -73,10 +118,11 @@ export class ErrorHandler {
     return messages.join('\n');
   }
 
-  // Normaliza cualquier tipo de error a AppError
-  private static normalizeError(error: any): AppError {
-    // NUEVO: Error de token expirado (del interceptor)
-    if (error.isTokenExpired === true) {
+  // Normaliza cualquier valor desconocido a AppError
+  private static normalizeError(error: unknown): AppError {
+
+    // Error de token expirado (lanzado desde el interceptor de Axios)
+    if (isTokenExpiredError(error)) {
       return {
         type: ErrorType.TOKEN_EXPIRED,
         message: ERROR_TYPE_MESSAGES[ErrorType.TOKEN_EXPIRED],
@@ -84,13 +130,13 @@ export class ErrorHandler {
       };
     }
 
-    // Error de Axios
-    if (error.isAxiosError) {
-      return this.normalizeAxiosError(error as AxiosError);
+    // Error de Axios (HTTP)
+    if (isAxiosError(error)) {
+      return this.normalizeAxiosError(error);
     }
 
-    // Error de red
-    if (error.message === 'Network Error') {
+    // Error de red sin respuesta del servidor
+    if (isNetworkError(error)) {
       return {
         type: ErrorType.NETWORK,
         message: ERROR_TYPE_MESSAGES[ErrorType.NETWORK],
@@ -98,62 +144,67 @@ export class ErrorHandler {
       };
     }
 
-    // AppError ya normalizado
-    if (error.type && error.message) {
-      return error as AppError;
+    // AppError ya normalizado previamente
+    if (isAppError(error)) {
+      return error;
     }
 
-    // Error genérico de JavaScript
+    // Error estándar de JavaScript
+    if (error instanceof Error) {
+      return {
+        type: ErrorType.UNKNOWN,
+        message: error.message,
+        originalError: error,
+      };
+    }
+
+    // Cualquier otro valor lanzado (string, número, objeto, etc.)
     return {
       type: ErrorType.UNKNOWN,
-      message: error.message || ERROR_TYPE_MESSAGES[ErrorType.UNKNOWN],
+      message: ERROR_TYPE_MESSAGES[ErrorType.UNKNOWN],
       originalError: error,
     };
   }
 
   // Maneja un error de forma centralizada
   public static handle(
-    error: any,
+    error: unknown,
     config: ErrorHandlerConfig = {}
   ): AppError {
     const {
       showToast = true,
-      logToConsole = process.env.NODE_ENV !== 'production', // Solo en desarrollo
+      logToConsole = process.env.NODE_ENV !== 'production',
       throwError = false,
       customMessage,
       onError,
     } = config;
 
-    // Normalizar error
     const appError = this.normalizeError(error);
 
-    // Usar mensaje personalizado si se proporciona
+    // Sobrescribir mensaje si se proporciona uno personalizado
     if (customMessage) {
       appError.message = customMessage;
     }
 
-    // Loggear en consola (solo en desarrollo)
+    // Loguear en consola solo en desarrollo
     if (logToConsole) {
       console.error('[ErrorHandler]', {
-        type: appError.type,
-        message: appError.message,
-        statusCode: appError.statusCode,
-        details: appError.details,
+        type:          appError.type,
+        message:       appError.message,
+        statusCode:    appError.statusCode,
+        details:       appError.details,
         originalError: appError.originalError,
       });
     }
 
-    // Mostrar toast
     if (showToast) {
       this.showErrorToast(appError);
     }
 
-    // Callback personalizado
     if (onError) {
       onError(appError);
     }
 
-    // Re-lanzar error si se solicita
     if (throwError) {
       throw appError;
     }
@@ -168,7 +219,7 @@ export class ErrorHandler {
     };
 
     switch (error.type) {
-      case ErrorType.TOKEN_EXPIRED: // NUEVO
+      case ErrorType.TOKEN_EXPIRED:
       case ErrorType.AUTHENTICATION:
         this.toast.warning(error.message, options);
         break;
@@ -190,14 +241,14 @@ export class ErrorHandler {
     }
   }
 
-  // Determina el timeout del toast según el tipo de error
+  // Determina la duración del toast según el tipo de error
   private static getToastTimeout(type: ErrorType): number {
     switch (type) {
       case ErrorType.NETWORK:
         return 3000;
       case ErrorType.VALIDATION:
         return 5000;
-      case ErrorType.TOKEN_EXPIRED: // NUEVO
+      case ErrorType.TOKEN_EXPIRED:
       case ErrorType.AUTHENTICATION:
         return 4000;
       default:
@@ -205,47 +256,54 @@ export class ErrorHandler {
     }
   }
 
-  // Método helper para errores de API
+  // Helper para errores de API con mensaje personalizado opcional
   public static handleApiError(
-    error: any,
+    error: unknown,
     customMessage?: string
   ): AppError {
     return this.handle(error, {
-      showToast: true,
+      showToast:    true,
       logToConsole: true,
       customMessage,
     });
   }
 
-  // Método helper para errores silenciosos (sin toast)
-  public static handleSilent(error: any): AppError {
+  // Helper para errores silenciosos (sin toast, solo log)
+  public static handleSilent(error: unknown): AppError {
     return this.handle(error, {
-      showToast: false,
+      showToast:    false,
       logToConsole: true,
     });
   }
 
-  // Método helper para errores críticos (con re-throw)
-  public static handleCritical(error: any, customMessage?: string): never {
+  // Helper para errores críticos (muestra toast y relanza el error)
+  public static handleCritical(error: unknown, customMessage?: string): never {
     this.handle(error, {
-      showToast: true,
+      showToast:    true,
       logToConsole: true,
-      throwError: true,
+      throwError:   true,
       customMessage,
     });
-    throw error; // TypeScript safety
+    throw error;
   }
 }
 
-// Exportar función helper global
-export const handleError = (error: any, config?: ErrorHandlerConfig) =>
-  ErrorHandler.handle(error, config);
+// ─── Exports funcionales ─────────────────────────────────────────────────────
 
-export const handleApiError = (error: any, customMessage?: string) =>
-  ErrorHandler.handleApiError(error, customMessage);
+export const handleError = (
+  error: unknown,
+  config?: ErrorHandlerConfig
+): AppError => ErrorHandler.handle(error, config);
 
-export const handleSilentError = (error: any) =>
+export const handleApiError = (
+  error: unknown,
+  customMessage?: string
+): AppError => ErrorHandler.handleApiError(error, customMessage);
+
+export const handleSilentError = (error: unknown): AppError =>
   ErrorHandler.handleSilent(error);
 
-export const handleCriticalError = (error: any, customMessage?: string) =>
-  ErrorHandler.handleCritical(error, customMessage);
+export const handleCriticalError = (
+  error: unknown,
+  customMessage?: string
+): never => ErrorHandler.handleCritical(error, customMessage);

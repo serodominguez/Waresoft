@@ -112,8 +112,8 @@ const roleStore = useRoleStore();
 const storeStore = useStoreStore();
 const toast = useToast();
 
-const { roles, loading: loadingRoles } = storeToRefs(roleStore);
-const { stores, loading: loadingStores } = storeToRefs(storeStore);
+const { list: roles, loading: loadingRoles } = storeToRefs(roleStore);
+const { list: stores, loading: loadingStores } = storeToRefs(storeStore);
 
 const formRef = ref<FormRef | null>(null);
 const isOpen = ref(props.modelValue);
@@ -136,8 +136,8 @@ const storesArray = computed(() => Array.isArray(stores.value) ? stores.value : 
 watch(() => props.modelValue, (newValue: boolean) => {
   isOpen.value = newValue;
   if (newValue) {
-    roleStore.selectRole();
-    storeStore.selectStore();
+    roleStore.fetchForSelect();
+    storeStore.fetchForSelect();
   }
 });
 
@@ -170,10 +170,8 @@ watch(
 const generateUserName = () => {
   const names = localUser.value.names?.trim() || '';
   const lastNames = localUser.value.lastNames?.trim() || '';
-
   const firstNameInitial = names.split(/\s+/)[0]?.[0] || '';
   const firstLastName = lastNames.split(/\s+/)[0] || '';
-
   localUser.value.userName = (firstNameInitial + firstLastName).toUpperCase();
 };
 
@@ -197,7 +195,7 @@ const saveUser = async () => {
   }
 
   const validation = await formRef.value.validate();
-  
+
   if (!validation.valid) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -207,31 +205,21 @@ const saveUser = async () => {
 
   try {
     const isEditing = !!localUser.value.idUser;
-    let result;
 
-        const userData = {
+    const userData = {
       ...localUser.value,
-      phoneNumber: localUser.value.phoneNumber 
-        ? localUser.value.phoneNumber 
-        : null
+      phoneNumber: localUser.value.phoneNumber ?? null
     };
 
-    if (isEditing && localUser.value.idUser !== null) {
-      if (userData.passwordHash !== oldPassword.value) {
-        userData.updatePassword = true;
-        userData.password = userData.passwordHash;
-      } else {
-        userData.updatePassword = false;
-        userData.password = userData.passwordHash;
-      }
+    let result;
 
-      result = await userStore.editUser(
-        localUser.value.idUser,
-        userData
-      );
+    if (isEditing && localUser.value.idUser !== null) {
+      userData.updatePassword = userData.passwordHash !== oldPassword.value;
+      userData.password = userData.passwordHash;
+      result = await userStore.edit(localUser.value.idUser, userData);
     } else {
       userData.password = userData.passwordHash;
-      result = await userStore.registerUser(userData);
+      result = await userStore.register(userData);
     }
 
     if (result.isSuccess) {
@@ -243,7 +231,6 @@ const saveUser = async () => {
       emit('saved');
       close();
     }
-
   } catch (error: any) {
     const isEditing = !!localUser.value.idUser;
     const customMessage = isEditing

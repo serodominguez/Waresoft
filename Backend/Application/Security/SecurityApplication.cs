@@ -9,7 +9,7 @@ using Utilities.Extensions;
 
 namespace Application.Security
 {
-    public class SecurityApplication : ISecurity
+    public class SecurityApplication : ISecurityApplication
     {
         private readonly IConfiguration _configuration;
 

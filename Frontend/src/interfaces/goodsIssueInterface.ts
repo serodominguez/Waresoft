@@ -29,9 +29,9 @@ export interface GoodsIssueRegister {
   type: string;
   totalAmount: number;
   annotations: string;
-  idUser: number;
+  idUser: number | null;
   idStore: number;
-  goodsReceiptDetails: {
+  goodsIssueDetails: {
     item: number;
     idProduct: number;
     quantity: number;

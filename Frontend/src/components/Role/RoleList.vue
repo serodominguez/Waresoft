@@ -138,7 +138,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { role: Role; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { role: Role; action: 0 | 1 | 2 }];
   'edit-role': [role: Role];
   'fetch-roles': [];
   'search-roles': [params: {
@@ -172,16 +172,17 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Roles por Página");
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = ref('Roles por Página');
+const search = ref<string | null>(null);
 const filterOptions = ref(['Rol']);
 
 const headers = computed(() => [
-  { title: 'Rol', key: 'roleName', sortable: false },
-  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusRole', sortable: false },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Rol',              key: 'roleName',       sortable: false },
+  { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',           key: 'statusRole',     sortable: false },
+  { title: 'Acciones',         key: 'actions',        sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({

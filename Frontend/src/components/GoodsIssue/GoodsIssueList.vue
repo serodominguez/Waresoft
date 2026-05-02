@@ -179,18 +179,20 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = "Salidas por Página";
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = 'Salidas por Página';
 const filterOptions = ['Código', 'Tienda', 'Personal'];
 
+const search = ref<string | null>(null);
+
 const headers = computed(() => [
-  { title: 'Código', key: 'code', sortable: false },
-  { title: 'Tipo', key: 'type', sortable: false },
-  { title: 'Personal', key: 'userName', sortable: false },
+  { title: 'Código',            key: 'code',            sortable: false },
+  { title: 'Tipo',              key: 'type',            sortable: false },
+  { title: 'Personal',          key: 'userName',        sortable: false },
   { title: 'Fecha de registro', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusIssue', sortable: false, align: 'center' as const },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Estado',            key: 'statusIssue',     sortable: false, align: 'center' as const },
+  { title: 'Acciones',          key: 'actions',         sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({
@@ -220,13 +222,8 @@ const endDateModel = computed({
 
 const stateColor = (status: string): string => {
   const statusLower = status.toLowerCase();
-
-  if (statusLower === 'completado') {
-    return 'green';
-  } else if (statusLower === 'cancelado') {
-    return 'red';
-  } 
-
+  if (statusLower === 'completado') return 'green';
+  if (statusLower === 'cancelado') return 'red';
   return 'grey';
 };
 
@@ -250,7 +247,7 @@ const handleSearch = () => {
 const handleClearFilters = () => {
   search.value = null;
   emit('clear-filters');
-}
+};
 
 const handleDownloadExcel = () => {
   emit('download-excel', {

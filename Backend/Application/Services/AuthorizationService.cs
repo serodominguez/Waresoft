@@ -12,10 +12,10 @@ namespace Application.Services
     public class AuthorizationService : IAuthorizationService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISecurity _security;
+        private readonly ISecurityApplication _security;
         private readonly IValidator<TokenRequestDto> _validator;
 
-        public AuthorizationService(IUnitOfWork unitOfWork, ISecurity security, IValidator<TokenRequestDto> validator)
+        public AuthorizationService(IUnitOfWork unitOfWork, ISecurityApplication security, IValidator<TokenRequestDto> validator)
         {
             _unitOfWork = unitOfWork;
             _security = security;

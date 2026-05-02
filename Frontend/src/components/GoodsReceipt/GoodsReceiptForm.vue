@@ -137,13 +137,14 @@ import { storeToRefs } from 'pinia';
 import { useToast } from 'vue-toastification';
 import { useGoodsReceiptStore } from '@/stores/goodsReceiptStore';
 import { useSupplierStore } from '@/stores/supplierStore';
-import { useAuthStore } from '@/stores/auth';
-import { handleApiError } from '@/helpers/errorHandler';
+import { useAuthStore } from '@/stores/authStore';
+import { GoodsReceipt, GoodsReceiptDetail } from '@/interfaces/goodsReceiptInterface';
+import type { ProductInSelection } from '@/interfaces/productSelectionInterface';
 import CommonProductIn from '@/components/Common/CommonProductIn.vue';
+import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 import { formatDateForApi } from '@/utils/date';
 import { formatCurrency } from '@/utils/currency';
-import { GoodsReceipt, GoodsReceiptDetail } from '@/interfaces/goodsReceiptInterface';
-import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
+import { handleApiError } from '@/helpers/errorHandler';
 
 interface FormRef {
   validate: () => boolean;
@@ -185,23 +186,10 @@ const supplierStore = useSupplierStore();
 const authStore = useAuthStore();
 const toast = useToast();
 
-const canDownload = computed(() => authStore.hasPermission('entrada de productos', 'descargar'));
+const { list: suppliers, loading: loadingSuppliers } = storeToRefs(supplierStore);
 
-const { suppliers, loading: loadingSuppliers } = storeToRefs(supplierStore);
-
-// Refs
-const formRef = ref<FormRef | null>(null);
-const isOpen = ref(props.modelValue);
-const valid = ref(false);
-const saving = ref(false);
-const downloading = ref(false);
-const productModal = ref(false);
-const localReceipt = ref<GoodsReceipt>({ ...props.receipt } as GoodsReceipt);
-const details = ref<GoodsReceiptDetail[]>([]);
-const documentTypes = ref<string[]>([]);
 const { tooltipProps } = useResponsiveTooltip();
 
-// Constants
 const receiptTypes = ['Adquisición', 'Alta', 'Ajuste de inventario', 'Ajuste de kardex'];
 const typesPurchases = ['Factura', 'Recibo'];
 const typeAdjustment = ['Entrada'];
@@ -211,23 +199,34 @@ const rules = {
   requiredNumber: (value: any) => (value !== null && value !== undefined && value !== '') || 'Este campo es requerido',
   minValue: (value: any) => value > 0,
   minValueOrZero: (value: any) => value >= 0
-  //minValue: (value: any) => value > 0 || 'Debe ser mayor a 0',
-  //minValueOrZero: (value: any) => value >= 0 || 'Debe ser mayor o igual a 0'
 };
 
-// Computed
+const formRef = ref<FormRef | null>(null);
+const isOpen = ref(props.modelValue);
+const valid = ref(false);
+const saving = ref(false);
+const downloading = ref(false);
+const productModal = ref(false);
+const localReceipt = ref<GoodsReceipt>({ ...props.receipt } as GoodsReceipt);
+const details = ref<GoodsReceiptDetail[]>([]);
+const documentTypes = ref<string[]>([]);
+
+const canDownload = computed(() => authStore.hasPermission('entrada de productos', 'descargar'));
+
+const suppliersArray = computed(() => Array.isArray(suppliers.value) ? suppliers.value : []);
+
 const headers = computed(() => {
   const baseHeaders: Array<{ title: string; key: string; sortable: boolean; align?: 'start' | 'end' | 'center', width?: string }> = [
-    { title: 'Item', key: 'item', sortable: false, align: 'center', width: '100px' },
-    { title: 'Código', key: 'code', sortable: false, align: 'center' },
-    { title: 'Descripción', key: 'description', sortable: false, align: 'center' },
-    { title: 'Material', key: 'material', sortable: false, align: 'center' },
-    { title: 'Color', key: 'color', sortable: false, align: 'center' },
-    { title: 'Categoría', key: 'categoryName', sortable: false, align: 'center' },
-    { title: 'Marca', key: 'brandName', sortable: false, align: 'center' },
-    { title: 'Cantidad', key: 'quantity', sortable: false, align: 'center', width: '120px' },
-    { title: 'Costo', key: 'cost', sortable: false, align: 'center', width: '120px' },
-    { title: 'SubTotal', key: 'subtotal', sortable: false, align: 'center', width: '120px' }
+    { title: 'Item',        key: 'item',         sortable: false, align: 'center', width: '100px' },
+    { title: 'Código',      key: 'code',         sortable: false, align: 'center' },
+    { title: 'Descripción', key: 'description',  sortable: false, align: 'center' },
+    { title: 'Material',    key: 'material',     sortable: false, align: 'center' },
+    { title: 'Color',       key: 'color',        sortable: false, align: 'center' },
+    { title: 'Categoría',   key: 'categoryName', sortable: false, align: 'center' },
+    { title: 'Marca',       key: 'brandName',    sortable: false, align: 'center' },
+    { title: 'Cantidad',    key: 'quantity',     sortable: false, align: 'center', width: '120px' },
+    { title: 'Costo',       key: 'cost',         sortable: false, align: 'center', width: '120px' },
+    { title: 'SubTotal',    key: 'subtotal',     sortable: false, align: 'center', width: '120px' },
   ];
 
   if (!localReceipt.value.idReceipt) {
@@ -250,13 +249,10 @@ const detailErrors = computed(() => {
   return errors;
 });
 
-const total = computed(() => {
-  return details.value.reduce((sum, item) => sum + (item.quantity * item.unitCost), 0);
-});
+const total = computed(() =>
+  details.value.reduce((sum, item) => sum + (item.quantity * item.unitCost), 0)
+);
 
-const suppliersArray = computed(() => Array.isArray(suppliers.value) ? suppliers.value : []);
-
-// Watchers
 watch(() => props.modelValue, (newValue) => {
   isOpen.value = newValue;
 });
@@ -273,7 +269,6 @@ watch(() => props.receipt, (newReceipt) => {
   updateDocuments();
 }, { deep: true });
 
-// Methods
 const updateDocuments = () => {
   localReceipt.value.documentType = '';
 
@@ -290,33 +285,29 @@ const openProductModal = () => {
   productModal.value = true;
 };
 
-const handleProductAdded = (product: any) => {
+const handleProductAdded = (product: ProductInSelection) => {
   const exists = details.value.find(d => d.idProduct === product.idProduct);
-
   if (exists) {
     toast.warning('Este producto ya está en la lista');
     return;
   }
-
   details.value.push({
-    idProduct: product.idProduct,
-    code: product.code,
+    idProduct:   product.idProduct ?? 0,
+    code:        product.code,
     description: product.description,
-    material: product.material,
-    color: product.color,
+    material:    product.material,
+    color:       product.color,
     categoryName: product.categoryName,
-    brandName: product.brandName,
-    quantity: 1,
-    unitCost: 0,
-    totalCost: 0
+    brandName:   product.brandName,
+    quantity:    1,
+    unitCost:    0,
+    totalCost:   0
   });
-
   toast.success('Producto agregado a la lista');
 };
 
 const removeProduct = (product: GoodsReceiptDetail) => {
   const index = details.value.findIndex(d => d.idProduct === product.idProduct);
-
   if (index !== -1) {
     details.value.splice(index, 1);
     toast.error(`Producto ${product.code} eliminado de la lista`);
@@ -324,6 +315,13 @@ const removeProduct = (product: GoodsReceiptDetail) => {
 };
 
 const saveReceipt = async () => {
+  const storeId = authStore.currentUser?.storeId;
+
+  if (!storeId) {
+    toast.warning('Falta seleccionar la unidad');
+    return;
+  }
+
   if (!formRef.value?.validate()) {
     toast.warning('Por favor completa todos los campos requeridos');
     return;
@@ -333,19 +331,19 @@ const saveReceipt = async () => {
 
   try {
     const receiptData = {
-      type: localReceipt.value.type,
-      documentDate: formatDateForApi(localReceipt.value.documentDate),
-      documentType: localReceipt.value.documentType,
+      type:           localReceipt.value.type,
+      documentDate:   formatDateForApi(localReceipt.value.documentDate),
+      documentType:   localReceipt.value.documentType,
       documentNumber: localReceipt.value.documentNumber,
-      totalAmount: total.value,
-      annotations: localReceipt.value.annotations || '',
-      idSupplier: localReceipt.value.idSupplier,
-      idStore: authStore.currentUser?.storeId,
+      totalAmount:    total.value,
+      annotations:    localReceipt.value.annotations || '',
+      idSupplier:     localReceipt.value.idSupplier,
+      idStore:        storeId,
       goodsReceiptDetails: details.value.map((d, index) => ({
-        item: index + 1,
+        item:      index + 1,
         idProduct: d.idProduct,
-        quantity: d.quantity,
-        unitCost: d.unitCost,
+        quantity:  d.quantity,
+        unitCost:  d.unitCost,
         totalCost: d.quantity * d.unitCost
       }))
     };
@@ -383,10 +381,9 @@ const close = () => {
   emit('close');
 };
 
-// Lifecycle
 onMounted(() => {
   details.value = [...props.receiptDetails];
-  supplierStore.selectSupplier();
+  supplierStore.fetchForSelect();
   if (!localReceipt.value.idReceipt) {
     localReceipt.value.documentDate = '';
     updateDocuments();

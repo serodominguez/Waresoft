@@ -14,7 +14,7 @@ import permissionsPlugin from './plugins/permissions'
 import { configureAxiosDefaults, setupAxiosInterceptors } from './plugins/axiosInterceptor'
 
 // Store de autenticación
-import { useAuthStore } from './stores/auth'
+import { useAuthStore } from './stores/authStore'
 
 // Toast
 import Toast from 'vue-toastification'
@@ -48,7 +48,7 @@ const toastOptions = {
   // Inicialización
  async function initializeApp() {
   
-// Suprimir warning de next() (bug Vuetify #22632, sin fix aún)
+/* // Suprimir warning de next() (bug Vuetify #22632, sin fix aún)
 const originalWarn = console.warn
 console.warn = (...args: unknown[]) => {
   if (
@@ -57,7 +57,7 @@ console.warn = (...args: unknown[]) => {
     args[0].includes('navigation guards')
   ) return
   originalWarn.apply(console, args)
-}
+} */
 
   // Crear la aplicación
   const app = createApp(App)

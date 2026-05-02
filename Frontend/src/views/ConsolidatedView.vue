@@ -13,107 +13,106 @@
 import { ref, computed, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import { useInventoryStore } from '@/stores/inventoryStore';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useFilters } from '@/composables/useFilters';
+import { usePagination } from '@/composables/usePagination';
 import StockList from '@/components/Inventory/StockList.vue';
 
 const inventoryStore = useInventoryStore();
-const authStore = useAuthStore();
-const toast = useToast();
+const authStore      = useAuthStore();
+const toast          = useToast();
 
 const filterMap: Record<string, number> = {
-  'Código': 1,
-  'Descripción': 2,
-  'Material': 3,
-  'Color': 4,
-  'Marca': 5,
-  'Categoría': 6,
+  'Código': 1, 'Descripción': 2, 'Material': 3, 'Color': 4, 'Marca': 5, 'Categoría': 6
 };
-
 const { selectedFilter, state, startDate, endDate, getFilterParams } = useFilters('Código', filterMap);
 
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-const search = ref<string | null>(null);
-const drawer = ref(false);
+const search           = ref<string | null>(null);
+const drawer           = ref(false);
 const downloadingExcel = ref(false);
-const downloadingPdf = ref(false);
+const downloadingPdf   = ref(false);
 
-const loading = computed(() => inventoryStore.loading);
-const totalRows = computed(() => inventoryStore.totalRows);
-const stores = computed(() => inventoryStore.inventoryPivot?.stores ?? []);
-const rows = computed(() => inventoryStore.inventoryPivot?.rows ?? []);
+const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePagination(
+  (params) => {
+    inventoryStore.fetchInventoryPivot({
+      pageNumber:  params.pageNumber,
+      pageSize:    params.pageSize,
+      sort:        'IdProduct',
+      order:       'asc',
+      ...getFilterParams(search.value),
+    });
+  }
+);
 
-const canRead = computed((): boolean => authStore.hasPermission('inventario', 'leer'));
+const loading    = computed(() => inventoryStore.loading);
+const totalRows  = computed(() => inventoryStore.totalRows);
+const stores     = computed(() => inventoryStore.inventoryPivot?.stores ?? []);
+const rows       = computed(() => inventoryStore.inventoryPivot?.rows ?? []);
+
+const canRead     = computed(() => authStore.hasPermission('inventario', 'leer'));
 const canDownload = computed(() => authStore.hasPermission('inventario', 'descargar'));
 
-const clearFilters = () => {
-  selectedFilter.value = 'Código';
-  state.value = 'Activos';
-  startDate.value = null;
-  endDate.value = null;
-  search.value = null;
-  
-  fetchStock();
-};
-
-const fetchStock = async (params?: any) => {
+const fetchStock = async () => {
   try {
-    await inventoryStore.fetchInventoryPivot(params || {
-      pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdProduct',
-      order: 'asc',
-      ...getFilterParams(search.value)
+    await inventoryStore.fetchInventoryPivot({
+      pageNumber:  currentPage.value,
+      pageSize:    itemsPerPage.value,
+      sort:        'IdProduct',
+      order:       'asc',
+      stateFilter: state.value === 'Activos' ? 1 : 0,
     });
   } catch (error) {
     handleSilentError(error);
   }
 };
 
-const searchStock = async (params: any) => {
-  search.value = params.search;
-  selectedFilter.value = params.selectedFilter;
-  state.value = params.state;
-  startDate.value = params.startDate;
-  endDate.value = params.endDate;
+const searchStock = async (params: {
+  search: string | null;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}) => {
+  search.value          = params.search;
+  selectedFilter.value  = params.selectedFilter;
+  state.value           = params.state;
+  startDate.value       = params.startDate;
+  endDate.value         = params.endDate;
+  currentPage.value     = 1;
 
   try {
     await inventoryStore.fetchInventoryPivot({
       pageNumber: 1,
-      pageSize: itemsPerPage.value,
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdProduct',
+      order:      'asc',
+      ...getFilterParams(params.search),
     });
-    currentPage.value = 1;
   } catch (error) {
     handleApiError(error, 'Error al buscar stock');
   }
 };
 
-const refreshStock = () => {
-  if (search.value?.trim()) {
-    searchStock({
-      search: search.value,
-      selectedFilter: selectedFilter.value,
-      state: state.value,
-      startDate: startDate.value,
-      endDate: endDate.value
-    });
-  } else {
-    fetchStock();
-  }
+const clearFilters = () => {
+  selectedFilter.value = 'Código';
+  state.value          = 'Activos';
+  startDate.value      = null;
+  endDate.value        = null;
+  search.value         = null;
+  currentPage.value    = 1;
+  fetchStock();
 };
 
-const downloadExcel = async (params: any) => {
+const downloadExcel = async (params: { search: string | null }) => {
   downloadingExcel.value = true;
   try {
     await inventoryStore.downloadInventoryPivotExcel({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdProduct',
-      order: 'asc',
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdProduct',
+      order:      'asc',
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
   } catch (error) {
@@ -123,15 +122,15 @@ const downloadExcel = async (params: any) => {
   }
 };
 
-const downloadPdf = async (params: any) => {
+const downloadPdf = async (params: { search: string | null }) => {
   downloadingPdf.value = true;
   try {
     await inventoryStore.downloadInventoryPivotPdf({
       pageNumber: currentPage.value,
-      pageSize: itemsPerPage.value,
-      sort: 'IdProduct',
-      order: 'asc',
-      ...getFilterParams(params.search)
+      pageSize:   itemsPerPage.value,
+      sort:       'IdProduct',
+      order:      'asc',
+      ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');
   } catch (error) {
@@ -139,17 +138,6 @@ const downloadPdf = async (params: any) => {
   } finally {
     downloadingPdf.value = false;
   }
-};
-
-const updateItemsPerPage = (newItemsPerPage: number) => {
-  itemsPerPage.value = newItemsPerPage;
-  currentPage.value = 1;
-  refreshStock();
-};
-
-const changePage = (page: number) => {
-  currentPage.value = page;
-  refreshStock();
 };
 
 onMounted(() => {

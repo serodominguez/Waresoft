@@ -77,12 +77,6 @@ const transferStore = useTransferStore();
 
 const pages = 'Movimientos por Página';
 
-const pdfModal = ref(false);
-const pdfUrl = ref<string | null>(null);
-const pdfError = ref(false);
-const pdfModalTitle = ref('');
-const loadingPdfId = ref<number | null>(null);
-
 const MOVEMENT_MAP: Record<string, { getBlob: (id: number) => Promise<Blob>; label: string }> = {
   'Entrada': {
     getBlob: (id) => goodsReceiptStore.getBlobGoodsReceiptPdf(id),
@@ -97,6 +91,12 @@ const MOVEMENT_MAP: Record<string, { getBlob: (id: number) => Promise<Blob>; lab
     label: 'Traspaso',
   },
 };
+
+const pdfModal = ref(false);
+const pdfUrl = ref<string | null>(null);
+const pdfError = ref(false);
+const pdfModalTitle = ref('');
+const loadingPdfId = ref<number | null>(null);
 
 const headers = computed(() => [
   { title: 'Código', key: 'code', sortable: false, align: 'center' as const },

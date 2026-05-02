@@ -142,7 +142,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'open-form': [];
-  'open-modal': [payload: { supplier: Supplier; action: 0 | 1 | 2 }]
+  'open-modal': [payload: { supplier: Supplier; action: 0 | 1 | 2 }];
   'edit-supplier': [supplier: Supplier];
   'fetch-suppliers': [];
   'search-suppliers': [params: {
@@ -176,18 +176,19 @@ const emit = defineEmits<{
   'clear-filters': [];
 }>();
 
-const pages = ref("Proveedores por Página");
-const search = ref<string | null>(null);
 const { tooltipProps } = useResponsiveTooltip();
+
+const pages = ref('Proveedores por Página');
+const search = ref<string | null>(null);
 const filterOptions = ref(['Empresa', 'Contacto']);
 
 const headers = computed(() => [
-  { title: 'Empresa', key: 'companyName', sortable: false },
-  { title: 'Contacto', key: 'contact', sortable: false },
-  { title: 'Teléfono', key: 'phoneNumber', sortable: false },
-  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
-  { title: 'Estado', key: 'statusSupplier', sortable: false },
-  { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
+  { title: 'Empresa',          key: 'companyName',    sortable: false },
+  { title: 'Contacto',         key: 'contact',        sortable: false },
+  { title: 'Teléfono',         key: 'phoneNumber',    sortable: false },
+  { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
+  { title: 'Estado',           key: 'statusSupplier', sortable: false },
+  { title: 'Acciones',         key: 'actions',        sortable: false, align: 'center' as const },
 ]);
 
 const drawerModel = computed({

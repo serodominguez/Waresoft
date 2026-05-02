@@ -1,94 +1,67 @@
-import { defineStore } from 'pinia'
-import { fetchPermissionsByRole, updatePermissions } from '@/services/permissionService'
-import { Permission, PermissionsByModule } from '@/interfaces/permissionInterface'
-import { handleSilentError } from '@/helpers/errorHandler'
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import {
+  fetchPermissionsByRole as fetchPermissionsByRoleService,
+  updatePermissions as updatePermissionsService
+} from '@/services/permissionService';
+import { Permission, PermissionsByModule } from '@/interfaces/permissionInterface';
 
-interface PermissionState {
-  permissions: Permission[]
-  loading: boolean
-  error: string | null
-}
+export const usePermissionStore = defineStore('permission', () => {
+  const items = ref<Permission[]>([]);
+  const loading = ref<boolean>(false);
 
-export const usePermissionStore = defineStore('permission', {
-  state: (): PermissionState => ({
-    permissions: [],
-    loading: false,
-    error: null,
-  }),
+  const permissions = computed(() => items.value);
 
-  getters: {
-    permissionsByModule: (state): PermissionsByModule[] => {
-      const grouped = state.permissions.reduce((acc, perm) => {
-        if (!acc[perm.moduleName]) {
-          acc[perm.moduleName] = {
-            module: perm.moduleName,
-            permissions: {
-              crear: false,
-              leer: false,
-              editar: false,
-              eliminar: false,
-              descargar: false
-            },
-          }
-        }
-
-        const actionKey = perm.actionName.toLowerCase() as
-          | 'crear'
-          | 'leer'
-          | 'editar'
-          | 'eliminar'
-          | 'descargar'
-        acc[perm.moduleName].permissions[actionKey] = perm.status
-
-        return acc
-      }, {} as Record<string, PermissionsByModule>)
-
-      return Object.values(grouped)
-    },
-  },
-
-  actions: {
-    async fetchPermissionsByRole(roleId: number) {
-      this.loading = true
-      this.error = null
-      try {
-        const response = await fetchPermissionsByRole(roleId)
-        if (response.isSuccess) {
-          this.permissions = response.data
-        } else {
-          this.error = response.message
-        }
-      } catch (error: any) {
-        const appError = handleSilentError(error)
-        this.error = appError.message
-        throw error
-      } finally {
-        this.loading = false
+  const permissionsByModule = computed((): PermissionsByModule[] => {
+    const grouped = items.value.reduce((acc, perm) => {
+      if (!acc[perm.moduleName]) {
+        acc[perm.moduleName] = {
+          module: perm.moduleName,
+          permissions: { crear: false, leer: false, editar: false, eliminar: false, descargar: false },
+        };
       }
-    },
+      const actionKey = perm.actionName.toLowerCase() as keyof PermissionsByModule['permissions'];
 
-    async updatePermissions(updatedPermissions: Array<{ idPermission: number; status: boolean }>) {
-      try {
-        const result = await updatePermissions(updatedPermissions)
-        if (result.isSuccess) {
-          return { success: true, message: result.message }
-        } else {
-          this.error = result.message || result.errors
-          return {
-            success: false,
-            message: result.message || 'Error al actualizar permisos',
-          }
-        }
-      } catch (error: any) {
-        const appError = handleSilentError(error)
-        this.error = appError.message
-        throw error
+      if (acc[perm.moduleName].permissions[actionKey] !== undefined) {
+        acc[perm.moduleName].permissions[actionKey] = perm.status;
       }
-    },
 
-    clearPermissions() {
-      this.permissions = []
-      this.error = null
-    },
-  },
-})
+      return acc;
+    }, {} as Record<string, PermissionsByModule>);
+
+    return Object.values(grouped);
+  });
+
+  async function fetchPermissionsByRole(roleId: number) {
+    loading.value = true;
+    items.value = []; // Limpieza antes de cargar
+    try {
+      const result = await fetchPermissionsByRoleService(roleId);
+      if (!result.isSuccess) throw new Error(result.message ?? result.errors);
+      items.value = result.data;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function updatePermissions(updatedPermissions: Array<{ idPermission: number; status: boolean }>) {
+    const result = await updatePermissionsService(updatedPermissions);
+    if (!result.isSuccess) throw new Error(result.message ?? result.errors);
+    return result;
+  }
+
+  function clearPermissions() {
+    items.value = [];
+  }
+
+  return {
+    items,
+    loading,
+    permissions,
+    permissionsByModule,
+
+    fetchPermissionsByRole,
+    updatePermissions,
+    clearPermissions,
+  };
+});

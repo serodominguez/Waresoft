@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { normalize } from '@/utils/string';
 
 // Interface que define la estructura de un enlace del menú de navegación
