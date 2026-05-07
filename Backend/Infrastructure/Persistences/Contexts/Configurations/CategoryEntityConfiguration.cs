@@ -14,15 +14,13 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id)
-                .HasColumnName("PK_CATEGORY");
+                .HasColumnName("IdCategory");
 
             builder.Property(c => c.CategoryName)
-                .HasColumnName("CATEGORY_NAME")
                 .HasMaxLength(25)
                 .IsRequired();
 
             builder.Property(c => c.Description)
-                .HasColumnName("DESCRIPTION")
                 .HasMaxLength(50);
         }
     }

@@ -5,5 +5,6 @@ namespace Infrastructure.Persistences.Interfaces
     public interface IUserRepository : IGenericRepository<UserEntity>
     {
         IQueryable<UserEntity> GetUsersQueryable();
+        Task<UserEntity?> GetUserByUsernameAsync(string userName, bool status);
     }
 }

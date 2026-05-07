@@ -14,23 +14,19 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Id)
-                .HasColumnName("PK_SUPPLIER");
+                .HasColumnName("IdSupplier");
 
             builder.Property(s => s.CompanyName)
-                .HasColumnName("COMPANY_NAME")
                 .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(s => s.Contact)
-                .HasColumnName("CONTACT")
                 .HasMaxLength(30)
                 .IsRequired();
 
-            builder.Property(s => s.PhoneNumber)
-                .HasColumnName("PHONE_NUMBER");
+            builder.Property(s => s.PhoneNumber);
 
             builder.Property(s => s.Email)
-                .HasColumnName("EMAIL")
                 .HasMaxLength(50);
         }
     }

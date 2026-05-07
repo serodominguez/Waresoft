@@ -36,9 +36,7 @@ namespace Application.Services
                 return response;
             }
 
-            var user = await _unitOfWork.User.GetUsersQueryable()
-                            .Where(u => u.UserName == requestDto.UserName && u.Status == true)
-                            .FirstOrDefaultAsync();
+            var user = await _unitOfWork.User.GetUserByUsernameAsync(requestDto.UserName!, true);
 
             if (user is not null)
             {

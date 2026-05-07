@@ -12,37 +12,28 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasKey(i => new { i.IdStore, i.IdProduct });
 
             builder.Property(i => i.IdStore)
-                .HasColumnName("PK_STORE")
                 .IsRequired();
 
             builder.Property(i => i.IdProduct)
-                .HasColumnName("PK_PRODUCT")
                 .IsRequired();
 
             builder.Property(i => i.StockAvailable)
-                .HasColumnName("STOCK_AVAILABLE")
                 .IsRequired();
 
             builder.Property(i => i.StockInTransit)
-                .HasColumnName("STOCK_IN_TRANSIT")
                 .IsRequired();
 
             builder.Property(i => i.Price)
-                .HasColumnName("PRICE")
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
-            builder.Property(i => i.AuditCreateUser)
-                .HasColumnName("AUDIT_CREATE_USER");
+            builder.Property(i => i.AuditCreateUser);
 
-            builder.Property(i => i.AuditCreateDate)
-                .HasColumnName("AUDIT_CREATE_DATE");
+            builder.Property(i => i.AuditCreateDate);
 
-            builder.Property(i => i.AuditUpdateUser)
-                .HasColumnName("AUDIT_UPDATE_USER");
+            builder.Property(i => i.AuditUpdateUser);
 
-            builder.Property(i => i.AuditUpdateDate)
-                .HasColumnName("AUDIT_UPDATE_DATE");
+            builder.Property(i => i.AuditUpdateDate);
 
             builder.HasOne(s => s.Store)
                 .WithMany(i => i.Inventory)

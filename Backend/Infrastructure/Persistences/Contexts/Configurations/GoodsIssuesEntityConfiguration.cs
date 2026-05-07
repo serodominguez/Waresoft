@@ -11,52 +11,40 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.ToTable("GOODS_ISSUE");
 
             builder.HasKey(i => i.IdIssue);
-            builder.Property(i => i.IdIssue)
-                .HasColumnName("PK_ISSUE");
+            builder.Property(i => i.IdIssue);
 
             builder.Property(i => i.Code)
-                .HasColumnName("CODE")
                 .HasMaxLength(15)
                 .IsRequired();
 
             builder.Property(i => i.Type)
-                .HasColumnName("TYPE")
                 .HasMaxLength(15)
                 .IsRequired();
 
             builder.Property(i => i.TotalAmount)
-                .HasColumnName("TOTAL_AMOUNT")
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
             builder.Property(i => i.Annotations)
-                .HasColumnName("ANNOTATIONS")
                 .HasMaxLength(80);
 
-            builder.Property(i => i.IdUser)
-                .HasColumnName("PK_USER");
+            builder.Property(i => i.IdUser);
 
             builder.Property(i => i.IdStore)
-                .HasColumnName("PK_STORE")
                 .IsRequired();
 
-            builder.Property(i => i.AuditCreateUser)
-                .HasColumnName("AUDIT_CREATE_USER");
+            builder.Property(i => i.AuditCreateUser);
 
-            builder.Property(i => i.AuditCreateDate)
-                .HasColumnName("AUDIT_CREATE_DATE");
+            builder.Property(i => i.AuditCreateDate);
 
-            builder.Property(i => i.AuditDeleteUser)
-              .HasColumnName("AUDIT_DELETE_USER");
+            builder.Property(i => i.AuditDeleteUser);
 
-            builder.Property(i => i.AuditDeleteDate)
-                .HasColumnName("AUDIT_DELETE_DATE");
+            builder.Property(i => i.AuditDeleteDate);
 
-            builder.Property(i => i.Status)
-                .HasColumnName("STATUS");
+            builder.Property(i => i.Status);
 
             builder.Property(t => t.IsActive)
-                .HasColumnName("ACTIVE");
+                .HasColumnName("Active");
 
             builder.HasOne(u => u.User)
                 .WithMany(i => i.GoodsIssue)

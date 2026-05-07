@@ -12,20 +12,16 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasKey(s => new { s.Name, s.IdStore });
 
             builder.Property(s => s.Name)
-                .HasColumnName("NAME")
                 .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(s => s.IdStore)
-                .HasColumnName("PK_STORE")
                 .IsRequired();
 
             builder.Property(s => s.CurrentValue)
-                .HasColumnName("CURRENT_VALUE")
                 .IsRequired();
 
-            builder.Property(s => s.LastUpdated)
-                .HasColumnName("LAST_UPDATED");
+            builder.Property(s => s.LastUpdated);
         }
     }
 }

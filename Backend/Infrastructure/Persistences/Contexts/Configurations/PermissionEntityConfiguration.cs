@@ -14,18 +14,15 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id)
-                .HasColumnName("PK_PERMISSION");
+                .HasColumnName("IdPermission");
 
             builder.Property(p => p.IdRole)
-                .HasColumnName("PK_ROLE")
                 .IsRequired();
 
             builder.Property(p => p.IdModule)
-                .HasColumnName("PK_MODULE")
                 .IsRequired();
 
             builder.Property(p => p.IdAction)
-                .HasColumnName("PK_ACTION")
                 .IsRequired();
 
             builder.HasOne(r => r.Role)

@@ -14,10 +14,9 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.HasKey(b => b.Id);
             builder.Property(b => b.Id)
-                .HasColumnName("PK_BRAND");
+                .HasColumnName("IdBrand");
 
             builder.Property(b => b.BrandName)
-                .HasColumnName("BRAND_NAME")
                 .HasMaxLength(25)
                 .IsRequired();
         }

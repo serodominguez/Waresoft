@@ -14,45 +14,36 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id)
-                .HasColumnName("PK_PRODUCT");
+                .HasColumnName("IdProduct");
 
             builder.Property(p => p.Code)
-                .HasColumnName("CODE")
                 .HasMaxLength(25)
                 .IsRequired();
 
             builder.Property(p => p.Description)
-                .HasColumnName("DESCRIPTION")
                 .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(p => p.Material)
-                .HasColumnName("MATERIAL")
                 .HasMaxLength(25);
 
             builder.Property(p => p.Color)
-                .HasColumnName("COLOR")
                 .HasMaxLength(20);
 
             builder.Property(p => p.UnitMeasure)
-                .HasColumnName("UNIT_MEASURE")
                 .HasMaxLength(15)
                 .IsRequired();
 
             builder.Property(p => p.Image)
-                .HasColumnName("IMAGE")
                 .HasMaxLength(2048);
 
             builder.Property(p => p.IdBrand)
-                .HasColumnName("PK_BRAND")
                 .IsRequired();
 
             builder.Property(p => p.IdCategory)
-                .HasColumnName("PK_CATEGORY")
                 .IsRequired();
 
-            builder.Property(p => p.Replenishment)
-                .HasColumnName("REPLENISHMENT");
+            builder.Property(p => p.Replenishment);
 
             builder.HasOne(b => b.Brand)
                 .WithMany(p => p.Product)

@@ -14,10 +14,9 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.HasKey(r => r.Id);
             builder.Property(r => r.Id)
-                .HasColumnName("PK_ROLE");
+                .HasColumnName("IdRole");
 
             builder.Property(r => r.RoleName)
-                .HasColumnName("ROLE_NAME")
                 .HasMaxLength(20)
                 .IsRequired();
         }

@@ -12,28 +12,22 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasKey(d => new { d.IdTransfer, d.Item });
 
             builder.Property(d => d.IdTransfer)
-                .HasColumnName("PK_TRANSFER")
                 .IsRequired();
 
             builder.Property(d => d.Item)
-                .HasColumnName("ITEM")
                 .IsRequired();
 
             builder.Property(d => d.IdProduct)
-                .HasColumnName("PK_PRODUCT")
                 .IsRequired();
 
             builder.Property(d => d.Quantity)
-                .HasColumnName("QUANTITY")
                 .IsRequired();
 
             builder.Property(d => d.UnitPrice)
-                .HasColumnName("UNIT_PRICE")
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
             builder.Property(d => d.TotalPrice)
-                .HasColumnName("TOTAL_PRICE")
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 

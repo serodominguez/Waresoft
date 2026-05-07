@@ -12,29 +12,23 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasKey(d => new { d.IdReceipt, d.Item });
 
             builder.Property(d => d.IdReceipt)
-                .HasColumnName("PK_RECEIPT")
                 .IsRequired();
 
             builder.Property(d => d.IdProduct)
-                .HasColumnName("PK_PRODUCT")
                 .IsRequired();
 
             builder.Property(d => d.Quantity)
-                .HasColumnName("QUANTITY")
                 .IsRequired();
 
             builder.Property(d => d.UnitCost)
-                .HasColumnName("UNIT_COST")
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
             builder.Property(d => d.TotalCost)
-                .HasColumnName("TOTAL_COST")
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();
 
             builder.Property(d => d.Item)
-                .HasColumnName("ITEM")
                 .IsRequired();
 
             builder.HasOne(r => r.GoodsReceipt)
