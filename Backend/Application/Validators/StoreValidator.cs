@@ -33,9 +33,9 @@ namespace Application.Validators
                 .When(x => !string.IsNullOrWhiteSpace(x.Email));
 
             RuleFor(x => x.PhoneNumber)
-                .GreaterThan(0).WithMessage("El número de teléfono debe ser positivo")
-                .Must(HaveMaximum8Digits).WithMessage("El número de teléfono no puede tener más de 8 dígitos")
-                .When(x => x.PhoneNumber.HasValue);
+                .Length(8).WithMessage("El número de teléfono debe tener 8 dígitos")
+                .Matches(@"^\d+$").WithMessage("El número de teléfono solo debe contener dígitos")
+                .When(x => !string.IsNullOrEmpty(x.PhoneNumber));
 
             RuleFor(x => x.ProfitMargin)
                 .NotNull().WithMessage("El margen de ganancia es requerido")
@@ -45,14 +45,6 @@ namespace Application.Validators
                 .NotEmpty().WithMessage("El tipo es requerido")
                 .MaximumLength(15).WithMessage("El tipo no puede tener más de 15 caracteres")
                 .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
-        }
-
-        private bool HaveMaximum8Digits(int? phoneNumber)
-        {
-            if (!phoneNumber.HasValue) return true;
-
-            var digits = phoneNumber.Value.ToString().Length;
-            return digits <= 8;
         }
     }
 }

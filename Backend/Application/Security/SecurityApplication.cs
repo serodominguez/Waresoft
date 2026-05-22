@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Infrastructure.Persistences.ReadModels.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,7 +18,7 @@ namespace Application.Security
             _configuration = configuration;
         }
 
-        public string GenerateToken(UserEntity user)
+        public string GenerateToken(UserAccountReadModel user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -27,13 +27,13 @@ namespace Application.Security
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName!),
-                new Claim(ClaimTypes.Role, user.Role!.RoleName!),
+                new Claim(ClaimTypes.Role, user.RoleName!),
 
                 new Claim("userId",user.Id.ToString()),
                 new Claim("userName", user.UserName!),
-                new Claim("role", user.Role.RoleName!),
-                new Claim("storeName", user.Store!.StoreName!.ToSentenceCase()!),
-                new Claim("storeType", user.Store!.Type!.ToSentenceCase()!),
+                new Claim("role", user.RoleName!),
+                new Claim("storeName", user.StoreName!.ToSentenceCase()!),
+                new Claim("storeType", user.Type!.ToSentenceCase()!),
                 new Claim("storeId", user.IdStore.ToString())
             };
 

@@ -32,9 +32,7 @@ namespace Application.Services
 
             try
             {
-                var customers = _unitOfWork.Customer.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(c => c.AuditDeleteUser == null && c.AuditDeleteDate == null);
+                var customers = _unitOfWork.CustomerQuery.GetCustomersListQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -89,8 +87,7 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
-                    .AsNoTracking()
+                var customer = await _unitOfWork.CustomerQuery.GetCustomerByIdQueryable(customerId)
                     .FirstOrDefaultAsync();
 
                 if (customer is not null)
@@ -135,7 +132,7 @@ namespace Application.Services
                 customer.AuditCreateDate = DateTime.Now;
                 customer.Status = true;
 
-                await _unitOfWork.Customer.AddAsync(customer);
+                await _unitOfWork.CustomerCommand.AddAsync(customer);
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -176,8 +173,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
-                    .AsTracking()
+                var customer = await _unitOfWork.CustomerCommand.GetByIdAsQueryable(customerId)
                     .FirstOrDefaultAsync();
 
                 if (customer is null)
@@ -224,8 +220,7 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
-                    .AsTracking()
+                var customer = await _unitOfWork.CustomerCommand.GetByIdAsQueryable(customerId)
                     .FirstOrDefaultAsync();
 
                 if (customer is null)
@@ -269,8 +264,7 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
-                    .AsTracking()
+                var customer = await _unitOfWork.CustomerCommand.GetByIdAsQueryable(customerId)
                     .FirstOrDefaultAsync();
 
                 if (customer is null)
@@ -314,8 +308,7 @@ namespace Application.Services
 
             try
             {
-                var customer = await _unitOfWork.Customer.GetByIdAsQueryable(customerId)
-                    .AsTracking()
+                var customer = await _unitOfWork.CustomerCommand.GetByIdAsQueryable(customerId)
                     .FirstOrDefaultAsync();
 
                 if (customer is null)

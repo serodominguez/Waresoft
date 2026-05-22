@@ -32,9 +32,7 @@ namespace Application.Services
 
             try
             {
-                var modules = _unitOfWork.Module.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(m => m.AuditDeleteUser == null && m.AuditDeleteDate == null);
+                var modules = _unitOfWork.ModuleQuery.GetModuleListQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -84,8 +82,7 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
-                    .AsNoTracking()
+                var module = await _unitOfWork.ModuleQuery.GetModuleByIdQueryable(moduleId)
                     .FirstOrDefaultAsync();
 
                 if (module is not null)
@@ -131,18 +128,16 @@ namespace Application.Services
                 module.AuditCreateDate = DateTime.Now;
                 module.Status = true;
 
-                await _unitOfWork.Module.AddAsync(module);
+                await _unitOfWork.ModuleCommand.AddAsync(module);
                 await _unitOfWork.SaveChangesAsync();
 
-                var actions = (await _unitOfWork.Action.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(x => x.Status == true)
+                var actions = (await _unitOfWork.ActionQuery.GetActionsListQueryable()
+                    .Where(a => a.Status == true)
                     .ToListAsync());
                                     
 
-                var roles = (await _unitOfWork.Role.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(x => x.Status == true)
+                var roles = (await _unitOfWork.RoleQuery.GetRolesListQueryable()
+                    .Where(r => r.Status == true)
                     .ToListAsync());
 
                 var permissions = new List<PermissionEntity>();
@@ -163,7 +158,7 @@ namespace Application.Services
                     }
                 }
 
-                await _unitOfWork.Permission.AddRangeAsync(permissions);
+                await _unitOfWork.PermissionCommand.AddRangeAsync(permissions);
                 await _unitOfWork.SaveChangesAsync();
 
                 transaction.Commit();
@@ -195,8 +190,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
-                    .AsTracking()
+                var module = await _unitOfWork.ModuleCommand.GetByIdAsQueryable(moduleId)
                     .FirstOrDefaultAsync();
 
                 if (module is null)
@@ -239,8 +233,7 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
-                    .AsTracking()
+                var module = await _unitOfWork.ModuleCommand.GetByIdAsQueryable(moduleId)
                     .FirstOrDefaultAsync();
 
                 if (module is null)
@@ -283,8 +276,7 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
-                    .AsTracking()
+                var module = await _unitOfWork.ModuleCommand.GetByIdAsQueryable(moduleId)
                     .FirstOrDefaultAsync();
 
                 if (module is null)
@@ -328,8 +320,7 @@ namespace Application.Services
 
             try
             {
-                var module = await _unitOfWork.Module.GetByIdAsQueryable(moduleId)
-                    .AsTracking()
+                var module = await _unitOfWork.ModuleCommand.GetByIdAsQueryable(moduleId)
                     .FirstOrDefaultAsync();
 
                 if (module is null)

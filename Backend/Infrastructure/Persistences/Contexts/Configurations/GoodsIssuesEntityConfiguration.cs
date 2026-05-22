@@ -4,14 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class GoodsIssuesEntityConfiguration : IEntityTypeConfiguration<GoodsIssueEntity>
+    public class GoodsIssuesEntityConfiguration : BaseEntityConfiguration<GoodsIssueEntity>
     {
-        public void Configure(EntityTypeBuilder<GoodsIssueEntity> builder)
+        public override void Configure(EntityTypeBuilder<GoodsIssueEntity> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("GOODS_ISSUE");
 
-            builder.HasKey(i => i.IdIssue);
-            builder.Property(i => i.IdIssue);
+            builder.HasKey(i => i.Id);
+            builder.Property(i => i.Id)
+                .HasColumnName("IdIssue");
 
             builder.Property(i => i.Code)
                 .HasMaxLength(15)
@@ -32,14 +35,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(i => i.IdStore)
                 .IsRequired();
-
-            builder.Property(i => i.AuditCreateUser);
-
-            builder.Property(i => i.AuditCreateDate);
-
-            builder.Property(i => i.AuditDeleteUser);
-
-            builder.Property(i => i.AuditDeleteDate);
 
             builder.Property(i => i.Status);
 

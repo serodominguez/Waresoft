@@ -21,7 +21,7 @@ namespace Application.Services
         private readonly IValidator<UserRequestDto> _validator;
         private readonly IOrderingQuery _orderingQuery;
 
-        public UserService(IUnitOfWork unitOfWork, ISecurityApplication security, IValidator<UserRequestDto> validator, IOrderingQuery orderingQuery)
+        public UserService(IUnitOfWork unitOfWork,ISecurityApplication security, IValidator<UserRequestDto> validator, IOrderingQuery orderingQuery)
         {
             _unitOfWork = unitOfWork;
             _security = security;
@@ -35,32 +35,22 @@ namespace Application.Services
 
             try
             {
-                var users = _unitOfWork.User.GetUsersQueryable()
-                    .AsNoTracking();
+                var users = _unitOfWork.UserQuery.GetUsersListQueryable();
 
-                if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
+                if (filters.NumberFilter.HasValue && !string.IsNullOrEmpty(filters.TextFilter))
                 {
-                    switch (filters.NumberFilter)
+                    users = filters.NumberFilter switch
                     {
-                        case 1:
-                            users = users.Where(x => x.UserName!.Contains(filters.TextFilter));
-                            break;
-                        case 2:
-                            users = users.Where(x => x.Names!.Contains(filters.TextFilter));
-                            break;
-                        case 3:
-                            users = users.Where(x => x.LastNames!.Contains(filters.TextFilter));
-                            break;
-                        case 4:
-                            users = users.Where(x => x.Store!.StoreName!.Contains(filters.TextFilter));
-                            break;
-                        case 5:
-                            users = users.Where(x => x.Role!.RoleName!.Contains(filters.TextFilter));
-                            break;
-                    }
+                        1 => users.Where(x => x.UserName!.Contains(filters.TextFilter)),
+                        2 => users.Where(x => x.Names!.Contains(filters.TextFilter)),
+                        3 => users.Where(x => x.LastNames!.Contains(filters.TextFilter)),
+                        4 => users.Where(x => x.StoreName!.Contains(filters.TextFilter)),
+                        5 => users.Where(x => x.RoleName!.Contains(filters.TextFilter)),
+                        _ => users
+                    };
                 }
 
-                if (filters.StateFilter is not null)
+                if (filters.StateFilter.HasValue)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
                     users = users.Where(x => x.Status == stateValue);
@@ -68,15 +58,17 @@ namespace Application.Services
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
                 {
-                    var startDate = Convert.ToDateTime(filters.StartDate).Date;
-                    var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
+                    var startDate = DateTime.Parse(filters.StartDate).Date;
+                    var endDate = DateTime.Parse(filters.EndDate).Date.AddDays(1);
                     users = users.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
                 }
 
                 response.TotalRecords = await users.CountAsync();
 
                 filters.Sort ??= "Id";
-                var items = await _orderingQuery.Ordering(filters, users, !(bool)filters.Download!).ToListAsync();
+                var orderedQuery = _orderingQuery.Ordering(filters, users, !(bool)filters.Download!);
+                var items = await orderedQuery.ToListAsync();
+
                 response.IsSuccess = true;
                 response.Data = items.Select(UserMapp.UsersResponseDtoMapping);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
@@ -96,10 +88,9 @@ namespace Application.Services
 
             try
             {
-                var users = (await _unitOfWork.User.GetAllAsQueryable()
-                    .AsNoTracking()
+                var users = await _unitOfWork.UserQuery.GetUsersSelectQueryable()
                     .Where(u => u.Status == true)
-                    .ToListAsync());
+                    .ToListAsync();
 
                 if (users is not null && users.Any())
                 {
@@ -128,8 +119,7 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
-                    .AsNoTracking()
+                var user = await _unitOfWork.UserQuery.GetUserByIdQueryable(userId)
                     .FirstOrDefaultAsync();
 
                 if (user is not null)
@@ -178,7 +168,7 @@ namespace Application.Services
                 user.AuditCreateDate = DateTime.Now;
                 user.Status = true;
 
-                await _unitOfWork.User.AddAsync(user);
+                await _unitOfWork.UserCommand.AddAsync(user);
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -220,8 +210,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
-                    .AsTracking()
+                var user = await _unitOfWork.UserCommand.GetByIdAsQueryable(userId)
                     .FirstOrDefaultAsync();
 
                 if (user is null)
@@ -231,9 +220,9 @@ namespace Application.Services
                     return response;
                 }
 
-                user.UserName = requestDto.UserName;
-                user.Names = requestDto.Names.NormalizeString();
-                user.LastNames = requestDto.LastNames.NormalizeString();
+                user.UserName = requestDto.UserName!;
+                user.Names = requestDto.Names.NormalizeString()!;
+                user.LastNames = requestDto.LastNames.NormalizeString()!;
                 user.IdentificationNumber = requestDto.IdentificationNumber.NormalizeString();
                 user.PhoneNumber = requestDto.PhoneNumber;
                 user.IdRole = requestDto.IdRole;
@@ -279,8 +268,7 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
-                    .AsTracking()
+                var user = await _unitOfWork.UserCommand.GetByIdAsQueryable(userId)
                     .FirstOrDefaultAsync();
 
                 if (user is null)
@@ -324,8 +312,7 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
-                    .AsTracking()
+                var user = await _unitOfWork.UserCommand.GetByIdAsQueryable(userId)
                     .FirstOrDefaultAsync();
 
                 if (user is null)
@@ -369,8 +356,7 @@ namespace Application.Services
 
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
-                    .AsTracking()
+                var user = await _unitOfWork.UserCommand.GetByIdAsQueryable(userId)
                     .FirstOrDefaultAsync();
 
                 if (user is null)

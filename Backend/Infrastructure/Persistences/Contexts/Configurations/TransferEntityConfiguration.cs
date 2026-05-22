@@ -4,14 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class TransferEntityConfiguration : IEntityTypeConfiguration<TransferEntity>
+    public class TransferEntityConfiguration : BaseAuditEntityConfiguration<TransferEntity>
     {
-        public void Configure(EntityTypeBuilder<TransferEntity> builder)
+        public override void Configure(EntityTypeBuilder<TransferEntity> builder)
         {
+            base.Configure(builder);
+
             builder.ToTable("TRANSFERS");
 
-            builder.HasKey(t => t.IdTransfer);
-            builder.Property(t => t.IdTransfer);
+            builder.HasKey(t => t.Id);
+            builder.Property(t => t.Id)
+                .HasColumnName("IdTransfer");
 
             builder.Property(t => t.Code)
                 .HasMaxLength(15)
@@ -33,18 +36,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(t => t.IdStoreDestination)
                 .IsRequired();
-
-            builder.Property(t => t.AuditCreateUser);
-
-            builder.Property(t => t.AuditCreateDate);
-
-            builder.Property(t => t.AuditUpdateUser);
-
-            builder.Property(t => t.AuditUpdateDate);
-
-            builder.Property(t => t.AuditDeleteUser);
-
-            builder.Property(t => t.AuditDeleteDate);
 
             builder.Property(t => t.Status);
 

@@ -8,6 +8,7 @@ using Application.Mappers;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -32,9 +33,7 @@ namespace Application.Services
 
             try
             {
-                var categories = _unitOfWork.Category.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(c => c.AuditDeleteUser == null && c.AuditDeleteDate == null);
+                var categories = _unitOfWork.CategoryQuery.GetCategoriesListQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -86,10 +85,9 @@ namespace Application.Services
 
             try
             {
-                var categories = (await _unitOfWork.Category.GetAllAsQueryable()
-                    .AsNoTracking()
+                var categories = await _unitOfWork.CategoryQuery.GetCategoriesSelectQueryable()
                     .Where(c => c.Status == true)
-                    .ToListAsync());
+                    .ToListAsync();
 
                 if (categories is not null && categories.Any())
                 {
@@ -118,8 +116,7 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
-                    .AsNoTracking()
+                var category = await _unitOfWork.CategoryQuery.GetCategoryByIdQueryable(categoryId)
                     .FirstOrDefaultAsync();
 
                 if (category is not null)
@@ -164,7 +161,7 @@ namespace Application.Services
                 category.AuditCreateDate = DateTime.Now;
                 category.Status = true;
 
-                await _unitOfWork.Category.AddAsync(category);
+                await _unitOfWork.CategoryCommand.AddAsync(category);
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -206,8 +203,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
-                    .AsTracking()
+                var category = await _unitOfWork.CategoryCommand.GetByIdAsQueryable(categoryId)
                     .FirstOrDefaultAsync();
 
                 if (category is null)
@@ -251,8 +247,7 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
-                    .AsTracking()
+                var category = await _unitOfWork.CategoryCommand.GetByIdAsQueryable(categoryId)
                     .FirstOrDefaultAsync();
 
                 if (category is null)
@@ -295,8 +290,7 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
-                    .AsTracking()
+                var category = await _unitOfWork.CategoryCommand.GetByIdAsQueryable(categoryId)
                     .FirstOrDefaultAsync();
 
                 if (category is null)
@@ -340,8 +334,7 @@ namespace Application.Services
 
             try
             {
-                var category = await _unitOfWork.Category.GetByIdAsQueryable(categoryId)
-                    .AsTracking()
+                var category = await _unitOfWork.CategoryCommand.GetByIdAsQueryable(categoryId)
                     .FirstOrDefaultAsync();
 
                 if (category is null)

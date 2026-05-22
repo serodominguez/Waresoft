@@ -9,6 +9,7 @@ using Application.Mappers;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
+using Infrastructure.Persistences.ReadModels.Transfer;
 using Microsoft.EntityFrameworkCore;
 using Utilities.Extensions;
 using Utilities.Static;
@@ -34,7 +35,7 @@ namespace Application.Services
 
             try
             {
-                var transfers = _unitOfWork.Transfer.GetTransferQueryableByStore(authenticatedStoreId);
+                var transfers = _unitOfWork.TransferQuery.GetTransferQueryableByStore(authenticatedStoreId);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -44,10 +45,10 @@ namespace Application.Services
                             transfers = transfers.Where(x => x.Code!.Contains(filters.TextFilter));
                             break;
                         case 2:
-                            transfers = transfers.Where(x => x.StoreOrigin.StoreName!.Contains(filters.TextFilter));
+                            transfers = transfers.Where(x => x.StoreOrigin!.Contains(filters.TextFilter));
                             break;
                         case 3:
-                            transfers = transfers.Where(x => x.StoreDestination.StoreName!.Contains(filters.TextFilter));
+                            transfers = transfers.Where(x => x.StoreDestination!.Contains(filters.TextFilter));
                             break;
                     }
                 }
@@ -92,10 +93,7 @@ namespace Application.Services
                 filters.Sort ??= "IdTransfer";
                 var items = await _orderingQuery.Ordering(filters, transfers, !(bool)filters.Download!).ToListAsync();
 
-                DisplayStatusLogic(items, authenticatedStoreId);
-
-                var users = await _unitOfWork.User.GetAllAsQueryable()
-                    .AsNoTracking()
+                var users = await _unitOfWork.UserQuery.GetUsersListQueryable()
                     .ToListAsync();
 
                 var userDictionary = users.ToDictionary(
@@ -104,7 +102,14 @@ namespace Application.Services
                 );
 
                 response.IsSuccess = true;
-                response.Data = items.Select(x => TransferMapp.TransferResponseDtoMapping(x, userDictionary));
+                response.Data = items.Select(x =>
+                {
+                    int displayStatus = (x.IdStoreDestination == authenticatedStoreId && x.Status == 1)
+                        ? 3
+                        : x.Status;
+
+                    return TransferMapp.TransferResponseDtoMapping(x, userDictionary, displayStatus);
+                });
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception ex)
@@ -122,8 +127,7 @@ namespace Application.Services
 
             try
             {
-                var transfer = await _unitOfWork.Transfer.GetTransferByIdAsQueryable(trasnferId)
-                    .AsNoTracking()
+                var transfer = await _unitOfWork.TransferQuery.GetTransferByIdAsQueryable(trasnferId)
                     .FirstOrDefaultAsync();
 
                 if (transfer is null)
@@ -146,19 +150,22 @@ namespace Application.Services
                     userSend = await GetUserNameByIdAsync(transfer?.AuditCreateUser);
                 }
 
-                var details = await _unitOfWork.TransferDetails.GetTransferDetailsQueryable(transfer!.IdTransfer)
-                    .AsNoTracking()
+                var details = await _unitOfWork.TransferDetailsQuery.GetTransferDetailsQueryable(transfer!.Id)
                     .ToListAsync();
 
-                transfer.TransferDetails = details.ToList();
+                //transfer.TransferDetails = details.ToList();
 
-                if (transfer.IdStoreDestination == authenticatedStoreId && transfer.Status == 1)
-                {
-                    transfer.Status = 3;
-                }
+                //if (transfer.IdStoreDestination == authenticatedStoreId && transfer.Status == 1)
+                //{
+                //    transfer.Status = 3;
+                //}
+
+                int displayStatus = (transfer.IdStoreDestination == authenticatedStoreId && transfer.Status == 1)
+                    ? 3
+                    : transfer.Status;
 
                 response.IsSuccess = true;
-                response.Data = TransferMapp.TransferWithDetailsResponseDtoMapping(transfer, userSend, userReceive);
+                response.Data = TransferMapp.TransferWithDetailsResponseDtoMapping(transfer, details, displayStatus, userSend, userReceive);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception ex)
@@ -203,7 +210,7 @@ namespace Application.Services
 
             try
             {
-                var generatedCode = await _unitOfWork.Sequence.GenerateTransferCodeAsync(ContainerConstants.Transfer, ContainerConstants.TransferPrefixes);
+                var generatedCode = await _unitOfWork.SequenceCommand.GenerateTransferCodeAsync(ContainerConstants.Transfer, ContainerConstants.TransferPrefixes);
 
                 var entity = TransferMapp.TransferMapping(requestDto);
                 entity.Code = generatedCode;
@@ -213,13 +220,12 @@ namespace Application.Services
                 entity.Status = 1;
                 entity.IsActive = true;
 
-                await _unitOfWork.Transfer.AddTransferAsync(entity);
+                await _unitOfWork.TransferCommand.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                var stocksToUpdate = await _unitOfWork.StoreInventory
+                var stocksToUpdate = await _unitOfWork.StoreInventoryCommand
                     .GetStocksByStoreAsQueryable(requestDto.IdStoreOrigin)
                     .Where(s => productIds.Contains(s.IdProduct))
-                    .AsTracking()
                     .ToListAsync();
 
                 foreach (var item in entity.TransferDetails)
@@ -252,9 +258,8 @@ namespace Application.Services
         {
             var response = new BaseResponse<bool>();
             
-            var transfer = await _unitOfWork.Transfer
+            var transfer = await _unitOfWork.TransferQuery
                 .GetTransferByIdAsQueryable(transferId)
-                .AsTracking()
                 .FirstOrDefaultAsync();
 
             if (transfer is null)
@@ -264,27 +269,28 @@ namespace Application.Services
                 return response;
             }
 
+            var transferEntity = await _unitOfWork.TransferCommand
+                .GetByIdAsQueryable(transferId)
+                .FirstOrDefaultAsync();
+
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
             {
-                var details = await _unitOfWork.TransferDetails
-                    .GetTransferDetailsQueryable(transfer.IdTransfer)
-                    .AsNoTracking()
+                var details = await _unitOfWork.TransferDetailsQuery
+                    .GetTransferDetailsQueryable(transfer.Id)
                     .ToListAsync();
 
                 var productIds = details.Select(x => x.IdProduct).ToList();
 
-                var destinationStocks = await _unitOfWork.StoreInventory
+                var destinationStocks = await _unitOfWork.StoreInventoryCommand
                     .GetStocksByStoreAsQueryable(transfer.IdStoreDestination)
                     .Where(s => productIds.Contains(s.IdProduct))
-                    .AsTracking()
                     .ToListAsync();
 
-                var originStocks = await _unitOfWork.StoreInventory
+                var originStocks = await _unitOfWork.StoreInventoryCommand
                     .GetStocksByStoreAsQueryable(transfer.IdStoreOrigin)
                     .Where(s => productIds.Contains(s.IdProduct))
-                    .AsTracking()
                     .ToListAsync();
 
                 foreach (var item in details)
@@ -309,7 +315,7 @@ namespace Application.Services
                             AuditCreateUser = authenticatedUserId,
                             AuditCreateDate = DateTime.Now
                         };
-                        await _unitOfWork.StoreInventory.AddStoreInventoryAsync(newStock);
+                        await _unitOfWork.StoreInventoryCommand.AddStoreInventoryAsync(newStock);
                     }
 
                     var originStock = originStocks.FirstOrDefault(s => s.IdProduct == item.IdProduct);
@@ -327,10 +333,10 @@ namespace Application.Services
                     originStock.AuditUpdateDate = DateTime.Now;
                 }
 
-                transfer.ReceiveDate = DateTime.Now;
-                transfer.AuditUpdateUser = authenticatedUserId;
-                transfer.AuditUpdateDate = DateTime.Now;
-                transfer.Status = 2;
+                transferEntity?.ReceiveDate = DateTime.Now;
+                transferEntity?.AuditUpdateUser = authenticatedUserId;
+                transferEntity?.AuditUpdateDate = DateTime.Now;
+                transferEntity!.Status = 2;
 
                 await _unitOfWork.SaveChangesAsync();
                 transaction.Commit();
@@ -352,9 +358,8 @@ namespace Application.Services
         {
             var response = new BaseResponse<bool>();
             
-            var transfer = await _unitOfWork.Transfer
-                .GetTransferByIdAsQueryable(transferId)
-                .AsTracking()
+            var transfer = await _unitOfWork.TransferCommand
+                .GetByIdAsQueryable(transferId)
                 .FirstOrDefaultAsync();
 
             if (transfer is null)
@@ -368,17 +373,15 @@ namespace Application.Services
 
             try
             {
-                var details = await _unitOfWork.TransferDetails
-                    .GetTransferDetailsQueryable(transfer.IdTransfer)
-                    .AsNoTracking()
+                var details = await _unitOfWork.TransferDetailsQuery
+                    .GetTransferDetailsQueryable(transfer.Id)
                     .ToListAsync();
 
                 var productIds = details.Select(x => x.IdProduct).ToList();
 
-                var originStocks = await _unitOfWork.StoreInventory
+                var originStocks = await _unitOfWork.StoreInventoryCommand
                     .GetStocksByStoreAsQueryable(transfer.IdStoreOrigin)
                     .Where(s => productIds.Contains(s.IdProduct))
-                    .AsTracking()
                     .ToListAsync();
 
                 foreach (var item in details)
@@ -424,23 +427,10 @@ namespace Application.Services
         {
             if (!userId.HasValue) return null;
 
-            var user = await _unitOfWork.User.GetByIdAsQueryable(userId.Value)
-                .AsNoTracking()
+            var user = await _unitOfWork.UserQuery.GetUserByIdQueryable(userId.Value)
                 .FirstOrDefaultAsync();
 
             return user?.Names+' '+user?.LastNames;
-        }
-
-        private void DisplayStatusLogic(List<TransferEntity> transfers, int authenticatedStoreId)
-        {
-            foreach (var transfer in transfers)
-            {
-                //Convertir "Enviado" a "Pendiente" solo para mostrar en la UI
-                if (transfer.IdStoreDestination == authenticatedStoreId && transfer.Status == 1)
-                {
-                    transfer.Status = 3; //Cambiar a Pendiente solo para display
-                }
-            }
         }
     }
 }

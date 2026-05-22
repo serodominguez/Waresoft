@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace Application.Dtos.Response.GoodsReceipt
+﻿namespace Application.Dtos.Response.GoodsReceipt
 {
     public class GoodsReceiptResponseDto
     {

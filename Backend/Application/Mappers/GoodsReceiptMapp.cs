@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.GoodsReceipt;
 using Application.Dtos.Response.GoodsReceipt;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.GoodsReceipt;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -33,59 +34,59 @@ namespace Application.Mappers
 
         }
 
-        public static GoodsReceiptResponseDto GoodsReceiptResponseDtoMapping(GoodsReceiptEntity entity)
+        public static GoodsReceiptResponseDto GoodsReceiptResponseDtoMapping(GoodsReceiptReadModel model)
         {
             return new GoodsReceiptResponseDto
             {
-                IdReceipt = entity.IdReceipt,
-                Code = entity.Code,
-                Type = entity.Type.ToSentenceCase(),
-                DocumentDate = entity.DocumentDate.HasValue ? entity.DocumentDate.Value.ToString("dd/MM/yyyy") : null,
-                DocumentType = entity.DocumentType.ToSentenceCase(),
-                DocumentNumber = entity.DocumentNumber,
-                TotalAmount = entity.TotalAmount,
-                Annotations = entity.Annotations.ToSentenceCaseMultiple(),
-                IdSupplier = entity.IdSupplier,
-                CompanyName = entity.Supplier is not null ? entity.Supplier.CompanyName.ToTitleCase() : null,
-                IdStore = entity.IdStore,
-                StoreName = entity.Store.StoreName.ToTitleCase(),
-                AuditCreateUser = entity.AuditCreateUser,
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusReceipt = ((Movements)(entity.Status)).ToString()
+                IdReceipt = model.Id,
+                Code = model.Code,
+                Type = model.Type.ToSentenceCase(),
+                DocumentDate = model.DocumentDate.HasValue ? model.DocumentDate.Value.ToString("dd/MM/yyyy") : null,
+                DocumentType = model.DocumentType.ToSentenceCase(),
+                DocumentNumber = model.DocumentNumber,
+                TotalAmount = model.TotalAmount,
+                Annotations = model.Annotations.ToSentenceCaseMultiple(),
+                IdSupplier = model.IdSupplier,
+                CompanyName = model.CompanyName.ToTitleCase(),
+                IdStore = model.IdStore,
+                StoreName = model.StoreName.ToTitleCase(),
+                AuditCreateUser = model.AuditCreateUser,
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusReceipt = ((Movements)(model.Status)).ToString()
             };
         }
 
-        public static GoodsReceiptWithDetailsResponseDto GoodsReceiptWithDetailsResponseDtoMapping(GoodsReceiptEntity entity, string? userName = null)
+        public static GoodsReceiptWithDetailsResponseDto GoodsReceiptWithDetailsResponseDtoMapping(GoodsReceiptWithDetailsReadModel model, string? userName = null)
         {
             return new GoodsReceiptWithDetailsResponseDto
             {
-                IdReceipt = entity.IdReceipt,
-                Code = entity.Code,
-                Type = entity.Type.ToSentenceCase(),
-                DocumentDate = entity.DocumentDate.HasValue ? entity.DocumentDate.Value.ToString("dd/MM/yyyy") : null,
-                DocumentType = entity.DocumentType.ToSentenceCase(),
-                DocumentNumber = entity.DocumentNumber,
-                TotalAmount = entity.TotalAmount,
-                Annotations = entity.Annotations.ToSentenceCaseMultiple(),
-                IdSupplier = entity.IdSupplier,
-                CompanyName = entity.Supplier is not null ? entity.Supplier.CompanyName.ToTitleCase() : null,
-                IdStore = entity.IdStore,
-                StoreName = entity.Store.StoreName.ToTitleCase(),
-                AuditCreateUser = entity.AuditCreateUser,
+                IdReceipt = model.Id,
+                Code = model.Code,
+                Type = model.Type.ToSentenceCase(),
+                DocumentDate = model.DocumentDate.HasValue ? model.DocumentDate.Value.ToString("dd/MM/yyyy") : null,
+                DocumentType = model.DocumentType.ToSentenceCase(),
+                DocumentNumber = model.DocumentNumber,
+                TotalAmount = model.TotalAmount,
+                Annotations = model.Annotations.ToSentenceCaseMultiple(),
+                IdSupplier = model.IdSupplier,
+                CompanyName = model.CompanyName.ToTitleCase(),
+                IdStore = model.IdStore,
+                StoreName = model.StoreName.ToTitleCase(),
+                AuditCreateUser = model.AuditCreateUser,
                 AuditCreateName = userName.ToTitleCase(),
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusReceipt = ((Movements)(entity.Status)).ToString(),
-                GoodsReceiptDetails = entity.GoodsReceiptDetails
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusReceipt = ((Movements)(model.Status)).ToString(),
+                GoodsReceiptDetails = model.GoodsReceiptDetails
                         .Select(d => new GoodsReceiptDetailsResponseDto
                         {
                             Item = d.Item,
                             IdProduct = d.IdProduct,
-                            Code = d.Product.Code,
-                            Description = d.Product.Description.ToSentenceCase(),
-                            Material = d.Product.Material.ToSentenceCase(),
-                            Color = d.Product.Color.ToSentenceCase(),
-                            CategoryName = d.Product.Category.CategoryName.ToSentenceCase(),
-                            BrandName = d.Product.Brand.BrandName.ToTitleCase(),
+                            Code = d.Code,
+                            Description = d.Description.ToSentenceCase(),
+                            Material = d.Material.ToSentenceCase(),
+                            Color = d.Color.ToSentenceCase(),
+                            CategoryName = d.CategoryName.ToSentenceCase(),
+                            BrandName = d.BrandName.ToTitleCase(),
                             Quantity = d.Quantity,
                             UnitCost = d.UnitCost,
                             TotalCost = d.TotalCost

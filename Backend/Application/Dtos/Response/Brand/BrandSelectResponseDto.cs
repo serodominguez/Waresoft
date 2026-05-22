@@ -2,7 +2,7 @@
 {
     public class BrandSelectResponseDto
     {
-        public int IdBrand { get; set; }
-        public string? BrandName { get; set; }
+        public int IdBrand { get; init; }
+        public string? BrandName { get; init; }
     }
 }

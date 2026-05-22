@@ -19,8 +19,6 @@ namespace Infrastructure.Extensions
                 options => options.UseSqlServer(
                     configuration.GetConnectionString("DbConnection"), b => b.MigrationsAssembly(assembly)), ServiceLifetime.Scoped);
 
-
-            ;
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IFileStorageImage, FileStorageImage>();
             services.AddTransient<IGenerateExcel, GenerateExcel>();

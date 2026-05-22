@@ -20,7 +20,7 @@ namespace Application.Services
 
             try
             {
-                var code = await _unitOfWork.Sequence.ViewProductCodeAsync();
+                var code = await _unitOfWork.SequenceQuery.ViewProductCodeAsync();
 
                 response.IsSuccess = true;
                 response.Data = code;

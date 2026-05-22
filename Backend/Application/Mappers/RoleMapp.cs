@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.Role;
 using Application.Dtos.Response.Role;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Role;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -16,24 +17,23 @@ namespace Application.Mappers
             };
         }
 
-        public static RoleResponseDto RolesResponseDtoMapping(RoleEntity entity)
+        public static RoleResponseDto RolesResponseDtoMapping(RoleReadModel model)
         {
             return new RoleResponseDto
             {
-                IdRole = entity.Id,
-                RoleName = entity.RoleName.ToSentenceCase(),
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = entity.Status,
-                StatusRole = ((States)(entity.Status ? 1 : 0)).ToString()
+                IdRole = model.Id,
+                RoleName = model.RoleName.ToSentenceCase(),
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusRole = ((States)(model.Status ? 1 : 0)).ToString()
             };
         }
 
-        public static RoleSelectResponseDto RolesSelectResponseDtoMapping(RoleEntity entity)
+        public static RoleSelectResponseDto RolesSelectResponseDtoMapping(RoleSelectReadModel model)
         {
             return new RoleSelectResponseDto
             {
-                IdRole = entity.Id,
-                RoleName = entity.RoleName.ToSentenceCase()
+                IdRole = model.Id,
+                RoleName = model.RoleName.ToSentenceCase()
             };
         }
     }

@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Infrastructure.Persistences.Repositories
 {
@@ -23,14 +22,15 @@ namespace Infrastructure.Persistences.Repositories
 
         public IQueryable<T> GetByIdAsQueryable(int id)
         {
-            return _entity.Where(e => e.Id == id);
+            return _entity
+                .AsTracking()
+                .Where(e => e.Id == id);
         }
 
-        public IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null)
+        public IQueryable<T> GetListOfIdsAsQueryable(List<int> ids)
         {
-            IQueryable<T> query = _entity;
-            if (filter != null) query = query.Where(filter);
-            return query;
+            return _entity
+                .Where(e => ids.Contains(e.Id));
         }
 
         public async Task AddAsync(T entity)

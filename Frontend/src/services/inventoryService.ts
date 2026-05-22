@@ -1,4 +1,3 @@
-// ── inventoryService.ts ──────────────────────────────────────────────────────
 import axios from 'axios';
 import { BaseService } from './baseService';
 import { Inventory, InventoryPivot } from '@/interfaces/inventoryInterface';

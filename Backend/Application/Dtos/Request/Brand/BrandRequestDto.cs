@@ -1,7 +1,7 @@
 ﻿namespace Application.Dtos.Request.Brand
 {
-    public class BrandRequestDto
+    public record BrandRequestDto
     {
-        public string? BrandName { get; set; }
+        public string? BrandName { get; init; }
     }
 }

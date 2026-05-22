@@ -1,31 +1,31 @@
-﻿using Application.Dtos.Request.Permission;
-using Application.Dtos.Response.Permission;
+﻿using Application.Dtos.Response.Permission;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Permission;
 
 namespace Application.Mappers
 {
     public static class PermissionMapp
     {
-        public static PermissionByUserResponseDto PermissionsByUserResponseDtoMapping(PermissionEntity entity)
+        public static PermissionByUserResponseDto PermissionsByUserResponseDtoMapping(PermissionReadModel model)
         {
             return new PermissionByUserResponseDto
             {
-                Action = entity.Action.ActionName!,
-                Module = entity.Module.ModuleName!
+                Action = model.ActionName!,
+                Module = model.ModuleName!
             };
         }
 
-        public static PermissionByRoleResponseDto PermissionsByRoleResponseDtoMapping(PermissionEntity entity)
+        public static PermissionByRoleResponseDto PermissionsByRoleResponseDtoMapping(PermissionReadModel model)
         {
             return new PermissionByRoleResponseDto
             {
-                IdPermission = entity.Id,
-                IdRole = entity.IdRole,
-                IdModule = entity.IdModule,
-                ModuleName = entity.Module?.ModuleName,
-                IdAction = entity.IdAction,
-                ActionName = entity.Action?.ActionName,
-                Status = entity.Status
+                IdPermission = model.Id,
+                IdRole = model.IdRole,
+                IdModule = model.IdModule,
+                ModuleName = model.ModuleName,
+                IdAction = model.IdAction,
+                ActionName = model.ActionName,
+                Status = model.Status
             };
         }
     }

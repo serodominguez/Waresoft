@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class ModuleEntityConfiguration : BaseEntityConfiguration<ModuleEntity>
+    public class ModuleEntityConfiguration : BaseAuditEntityConfiguration<ModuleEntity>
     {
         public override void Configure(EntityTypeBuilder<ModuleEntity> builder)
         {
@@ -19,6 +19,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(m => m.ModuleName)
                 .HasMaxLength(25)
                 .IsRequired();
+
+            builder.Property(m => m.Status);
         }
     }
 }

@@ -12,15 +12,10 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(e => e.AuditCreateDate);
 
-            builder.Property(e => e.AuditUpdateUser);
-
-            builder.Property(e => e.AuditUpdateDate);
-
             builder.Property(e => e.AuditDeleteUser);
 
             builder.Property(e => e.AuditDeleteDate);
 
-            builder.Property(e => e.Status);
         }
     }
 }

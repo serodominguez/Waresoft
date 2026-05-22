@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.Store;
 using Application.Dtos.Response.Store;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Store;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -23,31 +24,30 @@ namespace Application.Mappers
             };
         }
 
-        public static StoreResponseDto StoresResponseDtoMapping(StoreEntity entity)
+        public static StoreResponseDto StoresResponseDtoMapping(StoreReadModel model)
         {
             return new StoreResponseDto
             {
-                IdStore = entity.Id,
-                StoreName = entity.StoreName.ToTitleCase(),
-                Manager = entity.Manager.ToSentenceCase(),
-                Address = entity.Address.ToSentenceCaseMultiple(),
-                PhoneNumber = entity.PhoneNumber,
-                City = entity.City.ToTitleCase(),
-                Email = entity.Email,
-                ProfitMargin= entity.ProfitMargin,
-                Type = entity.Type.ToSentenceCase(),
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = entity.Status,
-                StatusStore = ((States)(entity.Status ? 1 : 0)).ToString()
+                IdStore = model.Id,
+                StoreName = model.StoreName.ToTitleCase(),
+                Manager = model.Manager.ToSentenceCase(),
+                Address = model.Address.ToSentenceCaseMultiple(),
+                PhoneNumber = model.PhoneNumber,
+                City = model.City.ToTitleCase(),
+                Email = model.Email,
+                ProfitMargin= model.ProfitMargin,
+                Type = model.Type.ToSentenceCase(),
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusStore = ((States)(model.Status ? 1 : 0)).ToString()
             };
         }
 
-        public static StoreSelectResponseDto StoresSelectResponseDtoMapping(StoreEntity entity)
+        public static StoreSelectResponseDto StoresSelectResponseDtoMapping(StoreSelectReadModel model)
         {
             return new StoreSelectResponseDto
             {
-                IdStore = entity.Id,
-                StoreName = entity.StoreName.ToTitleCase()
+                IdStore = model.Id,
+                StoreName = model.StoreName.ToTitleCase()
             };
         }
     }

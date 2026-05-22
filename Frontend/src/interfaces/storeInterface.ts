@@ -3,7 +3,7 @@ export interface Store {
   storeName: string;
   manager: string;
   address: string;
-  phoneNumber: number | null;
+  phoneNumber: string;
   city: string;
   email: string;
   type: string;

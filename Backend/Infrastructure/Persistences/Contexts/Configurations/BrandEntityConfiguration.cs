@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class BrandEntityConfiguration : BaseEntityConfiguration<BrandEntity>
+    public class BrandEntityConfiguration : BaseAuditEntityConfiguration<BrandEntity>
     {
         public override void Configure(EntityTypeBuilder<BrandEntity> builder)
         {
@@ -19,6 +19,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(b => b.BrandName)
                 .HasMaxLength(25)
                 .IsRequired();
+
+            builder.Property(b => b.Status);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.GoodsIssue;
 using Application.Dtos.Response.GoodsIssue;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.GoodsIssue;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -29,53 +30,53 @@ namespace Application.Mappers
             };
         }
 
-        public static GoodsIssueResponseDto GoodsIssueResponseDtoMapping(GoodsIssueEntity entity)
+        public static GoodsIssueResponseDto GoodsIssueResponseDtoMapping(GoodsIssueReadModel model)
         {
             return new GoodsIssueResponseDto
             {
-                IdIssue = entity.IdIssue,
-                Code = entity.Code,
-                Type = entity.Type.ToSentenceCase(),
-                TotalAmount = entity.TotalAmount,
-                Annotations = entity.Annotations.ToSentenceCaseMultiple(),
-                IdUser = entity.IdUser,
-                UserName = entity.User is not null ? entity.User.Names.ToSentenceCase() + " " + entity.User.LastNames.ToSentenceCase() : null,
-                IdStore = entity.IdStore,
-                StoreName = entity.Store.StoreName.ToTitleCase(),
-                AuditCreateUser = entity.AuditCreateUser,
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusIssue = ((Movements)(entity.Status)).ToString()
+                IdIssue = model.Id,
+                Code = model.Code,
+                Type = model.Type.ToSentenceCase(),
+                TotalAmount = model.TotalAmount,
+                Annotations = model.Annotations.ToSentenceCaseMultiple(),
+                IdUser = model.IdUser,
+                UserName = model.Names.ToSentenceCase() + " " + model.LastNames.ToSentenceCase(),
+                IdStore = model.IdStore,
+                StoreName = model.StoreName.ToTitleCase(),
+                AuditCreateUser = model.AuditCreateUser,
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusIssue = ((Movements)(model.Status)).ToString()
             };
         }
 
-        public static GoodsIssueWithDetailsResponseDto GoodsIssueWithDetailsResponseDtoMapping(GoodsIssueEntity entity, string? userName = null)
+        public static GoodsIssueWithDetailsResponseDto GoodsIssueWithDetailsResponseDtoMapping(GoodsIssueWithDetailsReadModel model, string? userName = null)
         {
             return new GoodsIssueWithDetailsResponseDto
             {
-                IdIssue = entity.IdIssue,
-                Code = entity.Code,
-                Type = entity.Type.ToSentenceCase(),
-                TotalAmount = entity.TotalAmount,
-                Annotations = entity.Annotations.ToSentenceCaseMultiple(),
-                IdUser = entity.IdUser,
-                UserName = entity.User is not null ? entity.User.Names.ToSentenceCase() + " " + entity.User.LastNames.ToSentenceCase() : null,
-                IdStore = entity.IdStore,
-                StoreName = entity.Store.StoreName.ToTitleCase(),
-                AuditCreateUser = entity.AuditCreateUser,
+                IdIssue = model.Id,
+                Code = model.Code,
+                Type = model.Type.ToSentenceCase(),
+                TotalAmount = model.TotalAmount,
+                Annotations = model.Annotations.ToSentenceCaseMultiple(),
+                IdUser = model.IdUser,
+                UserName = model.Names.ToSentenceCase() + " " + model.LastNames.ToSentenceCase(),
+                IdStore = model.IdStore,
+                StoreName = model.StoreName.ToTitleCase(),
+                AuditCreateUser = model.AuditCreateUser,
                 AuditCreateName = userName.ToTitleCase(),
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusIssue = ((Movements)(entity.Status)).ToString(),
-                GoodsIssueDetails = entity.GoodsIssueDetails
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusIssue = ((Movements)(model.Status)).ToString(),
+                GoodsIssueDetails = model.GoodsIssueDetails
                         .Select(d => new GoodsIssueDetailsResponseDto
                         {
                             Item = d.Item,
                             IdProduct = d.IdProduct,
-                            Code = d.Product.Code,
-                            Description = d.Product.Description.ToSentenceCase(),
-                            Material = d.Product.Material.ToSentenceCase(),
-                            Color = d.Product.Color.ToSentenceCase(),
-                            CategoryName = d.Product.Category.CategoryName.ToSentenceCase(),
-                            BrandName = d.Product.Brand.BrandName.ToTitleCase(),
+                            Code = d.Code,
+                            Description = d.Description.ToSentenceCase(),
+                            Material = d.Material.ToSentenceCase(),
+                            Color = d.Color.ToSentenceCase(),
+                            CategoryName = d.CategoryName.ToSentenceCase(),
+                            BrandName = d.BrandName.ToTitleCase(),
                             Quantity = d.Quantity,
                             UnitPrice = d.UnitPrice,
                             TotalPrice = d.TotalPrice

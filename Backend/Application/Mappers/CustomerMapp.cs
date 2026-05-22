@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.Customer;
 using Application.Dtos.Response.Customer;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Customer;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -19,18 +20,17 @@ namespace Application.Mappers
             };
         }
 
-        public static CustomerResponseDto CustomersResponseDtoMapping(CustomerEntity entity)
+        public static CustomerResponseDto CustomersResponseDtoMapping(CustomerReadModel model)
         {
             return new CustomerResponseDto
             {
-                IdCustomer = entity.Id,
-                Names = entity.Names.ToSentenceCase(),
-                LastNames = entity.LastNames.ToSentenceCase(),
-                IdentificationNumber = entity.IdentificationNumber.ToSentenceCase(),
-                PhoneNumber = entity.PhoneNumber,
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = entity.Status,
-                StatusCustomer = ((States)(entity.Status ? 1 : 0)).ToString()
+                IdCustomer = model.Id,
+                Names = model.Names.ToSentenceCase(),
+                LastNames = model.LastNames.ToSentenceCase(),
+                IdentificationNumber = model.IdentificationNumber.ToSentenceCase(),
+                PhoneNumber = model.PhoneNumber,
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusCustomer = ((States)(model.Status ? 1 : 0)).ToString()
             };
         }
     }

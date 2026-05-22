@@ -78,7 +78,7 @@ const openForm = (storeData?: Store) => {
     storeName:     '',
     manager:       '',
     address:       '',
-    phoneNumber:   null,
+    phoneNumber:   '',
     city:          '',
     email:         '',
     type:          '',

@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.Product;
 using Application.Dtos.Response.Product;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Product;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -22,24 +23,23 @@ namespace Application.Mappers
             };
         }
 
-        public static ProductResponseDto ProductsResponseDtoMapping(ProductEntity entity)
+        public static ProductResponseDto ProductsResponseDtoMapping(ProductReadModel model)
         {
             return new ProductResponseDto
             {
-                IdProduct = entity.Id,
-                Code = entity.Code,
-                Description = entity.Description.ToSentenceCase(),
-                Material = entity.Material.ToSentenceCase(),
-                Color = entity.Color.ToSentenceCase(),
-                UnitMeasure = entity.UnitMeasure.ToSentenceCase(),
-                Image = entity.Image,
-                IdBrand = entity.IdBrand,
-                BrandName = entity.Brand?.BrandName.ToSentenceCase(),
-                IdCategory = entity.IdCategory,
-                CategoryName = entity.Category?.CategoryName.ToSentenceCase(),
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = entity.Status,
-                StatusProduct = ((States)(entity.Status ? 1 : 0)).ToString()
+                IdProduct = model.Id,
+                Code = model.Code,
+                Description = model.Description.ToSentenceCase(),
+                Material = model.Material.ToSentenceCase(),
+                Color = model.Color.ToSentenceCase(),
+                UnitMeasure = model.UnitMeasure.ToSentenceCase(),
+                Image = model.Image,
+                IdBrand = model.IdBrand,
+                BrandName = model.BrandName.ToSentenceCase(),
+                IdCategory = model.IdCategory,
+                CategoryName = model.CategoryName.ToSentenceCase(),
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusProduct = ((States)(model.Status ? 1 : 0)).ToString()
             };
         }
     }

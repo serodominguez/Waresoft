@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class RoleEntityConfiguration : BaseEntityConfiguration<RoleEntity>
+    public class RoleEntityConfiguration : BaseAuditEntityConfiguration<RoleEntity>
     {
         public override void Configure(EntityTypeBuilder<RoleEntity> builder)
         {
@@ -19,6 +19,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(r => r.RoleName)
                 .HasMaxLength(20)
                 .IsRequired();
+
+            builder.Property(r => r.Status);
         }
     }
 }

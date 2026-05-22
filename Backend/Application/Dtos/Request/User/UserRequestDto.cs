@@ -1,15 +1,15 @@
 ﻿namespace Application.Dtos.Request.User
 {
-    public class UserRequestDto
+    public record UserRequestDto
     {
-        public string? UserName { get; set; }
-        public string? Password { get; set; }
-        public string? Names { get; set; }
-        public string? LastNames { get; set; }
-        public string? IdentificationNumber { get; set; }
-        public int? PhoneNumber { get; set; }
-        public int IdRole { get; set; }
-        public int IdStore { get; set; }
-        public bool? UpdatePassword { get; set; }
+        public string? UserName { get; init; }
+        public string? Password { get; init; }
+        public string? Names { get; init; }
+        public string? LastNames { get; init; }
+        public string? IdentificationNumber { get; init; }
+        public string? PhoneNumber { get; init; }
+        public int IdRole { get; init; }
+        public int IdStore { get; init; }
+        public bool? UpdatePassword { get; init; }
     }
 }

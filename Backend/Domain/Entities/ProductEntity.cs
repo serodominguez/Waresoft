@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public class ProductEntity : BaseEntity
+    public class ProductEntity : BaseAuditEntity
     {
         public string? Code { get; set; }
         public string? Description { get; set; }
@@ -11,6 +11,8 @@
         public int IdBrand { get; set; }
         public int IdCategory { get; set; }
         public int Replenishment { get; set; }
+        public bool Status { get; set; }
+
         public virtual BrandEntity Brand { get; set; } = null!;
         public virtual CategoryEntity Category { get; set; } = null!;
         public virtual ICollection<StoreInventoryEntity> Inventory { get; set; } = new List<StoreInventoryEntity>();

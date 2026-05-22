@@ -78,7 +78,7 @@ const openForm = (customer?: Customer) => {
     names:             '',
     lastNames:         '',
     identificationNumber: '',
-    phoneNumber:       null,
+    phoneNumber:       '',
     auditCreateDate:   '',
     statusCustomer:    ''
   };

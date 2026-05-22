@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.Transfer;
 using Application.Dtos.Response.Transfer;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Transfer;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -28,56 +29,56 @@ namespace Application.Mappers
             };
         }
 
-        public static TransferResponseDto TransferResponseDtoMapping(TransferEntity entity, Dictionary<int, string> userNames)
+        public static TransferResponseDto TransferResponseDtoMapping(TransferReadModel model, Dictionary<int, string> userNames, int displayStatus)
         {
             return new TransferResponseDto
             {
-                IdTransfer = entity.IdTransfer,
-                Code = entity.Code,
-                SendDate = entity.SendDate.ToString("dd/MM/yyyy HH:mm"),
-                ReceiveDate = entity.ReceiveDate.HasValue ? entity.ReceiveDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                TotalAmount = entity.TotalAmount,
-                Annotations = entity.Annotations.ToSentenceCaseMultiple(),
-                IdStoreOrigin = entity.IdStoreOrigin,
-                StoreOrigin = entity.StoreOrigin.Type.ToTitleCase() + ' '+ entity.StoreOrigin.StoreName.ToTitleCase(),
-                IdStoreDestination = entity.IdStoreDestination,
-                StoreDestination = entity.StoreDestination.Type.ToTitleCase() + ' '+ entity.StoreDestination.StoreName.ToTitleCase(),
-                SendUser = entity.AuditCreateUser.HasValue && userNames.TryGetValue(entity.AuditCreateUser.Value, out var nameSend) ? nameSend : string.Empty,
-                ReceiveUser = entity.AuditUpdateUser.HasValue && userNames.TryGetValue(entity.AuditUpdateUser.Value, out var nameReceive) ? nameReceive : string.Empty,
-                StatusTransfer = ((Transfers)entity.Status).ToString()
+                IdTransfer = model.Id,
+                Code = model.Code,
+                SendDate = model.SendDate.HasValue ? model.SendDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                ReceiveDate = model.ReceiveDate.HasValue ? model.ReceiveDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                TotalAmount = model.TotalAmount,
+                Annotations = model.Annotations.ToSentenceCaseMultiple(),
+                IdStoreOrigin = model.IdStoreOrigin,
+                StoreOrigin = model.TypeOrigin.ToTitleCase() + ' '+ model.StoreOrigin.ToTitleCase(),
+                IdStoreDestination = model.IdStoreDestination,
+                StoreDestination = model.TypeDestination.ToTitleCase() + ' '+ model.StoreDestination.ToTitleCase(),
+                SendUser = model.AuditCreateUser.HasValue && userNames.TryGetValue(model.AuditCreateUser.Value, out var nameSend) ? nameSend : string.Empty,
+                ReceiveUser = model.AuditUpdateUser.HasValue && userNames.TryGetValue(model.AuditUpdateUser.Value, out var nameReceive) ? nameReceive : string.Empty,
+                StatusTransfer = ((Transfers)displayStatus).ToString()
             };  
         }
 
-        public static TransferWithDetailsResponseDto TransferWithDetailsResponseDtoMapping(TransferEntity entity, string? userSend = null, string? userReceive = null)
+        public static TransferWithDetailsResponseDto TransferWithDetailsResponseDtoMapping(TransferWithDetailsReadModel model, List<TransferDetailsReadModel> details, int displayStatus, string? userSend = null, string? userReceive = null)
         {
             return new TransferWithDetailsResponseDto
             {
-                IdTransfer = entity.IdTransfer,
-                Code = entity.Code,
-                SendDate = entity.SendDate.ToString("dd/MM/yyyy HH:mm"),
-                ReceiveDate = entity.ReceiveDate.HasValue ? entity.ReceiveDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                TotalAmount = entity.TotalAmount,
-                Annotations = entity.Annotations.ToSentenceCaseMultiple(),
-                IdStoreOrigin = entity.IdStoreOrigin,
-                StoreOrigin = entity.StoreOrigin.Type.ToTitleCase() + ' ' + entity.StoreOrigin.StoreName.ToTitleCase(),
-                IdStoreDestination = entity.IdStoreDestination,
-                StoreDestination = entity.StoreDestination.Type.ToTitleCase() + ' ' + entity.StoreDestination.StoreName.ToTitleCase(),
-                AuditCreateUser = entity.AuditCreateUser,
+                IdTransfer = model.Id,
+                Code = model.Code,
+                SendDate = model.SendDate.HasValue ? model.SendDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                ReceiveDate = model.ReceiveDate.HasValue ? model.ReceiveDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                TotalAmount = model.TotalAmount,
+                Annotations = model.Annotations.ToSentenceCaseMultiple(),
+                IdStoreOrigin = model.IdStoreOrigin,
+                StoreOrigin = model.TypeOrigin.ToTitleCase() + ' ' + model.StoreOrigin.ToTitleCase(),
+                IdStoreDestination = model.IdStoreDestination,
+                StoreDestination = model.TypeDestination.ToTitleCase() + ' ' + model.StoreDestination.ToTitleCase(),
+                AuditCreateUser = model.AuditCreateUser,
                 SendUser = userSend.ToTitleCase(),
-                AuditUpdateUser = entity.AuditUpdateUser,
+                AuditUpdateUser = model.AuditUpdateUser,
                 ReceiveUser = userReceive.ToTitleCase(),
-                StatusTransfer = ((Transfers)entity.Status).ToString(),
-                TransferDetails = entity.TransferDetails
+                StatusTransfer = ((Transfers)displayStatus).ToString(),
+                TransferDetails = model.TransferDetails
                         .Select(d => new TransferDetailsResponseDto
                         {
                             Item = d.Item,
                             IdProduct = d.IdProduct,
-                            Code = d.Product.Code,
-                            Description = d.Product.Description.ToSentenceCase(),
-                            Material = d.Product.Material.ToSentenceCase(),
-                            Color = d.Product.Color.ToSentenceCase(),
-                            CategoryName = d.Product.Category.CategoryName.ToSentenceCase(),
-                            BrandName = d.Product.Brand.BrandName.ToTitleCase(),
+                            Code = d.Code,
+                            Description = d.Description.ToSentenceCase(),
+                            Material = d.Material.ToSentenceCase(),
+                            Color = d.Color.ToSentenceCase(),
+                            CategoryName = d.CategoryName.ToSentenceCase(),
+                            BrandName = d.BrandName.ToTitleCase(),
                             Quantity = d.Quantity,
                             UnitPrice = d.UnitPrice,
                             TotalPrice = d.TotalPrice

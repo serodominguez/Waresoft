@@ -1,6 +1,5 @@
 ﻿using Application.Commons.Bases.Request;
 using Application.Commons.Bases.Response;
-using Application.Commons.Ordering;
 using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
 using Application.Interfaces;
@@ -17,13 +16,11 @@ namespace Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<StoreInventoryRequestDto> _validator;
-        private readonly IOrderingQuery _orderingQuery;
 
-        public StoreInventoryService(IUnitOfWork unitOfWork, IValidator<StoreInventoryRequestDto> validator, IOrderingQuery orderingQuery)
+        public StoreInventoryService(IUnitOfWork unitOfWork, IValidator<StoreInventoryRequestDto> validator)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
-            _orderingQuery = orderingQuery;
         }
 
         public async Task<BaseResponse<IEnumerable<StoreInventoryResponseDto>>> ListInventory(int authenticatedStoreId, BaseFiltersRequest filters)
@@ -44,7 +41,7 @@ namespace Application.Services
                 int pageNumber = isDownload ? 1 : filters.NumberPage;
                 int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
 
-                var (items, total) = await _unitOfWork.StoreInventory.GetInventoryListAsync(
+                var (items, total) = await _unitOfWork.StoreInventoryQuery.GetInventoryListAsync(
                     authenticatedStoreId,
                     filters.NumberFilter,
                     filters.TextFilter,
@@ -55,7 +52,7 @@ namespace Application.Services
                     pageSize);
 
                 response.TotalRecords = total;
-                response.Data = items.Select(StoreInventoryMapp.StoreInventoryMapping);
+                response.Data = items.Select(StoreInventoryMapp.StoreInventoryResponseDtoMapping);
 
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
@@ -81,7 +78,7 @@ namespace Application.Services
             int pageNumber = isDownload ? 1 : filters.NumberPage;
             int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
 
-            var (items, total) = await _unitOfWork.StoreInventory.GetInventoryPivotAsync(
+            var (items, total) = await _unitOfWork.StoreInventoryQuery.GetInventoryPivotAsync(
                 filters.NumberFilter,
                 filters.TextFilter,
                 state, 
@@ -90,10 +87,7 @@ namespace Application.Services
                 pageNumber,
                 pageSize);
 
-            var stores = await _unitOfWork.Store.GetAllAsQueryable()
-                                                  .AsNoTracking()
-                                                  .Where(x => x.AuditDeleteUser == null && x.AuditDeleteDate == null)
-                                                  .ToListAsync();
+            var stores = await _unitOfWork.StoreQuery.GetStoresListQueryable().ToListAsync();
 
             response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
             response.TotalRecords = total;
@@ -108,9 +102,8 @@ namespace Application.Services
             var response = new BaseResponse<StoreInventoryKardexResponseDto>();
             try
             {
-                var inventory = await _unitOfWork.StoreInventory
+                var inventory = await _unitOfWork.StoreInventoryQuery
                     .GetInventoryQueryable(authenticatedStoreId)
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(i => i.IdProduct == productId);
 
                 if (inventory is null)
@@ -126,7 +119,7 @@ namespace Application.Services
                 DateTime? endDate = string.IsNullOrEmpty(filters.EndDate)
                     ? null : Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
 
-                var movements = await _unitOfWork.StoreInventory
+                var movements = await _unitOfWork.StoreInventoryQuery
                     .GetKardexByProductAsync(authenticatedStoreId, productId, startDate, endDate);
 
                 response.TotalRecords = movements.Count;
@@ -141,8 +134,7 @@ namespace Application.Services
                 var calculatedStock = movements.LastOrDefault()?.AccumulatedStock ?? 0;
                 var stockDifference = inventory.StockAvailable - calculatedStock;
 
-                response.Data = StoreInventoryMapp
-                    .StoreInventoryKardexMapping(inventory, paginatedMovements, calculatedStock, stockDifference);
+                response.Data = StoreInventoryMapp.StoreInventoryKardexMapping(inventory, paginatedMovements, calculatedStock, stockDifference);
 
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
@@ -171,8 +163,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var inventory = await _unitOfWork.StoreInventory.GetStockByIdAsQueryable(requestDto.IdProduct, authenticatedStoreId)
-                    .AsTracking()
+                var inventory = await _unitOfWork.StoreInventoryCommand.GetStockByIdAsQueryable(requestDto.IdProduct, authenticatedStoreId)
                     .FirstOrDefaultAsync();
 
                 if (inventory is null)

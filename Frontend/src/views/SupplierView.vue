@@ -78,7 +78,7 @@ const openForm = (supplier?: Supplier) => {
     companyName:   '',
     contact:       '',
     email:         '',
-    phoneNumber:   null,
+    phoneNumber:   '',
     auditCreateDate: '',
     statusSupplier: ''
   };

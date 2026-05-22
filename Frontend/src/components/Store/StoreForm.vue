@@ -78,7 +78,7 @@ const props = withDefaults(defineProps<Props>(), {
     storeName: '',
     manager: '',
     address: '',
-    phoneNumber: null,
+    phoneNumber: '',
     city: '',
     email: '',
     profitMargin: null,

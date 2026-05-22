@@ -60,7 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
     idSupplier: null,
     companyName: '',
     contact: '',
-    phoneNumber: null,
+    phoneNumber: '',
     email: '',
     auditCreateDate: '',
     statusSupplier: ''

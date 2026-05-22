@@ -1,7 +1,8 @@
 ﻿using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
 using Domain.Entities;
-using Domain.Models;
+using Infrastructure.Persistences.ReadModels.Store;
+using Infrastructure.Persistences.ReadModels.StoreInventory;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -18,30 +19,30 @@ namespace Application.Mappers
             };
         }
 
-        public static StoreInventoryResponseDto StoreInventoryMapping(StoreInventoryModel item)
+        public static StoreInventoryResponseDto StoreInventoryResponseDtoMapping(StoreInventoryListReadModel model)
         {
             return new StoreInventoryResponseDto
             {
-                IdStore = item.IdStore,
-                IdProduct = item.IdProduct,
-                StockAvailable = item.StockAvailable,
-                CalculatedStock = item.CalculatedStock,
-                StockDifference = item.StockAvailable - item.CalculatedStock,
-                StockInTransit = item.StockInTransit,
-                Price = item.Price,
-                Replenishment = ((Replenishment)(item.Replenishment!)).ToString().ReplaceUnderscoresWithSpace(),
-                Code = item.Code,
-                Description = item.Description?.ToSentenceCase(),
-                Material = item.Material?.ToSentenceCase(),
-                Color = item.Color?.ToSentenceCase(),
-                UnitMeasure = item.UnitMeasure?.ToSentenceCase(),
-                BrandName = item.BrandName?.ToSentenceCase(),
-                CategoryName = item.CategoryName?.ToSentenceCase(),
-                AuditCreateDate = item.AuditCreateDate.ToString("dd/MM/yyyy HH:mm")
+                IdStore = model.IdStore,
+                IdProduct = model.IdProduct,
+                StockAvailable = model.StockAvailable,
+                CalculatedStock = model.CalculatedStock,
+                StockDifference = model.StockAvailable - model.CalculatedStock,
+                StockInTransit = model.StockInTransit,
+                Price = model.Price,
+                Replenishment = ((Replenishment)(model.Replenishment!)).ToString().ReplaceUnderscoresWithSpace(),
+                Code = model.Code,
+                Description = model.Description?.ToSentenceCase(),
+                Material = model.Material?.ToSentenceCase(),
+                Color = model.Color?.ToSentenceCase(),
+                UnitMeasure = model.UnitMeasure?.ToSentenceCase(),
+                BrandName = model.BrandName?.ToSentenceCase(),
+                CategoryName = model.CategoryName?.ToSentenceCase(),
+                AuditCreateDate = model.AuditCreateDate.ToString("dd/MM/yyyy HH:mm")
             };
         }
 
-        public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<InventoryPivotModel> items, List<StoreEntity> stores)
+        public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<InventoryPivotReadModel> items, List<StoreReadModel> stores)
         {
             var storeDict = stores
                 .Where(s => !string.IsNullOrEmpty(s.StoreName))
@@ -67,16 +68,16 @@ namespace Application.Mappers
             };
         }
 
-        public static StoreInventoryKardexResponseDto StoreInventoryKardexMapping(StoreInventoryEntity product, List<KardexMovementModel> movements, int calculateStock, int stockDifference)
+        public static StoreInventoryKardexResponseDto StoreInventoryKardexMapping(StoreInventoryReadModel product, List<KardexMovementReadModel> movements, int calculateStock, int stockDifference)
         {
             return new StoreInventoryKardexResponseDto
             {
                 IdProduct = product.IdProduct,
-                Code = product.Product?.Code,
-                Description = product.Product?.Description?.ToSentenceCase(),
-                Material = product.Product?.Material?.ToSentenceCase(),
-                Color = product.Product?.Color?.ToSentenceCase(),
-                UnitMeasure = product.Product?.UnitMeasure?.ToSentenceCase(),
+                Code = product.Code,
+                Description = product.Description?.ToSentenceCase(),
+                Material = product.Material?.ToSentenceCase(),
+                Color = product.Color?.ToSentenceCase(),
+                UnitMeasure = product.UnitMeasure?.ToSentenceCase(),
                 CurrentStock = product.StockAvailable,
                 CalculatedStock = calculateStock,
                 StockDifference = stockDifference,

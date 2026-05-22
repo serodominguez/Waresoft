@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Request.Category
 {
-    public class CategoryRequestDto
+    public record CategoryRequestDto
     {
-        public string? CategoryName { get; set; }
-        public string? Description { get; set; }
+        public string? CategoryName { get; init; }
+        public string? Description { get; init; }
     }
 }

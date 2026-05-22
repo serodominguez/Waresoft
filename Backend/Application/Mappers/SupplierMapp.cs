@@ -2,6 +2,7 @@
 using Application.Dtos.Response.Category;
 using Application.Dtos.Response.Supplier;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Supplier;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -19,27 +20,26 @@ namespace Application.Mappers
                 Email = dto.Email,
             };
         }
-        public static SupplierResponseDto SuppliersResponseDtoMapping(SupplierEntity entity)
+        public static SupplierResponseDto SuppliersResponseDtoMapping(SupplierReadModel model)
         {
             return new SupplierResponseDto
             {
-                IdSupplier = entity.Id,
-                CompanyName = entity.CompanyName.ToTitleCase(),
-                Contact = entity.Contact.ToSentenceCase(),
-                Email = entity.Email,
-                PhoneNumber = entity.PhoneNumber,
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = entity.Status,
-                StatusSupplier = ((States)(entity.Status ? 1 : 0)).ToString()
+                IdSupplier = model.Id,
+                CompanyName = model.CompanyName.ToTitleCase(),
+                Contact = model.Contact.ToSentenceCase(),
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusSupplier = ((States)(model.Status ? 1 : 0)).ToString()
             };
         }
 
-        public static SupplierSelectResponseDto SuppliersSelectResponseDtoMapping(SupplierEntity entity)
+        public static SupplierSelectResponseDto SuppliersSelectResponseDtoMapping(SupplierSelectReadModel model)
         {
             return new SupplierSelectResponseDto
             {
-                IdSupplier = entity.Id,
-                CompanyName = entity.CompanyName.ToTitleCase()
+                IdSupplier = model.Id,
+                CompanyName = model.CompanyName.ToTitleCase()
             };
         }
     }

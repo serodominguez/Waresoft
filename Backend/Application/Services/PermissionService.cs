@@ -20,13 +20,12 @@ namespace Application.Services
 
         public async Task<bool> UserPermissions(int userId, string moduleName, string actionName)
         {
-            var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
-                .AsNoTracking()
+            var user = await _unitOfWork.UserQuery.GetUserByIdQueryable(userId)
                 .FirstOrDefaultAsync();
 
             if (user == null || !user.Status) return false;
 
-            return await _unitOfWork.Permission.GetPermissionsAsync(user.IdRole, moduleName, actionName);
+            return await _unitOfWork.PermissionQuery.GetPermissionsAsync(user.IdRole, moduleName, actionName);
         }
 
         public async Task<BaseResponse<bool>> UpdatePermissions(int authenticatedUserId, List<PermissionRequestDto> permissionsDto)
@@ -42,8 +41,8 @@ namespace Application.Services
                     return response;
                 }
 
-                var existingPermissions = await _unitOfWork.Permission
-                    .GetByIdsAsQueryable(permissionsDto.Select(p => p.IdPermission).ToList())
+                var existingPermissions = await _unitOfWork.PermissionCommand
+                    .GetListOfIdsAsQueryable(permissionsDto.Select(p => p.IdPermission).ToList())
                     .ToListAsync();
 
                 var permissionsDict = existingPermissions.ToDictionary(p => p.Id);
@@ -103,8 +102,7 @@ namespace Application.Services
             var response = new BaseResponse<IEnumerable<PermissionByUserResponseDto>>();
             try
             {
-                var user = await _unitOfWork.User.GetByIdAsQueryable(userId)
-                    .AsNoTracking()
+                var user = await _unitOfWork.UserQuery.GetUserByIdQueryable(userId)
                     .FirstOrDefaultAsync();
 
                 if (user == null || !user.Status)
@@ -114,14 +112,13 @@ namespace Application.Services
                     return response;
                 }
 
-                var permissions = await _unitOfWork.Permission.PermissionsByRoleAsQueryable(user.IdRole)
-                    .AsNoTracking()
+                var permissions = await _unitOfWork.PermissionQuery.PermissionsByRoleAsQueryable(user.IdRole)
                     .ToListAsync();
 
                 if (permissions != null && permissions.Any())
                 {
                     response.Data = permissions
-                                .Where(p => p.Status && p.Module!.Status && p.Action!.Status)
+                                .Where(p => p.Status && p.StatusModule && p.StatusAction)
                                 .Select(PermissionMapp.PermissionsByUserResponseDtoMapping);
 
                     response.IsSuccess = true;
@@ -147,7 +144,7 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
+                var role = await _unitOfWork.RoleQuery.GetRoleByIdQueryable(roleId)
                     .AsNoTracking()
                     .FirstOrDefaultAsync();
 
@@ -158,14 +155,13 @@ namespace Application.Services
                     return response;
                 }
 
-                var permissions = await _unitOfWork.Permission.PermissionsByRoleAsQueryable(roleId)
-                    .AsNoTracking()
+                var permissions = await _unitOfWork.PermissionQuery.PermissionsByRoleAsQueryable(role.Id)
                     .ToListAsync();
 
                 if (permissions != null && permissions.Any())
                 {
                     response.Data = permissions
-                                .Where(p => p.Module!.Status && p.Action!.Status)
+                                .Where(p => p.StatusModule && p.StatusAction)
                                 .Select(PermissionMapp.PermissionsByRoleResponseDtoMapping);
 
                     response.IsSuccess = true;

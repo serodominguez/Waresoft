@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class PermissionEntityConfiguration : BaseEntityConfiguration<PermissionEntity>
+    public class PermissionEntityConfiguration : BaseAuditEntityConfiguration<PermissionEntity>
     {
         public override void Configure(EntityTypeBuilder<PermissionEntity> builder)
         {
@@ -37,6 +37,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .WithMany(p => p.Permissions)
                 .HasForeignKey(a => a.IdAction);
 
+            builder.Property(p => p.Status);
 
             builder.HasIndex(p => new { p.IdRole, p.IdModule, p.IdAction })
                 .IsUnique()

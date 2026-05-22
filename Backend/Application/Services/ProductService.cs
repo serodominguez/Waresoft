@@ -34,8 +34,7 @@ namespace Application.Services
 
             try
             {
-                var products = _unitOfWork.Product.GetProductsQueryable()
-                    .AsNoTracking();
+                var products = _unitOfWork.ProductQuery.GetProductsQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -54,10 +53,10 @@ namespace Application.Services
                             products = products.Where(x => x.Color!.Contains(filters.TextFilter));
                             break;
                         case 5:
-                            products = products.Where(x => x.Brand!.BrandName!.Contains(filters.TextFilter));
+                            products = products.Where(x => x.BrandName!.Contains(filters.TextFilter));
                             break;
                         case 6:
-                            products = products.Where(x => x.Category!.CategoryName!.Contains(filters.TextFilter));
+                            products = products.Where(x => x.CategoryName!.Contains(filters.TextFilter));
                             break;
                     }
                 }
@@ -98,8 +97,7 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
-                    .AsNoTracking()
+                var product = await _unitOfWork.ProductQuery.GetProductByIdQueryable(productId)
                     .FirstOrDefaultAsync();
 
                 if (product is not null)
@@ -145,14 +143,14 @@ namespace Application.Services
                     product.Image = await _fileStorageImageService.SaveFile(ContainerConstants.PRODUCTS, requestDto.Image);
 
                 if (string.IsNullOrWhiteSpace(requestDto.Code))
-                    product.Code = await _unitOfWork.Sequence.GenerateProductCodeAsync();
+                    product.Code = await _unitOfWork.SequenceCommand.GenerateProductCodeAsync();
 
                 product.AuditCreateUser = authenticatedUserId;
                 product.AuditCreateDate = DateTime.Now;
                 product.Replenishment = 1;
                 product.Status = true;
 
-                await _unitOfWork.Product.AddAsync(product);
+                await _unitOfWork.ProductCommand.AddAsync(product);
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -192,8 +190,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
-                    .AsTracking()
+                var product = await _unitOfWork.ProductCommand.GetByIdAsQueryable(productId)
                     .FirstOrDefaultAsync();
 
                 if (product is null)
@@ -260,8 +257,7 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
-                    .AsTracking()
+                var product = await _unitOfWork.ProductCommand.GetByIdAsQueryable(productId)
                     .FirstOrDefaultAsync();
 
                 if (product is null)
@@ -306,8 +302,7 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
-                    .AsTracking()
+                var product = await _unitOfWork.ProductCommand.GetByIdAsQueryable(productId)
                     .FirstOrDefaultAsync();
 
                 if (product is null)
@@ -352,8 +347,7 @@ namespace Application.Services
 
             try
             {
-                var product = await _unitOfWork.Product.GetByIdAsQueryable(productId)
-                    .AsTracking()
+                var product = await _unitOfWork.ProductCommand.GetByIdAsQueryable(productId)
                     .FirstOrDefaultAsync();
 
                 if (product is null)

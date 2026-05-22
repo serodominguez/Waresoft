@@ -32,9 +32,7 @@ namespace Application.Services
 
             try
             {
-                var brands = _unitOfWork.Brand.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(b => b.AuditDeleteUser == null && b.AuditDeleteDate == null);
+                var brands = _unitOfWork.BrandQuery.GetBrandsListQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -83,10 +81,9 @@ namespace Application.Services
 
             try
             {
-                var brands = (await _unitOfWork.Brand.GetAllAsQueryable()
-                    .AsNoTracking()
+                var brands = await _unitOfWork.BrandQuery.GetBrandsSelectQueryable()
                     .Where(b => b.Status == true)
-                    .ToListAsync());
+                    .ToListAsync();
 
                 if (brands is not null && brands.Any())
                 {
@@ -115,8 +112,7 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
-                    .AsNoTracking()
+                var brand = await _unitOfWork.BrandQuery.GetBrandByIdQueryable(brandId)
                     .FirstOrDefaultAsync();
 
                 if (brand is not null)
@@ -161,7 +157,7 @@ namespace Application.Services
                 brand.AuditCreateDate = DateTime.Now;
                 brand.Status = true;
 
-                await _unitOfWork.Brand.AddAsync(brand);
+                await _unitOfWork.BrandCommand.AddAsync(brand);
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -203,8 +199,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
-                    .AsTracking()
+                var brand = await _unitOfWork.BrandCommand.GetByIdAsQueryable(brandId)
                     .FirstOrDefaultAsync();
 
                 if (brand is null)
@@ -248,8 +243,7 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
-                    .AsTracking()
+                var brand = await _unitOfWork.BrandCommand.GetByIdAsQueryable(brandId)
                     .FirstOrDefaultAsync();
 
                 if (brand is null)
@@ -293,8 +287,7 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
-                    .AsTracking()
+                var brand = await _unitOfWork.BrandCommand.GetByIdAsQueryable(brandId)
                     .FirstOrDefaultAsync();
 
                 if (brand is null)
@@ -338,8 +331,7 @@ namespace Application.Services
 
             try
             {
-                var brand = await _unitOfWork.Brand.GetByIdAsQueryable(brandId)
-                    .AsTracking()
+                var brand = await _unitOfWork.BrandCommand.GetByIdAsQueryable(brandId)
                     .FirstOrDefaultAsync();
 
                 if (brand is null)

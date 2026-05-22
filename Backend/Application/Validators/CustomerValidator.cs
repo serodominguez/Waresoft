@@ -23,9 +23,9 @@ namespace Application.Validators
                 .When(x => !string.IsNullOrWhiteSpace(x.IdentificationNumber));
 
             RuleFor(x => x.PhoneNumber)
-                .GreaterThan(0).WithMessage("El número de teléfono debe ser positivo")
-                .Must(HaveMaximum8Digits).WithMessage("El número de teléfono no puede tener más de 8 dígitos")
-                .When(x => x.PhoneNumber.HasValue);
+                .Length(8).WithMessage("El número de teléfono debe tener 8 dígitos")
+                .Matches(@"^\d+$").WithMessage("El número de teléfono solo debe contener dígitos")
+                .When(x => !string.IsNullOrEmpty(x.PhoneNumber));
 
         }
 

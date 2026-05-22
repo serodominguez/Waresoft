@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Request.Brand;
 using Application.Dtos.Response.Brand;
 using Domain.Entities;
+using Infrastructure.Persistences.ReadModels.Brand;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -16,24 +17,23 @@ namespace Application.Mappers
             };
         }
 
-        public static BrandResponseDto BrandsResponseDtoMapping(BrandEntity entity)
+        public static BrandResponseDto BrandsResponseDtoMapping(BrandReadModel model)
         {
             return new BrandResponseDto
             {
-                IdBrand = entity.Id,
-                BrandName = entity.BrandName.ToTitleCase(),
-                AuditCreateDate = entity.AuditCreateDate.HasValue ? entity.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = entity.Status,
-                StatusBrand = ((States)(entity.Status ? 1 : 0)).ToString()
+                IdBrand = model.Id,
+                BrandName = model.BrandName.ToTitleCase(),
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusBrand = ((States)(model.Status ? 1 : 0)).ToString()
             };
         }
 
-        public static BrandSelectResponseDto BrandsSelectResponseDtoMapping(BrandEntity entity)
+        public static BrandSelectResponseDto BrandsSelectResponseDtoMapping(BrandSelectReadModel model)
         {
             return new BrandSelectResponseDto
             {
-                IdBrand = entity.Id,
-                BrandName = entity.BrandName.ToTitleCase()
+                IdBrand = model.Id,
+                BrandName = model.BrandName.ToTitleCase()
             };
         }
     }

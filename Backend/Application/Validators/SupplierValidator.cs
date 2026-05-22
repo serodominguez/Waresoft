@@ -18,23 +18,15 @@ namespace Application.Validators
                 .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
 
             RuleFor(x => x.PhoneNumber)
-                .GreaterThan(0).WithMessage("El número de teléfono debe ser positivo")
-                .Must(HaveMaximum8Digits).WithMessage("El número de teléfono no puede tener más de 8 dígitos")
-                .When(x => x.PhoneNumber.HasValue);
+                .Length(8).WithMessage("El número de teléfono debe tener 8 dígitos")
+                .Matches(@"^\d+$").WithMessage("El número de teléfono solo debe contener dígitos")
+                .When(x => !string.IsNullOrEmpty(x.PhoneNumber));
 
             RuleFor(x => x.Email)
                 .EmailAddress().WithMessage("El correo electrónico no tiene un formato válido")
                 .MaximumLength(50).WithMessage("El correo no puede tener más de 50 caracteres")
                 .When(x => !string.IsNullOrWhiteSpace(x.Email));
 
-        }
-
-        private bool HaveMaximum8Digits(int? phoneNumber)
-        {
-            if (!phoneNumber.HasValue) return true;
-
-            var digits = phoneNumber.Value.ToString().Length;
-            return digits <= 8;
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class SupplierEntityConfiguration : BaseEntityConfiguration<SupplierEntity>
+    public class SupplierEntityConfiguration : BaseAuditEntityConfiguration<SupplierEntity>
     {
         public override void Configure(EntityTypeBuilder<SupplierEntity> builder)
         {
@@ -24,10 +24,13 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(30)
                 .IsRequired();
 
-            builder.Property(s => s.PhoneNumber);
+            builder.Property(s => s.PhoneNumber)
+                .HasMaxLength(15);
 
             builder.Property(s => s.Email)
                 .HasMaxLength(50);
+
+            builder.Property(s => s.Status);
         }
     }
 }

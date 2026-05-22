@@ -1,11 +1,10 @@
 ﻿namespace Application.Dtos.Response.Brand
 {
-    public class BrandResponseDto
+    public record BrandResponseDto
     {
-        public int IdBrand { get; set; }
-        public string? BrandName { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public bool Status { get; set; }
-        public string? StatusBrand { get; set; }
+        public int IdBrand { get; init; }
+        public string? BrandName { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusBrand { get; init; }
     }
 }

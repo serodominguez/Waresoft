@@ -32,7 +32,7 @@ namespace Application.Services
 
             try
             {
-                var issues = _unitOfWork.GoodsIssue.GetGoodsIssueQueryableByStore(authenticatedStoreId);
+                var issues = _unitOfWork.GoodsIssueQuery.GetGoodsIssueQueryableByStore(authenticatedStoreId);
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -42,10 +42,10 @@ namespace Application.Services
                             issues = issues.Where(x => x.Code!.Contains(filters.TextFilter));
                             break;
                         case 2:
-                            issues = issues.Where(x => x.Store.StoreName!.Contains(filters.TextFilter));
+                            issues = issues.Where(x => x.StoreName!.Contains(filters.TextFilter));
                             break;
                         case 3:
-                            issues = issues.Where(x => x.User != null && (x.User.Names!.Contains(filters.TextFilter) || x.User.LastNames!.Contains(filters.TextFilter)));
+                            issues = issues.Where(x => x.Names!.Contains(filters.TextFilter) || x.LastNames!.Contains(filters.TextFilter));
                             break;
                     }
                 }
@@ -74,7 +74,7 @@ namespace Application.Services
                 }
                 response.TotalRecords = await issues.CountAsync();
 
-                filters.Sort ??= "IdIssue";
+                filters.Sort ??= "Id";
                 var items = await _orderingQuery.Ordering(filters, issues, !(bool)filters.Download!).ToListAsync();
                 response.IsSuccess = true;
                 response.Data = items.Select(GoodsIssueMapp.GoodsIssueResponseDtoMapping);
@@ -95,8 +95,7 @@ namespace Application.Services
 
             try
             {
-                var issue = await _unitOfWork.GoodsIssue.GetGoodsIssueByIdAsQueryable(issueId)
-                    .AsNoTracking()
+                var issue = await _unitOfWork.GoodsIssueQuery.GetGoodsIssueByIdAsQueryable(issueId)
                     .FirstOrDefaultAsync();
 
                 if (issue is null)
@@ -109,18 +108,16 @@ namespace Application.Services
                 string? userName = null;
                 if (issue!.AuditCreateUser.HasValue)
                 {
-                    var user = await _unitOfWork.User.GetByIdAsQueryable(issue.AuditCreateUser.Value)
-                        .AsNoTracking()
+                    var user = await _unitOfWork.UserQuery.GetUserByIdQueryable(issue.AuditCreateUser.Value)
                         .FirstOrDefaultAsync();
 
                     userName = user?.Names+' '+ user?.LastNames;
                 }
 
-                var details = await _unitOfWork.GoodsIssueDetails.GetGoodsIssueDetailsQueryable(issue!.IdIssue)
-                    .AsNoTracking()
-                    .ToListAsync();
+                //var details = await _unitOfWork.GoodsIssueDetailsQuery.GetGoodsIssueDetailsQueryable(issue.Id)
+                //    .ToListAsync();
 
-                issue.GoodsIssueDetails = details.ToList();
+                //issue.GoodsIssueDetails = details.ToList();
 
                 response.IsSuccess = true;
                 response.Data = GoodsIssueMapp.GoodsIssueWithDetailsResponseDtoMapping(issue, userName);
@@ -172,7 +169,7 @@ namespace Application.Services
 
             try
             {
-                var generatedCode = await _unitOfWork.Sequence.GenerateMovementsCodeAsync(ContainerConstants.GoodsIssue, ContainerConstants.GoodsIssuePrefixes, authenticatedUserStoreId);
+                var generatedCode = await _unitOfWork.SequenceCommand.GenerateMovementsCodeAsync(ContainerConstants.GoodsIssue, ContainerConstants.GoodsIssuePrefixes, authenticatedUserStoreId);
 
                 var entity = GoodsIssueMapp.GoodsIssueMapping(requestDto);
                 entity.Code = generatedCode;
@@ -187,17 +184,16 @@ namespace Application.Services
                 entity.Status = 1;
                 entity.IsActive = true;
 
-                await _unitOfWork.GoodsIssue.AddGoodsIssueAsync(entity);
+                await _unitOfWork.GoodsIssueCommand.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
                 if (requestDto.Type != ContainerConstants.Adjustment)
                 {
                     var productIds = entity.GoodsIssueDetails.Select(x => x.IdProduct).ToList();
 
-                    var stocksToUpdate = await _unitOfWork.StoreInventory
+                    var stocksToUpdate = await _unitOfWork.StoreInventoryCommand
                         .GetStocksByStoreAsQueryable(requestDto.IdStore)
                         .Where(s => productIds.Contains(s.IdProduct))
-                        .AsTracking()
                         .ToListAsync();
 
                     foreach (var item in entity.GoodsIssueDetails)
@@ -231,9 +227,7 @@ namespace Application.Services
             const string TypeAdjustment = "ajuste de kardex";
             var response = new BaseResponse<bool>();
 
-            var issue = await _unitOfWork.GoodsIssue
-                .GetGoodsIssueByIdAsQueryable(issueId)
-                .AsTracking()
+            var issue = await _unitOfWork.GoodsIssueCommand.GetByIdAsQueryable(issueId)
                 .FirstOrDefaultAsync();
 
             if (issue is null)
@@ -249,17 +243,14 @@ namespace Application.Services
             {
                 if (issue.Type != TypeAdjustment)
                 {
-                    var details = await _unitOfWork.GoodsIssueDetails
-                        .GetGoodsIssueDetailsQueryable(issue.IdIssue)
-                        .AsNoTracking()
+                    var details = await _unitOfWork.GoodsIssueDetailsQuery.GetGoodsIssueDetailsQueryable(issue.Id)
                         .ToListAsync();
 
                     var productIds = details.Select(x => x.IdProduct).ToList();
 
-                    var stocksToUpdate = await _unitOfWork.StoreInventory
+                    var stocksToUpdate = await _unitOfWork.StoreInventoryCommand
                         .GetStocksByStoreAsQueryable(issue.IdStore)
                         .Where(s => productIds.Contains(s.IdProduct))
-                        .AsTracking()
                         .ToListAsync();
 
                     foreach (var detail in details)

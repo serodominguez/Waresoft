@@ -1,12 +1,11 @@
 ﻿namespace Application.Dtos.Response.Category
 {
-    public class CategoryResponseDto
+    public record CategoryResponseDto
     {
-        public int IdCategory { get; set; }
-        public string? CategoryName { get; set; }
-        public string? Description { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public bool Status { get; set; }
-        public string? StatusCategory { get; set; }
+        public int IdCategory { get; init; }
+        public string? CategoryName { get; init; }
+        public string? Description { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusCategory { get; init; }
     }
 }

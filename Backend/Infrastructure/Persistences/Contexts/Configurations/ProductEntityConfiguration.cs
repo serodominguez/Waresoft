@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class ProductEntityConfiguration : BaseEntityConfiguration<ProductEntity>
+    public class ProductEntityConfiguration : BaseAuditEntityConfiguration<ProductEntity>
     {
         public override void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
@@ -44,6 +44,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .IsRequired();
 
             builder.Property(p => p.Replenishment);
+
+            builder.Property(p => p.Status);
 
             builder.HasOne(b => b.Brand)
                 .WithMany(p => p.Product)

@@ -32,9 +32,7 @@ namespace Application.Services
 
             try
             {
-                var stores = _unitOfWork.Store.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(s => s.AuditDeleteUser == null && s.AuditDeleteDate == null);
+                var stores = _unitOfWork.StoreQuery.GetStoresListQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -92,8 +90,7 @@ namespace Application.Services
 
             try
             {
-                var stores = (await _unitOfWork.Store.GetAllAsQueryable()
-                    .AsNoTracking()
+                var stores = (await _unitOfWork.StoreQuery.GetStoresSelectQueryable()
                     .Where(s => s.Status == true)
                     .ToListAsync());
 
@@ -125,8 +122,7 @@ namespace Application.Services
 
             try
             {
-                var store = await _unitOfWork.Store.GetByIdAsQueryable(storeId)
-                    .AsNoTracking()
+                var store = await _unitOfWork.StoreQuery.GetStoreByIdQueryable(storeId)
                     .FirstOrDefaultAsync();
 
                 if (store is not null)
@@ -171,7 +167,7 @@ namespace Application.Services
                 store.AuditCreateDate = DateTime.Now;
                 store.Status = true;
 
-                await _unitOfWork.Store.AddAsync(store);
+                await _unitOfWork.StoreCommand.AddAsync(store);
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -213,8 +209,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var store = await _unitOfWork.Store.GetByIdAsQueryable(storeId)
-                    .AsTracking()
+                var store = await _unitOfWork.StoreCommand.GetByIdAsQueryable(storeId)
                     .FirstOrDefaultAsync();
 
                 if (store is null)
@@ -266,8 +261,7 @@ namespace Application.Services
 
             try
             {
-                var store = await _unitOfWork.Store.GetByIdAsQueryable(storeId)
-                    .AsTracking()
+                var store = await _unitOfWork.StoreCommand.GetByIdAsQueryable(storeId)
                     .FirstOrDefaultAsync();
 
                 if (store is null)
@@ -311,8 +305,7 @@ namespace Application.Services
 
             try
             {
-                var store = await _unitOfWork.Store.GetByIdAsQueryable(storeId)
-                    .AsTracking()
+                var store = await _unitOfWork.StoreCommand.GetByIdAsQueryable(storeId)
                     .FirstOrDefaultAsync();
 
                 if (store is null)
@@ -356,8 +349,7 @@ namespace Application.Services
 
             try
             {
-                var store = await _unitOfWork.Store.GetByIdAsQueryable(storeId)
-                    .AsTracking()
+                var store = await _unitOfWork.StoreCommand.GetByIdAsQueryable(storeId)
                     .FirstOrDefaultAsync();
 
                 if (store is null)

@@ -59,7 +59,7 @@ const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePaginat
     transferStore.fetchTransfers({
       pageNumber: params.pageNumber,
       pageSize:   params.pageSize,
-      sort:       'IdTransfer',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(search.value),
     });
@@ -118,7 +118,7 @@ const fetchTransfers = async () => {
     await transferStore.fetchTransfers({
       pageNumber:  currentPage.value,
       pageSize:    itemsPerPage.value,
-      sort:        'IdTransfer',
+      sort:        'Id',
       order:       'desc',
       ...getFilterParams(null),
     });
@@ -145,7 +145,7 @@ const searchTransfers = async (params: {
     await transferStore.fetchTransfers({
       pageNumber: 1,
       pageSize:   itemsPerPage.value,
-      sort:       'IdTransfer',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });
@@ -170,7 +170,7 @@ const downloadExcel = async (params: { search: string | null }) => {
     await transferStore.downloadTransferExcel({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'IdTransfer',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });
@@ -188,7 +188,7 @@ const downloadPdf = async (params: { search: string | null }) => {
     await transferStore.downloadTransferPdf({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'IdTransfer',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });

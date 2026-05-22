@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class StoreEntityConfiguration : BaseEntityConfiguration<StoreEntity>
+    public class StoreEntityConfiguration : BaseAuditEntityConfiguration<StoreEntity>
     {
         public override void Configure(EntityTypeBuilder<StoreEntity> builder)
         {
@@ -28,7 +28,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(60)
                 .IsRequired();
 
-            builder.Property(s => s.PhoneNumber);
+            builder.Property(s => s.PhoneNumber)
+                .HasMaxLength(15);
 
             builder.Property(s => s.City)
                 .HasMaxLength(15)
@@ -43,6 +44,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(s => s.Type)
                 .HasMaxLength(15)
                 .IsRequired();
+
+            builder.Property(s => s.Status);
         }
     }
 }

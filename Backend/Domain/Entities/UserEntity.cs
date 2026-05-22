@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public class UserEntity : BaseEntity
+    public class UserEntity : BaseAuditEntity
     {
         public string? UserName { get; set; }
         public byte[]? PasswordHash { get; set; }
@@ -8,9 +8,11 @@
         public string? Names { get; set; }
         public string? LastNames { get; set; }
         public string? IdentificationNumber { get; set; }
-        public int? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public int IdRole { get; set; }
         public int IdStore { get; set; }
+        public bool Status { get; set; }
+
         public virtual RoleEntity Role { get; set; } = null!;
         public virtual StoreEntity Store { get; set; } = null!;
         public virtual ICollection<GoodsIssueEntity> GoodsIssue { get; set; } = new List<GoodsIssueEntity>();

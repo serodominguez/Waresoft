@@ -1,5 +1,4 @@
 ﻿using Domain.Entities;
-using System.Linq.Expressions;
 
 namespace Infrastructure.Persistences.Interfaces
 {
@@ -7,8 +6,7 @@ namespace Infrastructure.Persistences.Interfaces
     {
         IQueryable<T> GetAllAsQueryable();
         IQueryable<T> GetByIdAsQueryable(int id);
-        IQueryable<T> GetEntityQuery(Expression<Func<T, bool>>? filter = null);
-
+        IQueryable<T> GetListOfIdsAsQueryable(List<int> ids);
         Task AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);
         

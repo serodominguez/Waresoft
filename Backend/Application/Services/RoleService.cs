@@ -32,9 +32,7 @@ namespace Application.Services
 
             try
             {
-                var roles = _unitOfWork.Role.GetAllAsQueryable()
-                    .AsNoTracking()
-                    .Where(r => r.AuditDeleteUser == null && r.AuditDeleteDate == null);
+                var roles = _unitOfWork.RoleQuery.GetRolesListQueryable();
 
                 if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
                 {
@@ -83,10 +81,9 @@ namespace Application.Services
 
             try
             {
-                var roles = (await _unitOfWork.Role.GetAllAsQueryable()
-                    .AsNoTracking()
+                var roles = await _unitOfWork.RoleQuery.GetRolesSelectQueryable()
                     .Where(r => r.Status == true)
-                    .ToListAsync());
+                    .ToListAsync();
 
                 if (roles is not null && roles.Any())
                 {
@@ -107,14 +104,14 @@ namespace Application.Services
             }
             return response;
         }
+
         public async Task<BaseResponse<RoleResponseDto>> RoleById(int roleId)
         {
             var response = new BaseResponse<RoleResponseDto>();
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
-                    .AsNoTracking()
+                var role = await _unitOfWork.RoleQuery.GetRoleByIdQueryable(roleId)
                     .FirstOrDefaultAsync();
 
                 if (role is not null)
@@ -160,16 +157,14 @@ namespace Application.Services
                 entity.AuditCreateDate = DateTime.Now;
                 entity.Status = true;
 
-                await _unitOfWork.Role.AddAsync(entity);
+                await _unitOfWork.RoleCommand.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                var actions = (await _unitOfWork.Action.GetAllAsQueryable()
-                    .AsNoTracking()
+                var actions = (await _unitOfWork.ActionQuery.GetActionsListQueryable()
                     .Where(x => x.Status == true)
                     .ToListAsync());
 
-                var modules = (await _unitOfWork.Module.GetAllAsQueryable()
-                    .AsNoTracking()
+                var modules = (await _unitOfWork.ModuleQuery.GetModuleListQueryable()
                     .Where(x => x.Status == true && x.Id != 1)
                     .ToListAsync());
 
@@ -191,7 +186,7 @@ namespace Application.Services
                     }
                 }
 
-                await _unitOfWork.Permission.AddRangeAsync(permissions);
+                await _unitOfWork.PermissionCommand.AddRangeAsync(permissions);
                 await _unitOfWork.SaveChangesAsync();
 
                 transaction.Commit();
@@ -223,8 +218,7 @@ namespace Application.Services
                     return response;
                 }
 
-                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
-                    .AsTracking()
+                var role = await _unitOfWork.RoleCommand.GetByIdAsQueryable(roleId)
                     .FirstOrDefaultAsync();
 
                 if (role is null)
@@ -268,8 +262,7 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
-                    .AsTracking()
+                var role = await _unitOfWork.RoleCommand.GetByIdAsQueryable(roleId)
                     .FirstOrDefaultAsync();
 
                 if (role is null)
@@ -313,8 +306,7 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
-                    .AsTracking()
+                var role = await _unitOfWork.RoleCommand.GetByIdAsQueryable(roleId)
                     .FirstOrDefaultAsync();
 
                 if (role is null)
@@ -358,8 +350,7 @@ namespace Application.Services
 
             try
             {
-                var role = await _unitOfWork.Role.GetByIdAsQueryable(roleId)
-                    .AsTracking()
+                var role = await _unitOfWork.RoleCommand.GetByIdAsQueryable(roleId)
                     .FirstOrDefaultAsync();
 
                 if (role is null)

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class UserEntityConfiguration : BaseEntityConfiguration<UserEntity>
+    public class UserEntityConfiguration : BaseAuditEntityConfiguration<UserEntity>
     {
         public override void Configure(EntityTypeBuilder<UserEntity> builder)
         {
@@ -35,7 +35,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(u => u.IdentificationNumber)
                 .HasMaxLength(10);
 
-            builder.Property(u => u.PhoneNumber);
+            builder.Property(u => u.PhoneNumber)
+                .HasMaxLength(15);
 
             builder.Property(u => u.IdRole);
 
@@ -48,6 +49,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.HasOne(s => s.Store)
                 .WithMany(u => u.User)
                 .HasForeignKey(s => s.IdStore);
+
+            builder.Property(u => u.Status);
         }
     }
 }

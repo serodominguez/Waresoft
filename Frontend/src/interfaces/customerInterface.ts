@@ -3,7 +3,7 @@ export interface Customer {
   names: string;
   lastNames: string;
   identificationNumber: string;
-  phoneNumber: number | null;
+  phoneNumber: string;
   auditCreateDate: string;
   statusCustomer: string;
 }

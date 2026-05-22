@@ -16,7 +16,6 @@ namespace Application.Dtos.Response.Product
         public int IdCategory { get; set; }
         public string? CategoryName { get; set; }
         public string? AuditCreateDate { get; set; }
-        public bool Status { get; set; }
         public string? StatusProduct { get; set; }
     }
 }

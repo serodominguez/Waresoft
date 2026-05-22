@@ -2,7 +2,7 @@ export interface Supplier {
   idSupplier: number | null;
   companyName: string;
   contact: string;
-  phoneNumber: number | null;
+  phoneNumber: string;
   email: string,
   auditCreateDate: string;
   statusSupplier: string;

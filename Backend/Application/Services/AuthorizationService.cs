@@ -4,7 +4,6 @@ using Application.Interfaces;
 using Application.Security;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Utilities.Static;
 
 namespace Application.Services
@@ -36,7 +35,7 @@ namespace Application.Services
                 return response;
             }
 
-            var user = await _unitOfWork.User.GetUserByUsernameAsync(requestDto.UserName!, true);
+            var user = await _unitOfWork.UserQuery.GetUserAccountAsync(requestDto.UserName!, true);
 
             if (user is not null)
             {

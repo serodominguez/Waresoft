@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class CustomerEntityConfiguration : BaseEntityConfiguration<CustomerEntity>
+    public class CustomerEntityConfiguration : BaseAuditEntityConfiguration<CustomerEntity>
     {
         public override void Configure(EntityTypeBuilder<CustomerEntity> builder)
         {
@@ -28,6 +28,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(10);
 
             builder.Property(c => c.PhoneNumber);
+
+            builder.Property(c => c.Status);
         }
 
     }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistences.Contexts.Configurations
 {
-    public class ActionEntityConfiguration : BaseEntityConfiguration<ActionEntity>
+    public class ActionEntityConfiguration : BaseAuditEntityConfiguration<ActionEntity>
     {
         public override void Configure(EntityTypeBuilder<ActionEntity> builder)
         {
@@ -19,6 +19,8 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(a => a.ActionName)
                 .HasMaxLength(10)
                 .IsRequired();
+
+            builder.Property(a => a.Status);
         }
     }
 }

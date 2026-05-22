@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Response.User
 {
-    public class UserSelectResponseDto
+    public record UserSelectResponseDto
     {
-        public int IdUser { get; set; }
-        public string? UserName { get; set; }
+        public int IdUser { get; init; }
+        public string? UserName { get; init; }
     }
 }

@@ -74,7 +74,7 @@ const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePaginat
     goodsReceiptStore.fetchGoodsReceipt({
       pageNumber: params.pageNumber,
       pageSize:   params.pageSize,
-      sort:       'IdReceipt',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(search.value),
     });
@@ -137,7 +137,7 @@ const fetchGoodsReceipt = async () => {
     await goodsReceiptStore.fetchGoodsReceipt({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'IdReceipt',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(null),
     });
@@ -165,7 +165,7 @@ const searchGoodsReceipt = async (params: {
     await goodsReceiptStore.fetchGoodsReceipt({
       pageNumber: 1,
       pageSize:   itemsPerPage.value,
-      sort:       'IdReceipt',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });
@@ -190,7 +190,7 @@ const downloadExcel = async (params: { search: string | null }) => {
     await goodsReceiptStore.downloadGoodsReceiptExcel({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'IdReceipt',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });
@@ -208,7 +208,7 @@ const downloadPdf = async (params: { search: string | null }) => {
     await goodsReceiptStore.downloadGoodsReceiptPdf({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'IdReceipt',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });

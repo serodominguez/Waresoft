@@ -59,7 +59,7 @@ const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePaginat
     goodsIssueStore.fetchGoodsIssue({
       pageNumber: params.pageNumber,
       pageSize:   params.pageSize,
-      sort:       'IdIssue',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(search.value),
     });
@@ -115,7 +115,7 @@ const fetchGoodsIssue = async () => {
     await goodsIssueStore.fetchGoodsIssue({
       pageNumber:  currentPage.value,
       pageSize:    itemsPerPage.value,
-      sort:        'IdIssue',
+      sort:        'Id',
       order:       'desc',
       stateFilter: state.value === 'Completado' ? 1 : 0,
     });
@@ -142,7 +142,7 @@ const searchGoodsIssue = async (params: {
     await goodsIssueStore.fetchGoodsIssue({
       pageNumber: 1,
       pageSize:   itemsPerPage.value,
-      sort:       'IdIssue',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });
@@ -167,7 +167,7 @@ const downloadExcel = async (params: { search: string | null }) => {
     await goodsIssueStore.downloadGoodsIssueExcel({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'IdIssue',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });
@@ -185,7 +185,7 @@ const downloadPdf = async (params: { search: string | null }) => {
     await goodsIssueStore.downloadGoodsIssuePdf({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'IdIssue',
+      sort:       'Id',
       order:      'desc',
       ...getFilterParams(params.search),
     });

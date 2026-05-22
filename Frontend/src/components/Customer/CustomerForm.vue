@@ -61,7 +61,7 @@ const props = withDefaults(defineProps<Props>(), {
     names: '',
     lastNames: '',
     identificationNumber: '',
-    phoneNumber: null,
+    phoneNumber: '',
     auditCreateDate: '',
     statusCustomer: ''
   })
