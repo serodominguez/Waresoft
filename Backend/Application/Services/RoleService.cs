@@ -47,7 +47,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    roles = roles.Where(x => x.Status == stateValue);
+                    roles = roles.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -82,7 +82,7 @@ namespace Application.Services
             try
             {
                 var roles = await _unitOfWork.RoleQuery.GetRolesSelectQueryable()
-                    .Where(r => r.Status == true)
+                    .Where(r => r.IsActive == true)
                     .ToListAsync();
 
                 if (roles is not null && roles.Any())
@@ -155,17 +155,17 @@ namespace Application.Services
                 var entity = RoleMapp.RolesMapping(requestDto);
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
-                entity.Status = true;
+                entity.IsActive = true;
 
                 await _unitOfWork.RoleCommand.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
                 var actions = (await _unitOfWork.ActionQuery.GetActionsListQueryable()
-                    .Where(x => x.Status == true)
+                    .Where(x => x.IsActive == true)
                     .ToListAsync());
 
                 var modules = (await _unitOfWork.ModuleQuery.GetModuleListQueryable()
-                    .Where(x => x.Status == true && x.Id != 1)
+                    .Where(x => x.IsActive == true && x.Id != 1)
                     .ToListAsync());
 
                 var permissions = new List<PermissionEntity>();
@@ -181,7 +181,7 @@ namespace Application.Services
                             IdAction = action.Id,
                             AuditCreateUser = authenticatedUserId,
                             AuditCreateDate = DateTime.Now,
-                            Status = false
+                            IsActive = false
                         });
                     }
                 }
@@ -274,7 +274,7 @@ namespace Application.Services
 
                 role.AuditUpdateUser = authenticatedUserId;
                 role.AuditUpdateDate = DateTime.Now;
-                role.Status = true;
+                role.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -318,7 +318,7 @@ namespace Application.Services
 
                 role.AuditUpdateUser = authenticatedUserId;
                 role.AuditUpdateDate = DateTime.Now;
-                role.Status = false;
+                role.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -362,7 +362,7 @@ namespace Application.Services
 
                 role.AuditDeleteUser = authenticatedUserId;
                 role.AuditDeleteDate = DateTime.Now;
-                role.Status = false;
+                role.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

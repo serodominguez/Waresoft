@@ -37,8 +37,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .WithMany(p => p.Permissions)
                 .HasForeignKey(a => a.IdAction);
 
-            builder.Property(p => p.Status);
-
             builder.HasIndex(p => new { p.IdRole, p.IdModule, p.IdAction })
                 .IsUnique()
                 .HasDatabaseName("IX_Permissions_Role_Module_Action");
@@ -46,8 +44,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.HasIndex(p => p.IdRole)
                 .HasDatabaseName("IX_Permissions_Role");
 
-            builder.HasIndex(p => p.Status)
-                .HasDatabaseName("IX_Permissions_Status");
         }
     }
 }

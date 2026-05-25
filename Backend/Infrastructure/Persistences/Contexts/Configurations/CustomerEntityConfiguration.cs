@@ -28,8 +28,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(10);
 
             builder.Property(c => c.PhoneNumber);
-
-            builder.Property(c => c.Status);
         }
 
     }

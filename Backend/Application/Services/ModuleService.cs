@@ -47,7 +47,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    modules = modules.Where(x => x.Status == stateValue);
+                    modules = modules.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -126,18 +126,18 @@ namespace Application.Services
                 var module = ModuleMapp.ModulesMapping(requestDto);
                 module.AuditCreateUser = authenticatedUserId;
                 module.AuditCreateDate = DateTime.Now;
-                module.Status = true;
+                module.IsActive = true;
 
                 await _unitOfWork.ModuleCommand.AddAsync(module);
                 await _unitOfWork.SaveChangesAsync();
 
                 var actions = (await _unitOfWork.ActionQuery.GetActionsListQueryable()
-                    .Where(a => a.Status == true)
+                    .Where(a => a.IsActive == true)
                     .ToListAsync());
                                     
 
                 var roles = (await _unitOfWork.RoleQuery.GetRolesListQueryable()
-                    .Where(r => r.Status == true)
+                    .Where(r => r.IsActive == true)
                     .ToListAsync());
 
                 var permissions = new List<PermissionEntity>();
@@ -153,7 +153,7 @@ namespace Application.Services
                             IdAction = action.Id,
                             AuditCreateUser = authenticatedUserId,
                             AuditCreateDate = DateTime.Now,
-                            Status = false
+                            IsActive = false
                         });
                     }
                 }
@@ -243,7 +243,7 @@ namespace Application.Services
                     return response;
                 }
 
-                module.Status = true;
+                module.IsActive = true;
                 module.AuditUpdateUser = authenticatedUserId;
                 module.AuditUpdateDate = DateTime.Now;
 
@@ -288,7 +288,7 @@ namespace Application.Services
 
                 module.AuditUpdateUser = authenticatedUserId;
                 module.AuditUpdateDate = DateTime.Now;
-                module.Status = false;
+                module.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -332,7 +332,7 @@ namespace Application.Services
 
                 module.AuditDeleteUser = authenticatedUserId;
                 module.AuditDeleteDate = DateTime.Now;
-                module.Status = false;
+                module.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

@@ -26,7 +26,7 @@ namespace Application.Mappers
                 CategoryName = model.CategoryName.ToSentenceCase(),
                 Description = model.Description.ToSentenceCaseMultiple(),
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusCategory = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusCategory = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
 

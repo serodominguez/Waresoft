@@ -15,7 +15,7 @@ namespace Infrastructure.Persistences.Projections
                 PhoneNumber = s.PhoneNumber,
                 Email = s.Email,
                 AuditCreateDate = s.AuditCreateDate,
-                Status = s.Status
+                IsActive = s.IsActive
             };
 
         public static Expression<Func<SupplierEntity, SupplierSelectReadModel>> ToSelect =>
@@ -23,7 +23,7 @@ namespace Infrastructure.Persistences.Projections
             {
                 Id = s.Id,
                 CompanyName = s.CompanyName,
-                Status = s.Status,
+                IsActive = s.IsActive
             };
     }
 }

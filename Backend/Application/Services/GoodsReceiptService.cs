@@ -247,7 +247,7 @@ namespace Application.Services
             {
                 if (receipt.Type != TypeAdjustment)
                 {
-                    var details = await _unitOfWork.GoodsReceiptDetailsQuery.GetGoodsReceiptDetailsQueryable(receipt.IdReceipt)
+                    var details = await _unitOfWork.GoodsReceiptDetailsQuery.GetGoodsReceiptDetailsQueryable(receipt.Id)
                         .ToListAsync();
 
                     var productIds = details.Select(x => x.IdProduct).ToList();

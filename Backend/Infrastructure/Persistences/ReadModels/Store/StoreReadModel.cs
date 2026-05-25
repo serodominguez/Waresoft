@@ -12,6 +12,6 @@
         public decimal ProfitMargin { get; init; }
         public string? Type { get; init; }
         public DateTime? AuditCreateDate { get; init; }
-        public bool Status { get; init; }
+        public bool IsActive { get; init; }
     }
 }

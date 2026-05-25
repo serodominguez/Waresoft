@@ -7,5 +7,6 @@
         public DateTime? AuditCreateDate { get; set; }
         public int? AuditDeleteUser { get; set; }
         public DateTime? AuditDeleteDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Application.Mappers
                 ModuleName = model.ModuleName,
                 IdAction = model.IdAction,
                 ActionName = model.ActionName,
-                Status = model.Status
+                Status = model.IsActive
             };
         }
     }

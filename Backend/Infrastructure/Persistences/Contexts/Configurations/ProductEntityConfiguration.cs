@@ -45,8 +45,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(p => p.Replenishment);
 
-            builder.Property(p => p.Status);
-
             builder.HasOne(b => b.Brand)
                 .WithMany(p => p.Product)
                 .HasForeignKey(b => b.IdBrand);

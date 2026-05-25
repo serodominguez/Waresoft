@@ -12,7 +12,7 @@ namespace Infrastructure.Persistences.Projections
                 Id = b.Id,
                 BrandName = b.BrandName,
                 AuditCreateDate = b.AuditCreateDate,
-                Status = b.Status
+                IsActive = b.IsActive
             };
 
         public static Expression<Func<BrandEntity, BrandSelectReadModel>> ToSelect =>
@@ -20,7 +20,7 @@ namespace Infrastructure.Persistences.Projections
             {
                 Id = b.Id,
                 BrandName = b.BrandName,
-                Status = b.Status,
+                IsActive = b.IsActive
             };
     }
 }

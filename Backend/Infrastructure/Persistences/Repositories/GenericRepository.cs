@@ -23,7 +23,6 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<T> GetByIdAsQueryable(int id)
         {
             return _entity
-                .AsTracking()
                 .Where(e => e.Id == id);
         }
 

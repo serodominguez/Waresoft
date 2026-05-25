@@ -17,7 +17,7 @@ namespace Infrastructure.Persistences.Repositories.Sequence
         public async Task<string> GenerateProductCodeAsync()
         {
             var sequence = await _context.Sequence
-                .FromSqlRaw("SELECT NAME, PK_STORE, CURRENT_VALUE, LAST_UPDATED FROM SEQUENCES WITH (UPDLOCK, ROWLOCK) WHERE NAME = 'PRODUCT'")
+                .FromSqlRaw("SELECT Name, IdStore, CurrentValue, LastUpdated FROM SEQUENCES WITH (UPDLOCK, ROWLOCK) WHERE Name = 'PRODUCT'")
                 .FirstOrDefaultAsync();
 
             if (sequence == null)
@@ -48,17 +48,17 @@ namespace Infrastructure.Persistences.Repositories.Sequence
             var results = await _context.Database
                 .SqlQueryRaw<int>(@"
                 UPDATE SEQUENCES 
-                SET CURRENT_VALUE = CURRENT_VALUE + 1,
-                    LAST_UPDATED = GETUTCDATE()
-                OUTPUT INSERTED.CURRENT_VALUE
-                WHERE NAME = {0} AND PK_STORE = {1}",
+                SET CurrentValue = CurrentValue + 1,
+                    LastUpdated = GETUTCDATE()
+                OUTPUT INSERTED.CurrentValue
+                WHERE Name = {0} AND IdStore = {1}",
                 sequenceName, storeId)
                 .ToListAsync();
 
             if (results.Count == 0)
             {
                 await _context.Database.ExecuteSqlRawAsync(@"
-                INSERT INTO SEQUENCES (NAME, PK_STORE, CURRENT_VALUE, LAST_UPDATED) 
+                INSERT INTO SEQUENCES (Name, IdStore, CurrentValue, LastUpdated) 
                 VALUES ({0}, {1}, 1, GETUTCDATE())",
                 sequenceName, storeId);
 
@@ -77,10 +77,10 @@ namespace Infrastructure.Persistences.Repositories.Sequence
             var results = await _context.Database
                 .SqlQueryRaw<int>(@"
                 UPDATE SEQUENCES 
-                SET CURRENT_VALUE = CURRENT_VALUE + 1,
-                    LAST_UPDATED = GETUTCDATE()
-                OUTPUT INSERTED.CURRENT_VALUE
-                WHERE NAME = {0}", sequenceName)
+                SET CurrentValue = CurrentValue + 1,
+                    LastUpdated = GETUTCDATE()
+                OUTPUT INSERTED.CurrentValue
+                WHERE Name = {0}", sequenceName)
                 .ToListAsync();
 
             var result = results.FirstOrDefault();

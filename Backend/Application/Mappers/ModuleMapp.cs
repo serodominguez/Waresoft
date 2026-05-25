@@ -23,7 +23,7 @@ namespace Application.Mappers
                 IdModule = model.Id,
                 ModuleName = model.ModuleName,
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusModule = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusModule = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
     }

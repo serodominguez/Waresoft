@@ -56,7 +56,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    stores = stores.Where(x => x.Status == stateValue);
+                    stores = stores.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -91,7 +91,7 @@ namespace Application.Services
             try
             {
                 var stores = (await _unitOfWork.StoreQuery.GetStoresSelectQueryable()
-                    .Where(s => s.Status == true)
+                    .Where(s => s.IsActive == true)
                     .ToListAsync());
 
                 if (stores is not null && stores.Any())
@@ -165,7 +165,7 @@ namespace Application.Services
                 var store = StoreMapp.StoresMapping(requestDto);
                 store.AuditCreateUser = authenticatedUserId;
                 store.AuditCreateDate = DateTime.Now;
-                store.Status = true;
+                store.IsActive = true;
 
                 await _unitOfWork.StoreCommand.AddAsync(store);
 
@@ -273,7 +273,7 @@ namespace Application.Services
 
                 store.AuditUpdateUser = authenticatedUserId;
                 store.AuditUpdateDate = DateTime.Now;
-                store.Status = true;
+                store.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -317,7 +317,7 @@ namespace Application.Services
 
                 store.AuditUpdateUser = authenticatedUserId;
                 store.AuditUpdateDate = DateTime.Now;
-                store.Status = false;
+                store.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -361,7 +361,7 @@ namespace Application.Services
 
                 store.AuditDeleteUser = authenticatedUserId;
                 store.AuditDeleteDate = DateTime.Now;
-                store.Status = false;
+                store.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

@@ -14,6 +14,9 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(d => d.IdReceipt)
                 .IsRequired();
 
+            builder.Property(d => d.Item)
+                .IsRequired();
+
             builder.Property(d => d.IdProduct)
                 .IsRequired();
 

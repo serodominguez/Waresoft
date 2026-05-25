@@ -30,7 +30,7 @@ namespace Application.Mappers
                 IdentificationNumber = model.IdentificationNumber.ToSentenceCase(),
                 PhoneNumber = model.PhoneNumber,
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusCustomer = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusCustomer = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
     }

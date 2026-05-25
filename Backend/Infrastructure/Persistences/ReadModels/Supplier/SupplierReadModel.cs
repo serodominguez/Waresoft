@@ -8,6 +8,6 @@
         public string? PhoneNumber { get; init; }
         public string? Email { get; init; }
         public DateTime? AuditCreateDate { get; init; }
-        public bool Status { get; init; }
+        public bool IsActive { get; init; }
     }
 }

@@ -14,6 +14,6 @@
         public int IdCategory { get; init; }
         public string? CategoryName { get; init; }
         public DateTime? AuditCreateDate { get; init; }
-        public bool Status { get; init; }
+        public bool IsActive { get; init; }
     }
 }

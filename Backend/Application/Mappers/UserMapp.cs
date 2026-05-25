@@ -39,7 +39,7 @@ namespace Application.Mappers
                 IdStore = model.IdStore,
                 StoreName = model.StoreName.ToTitleCase(),
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusUser = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusUser = ((States)(model.IsActive ? 1 : 0)).ToString()
                 //StatusUser = ((States)((model.Status ?? false) ? 1 : 0)).ToString()
             };
         }

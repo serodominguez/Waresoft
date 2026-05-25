@@ -64,7 +64,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    products = products.Where(x => x.Status == stateValue);
+                    products = products.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -148,7 +148,7 @@ namespace Application.Services
                 product.AuditCreateUser = authenticatedUserId;
                 product.AuditCreateDate = DateTime.Now;
                 product.Replenishment = 1;
-                product.Status = true;
+                product.IsActive = true;
 
                 await _unitOfWork.ProductCommand.AddAsync(product);
 
@@ -270,7 +270,7 @@ namespace Application.Services
                 product.AuditUpdateUser = authenticatedUserId;
                 product.AuditUpdateDate = DateTime.Now;
                 product.Replenishment = 1;
-                product.Status = true;
+                product.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -315,7 +315,7 @@ namespace Application.Services
                 product.AuditUpdateUser = authenticatedUserId;
                 product.AuditUpdateDate = DateTime.Now;
                 product.Replenishment = 2;
-                product.Status = false;
+                product.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -364,7 +364,7 @@ namespace Application.Services
                 product.AuditDeleteDate = DateTime.Now;
                 product.Image = null;
                 product.Replenishment = 3;
-                product.Status = false;
+                product.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

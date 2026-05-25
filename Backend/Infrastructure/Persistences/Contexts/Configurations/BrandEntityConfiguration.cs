@@ -19,8 +19,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(b => b.BrandName)
                 .HasMaxLength(25)
                 .IsRequired();
-
-            builder.Property(b => b.Status);
         }
     }
 }

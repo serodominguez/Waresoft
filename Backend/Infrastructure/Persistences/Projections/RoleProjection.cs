@@ -12,7 +12,7 @@ namespace Infrastructure.Persistences.Projections
                 Id = r.Id,
                 RoleName = r.RoleName,
                 AuditCreateDate = r.AuditCreateDate,
-                Status = r.Status
+                IsActive = r.IsActive
             };
 
         public static Expression<Func<RoleEntity, RoleSelectReadModel>> ToSelect =>
@@ -20,7 +20,7 @@ namespace Infrastructure.Persistences.Projections
             {
                 Id = r.Id,
                 RoleName = r.RoleName,
-                Status = r.Status,
+                IsActive = r.IsActive
             };
     }
 }

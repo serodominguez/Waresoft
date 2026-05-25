@@ -47,7 +47,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    brands = brands.Where(x => x.Status == stateValue);
+                    brands = brands.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -82,7 +82,7 @@ namespace Application.Services
             try
             {
                 var brands = await _unitOfWork.BrandQuery.GetBrandsSelectQueryable()
-                    .Where(b => b.Status == true)
+                    .Where(b => b.IsActive == true)
                     .ToListAsync();
 
                 if (brands is not null && brands.Any())
@@ -155,7 +155,7 @@ namespace Application.Services
                 var brand = BrandMapp.BrandsMapping(requestDto);
                 brand.AuditCreateUser = authenticatedUserId;
                 brand.AuditCreateDate = DateTime.Now;
-                brand.Status = true;
+                brand.IsActive = true;
 
                 await _unitOfWork.BrandCommand.AddAsync(brand);
 
@@ -255,7 +255,7 @@ namespace Application.Services
 
                 brand.AuditUpdateUser = authenticatedUserId;
                 brand.AuditUpdateDate = DateTime.Now;
-                brand.Status = true;
+                brand.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -299,7 +299,7 @@ namespace Application.Services
 
                 brand.AuditUpdateUser = authenticatedUserId;
                 brand.AuditUpdateDate = DateTime.Now;
-                brand.Status = false;
+                brand.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -343,7 +343,7 @@ namespace Application.Services
 
                 brand.AuditDeleteUser = authenticatedUserId;
                 brand.AuditDeleteDate = DateTime.Now;
-                brand.Status = false;
+                brand.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

@@ -24,7 +24,7 @@ namespace Application.Mappers
                 IdBrand = model.Id,
                 BrandName = model.BrandName.ToTitleCase(),
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusBrand = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusBrand = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
 

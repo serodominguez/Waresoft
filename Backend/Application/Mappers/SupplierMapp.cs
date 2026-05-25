@@ -30,7 +30,7 @@ namespace Application.Mappers
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusSupplier = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusSupplier = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
 

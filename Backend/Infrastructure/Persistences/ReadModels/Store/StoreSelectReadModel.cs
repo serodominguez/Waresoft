@@ -4,6 +4,6 @@
     {
         public int Id { get; init; }
         public string? StoreName { get; init; }
-        public bool Status { get; init; }
+        public bool IsActive { get; init; }
     }
 }

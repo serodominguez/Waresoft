@@ -50,7 +50,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    suppliers = suppliers.Where(x => x.Status == stateValue);
+                    suppliers = suppliers.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -84,7 +84,7 @@ namespace Application.Services
             try
             {
                 var suppliers = (await _unitOfWork.SupplierQuery.GetSuppliersSelectQueryable()
-                    .Where(s => s.Status == true)
+                    .Where(s => s.IsActive == true)
                     .ToListAsync());
 
                 if (suppliers is not null && suppliers.Any())
@@ -157,7 +157,7 @@ namespace Application.Services
                 var supplier = SupplierMapp.SuppliersMapping(requestDto);
                 supplier.AuditCreateUser = authenticatedUserId;
                 supplier.AuditCreateDate = DateTime.Now;
-                supplier.Status = true;
+                supplier.IsActive = true;
 
                 await _unitOfWork.SupplierCommand.AddAsync(supplier);
 
@@ -260,7 +260,7 @@ namespace Application.Services
 
                 supplier.AuditUpdateUser = authenticatedUserId;
                 supplier.AuditUpdateDate = DateTime.Now;
-                supplier.Status = true;
+                supplier.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -304,7 +304,7 @@ namespace Application.Services
 
                 supplier.AuditUpdateUser = authenticatedUserId;
                 supplier.AuditUpdateDate = DateTime.Now;
-                supplier.Status = false;
+                supplier.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -348,7 +348,7 @@ namespace Application.Services
 
                 supplier.AuditDeleteUser = authenticatedUserId;
                 supplier.AuditDeleteDate = DateTime.Now;
-                supplier.Status = false;
+                supplier.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

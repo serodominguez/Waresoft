@@ -13,7 +13,7 @@ namespace Infrastructure.Persistences.Projections
                 CategoryName = c.CategoryName,
                 Description = c.Description,
                 AuditCreateDate = c.AuditCreateDate,
-                Status = c.Status
+                IsActive = c.IsActive
             };
 
         public static Expression<Func<CategoryEntity, CategorySelectReadModel>> ToSelect =>
@@ -21,7 +21,7 @@ namespace Infrastructure.Persistences.Projections
             {
                 Id = c.Id,
                 CategoryName = c.CategoryName,
-                Status = c.Status,
+                IsActive = c.IsActive
             };
     }
 }

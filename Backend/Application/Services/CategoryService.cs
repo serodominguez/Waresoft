@@ -51,7 +51,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    categories = categories.Where(x => x.Status == stateValue);
+                    categories = categories.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -86,7 +86,7 @@ namespace Application.Services
             try
             {
                 var categories = await _unitOfWork.CategoryQuery.GetCategoriesSelectQueryable()
-                    .Where(c => c.Status == true)
+                    .Where(c => c.IsActive == true)
                     .ToListAsync();
 
                 if (categories is not null && categories.Any())
@@ -159,7 +159,7 @@ namespace Application.Services
                 var category = CategoryMapp.CategoriesMapping(requestDto);
                 category.AuditCreateUser = authenticatedUserId;
                 category.AuditCreateDate = DateTime.Now;
-                category.Status = true;
+                category.IsActive = true;
 
                 await _unitOfWork.CategoryCommand.AddAsync(category);
 
@@ -259,7 +259,7 @@ namespace Application.Services
 
                 category.AuditUpdateUser = authenticatedUserId;
                 category.AuditUpdateDate = DateTime.Now;
-                category.Status = true;
+                category.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -302,7 +302,7 @@ namespace Application.Services
 
                 category.AuditUpdateUser = authenticatedUserId;
                 category.AuditUpdateDate = DateTime.Now;
-                category.Status = false;
+                category.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -346,7 +346,7 @@ namespace Application.Services
 
                 category.AuditDeleteUser = authenticatedUserId;
                 category.AuditDeleteDate = DateTime.Now;
-                category.Status = false;
+                category.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

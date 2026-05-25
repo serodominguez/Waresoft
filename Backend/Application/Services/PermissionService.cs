@@ -23,7 +23,7 @@ namespace Application.Services
             var user = await _unitOfWork.UserQuery.GetUserByIdQueryable(userId)
                 .FirstOrDefaultAsync();
 
-            if (user == null || !user.Status) return false;
+            if (user == null || !user.IsActive) return false;
 
             return await _unitOfWork.PermissionQuery.GetPermissionsAsync(user.IdRole, moduleName, actionName);
         }
@@ -57,9 +57,9 @@ namespace Application.Services
                         return response;
                     }
 
-                    if (permission.Status != existing.Status)
+                    if (permission.Status != existing.IsActive)
                     {
-                        existing.Status = permission.Status;
+                        existing.IsActive = permission.Status;
                         existing.AuditUpdateUser = authenticatedUserId;
                         existing.AuditUpdateDate = DateTime.Now;
                         hasChanges = true;
@@ -105,7 +105,7 @@ namespace Application.Services
                 var user = await _unitOfWork.UserQuery.GetUserByIdQueryable(userId)
                     .FirstOrDefaultAsync();
 
-                if (user == null || !user.Status)
+                if (user == null || !user.IsActive)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_USER_NOT_FOUND;
@@ -118,7 +118,7 @@ namespace Application.Services
                 if (permissions != null && permissions.Any())
                 {
                     response.Data = permissions
-                                .Where(p => p.Status && p.StatusModule && p.StatusAction)
+                                .Where(p => p.IsActive && p.IsActiveModule && p.IsActiveAction)
                                 .Select(PermissionMapp.PermissionsByUserResponseDtoMapping);
 
                     response.IsSuccess = true;
@@ -148,7 +148,7 @@ namespace Application.Services
                     .AsNoTracking()
                     .FirstOrDefaultAsync();
 
-                if (role == null || !role.Status)
+                if (role == null || !role.IsActive)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_USER_NOT_FOUND;
@@ -161,7 +161,7 @@ namespace Application.Services
                 if (permissions != null && permissions.Any())
                 {
                     response.Data = permissions
-                                .Where(p => p.StatusModule && p.StatusAction)
+                                .Where(p => p.IsActiveModule && p.IsActiveAction)
                                 .Select(PermissionMapp.PermissionsByRoleResponseDtoMapping);
 
                     response.IsSuccess = true;

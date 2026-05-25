@@ -15,7 +15,7 @@ namespace Infrastructure.Persistences.Projections
                 IdentificationNumber = c.IdentificationNumber,
                 PhoneNumber = c.PhoneNumber,
                 AuditCreateDate = c.AuditCreateDate,
-                Status = c.Status
+                IsActive = c.IsActive
             };
 
         public static Expression<Func<CustomerEntity, CustomerSelectReadModel>> ToSelect =>
@@ -24,7 +24,7 @@ namespace Infrastructure.Persistences.Projections
                 Id = c.Id,
                 Names = c.Names,
                 LastNames = c.LastNames,
-                Status = c.Status
+                IsActive = c.IsActive
             };
     }
 }

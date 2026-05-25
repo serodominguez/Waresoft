@@ -21,7 +21,7 @@ namespace Infrastructure.Persistences.Projections
                 IdCategory = p.IdCategory,
                 CategoryName = p.Category.CategoryName,
                 AuditCreateDate = p.AuditCreateDate,
-                Status = p.Status
+                IsActive = p.IsActive
             };
     }
 }

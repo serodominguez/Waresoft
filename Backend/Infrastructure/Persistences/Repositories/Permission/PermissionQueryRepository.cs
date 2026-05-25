@@ -23,9 +23,9 @@ namespace Infrastructure.Persistences.Repositories.Permission
                     p.IdRole == roleId &&
                     p.Module.ModuleName == moduleName &&
                     p.Action.ActionName == actionName &&
-                    p.Status &&
-                    p.Module.Status &&
-                    p.Action.Status
+                    p.IsActive &&
+                    p.Module.IsActive &&
+                    p.Action.IsActive
                 );
         }
 

@@ -9,7 +9,6 @@
         public int? IdUser { get; set; }
         public int IdStore { get; set; }
         public int Status { get; set; }
-        public bool IsActive { get; set; }
 
         public virtual UserEntity? User { get; set; }
         public virtual StoreEntity Store { get; set; } = null!;

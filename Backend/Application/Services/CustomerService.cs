@@ -53,7 +53,7 @@ namespace Application.Services
                 if (filters.StateFilter is not null)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    customers = customers.Where(x => x.Status == stateValue);
+                    customers = customers.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -130,7 +130,7 @@ namespace Application.Services
                 var customer = CustomerMapp.CustomersMapping(requestDto);
                 customer.AuditCreateUser = authenticatedUserId;
                 customer.AuditCreateDate = DateTime.Now;
-                customer.Status = true;
+                customer.IsActive = true;
 
                 await _unitOfWork.CustomerCommand.AddAsync(customer);
 
@@ -232,7 +232,7 @@ namespace Application.Services
 
                 customer.AuditUpdateUser = authenticatedUserId;
                 customer.AuditUpdateDate = DateTime.Now;
-                customer.Status = true;
+                customer.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -276,7 +276,7 @@ namespace Application.Services
 
                 customer.AuditUpdateUser = authenticatedUserId;
                 customer.AuditUpdateDate = DateTime.Now;
-                customer.Status = false;
+                customer.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -320,7 +320,7 @@ namespace Application.Services
 
                 customer.AuditDeleteUser = authenticatedUserId;
                 customer.AuditDeleteDate = DateTime.Now;
-                customer.Status = false;
+                customer.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

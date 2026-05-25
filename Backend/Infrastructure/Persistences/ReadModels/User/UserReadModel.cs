@@ -11,7 +11,7 @@
         public byte[]? PasswordHash { get; init; }
         public int IdRole { get; init; }
         public int IdStore { get; init; }
-        public bool Status { get; init; }
+        public bool IsActive { get; init; }
         public DateTime? AuditCreateDate { get; init; }
         public string? RoleName { get; init; }
         public string? StoreName { get; init; }

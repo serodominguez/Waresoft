@@ -43,7 +43,7 @@ namespace Infrastructure.Persistences.Repositories.User
                 .Select(UserProjection.ToSelect);
         }
 
-        public async Task<UserAccountReadModel?> GetUserAccountAsync(string userName, bool status)
+        public async Task<UserAccountReadModel?> GetUserAccountAsync(string userName, bool IsActive)
         {
             const string sql = @"
                                 SELECT u.IdUser as Id, u.UserName, u.PasswordHash, u.PasswordSalt,
@@ -54,12 +54,12 @@ namespace Infrastructure.Persistences.Repositories.User
                                 WHERE u.AuditDeleteUser IS NULL 
                                 AND u.AuditDeleteDate IS NULL
                                 AND u.UserName = @UserName
-                                AND u.Status = @Status";
+                                AND u.IsActive = @IsActive";
 
             using var connection = new SqlConnection(_connectionString);
             var result = await connection.QueryFirstOrDefaultAsync<UserAccountReadModel>(
                 sql,
-                new { UserName = userName, Status = status ? 1 : 0 }
+                new { UserName = userName, IsActive = IsActive ? 1 : 0 }
             );
 
             return result;

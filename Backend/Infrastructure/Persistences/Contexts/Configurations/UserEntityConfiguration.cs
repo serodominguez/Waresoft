@@ -49,8 +49,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.HasOne(s => s.Store)
                 .WithMany(u => u.User)
                 .HasForeignKey(s => s.IdStore);
-
-            builder.Property(u => u.Status);
         }
     }
 }

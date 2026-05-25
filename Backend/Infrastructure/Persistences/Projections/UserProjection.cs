@@ -21,7 +21,7 @@ namespace Infrastructure.Persistences.Projections
                 IdStore = u.IdStore,
                 StoreName = u.Store.StoreName,
                 AuditCreateDate = u.AuditCreateDate,
-                Status = u.Status
+                IsActive = u.IsActive
             };
 
         public static Expression<Func<UserEntity, UserSelectReadModel>> ToSelect =>
@@ -30,7 +30,7 @@ namespace Infrastructure.Persistences.Projections
                 Id = u.Id,
                 Names = u.Names, 
                 LastNames = u.LastNames,
-                Status = u.Status,
+                IsActive = u.IsActive
             };
     }
 }

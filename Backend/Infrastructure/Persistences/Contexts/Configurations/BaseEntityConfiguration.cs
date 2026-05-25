@@ -16,6 +16,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(e => e.AuditDeleteDate);
 
+            builder.Property(e => e.IsActive);
         }
     }
 }

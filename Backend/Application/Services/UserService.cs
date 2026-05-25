@@ -53,7 +53,7 @@ namespace Application.Services
                 if (filters.StateFilter.HasValue)
                 {
                     var stateValue = Convert.ToBoolean(filters.StateFilter);
-                    users = users.Where(x => x.Status == stateValue);
+                    users = users.Where(x => x.IsActive == stateValue);
                 }
 
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
@@ -89,7 +89,7 @@ namespace Application.Services
             try
             {
                 var users = await _unitOfWork.UserQuery.GetUsersSelectQueryable()
-                    .Where(u => u.Status == true)
+                    .Where(u => u.IsActive == true)
                     .ToListAsync();
 
                 if (users is not null && users.Any())
@@ -166,7 +166,7 @@ namespace Application.Services
                 user.PasswordSalt = passwordSalt;
                 user.AuditCreateUser = authenticatedUserId;
                 user.AuditCreateDate = DateTime.Now;
-                user.Status = true;
+                user.IsActive = true;
 
                 await _unitOfWork.UserCommand.AddAsync(user);
 
@@ -280,7 +280,7 @@ namespace Application.Services
 
                 user.AuditUpdateUser = authenticatedUserId;
                 user.AuditUpdateDate = DateTime.Now;
-                user.Status = true;
+                user.IsActive = true;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -324,7 +324,7 @@ namespace Application.Services
 
                 user.AuditUpdateUser = authenticatedUserId;
                 user.AuditUpdateDate = DateTime.Now;
-                user.Status = false;
+                user.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 
@@ -368,7 +368,7 @@ namespace Application.Services
 
                 user.AuditDeleteUser = authenticatedUserId;
                 user.AuditDeleteDate = DateTime.Now;
-                user.Status = false;
+                user.IsActive = false;
 
                 var recordsAffected = await _unitOfWork.SaveChangesAsync();
 

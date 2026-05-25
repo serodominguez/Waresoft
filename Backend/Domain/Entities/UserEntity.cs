@@ -11,7 +11,6 @@
         public string? PhoneNumber { get; set; }
         public int IdRole { get; set; }
         public int IdStore { get; set; }
-        public bool Status { get; set; }
 
         public virtual RoleEntity Role { get; set; } = null!;
         public virtual StoreEntity Store { get; set; } = null!;

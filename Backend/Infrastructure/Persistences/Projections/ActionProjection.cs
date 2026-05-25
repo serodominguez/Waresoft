@@ -11,7 +11,7 @@ namespace Infrastructure.Persistences.Projections
             {
                 Id = a.Id,
                 ActionName = a.ActionName,
-                Status = a.Status
+                IsActive = a.IsActive
             };
     }
 }

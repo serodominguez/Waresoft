@@ -11,13 +11,13 @@ namespace Infrastructure.Persistences.Projections
             {
                 Id = p.Id,
                 IdRole = p.IdRole,
-                Status = p.Status,
+                IsActive = p.IsActive,
                 IdModule = p.IdModule,
                 ModuleName = p.Module.ModuleName,
-                StatusModule = p.Module.Status,
+                IsActiveModule = p.Module.IsActive,
                 IdAction = p.IdAction,
                 ActionName = p.Action.ActionName,
-                StatusAction = p.Action.Status
+                IsActiveAction = p.Action.IsActive
             };
     }
 }

@@ -19,7 +19,7 @@ namespace Infrastructure.Persistences.Projections
                 ProfitMargin = s.ProfitMargin,
                 Type = s.Type,
                 AuditCreateDate = s.AuditCreateDate,
-                Status = s.Status
+                IsActive = s.IsActive
             };
 
         public static Expression<Func<StoreEntity, StoreSelectReadModel>> ToSelect =>
@@ -27,7 +27,7 @@ namespace Infrastructure.Persistences.Projections
             {
                 Id = s.Id,
                 StoreName = s.StoreName,
-                Status = s.Status,
+                IsActive = s.IsActive
             };
     }
 }

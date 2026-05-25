@@ -44,8 +44,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(s => s.Type)
                 .HasMaxLength(15)
                 .IsRequired();
-
-            builder.Property(s => s.Status);
         }
     }
 }

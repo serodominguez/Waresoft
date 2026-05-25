@@ -10,7 +10,6 @@
         public int IdStoreOrigin { get; set; }
         public int IdStoreDestination { get; set; }
         public int Status { get; set; }
-        public bool IsActive { get; set; }
 
         public virtual StoreEntity StoreOrigin { get; set; } = null!;
         public virtual StoreEntity StoreDestination { get; set; } = null!;

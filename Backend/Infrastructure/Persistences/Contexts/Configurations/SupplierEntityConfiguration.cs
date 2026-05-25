@@ -29,8 +29,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(s => s.Email)
                 .HasMaxLength(50);
-
-            builder.Property(s => s.Status);
         }
     }
 }

@@ -19,8 +19,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(a => a.ActionName)
                 .HasMaxLength(10)
                 .IsRequired();
-
-            builder.Property(a => a.Status);
         }
     }
 }

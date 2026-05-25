@@ -23,7 +23,7 @@ namespace Infrastructure.Persistences.Projections
                 UnitMeasure = i.Product.UnitMeasure,
                 BrandName = i.Product.Brand.BrandName,
                 CategoryName = i.Product.Category.CategoryName,
-                Status = i.Product.Status,
+                IsActive = i.Product.IsActive,
                 AuditCreateDate = i.Product.AuditCreateDate
             };
     }

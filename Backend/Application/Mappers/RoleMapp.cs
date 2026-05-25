@@ -24,7 +24,7 @@ namespace Application.Mappers
                 IdRole = model.Id,
                 RoleName = model.RoleName.ToSentenceCase(),
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusRole = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusRole = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
 

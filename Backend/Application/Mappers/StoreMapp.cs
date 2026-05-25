@@ -38,7 +38,7 @@ namespace Application.Mappers
                 ProfitMargin= model.ProfitMargin,
                 Type = model.Type.ToSentenceCase(),
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusStore = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusStore = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
 

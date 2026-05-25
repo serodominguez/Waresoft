@@ -22,8 +22,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(c => c.Description)
                 .HasMaxLength(50);
-
-            builder.Property(c => c.Status);
         }
     }
 }

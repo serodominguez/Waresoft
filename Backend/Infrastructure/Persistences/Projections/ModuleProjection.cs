@@ -12,7 +12,7 @@ namespace Infrastructure.Persistences.Projections
                 Id = m.Id,
                 ModuleName = m.ModuleName,
                 AuditCreateDate = m.AuditCreateDate,
-                Status = m.Status
+                IsActive = m.IsActive
             };
     }
 }

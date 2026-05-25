@@ -39,7 +39,7 @@ namespace Application.Mappers
                 IdCategory = model.IdCategory,
                 CategoryName = model.CategoryName.ToSentenceCase(),
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                StatusProduct = ((States)(model.Status ? 1 : 0)).ToString()
+                StatusProduct = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
     }

@@ -69,7 +69,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
 
             if (stateFilter.HasValue)
             {
-                productFilters += " AND p.Status = @State";
+                productFilters += " AND p.IsActive = @State";
                 parameters.Add("State", stateFilter.Value ? 1 : 0, DbType.Int16);
             }
 
@@ -113,7 +113,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                             FROM GOODS_RECEIPT_DETAILS d 
                             INNER JOIN GOODS_RECEIPT r ON r.IdReceipt = d.IdReceipt 
                             WHERE r.IdStore = @StoreId 
-                            AND r.Active = 1 
+                            AND r.IsActive = 1 
                             AND r.Status = 1
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)
                             UNION ALL
@@ -123,7 +123,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                             FROM GOODS_ISSUE_DETAILS d 
                             INNER JOIN GOODS_ISSUE i ON i.IdIssue = d.IdIssue 
                             WHERE i.IdStore = @StoreId 
-                            AND i.Active = 1 
+                            AND i.IsActive= 1 
                             AND i.Status = 1
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)
                             UNION ALL
@@ -133,7 +133,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                             FROM TRANSFERS_DETAILS d 
                             INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer 
                             WHERE t.IdStoreDestination = @StoreId 
-                            AND t.Active = 1 
+                            AND t.IsActive = 1 
                             AND t.Status != 0
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)
                             UNION ALL
@@ -143,7 +143,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                             FROM TRANSFERS_DETAILS d 
                             INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer 
                             WHERE t.IdStoreOrigin = @StoreId 
-                            AND t.Active = 1 
+                            AND t.IsActive = 1 
                             AND t.Status != 0
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)) t GROUP BY IdProduct)
         
@@ -202,7 +202,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
 
             if (stateFilter.HasValue)
             {
-                filters += " AND p.Status = @State";
+                filters += " AND p.IsActive = @State";
                 parameters.Add("State", stateFilter.Value ? 1 : 0, DbType.Int16);
             }
 
@@ -277,7 +277,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                                             INNER JOIN GOODS_RECEIPT r ON r.IdReceipt = d.IdReceipt
                                             WHERE d.IdProduct = @ProductId 
                                             AND r.IdStore = @StoreId 
-                                            AND r.Active = 1 
+                                            AND r.IsActive = 1 
                                             AND r.Status = 1
                                             UNION ALL
 
@@ -290,7 +290,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                                             INNER JOIN GOODS_ISSUE i ON i.IdIssue = d.IdIssue
                                             WHERE d.IdProduct = @ProductId 
                                             AND i.IdStore = @StoreId 
-                                            AND i.Active = 1 
+                                            AND i.IsActive = 1 
                                             AND i.Status = 1
                                             UNION ALL
 
@@ -303,7 +303,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                                             INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer
                                             WHERE d.IdProduct = @ProductId 
                                             AND t.IdStoreDestination = @StoreId 
-                                            AND t.Active = 1 
+                                            AND t.IsActive = 1 
                                             AND t.Status != 0
                                             UNION ALL
 
@@ -316,7 +316,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
                                             INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer
                                             WHERE d.IdProduct = @ProductId 
                                             AND t.IdStoreOrigin = @StoreId 
-                                            AND t.Active = 1 
+                                            AND t.IsActive = 1 
                                             AND t.Status != 0), MovementsWithAccumulated AS (
                                             SELECT IdProduct, Quantity, IdMovement, Code, Date, MovementType, Type, State,
                                             SUM(Quantity) OVER (ORDER BY Date, IdMovement ROWS UNBOUNDED PRECEDING) AS AccumulatedStock

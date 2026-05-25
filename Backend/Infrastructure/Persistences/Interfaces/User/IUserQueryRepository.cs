@@ -7,6 +7,6 @@ namespace Infrastructure.Persistences.Interfaces.User
         IQueryable<UserReadModel> GetUsersListQueryable();
         IQueryable<UserReadModel> GetUserByIdQueryable(int userId);
         IQueryable<UserSelectReadModel> GetUsersSelectQueryable();
-        Task<UserAccountReadModel?> GetUserAccountAsync(string userName, bool status);
+        Task<UserAccountReadModel?> GetUserAccountAsync(string userName, bool IsActive);
     }
 }

@@ -16,7 +16,7 @@ namespace Domain.Entities
         public virtual ProductEntity Product { get; set; } = null!;
         public virtual StoreEntity Store { get; set; } = null!;
 
-        [NotMapped]
-        public int CalculatedStock { get; set; }
+        //[NotMapped]
+        //public int CalculatedStock { get; set; }
     }
 }

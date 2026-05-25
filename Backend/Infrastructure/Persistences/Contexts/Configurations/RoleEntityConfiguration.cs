@@ -19,8 +19,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(r => r.RoleName)
                 .HasMaxLength(20)
                 .IsRequired();
-
-            builder.Property(r => r.Status);
         }
     }
 }

@@ -16,7 +16,7 @@
         public string? UnitMeasure { get; init; }
         public string? BrandName { get; init; }
         public string? CategoryName { get; init; }
-        public bool Status{ get; init; }
+        public bool IsActive { get; init; }
         public DateTime? AuditCreateDate { get; init; }
     }
 }

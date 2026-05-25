@@ -38,9 +38,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
 
             builder.Property(i => i.Status);
 
-            builder.Property(t => t.IsActive)
-                .HasColumnName("Active");
-
             builder.HasOne(u => u.User)
                 .WithMany(i => i.GoodsIssue)
                 .HasForeignKey(u => u.IdUser);
