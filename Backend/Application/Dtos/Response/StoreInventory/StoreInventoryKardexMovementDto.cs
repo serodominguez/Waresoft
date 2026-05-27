@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-
-namespace Application.Dtos.Response.StoreInventory
+﻿namespace Application.Dtos.Response.StoreInventory
 {
     public class StoreInventoryKardexMovementDto
     {

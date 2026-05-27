@@ -10,6 +10,7 @@
             <td>{{ (item as Store).storeName }}</td>
             <td>{{ (item as Store).manager }}</td>
             <td>{{ (item as Store).address }}</td>
+            <td>{{ (item as Store).phoneNumber }}</td>
             <td>{{ (item as Store).city }}</td>
             <td>{{ (item as Store).auditCreateDate }}</td>
             <td>
@@ -186,6 +187,7 @@ const headers = computed(() => [
   { title: 'Unidad',           key: 'storeName',      sortable: false },
   { title: 'Encargado',        key: 'manager',        sortable: false },
   { title: 'Dirección',        key: 'address',        sortable: false },
+  { title: 'Teléfono',         key: 'phoneNumber',    sortable: false },
   { title: 'Ciudad',           key: 'city',           sortable: false },
   { title: 'Fecha de creación',key: 'auditCreateDate', sortable: false },
   { title: 'Estado',           key: 'statusStore',    sortable: false },

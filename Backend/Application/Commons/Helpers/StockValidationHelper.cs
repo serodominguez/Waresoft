@@ -8,7 +8,7 @@ namespace Application.Commons.Helpers
     {
         public static async Task<(bool IsValid, string ErrorMessage)> ValidateStockAvailabilityAsync(IUnitOfWork unitOfWork, List<int> productIds, Dictionary<int, int> quantitiesByProduct, int storeId)
         {
-            var stocks = await unitOfWork.StoreInventoryQuery.GetInventoryQueryable(storeId)
+            var stocks = await unitOfWork.StoreInventoryQuery.GetInventoryListQueryable(storeId)
                 .Where(s => productIds.Contains(s.IdProduct))
                 .ToListAsync();
 

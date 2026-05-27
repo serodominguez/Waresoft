@@ -19,9 +19,29 @@ namespace Application.Mappers
             };
         }
 
-        public static StoreInventoryResponseDto StoreInventoryResponseDtoMapping(StoreInventoryListReadModel model)
+        public static StoreInventoryResponseDto StoreInventoryResponseMapping(StoreInventoryReadModel model)
         {
             return new StoreInventoryResponseDto
+            {
+                IdStore = model.IdStore,
+                IdProduct = model.IdProduct,
+                StockAvailable = model.StockAvailable,
+                StockInTransit = model.StockInTransit,
+                Price = model.Price,
+                Replenishment = ((Replenishment)(model.Replenishment!)).ToString().ReplaceUnderscoresWithSpace(),
+                Code = model.Code,
+                Description = model.Description?.ToSentenceCase(),
+                Material = model.Material?.ToSentenceCase(),
+                Color = model.Color?.ToSentenceCase(),
+                UnitMeasure = model.UnitMeasure?.ToSentenceCase(),
+                BrandName = model.BrandName?.ToSentenceCase(),
+                CategoryName = model.CategoryName?.ToSentenceCase()
+            };
+        }
+
+        public static StoreInventoryCalculatedResponseDto StoreInventoryCalculatedMapping(InventoryCalculatedReadModel model)
+        {
+            return new StoreInventoryCalculatedResponseDto
             {
                 IdStore = model.IdStore,
                 IdProduct = model.IdProduct,

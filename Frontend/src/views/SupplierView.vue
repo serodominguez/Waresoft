@@ -12,7 +12,7 @@
     <SupplierForm v-model="form" :supplier="selectedSupplier" @saved="handleSaved" />
 
     <CommonModal v-model="modal" :itemId="selectedSupplier?.idSupplier || 0" :item="selectedSupplier?.companyName || ''"
-      :action="action" moduleName="supplier" entityName="Supplier" name="Proveedor" gender="male"
+      :action="action" moduleName="supplier" name="Proveedor" gender="male"
       @action-completed="handleActionCompleted" />
   </div>
 </template>

@@ -12,7 +12,7 @@
     <CustomerForm v-model="form" :customer="selectedCustomer" @saved="handleSaved" />
 
     <CommonModal v-model="modal" :itemId="selectedCustomer?.idCustomer || 0" :item="selectedCustomer?.names || ''"
-      :action="action" moduleName="customer" entityName="Customer" name="Cliente" gender="male"
+      :action="action" moduleName="customer" name="Cliente" gender="male"
       @action-completed="handleActionCompleted" />
   </div>
 </template>

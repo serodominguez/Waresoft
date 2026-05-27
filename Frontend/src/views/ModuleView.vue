@@ -12,7 +12,7 @@
     <ModuleForm v-model="form" :module="selectedModule" @saved="handleSaved" />
 
     <CommonModal v-model="modal" :itemId="selectedModule?.idModule || 0" :item="selectedModule?.moduleName || ''"
-      :action="action" moduleName="module" entityName="Module" name="Módulo" gender="male"
+      :action="action" moduleName="module" name="Módulo" gender="male"
       @action-completed="handleActionCompleted" />
   </div>
 </template>

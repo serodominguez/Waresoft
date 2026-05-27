@@ -57,9 +57,9 @@ const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePaginat
   }
 );
 
-const inventories     = computed(() => inventoryStore.inventories);
+const inventories     = computed(() => inventoryStore.items);
 const loading         = computed(() => inventoryStore.loading);
-const totalInventories = computed(() => inventoryStore.totalInventories);
+const totalInventories = computed(() => inventoryStore.totalItems);
 
 const canCreate   = computed(() => authStore.hasPermission('inventario', 'crear'));
 const canRead     = computed(() => authStore.hasPermission('inventario', 'leer'));

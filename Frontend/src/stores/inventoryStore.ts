@@ -1,31 +1,38 @@
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
 import { ref, computed } from 'vue';
 import { Inventory, InventoryPivot } from '@/interfaces/inventoryInterface';
 import { inventoryService } from '@/services/inventoryService';
 import { FilterParams } from '@/interfaces/baseInterface';
 import { useAuthStore } from '@/stores/authStore';
+import { createBaseStore } from '@/stores/baseStore';
+
+const useBaseInventoryStore = createBaseStore<Inventory>('inventory-base', inventoryService);
 
 export const useInventoryStore = defineStore('inventory', () => {
-  const items = ref<Inventory[]>([]);
-  const selectedItem = ref<Inventory | null>(null);
-  const totalItems = ref<number>(0);
+  const base = useBaseInventoryStore();
+
+  const {
+    items, selectedItem, totalItems, loading, lastFilterParams,
+    list, selected, total
+  } = storeToRefs(base);
+
+  // Estado extra
   const totalPivotItems = ref<number>(0);
-  const loading = ref<boolean>(false);
-  const lastFilterParams = ref<FilterParams>({});
   const inventoryPivot = ref<InventoryPivot | null>(null);
   const lastPivotFilterParams = ref<FilterParams>({});
-
-  const inventories = computed(() => items.value);
-  const selectedInventory = computed(() => selectedItem.value);
-  const totalInventories = computed(() => totalItems.value);
   const totalRows = computed(() => totalPivotItems.value);
 
+  // Computed para mantener compatibilidad con InventoryView
+  const inventories = computed(() => items.value);
+  const totalInventories = computed(() => totalItems.value);
+
+  // Vista principal → /Calculated
   async function fetchInventories(params: FilterParams = {}) {
     loading.value = true;
     items.value = [];
     lastFilterParams.value = params;
     try {
-      const result = await inventoryService.fetchAll(params);
+      const result = await inventoryService.fetchCalculated(params);
       if (!result.isSuccess) throw new Error(result.message ?? result.errors);
       items.value = result.data;
       totalItems.value = result.totalRecords;
@@ -48,12 +55,25 @@ export const useInventoryStore = defineStore('inventory', () => {
     }
   }
 
+  async function editInventoryPrice(inventory: Inventory) {
+    const result = await inventoryService.updatePrice(inventory);
+    if (!result.isSuccess) throw new Error(result.message ?? result.errors);
+    await fetchInventories(lastFilterParams.value);
+    return result;
+  }
+
+  async function downloadInventorySheet(params?: FilterParams) {
+    const authStore = useAuthStore();
+    const storeName = authStore.currentUser?.storeName;
+    await inventoryService.inventorySheet(params ?? lastFilterParams.value, storeName);
+  }
+
   async function downloadInventoriesExcel(params?: FilterParams) {
-    await inventoryService.downloadExcel(params ?? lastFilterParams.value);
+    await inventoryService.downloadCalculatedExcel(params ?? lastFilterParams.value);
   }
 
   async function downloadInventoriesPdf(params?: FilterParams) {
-    await inventoryService.downloadPdf(params ?? lastFilterParams.value);
+    await inventoryService.downloadCalculatedPdf(params ?? lastFilterParams.value);
   }
 
   async function downloadInventoryPivotExcel(params?: FilterParams) {
@@ -64,39 +84,28 @@ export const useInventoryStore = defineStore('inventory', () => {
     await inventoryService.downloadPivotPdf(params ?? lastPivotFilterParams.value);
   }
 
-  async function downloadInventorySheet(params?: FilterParams) {
-    const authStore = useAuthStore();
-    const storeName = authStore.currentUser?.storeName;
-    await inventoryService.inventorySheet(params ?? lastFilterParams.value, storeName);
-  }
-
-  async function editInventoryPrice(inventory: Inventory) {
-    const result = await inventoryService.updatePrice(inventory);
-    if (!result.isSuccess) throw new Error(result.message ?? result.errors);
-    await fetchInventories(lastFilterParams.value);
-    return result;
-  }
-
   return {
-    items,
-    selectedItem,
-    totalItems,
-    totalPivotItems,
-    totalRows,
-    loading,
-    lastFilterParams,
-    inventories,
-    inventoryPivot,
-    lastPivotFilterParams,
-    selectedInventory,
-    totalInventories,
+    // Estado base
+    items, selectedItem, totalItems, loading, lastFilterParams,
+    list, selected, total,
 
+    // Estado extra pivot
+    totalPivotItems, totalRows, inventoryPivot, lastPivotFilterParams,
+
+    // Vista principal → /Calculated
     fetchInventories,
-    fetchInventoryPivot,
     downloadInventoriesExcel,
+    downloadInventoriesPdf,
+
+    // Modal → /StoreInventory base
+    fetchAll: base.fetchAll,
+
+    // Pivot
+    fetchInventoryPivot,
     downloadInventoryPivotExcel,
     downloadInventoryPivotPdf,
-    downloadInventoriesPdf,
+
+    // Otros
     downloadInventorySheet,
     editInventoryPrice,
   };

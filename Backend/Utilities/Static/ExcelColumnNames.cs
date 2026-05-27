@@ -179,6 +179,7 @@
                 ("Unidad", "StoreName"),
                 ("Encargado", "Manager"),
                 ("Dirección", "Address"),
+                ("Teléfono", "PhoneNumber"),
                 ("Ciudad", "City"),
                 ("Fecha de creación", "AuditCreateDate"),
                 ("Estado", "StatusStore")

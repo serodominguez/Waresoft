@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Persistences.ReadModels.StoreInventory
 {
-    public record StoreInventoryListReadModel
+    public record InventoryCalculatedReadModel
     {
         public int IdStore { get; init; }
         public int IdProduct { get; init; }

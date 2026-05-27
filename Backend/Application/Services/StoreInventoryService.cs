@@ -1,5 +1,6 @@
 ﻿using Application.Commons.Bases.Request;
 using Application.Commons.Bases.Response;
+using Application.Commons.Ordering;
 using Application.Dtos.Request.StoreInventory;
 using Application.Dtos.Response.StoreInventory;
 using Application.Interfaces;
@@ -16,16 +17,84 @@ namespace Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<StoreInventoryRequestDto> _validator;
+        private readonly IOrderingQuery _orderingQuery;
 
-        public StoreInventoryService(IUnitOfWork unitOfWork, IValidator<StoreInventoryRequestDto> validator)
+        public StoreInventoryService(IUnitOfWork unitOfWork, IValidator<StoreInventoryRequestDto> validator, IOrderingQuery orderingQuery)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
+            _orderingQuery = orderingQuery;
         }
 
         public async Task<BaseResponse<IEnumerable<StoreInventoryResponseDto>>> ListInventory(int authenticatedStoreId, BaseFiltersRequest filters)
         {
             var response = new BaseResponse<IEnumerable<StoreInventoryResponseDto>>();
+            try
+            {
+                var inventory = _unitOfWork.StoreInventoryQuery.GetInventoryListQueryable(authenticatedStoreId)
+                    .Where(i => i.IsActive == true || i.StockAvailable != 0);
+
+                if (filters.NumberFilter is not null && !string.IsNullOrEmpty(filters.TextFilter))
+                {
+                    switch (filters.NumberFilter)
+                    {
+                        case 1:
+                            inventory = inventory.Where(x => x.Code!.Contains(filters.TextFilter));
+                            break;
+                        case 2:
+                            inventory = inventory.Where(x => x.Description!.Contains(filters.TextFilter));
+                            break;
+                        case 3:
+                            inventory = inventory.Where(x => x.Material!.Contains(filters.TextFilter));
+                            break;
+                        case 4:
+                            inventory = inventory.Where(x => x.Color!.Contains(filters.TextFilter));
+                            break;
+                        case 5:
+                            inventory = inventory.Where(x => x.Price.ToString().Contains(filters.TextFilter));
+                            break;
+                        case 6:
+                            inventory = inventory.Where(x => x.BrandName!.Contains(filters.TextFilter));
+                            break;
+                        case 7:
+                            inventory = inventory.Where(x => x.CategoryName!.Contains(filters.TextFilter));
+                            break;
+                    }
+                }
+
+                //if (filters.StateFilter is not null)
+                //{
+                //    var stateValue = Convert.ToBoolean(filters.StateFilter);
+                //    inventory = inventory.Where(x => x.Product.Status == stateValue);
+                //}
+
+                if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
+                {
+                    var startDate = Convert.ToDateTime(filters.StartDate).Date;
+                    var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
+                    inventory = inventory.Where(x => x.AuditCreateDate >= startDate && x.AuditCreateDate < endDate);
+                }
+                response.TotalRecords = await inventory.CountAsync();
+
+                filters.Sort ??= "IdProduct";
+                var items = await _orderingQuery.Ordering(filters, inventory, true).ToListAsync();
+                response.IsSuccess = true;
+                response.Data = items.Select(StoreInventoryMapp.StoreInventoryResponseMapping);
+                response.Message = ReplyMessage.MESSAGE_QUERY;
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponse<IEnumerable<StoreInventoryCalculatedResponseDto>>> ListInventoryCalculated(int authenticatedStoreId, BaseFiltersRequest filters)
+        {
+            var response = new BaseResponse<IEnumerable<StoreInventoryCalculatedResponseDto>>();
             try
             {
                 DateTime? startDate = string.IsNullOrEmpty(filters.StartDate)
@@ -41,7 +110,7 @@ namespace Application.Services
                 int pageNumber = isDownload ? 1 : filters.NumberPage;
                 int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
 
-                var (items, total) = await _unitOfWork.StoreInventoryQuery.GetInventoryListAsync(
+                var (items, total) = await _unitOfWork.StoreInventoryQuery.GetInventoryCalculatedAsync(
                     authenticatedStoreId,
                     filters.NumberFilter,
                     filters.TextFilter,
@@ -52,7 +121,7 @@ namespace Application.Services
                     pageSize);
 
                 response.TotalRecords = total;
-                response.Data = items.Select(StoreInventoryMapp.StoreInventoryResponseDtoMapping);
+                response.Data = items.Select(StoreInventoryMapp.StoreInventoryCalculatedMapping);
 
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
@@ -103,7 +172,7 @@ namespace Application.Services
             try
             {
                 var inventory = await _unitOfWork.StoreInventoryQuery
-                    .GetInventoryQueryable(authenticatedStoreId)
+                    .GetInventoryListQueryable(authenticatedStoreId)
                     .FirstOrDefaultAsync(i => i.IdProduct == productId);
 
                 if (inventory is null)

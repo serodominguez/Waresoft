@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|d:\\projects\\it solutions\\waresoft\\backend\\infrastructure\\persistences\\repositories\\storeinventory\\storeinventoryqueryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2B582EE-0DB9-437F-9D26-3250CA6A3B88}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\persistences\\repositories\\storeinventory\\storeinventoryqueryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{19DFF64E-7B70-4E0C-BD67-7C6D404B20F3}|Utilities\\Utilities.csproj|d:\\projects\\it solutions\\waresoft\\backend\\utilities\\static\\excelcolumnnames.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{19DFF64E-7B70-4E0C-BD67-7C6D404B20F3}|Utilities\\Utilities.csproj|solutionrelative:utilities\\static\\excelcolumnnames.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19DFF64E-7B70-4E0C-BD67-7C6D404B20F3}|Utilities\\Utilities.csproj|d:\\projects\\it solutions\\waresoft\\backend\\utilities\\static\\pdfcolumnnames.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{19DFF64E-7B70-4E0C-BD67-7C6D404B20F3}|Utilities\\Utilities.csproj|solutionrelative:utilities\\static\\pdfcolumnnames.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +27,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "StoreInventoryQueryRepository.cs",
-              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\StoreInventory\\StoreInventoryQueryRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Persistences\\Repositories\\StoreInventory\\StoreInventoryQueryRepository.cs",
-              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Persistences\\Repositories\\StoreInventory\\StoreInventoryQueryRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Persistences\\Repositories\\StoreInventory\\StoreInventoryQueryRepository.cs",
-              "ViewState": "AgIAAKQAAAAAAAAAAAAwwE4BAAAmAAAAAAAAAA==",
+              "Title": "ExcelColumnNames.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\Static\\ExcelColumnNames.cs",
+              "RelativeDocumentMoniker": "Utilities\\Static\\ExcelColumnNames.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\Static\\ExcelColumnNames.cs",
+              "RelativeToolTip": "Utilities\\Static\\ExcelColumnNames.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAhwLUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T19:51:53.095Z",
+              "WhenOpened": "2026-05-27T14:32:56.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PdfColumnNames.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\Static\\PdfColumnNames.cs",
+              "RelativeDocumentMoniker": "Utilities\\Static\\PdfColumnNames.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\Static\\PdfColumnNames.cs",
+              "RelativeToolTip": "Utilities\\Static\\PdfColumnNames.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwKwAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-27T14:31:50.71Z",
               "EditorCaption": ""
             }
           ]

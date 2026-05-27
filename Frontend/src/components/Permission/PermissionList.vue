@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch, ref } from 'vue';
 import { PermissionsByModule } from '@/interfaces/permissionInterface';
 
 type PermissionKey = 'crear' | 'leer' | 'editar' | 'eliminar' | 'descargar';
@@ -78,21 +78,33 @@ const emit = defineEmits<{
 
 const hasPermissions = computed(() => props.permissions.length > 0);
 
-const allChecked = computed(() => ({
-  crear:     props.permissions.every(p => p.permissions.crear),
-  leer:      props.permissions.every(p => p.permissions.leer),
-  editar:    props.permissions.every(p => p.permissions.editar),
-  eliminar:  props.permissions.every(p => p.permissions.eliminar),
-  descargar: props.permissions.every(p => p.permissions.descargar),
-}));
+const allChecked = ref({
+  crear: false,
+  leer: false,
+  editar: false,
+  eliminar: false,
+  descargar: false,
+});
+
+const keys: PermissionKey[] = ['crear', 'leer', 'editar', 'eliminar', 'descargar'];
+
+watch(
+  () => props.permissions,
+  (perms) => {
+    keys.forEach(key => {
+      allChecked.value[key] = perms.length > 0 && perms.every(p => p.permissions[key]);
+    });
+  },
+  { deep: true, immediate: true }
+);
 
 const headers = computed(() => [
-  { title: 'Módulo',     key: 'module',                sortable: false },
-  { title: 'Crear',      key: 'permissions.crear',     sortable: false },
-  { title: 'Leer',       key: 'permissions.leer',      sortable: false },
-  { title: 'Editar',     key: 'permissions.editar',    sortable: false },
-  { title: 'Eliminar',   key: 'permissions.eliminar',  sortable: false },
-  { title: 'Descargar',  key: 'permissions.descargar', sortable: false },
+  { title: 'Módulo',    key: 'module',                sortable: false },
+  { title: 'Crear',     key: 'permissions.crear',     sortable: false },
+  { title: 'Leer',      key: 'permissions.leer',      sortable: false },
+  { title: 'Editar',    key: 'permissions.editar',    sortable: false },
+  { title: 'Eliminar',  key: 'permissions.eliminar',  sortable: false },
+  { title: 'Descargar', key: 'permissions.descargar', sortable: false },
 ]);
 
 const isIndeterminate = (key: PermissionKey): boolean => {
@@ -102,7 +114,7 @@ const isIndeterminate = (key: PermissionKey): boolean => {
 };
 
 const toggleAll = (key: PermissionKey) => {
-  const newValue = !allChecked.value[key];
+  const newValue = allChecked.value[key];
   props.permissions.forEach(p => {
     p.permissions[key] = newValue;
   });

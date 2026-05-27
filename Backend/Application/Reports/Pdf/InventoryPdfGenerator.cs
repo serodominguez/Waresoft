@@ -8,11 +8,11 @@ namespace Application.Reports.Pdf
 {
     public class InventoryPdfGenerator : BasePdfGenerator
     {
-        private readonly List<StoreInventoryResponseDto> _inventory;
+        private readonly List<StoreInventoryCalculatedResponseDto> _inventory;
         private readonly string _storeType;
         private readonly string _storeName;
 
-        public InventoryPdfGenerator(List<StoreInventoryResponseDto> inventory, string? storeType = null, string? storeName = null)
+        public InventoryPdfGenerator(List<StoreInventoryCalculatedResponseDto> inventory, string? storeType = null, string? storeName = null)
         {
             _inventory = inventory;
             _storeType = storeType ?? string.Empty;

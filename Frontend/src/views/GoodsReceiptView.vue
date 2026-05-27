@@ -14,7 +14,7 @@
       :receiptDetails="selectedReceiptDetails" @saved="handleSaved" @close="closeForm" />
 
     <CommonModal v-model="modal" :itemId="selectedGoodsReceipt?.idReceipt || 0" :item="selectedGoodsReceipt?.code || ''"
-      :action="action" moduleName="goodsreceipt" entityName="GoodsReceipt" name="Entrada" gender="female"
+      :action="action" moduleName="goodsreceipt" name="Entrada" gender="female"
       @action-completed="handleActionCompleted" />
   </div>
 </template>
@@ -74,8 +74,6 @@ const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePaginat
     goodsReceiptStore.fetchGoodsReceipt({
       pageNumber: params.pageNumber,
       pageSize:   params.pageSize,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(search.value),
     });
   }
@@ -137,8 +135,6 @@ const fetchGoodsReceipt = async () => {
     await goodsReceiptStore.fetchGoodsReceipt({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(null),
     });
   } catch (error) {
@@ -165,8 +161,6 @@ const searchGoodsReceipt = async (params: {
     await goodsReceiptStore.fetchGoodsReceipt({
       pageNumber: 1,
       pageSize:   itemsPerPage.value,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(params.search),
     });
   } catch (error) {
@@ -190,8 +184,6 @@ const downloadExcel = async (params: { search: string | null }) => {
     await goodsReceiptStore.downloadGoodsReceiptExcel({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
@@ -208,8 +200,6 @@ const downloadPdf = async (params: { search: string | null }) => {
     await goodsReceiptStore.downloadGoodsReceiptPdf({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');

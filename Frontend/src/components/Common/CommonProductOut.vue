@@ -175,7 +175,7 @@ const fetchProducts = async () => {
   try {
     loading.value = true;
 
-    await inventoryStore.fetchInventories({
+    await inventoryStore.fetchAll({
       pageNumber: currentPage.value,
       pageSize: itemsPerPage.value,
       sort: 'IdProduct',  
@@ -183,8 +183,8 @@ const fetchProducts = async () => {
       ...buildFilterParams()
     });
 
-    products.value = inventoryStore.inventories || [];
-    totalProducts.value = inventoryStore.totalInventories || 0;
+    products.value = inventoryStore.items || [];
+    totalProducts.value = inventoryStore.totalItems || 0;
     hasSearched.value = true;
 
   } catch (error) {

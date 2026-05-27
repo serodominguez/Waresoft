@@ -201,8 +201,8 @@ const headers = computed(() => [
   { title: 'Diferencias', key: 'stockDifference', sortable: false, align: 'center' as const },
   { title: 'En transito', key: 'stockInTransit', sortable: false, align: 'center' as const },
   { title: 'Precio', key: 'price', sortable: false, align: 'center' as const },
-  { title: 'Fecha de creación', key: 'replenishment', sortable: false },
-  { title: 'Reposición', key: 'auditCreateDate', sortable: false, align: 'center' as const },
+  { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
+  { title: 'Reposición', key: 'replenishment', sortable: false, align: 'center' as const },
   { title: 'Acciones', key: 'actions', sortable: false, align: 'center' as const },
 ]);
 

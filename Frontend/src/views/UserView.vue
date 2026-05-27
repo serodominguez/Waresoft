@@ -12,7 +12,7 @@
     <UserForm v-model="form" :user="selectedUser" @saved="handleSaved" />
 
     <CommonModal v-model="modal" :itemId="selectedUser?.idUser || 0" :item="selectedUser?.userName || ''"
-      :action="action" moduleName="user" entityName="User" name="Usuario" gender="male"
+      :action="action" moduleName="user" name="Usuario" gender="male"
       @action-completed="handleActionCompleted" />
   </div>
 </template>

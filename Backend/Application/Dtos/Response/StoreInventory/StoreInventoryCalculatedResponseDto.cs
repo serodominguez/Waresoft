@@ -1,10 +1,12 @@
 ﻿namespace Application.Dtos.Response.StoreInventory
 {
-    public class StoreInventoryResponseDto
+    public class StoreInventoryCalculatedResponseDto
     {
         public int IdStore { get; set; }
         public int IdProduct { get; set; }
         public int StockAvailable { get; set; }
+        public int CalculatedStock { get; set; }
+        public int StockDifference { get; set; }
         public int StockInTransit { get; set; }
         public decimal Price { get; set; }
         public string? Replenishment { get; set; }

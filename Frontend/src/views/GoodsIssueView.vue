@@ -14,7 +14,7 @@
       @saved="handleSaved" @close="closeForm" />
 
     <CommonModal v-model="modal" :itemId="selectedGoodsIssue?.idIssue || 0" :item="selectedGoodsIssue?.code || ''"
-      :action="action" moduleName="goodsissue" entityName="GoodsIssue" name="Salida" gender="female"
+      :action="action" moduleName="goodsissue" name="Salida" gender="female"
       @action-completed="handleActionCompleted" />
   </div>
 </template>
@@ -59,8 +59,6 @@ const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePaginat
     goodsIssueStore.fetchGoodsIssue({
       pageNumber: params.pageNumber,
       pageSize:   params.pageSize,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(search.value),
     });
   }
@@ -115,8 +113,6 @@ const fetchGoodsIssue = async () => {
     await goodsIssueStore.fetchGoodsIssue({
       pageNumber:  currentPage.value,
       pageSize:    itemsPerPage.value,
-      sort:        'Id',
-      order:       'desc',
       stateFilter: state.value === 'Completado' ? 1 : 0,
     });
   } catch (error) {
@@ -142,8 +138,6 @@ const searchGoodsIssue = async (params: {
     await goodsIssueStore.fetchGoodsIssue({
       pageNumber: 1,
       pageSize:   itemsPerPage.value,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(params.search),
     });
   } catch (error) {
@@ -167,8 +161,6 @@ const downloadExcel = async (params: { search: string | null }) => {
     await goodsIssueStore.downloadGoodsIssueExcel({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(params.search),
     });
     toast.success('Archivo descargado correctamente');
@@ -185,8 +177,6 @@ const downloadPdf = async (params: { search: string | null }) => {
     await goodsIssueStore.downloadGoodsIssuePdf({
       pageNumber: currentPage.value,
       pageSize:   itemsPerPage.value,
-      sort:       'Id',
-      order:      'desc',
       ...getFilterParams(params.search),
     });
     toast.success('Archivo PDF descargado correctamente');

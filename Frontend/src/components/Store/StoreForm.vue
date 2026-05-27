@@ -25,7 +25,7 @@
               </v-col>
               <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="outlined" density="compact" v-model="localStore.phoneNumber"
-                  counter="8" :rules="[rules.onlyNumbers]" :maxlength="8" label="Teléfono" />
+                  counter="8" :rules="[rules.onlyNumbers, rules.phone]" :maxlength="8" label="Teléfono" />
               </v-col>
               <v-col cols="6" md="6">
                 <v-text-field color="indigo" variant="outlined" density="compact" v-model="localStore.city" counter="15"
@@ -107,6 +107,7 @@ const rules = {
   required: (value: string) => !!value || 'Este campo es requerido.',
   onlyLetters: (value: string) => !value || /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(value) || 'Solo se permiten letras.',
   onlyNumbers: (value: string) => !value || /^[0-9]+$/.test(value) || 'Solo se permiten números.',
+  phone: (value: string) => !value || value.length >= 8 || 'El teléfono debe tener 8 caracteres.',
   email: (value: string) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Formato de correo inválido.',
   profitMargin: (value: any) => {
     if (!value && value !== 0) return 'Este campo es requerido.';

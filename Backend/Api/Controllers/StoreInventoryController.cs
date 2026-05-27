@@ -57,6 +57,41 @@ namespace Web.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Calculated")]
+        [RequirePermission("Inventario", "Leer")]
+        public async Task<IActionResult> ListInventoryCalculated([FromQuery] BaseFiltersRequest filters, [FromQuery] string? downloadType = "excel")
+        {
+            var response = await _storeInventoryService.ListInventoryCalculated(AuthenticatedUserStoreId, filters);
+
+            if ((bool)filters.Download!)
+            {
+                if (downloadType?.ToLower() == "pdf")
+                {
+                    var columnNames = PdfColumnNames.GetColumnsInventories();
+                    var fileBytes = _generatePdfService.GenerateListPdf(
+                        response.Data!,
+                        columnNames,
+                        "Reporte de Inventario",
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
+                    );
+                    return File(fileBytes, "application/pdf", $"Inventario_{DateTime.Now:yyyyMMdd}.pdf");
+                }
+                else
+                {
+                    var columnNames = ExcelColumnNames.GetColumnsInventories();
+                    var fileBytes = _generateExcelService.GenerateToExcel(
+                        response.Data!,
+                        columnNames,
+                        "Reporte de Inventario",
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
+                    );
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Inventario_{DateTime.Now:yyyyMMdd}.xlsx");
+                }
+            }
+
+            return Ok(response);
+        }
+
         [HttpGet("Pivot")]
         [RequirePermission("Inventario", "Leer")]
         public async Task<IActionResult> ListInventoryPivot([FromQuery] BaseFiltersRequest filters, [FromQuery] string? downloadType = "excel")
@@ -126,11 +161,11 @@ namespace Web.Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("ExportPdf")]
+        [HttpGet("Sheet")]
         [RequirePermission("Inventario", "Descargar")]
         public async Task<IActionResult> InventorySheet([FromQuery] BaseFiltersRequest filters, [FromQuery] string? downloadType = "pdf")
         {
-            var response = await _storeInventoryService.ListInventory(AuthenticatedUserStoreId, filters);
+            var response = await _storeInventoryService.ListInventoryCalculated(AuthenticatedUserStoreId, filters);
 
             if ((bool)filters.Download!)
             {

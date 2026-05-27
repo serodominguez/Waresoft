@@ -9,7 +9,7 @@ namespace Application.Interfaces
     {
         byte[] GoodsIssueGeneratePdf(GoodsIssueWithDetailsResponseDto issue, string storeType, string storeName);
         byte[] GoodsReceiptGeneratePdf(GoodsReceiptWithDetailsResponseDto receipt, string storeType, string storeName);
-        byte[] InventoryGeneratePdf(List<StoreInventoryResponseDto> inventory, string storeType, string storeName);
+        byte[] InventoryGeneratePdf(List<StoreInventoryCalculatedResponseDto> inventory, string storeType, string storeName);
         byte[] KardexGeneratePdf(StoreInventoryKardexResponseDto kardex, string storeType, string storeName);
         byte[] PivotInventoryGeneratePdf(StoreInventoryPivotResponseDto pivot, string storeType, string storeName);
         byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName);
