@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Formats.Jpeg;
+using SkiaSharp;
 
 namespace Infrastructure.FileStorage
 {
@@ -19,24 +17,35 @@ namespace Infrastructure.FileStorage
 
             try
             {
-                using (var image = await Image.LoadAsync(file.OpenReadStream()))
-                {
-                    if (image.Width > 400)
-                        image.Mutate(x => x.Resize(400, 0));
+                using var stream = file.OpenReadStream();
+                using var original = SKBitmap.Decode(stream);
 
-                    await image.SaveAsJpegAsync(path, new JpegEncoder { Quality = 80 });
+                SKBitmap bitmap = original;
+                bool resized = false;
+
+                if (original.Width > 400)
+                {
+                    int newHeight = (int)(original.Height * (400.0 / original.Width));
+                    bitmap = original.Resize(new SKImageInfo(400, newHeight), new SKSamplingOptions(SKCubicResampler.Mitchell));
+                    resized = true;
                 }
+
+                using var image = SKImage.FromBitmap(bitmap);
+                using var data = image.Encode(SKEncodedImageFormat.Jpeg, 80);
+
+                await using var output = File.OpenWrite(path);
+                data.SaveTo(output);
+
+                if (resized) bitmap.Dispose();
 
                 var currentUrl = $"{scheme}://{host}";
                 var pathDb = Path.Combine(currentUrl, container, fileName).Replace("\\", "/");
-                //var pathDb = $"{currentUrl}/{container}/{fileName}";
                 return pathDb;
             }
             catch
             {
                 if (File.Exists(path))
                     File.Delete(path);
-
                 throw;
             }
         }
@@ -44,16 +53,13 @@ namespace Infrastructure.FileStorage
         public async Task<string> EditFile(string container, IFormFile file, string route, string webRootPath, string scheme, string host)
         {
             string? newPath = null;
-
             try
             {
                 newPath = await SaveFile(container, file, webRootPath, scheme, host);
-
                 if (!string.IsNullOrEmpty(route))
                 {
                     await RemoveFile(route, container, webRootPath);
                 }
-
                 return newPath;
             }
             catch
@@ -65,7 +71,6 @@ namespace Infrastructure.FileStorage
                     if (File.Exists(newFilePath))
                         File.Delete(newFilePath);
                 }
-
                 throw;
             }
         }
@@ -79,10 +84,8 @@ namespace Infrastructure.FileStorage
             {
                 var fileName = Path.GetFileName(route);
                 var directoryFile = Path.Combine(webRootPath, container, fileName);
-
                 if (File.Exists(directoryFile))
                     File.Delete(directoryFile);
-
                 return Task.CompletedTask;
             }
             catch
