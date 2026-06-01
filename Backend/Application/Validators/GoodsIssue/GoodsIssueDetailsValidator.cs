@@ -1,11 +1,11 @@
-﻿using Application.Dtos.Request.Transfer;
+﻿using Application.Dtos.Request.GoodsIssue;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.GoodsIssue
 {
-    public class TransferDetailsValidator : AbstractValidator<TransferDetailsRequestDto>
+    public class GoodsIssueDetailsValidator : AbstractValidator<GoodsIssueDetailsRequestDto>
     {
-        public TransferDetailsValidator()
+        public GoodsIssueDetailsValidator()
         {
             RuleFor(x => x.Item)
                 .GreaterThan(0).WithMessage("El ítem debe ser mayor a 0");
@@ -22,6 +22,10 @@ namespace Application.Validators
             RuleFor(x => x.TotalPrice)
                 .GreaterThanOrEqualTo(0).WithMessage("El precio total no puede ser negativo");
 
+            //RuleFor(x => x)
+            //    .Must(x => x.TotalPrice == x.Quantity * x.UnitPrice)
+            //    .WithMessage("El precio total debe ser igual a cantidad × precio unitario!")
+            //    .WithName("TotalPrice");
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Application.Interfaces
         Task<BaseResponse<bool>> EnableProduct(int authenticatedUserId, int productId);
         Task<BaseResponse<bool>> DisableProduct(int authenticatedUserId, int productId);
         Task<BaseResponse<bool>> RemoveProduct(int authenticatedUserId, int productId);
+        Task<BaseResponse<byte[]>> GenerateBarcodePdf(ProductBarcodeRequestDto requestDto);
     }
 }

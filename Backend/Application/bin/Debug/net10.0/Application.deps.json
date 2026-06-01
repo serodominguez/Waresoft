@@ -14,7 +14,9 @@
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.8",
           "QRCoder": "1.8.0",
           "QuestPDF": "2026.5.0",
-          "Utilities": "1.0.0"
+          "SkiaSharp": "3.119.4",
+          "Utilities": "1.0.0",
+          "ZXing.Net": "0.16.11"
         },
         "runtime": {
           "Application.dll": {}
@@ -817,6 +819,14 @@
           }
         }
       },
+      "ZXing.Net/0.16.11": {
+        "runtime": {
+          "lib/net9.0/zxing.dll": {
+            "assemblyVersion": "0.16.11.0",
+            "fileVersion": "0.16.11.0"
+          }
+        }
+      },
       "Domain/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.8"
@@ -1238,6 +1248,13 @@
       "sha512": "sha512-o94k2RKuAce3GeDMlUvIXlhVa1kWpJw95E6C9LwW0KlG0nj5+SgCiIxJ2Eroqb9sLtG1mEMbFttZIBZ13EJPvQ==",
       "path": "system.security.cryptography.protecteddata/9.0.4",
       "hashPath": "system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
+    },
+    "ZXing.Net/0.16.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OZfAVu88hl87BffQ+rlWCj/vLvAhhCK4QnFaoveeF/MY8SjHNSYBQ3qyUEWlPKNgBQGh1syXhCDg10vUnCsqkg==",
+      "path": "zxing.net/0.16.11",
+      "hashPath": "zxing.net.0.16.11.nupkg.sha512"
     },
     "Domain/1.0.0": {
       "type": "project",

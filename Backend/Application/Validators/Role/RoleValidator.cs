@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.Role;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.Role
 {
     public class RoleValidator : AbstractValidator<RoleRequestDto>
     {

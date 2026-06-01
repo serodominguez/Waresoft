@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.Supplier;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.Supplier
 {
     public class SupplierValidator : AbstractValidator<SupplierRequestDto>
     {

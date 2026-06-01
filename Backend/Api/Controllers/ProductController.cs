@@ -104,5 +104,14 @@ namespace Web.Api.Controllers
             var response = await _productService.RemoveProduct(AuthenticatedUserId, productId);
             return Ok(response);
         }
+
+        [HttpPost("BarcodePdf")]
+        [RequirePermission("Productos", "Descargar")]
+        public async Task<IActionResult> GenerateBarcodePdf([FromBody] ProductBarcodeRequestDto requestDto)
+        {
+            var response = await _productService.GenerateBarcodePdf(requestDto);
+            var filename = $"Barcodes_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+            return File(response.Data!, "application/pdf", filename);
+        }
     }
 }

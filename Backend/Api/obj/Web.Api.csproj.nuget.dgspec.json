@@ -90,7 +90,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.1.7, )"
+              "version": "[10.2.1, )"
             }
           },
           "imports": [
@@ -607,6 +607,14 @@
             "QuestPDF": {
               "target": "Package",
               "version": "[2026.5.0, )"
+            },
+            "SkiaSharp": {
+              "target": "Package",
+              "version": "[3.119.4, )"
+            },
+            "ZXing.Net": {
+              "target": "Package",
+              "version": "[0.16.11, )"
             }
           },
           "imports": [

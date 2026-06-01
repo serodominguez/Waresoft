@@ -5,6 +5,7 @@ using Application.Dtos.Request.Product;
 using Application.Dtos.Response.Product;
 using Application.Interfaces;
 using Application.Mappers;
+using Application.Reports.Pdf;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,15 @@ namespace Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<ProductRequestDto> _validator;
+        private readonly IValidator<ProductBarcodeRequestDto> _barcodeValidator;
         private readonly IOrderingQuery _orderingQuery;
         private readonly IFileStorageImageService _fileStorageImageService;
 
-        public ProductService(IUnitOfWork unitOfWork, IValidator<ProductRequestDto> validator, IOrderingQuery orderingQuery, IFileStorageImageService fileStorageImageService)
+        public ProductService(IUnitOfWork unitOfWork, IValidator<ProductRequestDto> validator, IValidator<ProductBarcodeRequestDto> barcodeValidator, IOrderingQuery orderingQuery, IFileStorageImageService fileStorageImageService)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
+            _barcodeValidator = barcodeValidator;
             _orderingQuery = orderingQuery;
             _fileStorageImageService = fileStorageImageService;
         }
@@ -380,6 +383,47 @@ namespace Application.Services
                     response.Data = false;
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponse<byte[]>> GenerateBarcodePdf(ProductBarcodeRequestDto requestDto)
+        {
+            var response = new BaseResponse<byte[]>();
+
+            try
+            {
+                var validationResult = await _barcodeValidator.ValidateAsync(requestDto);
+                if(!validationResult.IsValid)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_VALIDATE;
+                    response.Errors = validationResult.Errors;
+                    return response;
+                }
+
+                var product = await _unitOfWork.ProductQuery
+                    .GetProductByIdQueryable(requestDto.IdProduct)
+                    .FirstOrDefaultAsync();
+
+                if (product is null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                    return response;
+                }
+
+                var pdfBytes = new ProductBarcodePdfGenerator(product.Code!, requestDto.Quantity).GeneratePdf();
+
+                response.IsSuccess = true;
+                response.Data = pdfBytes;
+                response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception ex)
             {

@@ -25,6 +25,11 @@ class ProductService extends BaseService<Product> {
     const response = await axios.get<BaseResponse<string>>(`api/Sequence/Product-Code`);
     return response.data;
   }
+
+  async generateBarcodePdf(idProduct: number, quantity: number): Promise<Blob> {
+      const response = await axios.post(`api/Product/BarcodePdf`, { idProduct, quantity },{ responseType: 'blob' });
+  return response.data;
+  }
 }
 
 export const productService = new ProductService();

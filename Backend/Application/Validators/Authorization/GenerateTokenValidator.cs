@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.User;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.Authorization
 {
     public class GenerateTokenValidator : AbstractValidator<TokenRequestDto>
     {

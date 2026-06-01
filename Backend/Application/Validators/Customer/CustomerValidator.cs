@@ -1,27 +1,19 @@
-﻿using Application.Dtos.Request.User;
+﻿using Application.Dtos.Request.Customer;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.Customer
 {
-    public class UserValidator : AbstractValidator<UserRequestDto>
+    public class CustomerValidator : AbstractValidator<CustomerRequestDto>
     {
-        public UserValidator()
+        public CustomerValidator()
         {
-            RuleFor(x => x.UserName)
-                .NotEmpty().WithMessage("El nombre de usuario es requerido")
-                .MaximumLength(20).WithMessage("El campo nombre de usuario no puede tener más de 20 caracteres")
-                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
-
-            RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("La contraseña es requerida");
-
             RuleFor(x => x.Names)
-                .NotEmpty().WithMessage("El nombre es requerido")
+                .NotEmpty().WithMessage("El nombre es requerido!")
                 .MaximumLength(30).WithMessage("El nombre no puede tener más de 30 caracteres")
                 .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
 
             RuleFor(x => x.LastNames)
-                .NotEmpty().WithMessage("Los apellidos son requeridos")
+                .NotEmpty().WithMessage("Los apellidos son requeridos!")
                 .MaximumLength(50).WithMessage("Los apellidos no pueden tener más de 50 caracteres")
                 .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
 
@@ -35,12 +27,14 @@ namespace Application.Validators
                 .Matches(@"^\d+$").WithMessage("El número de teléfono solo debe contener dígitos")
                 .When(x => !string.IsNullOrEmpty(x.PhoneNumber));
 
-            RuleFor(x => x.IdRole)
-                .GreaterThan(0).WithMessage("El identificador del rol es requerido");
+        }
 
-            RuleFor(x => x.IdStore)
-                .GreaterThan(0).WithMessage("El identificador del establecimiento es requerido");
+        private bool HaveMaximum8Digits(int? phoneNumber)
+        {
+            if (!phoneNumber.HasValue) return true;
 
+            var digits = phoneNumber.Value.ToString().Length;
+            return digits <= 8;
         }
     }
 }

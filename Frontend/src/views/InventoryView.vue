@@ -8,9 +8,12 @@
       @open-modal="openModal" @edit-inventory="openForm" @fetch-inventories="fetchInventories"
       @search-inventories="searchInventories" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
       @download-excel="downloadExcel" @download-pdf="downloadPdf" @clear-filters="clearFilters"
-      @download-inventory-sheet="downloadInventorySheet" />
+      @download-inventory-sheet="downloadInventorySheet" @open-barcode="handleOpenBarcode" />
 
     <PriceForm v-model="form" :inventory="selectedInventory" @saved="handleSaved" />
+
+    <BarcodeModal v-model="barcodeModal" :product-id="selectedInventory?.idProduct ?? null" :product-code="selectedInventory?.code ?? ''" />
+
   </div>
 </template>
 
@@ -25,6 +28,7 @@ import { useFilters } from '@/composables/useFilters';
 import { usePagination } from '@/composables/usePagination';
 import InventoryList from '@/components/Inventory/InventoryList.vue';
 import PriceForm from '@/components/Inventory/PriceForm.vue';
+import BarcodeModal from '@/components/Inventory/BarcodeModal.vue';
 
 const inventoryStore = useInventoryStore();
 const authStore      = useAuthStore();
@@ -39,6 +43,7 @@ const search           = ref<string | null>(null);
 const drawer           = ref(false);
 const form             = ref(false);
 const modal            = ref(false);
+const barcodeModal     = ref(false);
 const selectedInventory = ref<Inventory | null>(null);
 const action           = ref<0 | 1 | 2>(0);
 const downloadingExcel = ref(false);
@@ -57,8 +62,8 @@ const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePaginat
   }
 );
 
-const inventories     = computed(() => inventoryStore.items);
-const loading         = computed(() => inventoryStore.loading);
+const inventories      = computed(() => inventoryStore.items);
+const loading          = computed(() => inventoryStore.loading);
 const totalInventories = computed(() => inventoryStore.totalItems);
 
 const canCreate   = computed(() => authStore.hasPermission('inventario', 'crear'));
@@ -198,6 +203,11 @@ const downloadInventorySheet = async (params: { search: string | null }) => {
   } finally {
     downloadingSheet.value = false;
   }
+};
+
+const handleOpenBarcode = (inventory: Inventory) => {
+  selectedInventory.value = inventory;
+  barcodeModal.value = true;
 };
 
 const handleSaved = () => {

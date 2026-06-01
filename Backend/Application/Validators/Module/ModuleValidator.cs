@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.Module;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.Module
 {
     public class ModuleValidator : AbstractValidator<ModuleRequestDto>
     {

@@ -34,6 +34,13 @@ export const useProductStore = defineStore('product', () => {
     return result;
   }
 
+  async function generateBarcodePdf(productId: number, quantity: number) {
+    const blob = await productService.generateBarcodePdf(productId, quantity);
+    const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(pdfBlob);
+    window.open(url, '_blank');
+  }
+
   return {
     // Estado (reactivo via storeToRefs)
     items,
@@ -57,5 +64,6 @@ export const useProductStore = defineStore('product', () => {
     registerProduct,
     editProduct,
     generateProductCode,
+    generateBarcodePdf
   };
 });

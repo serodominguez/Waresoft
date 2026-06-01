@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.Transfer;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.Transfer
 {
     public class TransferValidator : AbstractValidator<TransferRequestDto>
     {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "vxw2turT3ak=",
+  "dgSpecHash": "3YoZ3+P8NJI=",
   "success": true,
   "projectFilePath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application\\Application.csproj",
   "expectedPackageFiles": [
@@ -62,7 +62,8 @@
     "C:\\Users\\Sergio\\.nuget\\packages\\system.linq.dynamic.core\\1.7.2\\system.linq.dynamic.core.1.7.2.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\system.memory.data\\8.0.1\\system.memory.data.8.0.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.4\\system.security.cryptography.pkcs.9.0.4.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
+    "C:\\Users\\Sergio\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\zxing.net\\0.16.11\\zxing.net.0.16.11.nupkg.sha512"
   ],
   "logs": []
 }

@@ -42,9 +42,17 @@
             <td class="text-center">
               <v-tooltip v-bind="tooltipProps" text="Editar Precio" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" v-if="canEdit" icon variant="text" color="blue-darken-1" size="small"
+                  <v-btn v-bind="props" v-if="canEdit" icon variant="text" color="teal-accent-4" size="small"
                     @click="$emit('edit-inventory', item)">
                     <v-icon icon="mdi-cash-edit" size="24"></v-icon>
+                  </v-btn>
+                </template>
+              </v-tooltip>
+              <v-tooltip v-bind="tooltipProps" text="Código de Barras" location="bottom">
+                <template v-slot:activator="{ props }">
+                  <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="black" size="small"
+                    @click="$emit('open-barcode', item)">
+                    <v-icon icon="mdi-printer" size="24"></v-icon>
                   </v-btn>
                 </template>
               </v-tooltip>
@@ -143,6 +151,7 @@ const emit = defineEmits<{
   'open-form': [];
   'open-modal': [payload: { inventory: Inventory; action: 0 | 1 | 2 }];
   'edit-inventory': [inventory: Inventory];
+  'open-barcode': [inventory: Inventory];
   'fetch-inventories': [];
   'search-inventories': [params: {
     search: string | null;

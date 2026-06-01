@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.StoreInventory;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.StoreInventory
 {
     public class StoreInventoryValidator : AbstractValidator<StoreInventoryRequestDto>
     {

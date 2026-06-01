@@ -1124,6 +1124,22 @@
   },
   {
     "ContainingType": "Web.Api.Controllers.ProductController",
+    "Method": "GenerateBarcodePdf",
+    "RelativePath": "api/Product/BarcodePdf",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestDto",
+        "Type": "Application.Dtos.Request.Product.ProductBarcodeRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.ProductController",
     "Method": "DisableProduct",
     "RelativePath": "api/Product/Disable/{productId}",
     "HttpMethod": "PUT",

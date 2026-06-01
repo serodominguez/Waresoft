@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.GoodsReceipt;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.GoodsReceipt
 {
     public class GoodsReceiptValidator : AbstractValidator<GoodsReceiptRequestDto>
     {

@@ -1,7 +1,7 @@
 ﻿using Application.Dtos.Request.GoodsIssue;
 using FluentValidation;
 
-namespace Application.Validators
+namespace Application.Validators.GoodsIssue
 {
     public class GoodsIssueValidator : AbstractValidator<GoodsIssueRequestDto>
     {
