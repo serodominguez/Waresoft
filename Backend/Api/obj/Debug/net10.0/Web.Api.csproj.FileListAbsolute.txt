@@ -96,7 +96,6 @@ D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\NuGet.Versioning
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\QuestPDF.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\RBush.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\SixLabors.Fonts.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\SixLabors.ImageSharp.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -848,3 +847,17 @@ D:\Projects\IT Solutions\Backend\Api\obj\Debug\net10.0\refint\Web.Api.dll
 D:\Projects\IT Solutions\Backend\Api\obj\Debug\net10.0\Web.Api.pdb
 D:\Projects\IT Solutions\Backend\Api\obj\Debug\net10.0\Web.Api.genruntimeconfig.cache
 D:\Projects\IT Solutions\Backend\Api\obj\Debug\net10.0\ref\Web.Api.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\Microsoft.Win32.SystemEvents.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\QRCoder.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\SkiaSharp.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\System.Drawing.Common.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\osx\native\libSkiaSharp.dylib
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-arm64\native\libSkiaSharp.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-arm64\native\libSkiaSharp.pdb
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x64\native\libSkiaSharp.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x64\native\libSkiaSharp.pdb
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x86\native\libSkiaSharp.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win-x86\native\libSkiaSharp.pdb
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Api\bin\Debug\net10.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll

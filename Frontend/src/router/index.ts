@@ -68,8 +68,26 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/salidas/:id",
+    name: "goodsissue-detail",
+    component: () => import("@/views/GoodsIssueView.vue"),
+    meta: {
+      requiresAuth: true,
+      module: "salida de productos",
+    },
+  },
+  {
     path: "/entradas",
     name: "goodsreceipt",
+    component: () => import("@/views/GoodsReceiptView.vue"),
+    meta: {
+      requiresAuth: true,
+      module: "entrada de productos",
+    },
+  },
+  {
+    path: "/entradas/:id",
+    name: "goodsreceipt-detail",
     component: () => import("@/views/GoodsReceiptView.vue"),
     meta: {
       requiresAuth: true,
@@ -85,7 +103,7 @@ const routes: Array<RouteRecordRaw> = [
       module: "inventario",
     },
   },
-    {
+  {
     path: "/kardex",
     name: "kardex",
     component: () => import("@/views/KardexView.vue"),
@@ -159,6 +177,15 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/traspasos",
     name: "transfer",
+    component: () => import("@/views/TransferView.vue"),
+    meta: {
+      requiresAuth: true,
+      module: "traspaso de productos",
+    },
+  },
+  {
+    path: "/traspasos/:id",
+    name: "transfer-detail",
     component: () => import("@/views/TransferView.vue"),
     meta: {
       requiresAuth: true,

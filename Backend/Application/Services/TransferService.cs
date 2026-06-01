@@ -128,6 +128,7 @@ namespace Application.Services
             try
             {
                 var transfer = await _unitOfWork.TransferQuery.GetTransferByIdAsQueryable(trasnferId)
+                    .Where(t => t.IdStoreOrigin == authenticatedStoreId || t.IdStoreDestination == authenticatedStoreId)
                     .FirstOrDefaultAsync();
 
                 if (transfer is null)

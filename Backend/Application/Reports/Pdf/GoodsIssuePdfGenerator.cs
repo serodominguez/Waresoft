@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.Response.GoodsIssue;
 using Infrastructure.FilePdf;
+using QRCoder;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -11,13 +12,24 @@ namespace Application.Reports.Pdf
         private readonly GoodsIssueWithDetailsResponseDto _issue;
         private readonly string _storeType;
         private readonly string _storeName;
+        private readonly string _qrUrl;
 
-        public GoodsIssuePdfGenerator(GoodsIssueWithDetailsResponseDto issue, string? storeType = null, string? storeName = null)
+        public GoodsIssuePdfGenerator(GoodsIssueWithDetailsResponseDto issue, string? storeType = null, string? storeName = null, string? qrUrl = null)
         {
             _issue = issue;
             _storeType = storeType ?? string.Empty;
             _storeName = storeName ?? string.Empty;
+            _qrUrl = qrUrl ?? string.Empty;
         }
+
+        private byte[] GenerateQrPng()
+        {
+            using var generator = new QRCodeGenerator();
+            var data = generator.CreateQrCode(_qrUrl, QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new PngByteQRCode(data);
+            return qrCode.GetGraphic(5);
+        }
+
         public override byte[] GeneratePdf()
         {
             Document document = Document.Create(container =>
@@ -41,19 +53,33 @@ namespace Application.Reports.Pdf
         {
             var titleStyle = TextStyle.Default.FontSize(13).Bold().FontColor(Colors.Black);
             var subtitleStyle = TextStyle.Default.FontSize(11).SemiBold().FontColor(Colors.Black);
+            var qrBytes = GenerateQrPng();
 
             container.Column(column =>
             {
-                column.Item().AlignCenter().Text(text =>
+                column.Item().Row(row =>
                 {
-                    text.Span("Salida de Productos").Style(titleStyle);
-                });
+                    row.ConstantItem(72);
 
-                column.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(subtitleStyle);
-                
-                column.Item().PaddingTop(5).AlignCenter()
-                    .Text($"Generado el: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}")
-                    .FontSize(9);
+                    row.RelativeItem().Column(titleCol =>
+                    {
+                        titleCol.Item().AlignCenter().Text(text =>
+                        {
+                            text.Span("Salida de Productos").Style(titleStyle);
+                        });
+                        titleCol.Item().AlignCenter().Text($"{_storeType} {_storeName}").Style(subtitleStyle);
+                        titleCol.Item().PaddingTop(5).AlignCenter()
+                            .Text($"Generado el: {DateTime.Now:dd/MM/yyyy, h:mm:ss tt}")
+                            .FontSize(9);
+                    });
+
+                    row.ConstantItem(72).AlignTop().Column(qrCol =>
+                    {
+                        qrCol.Item().PaddingTop(-5).Width(65).Height(65).Image(qrBytes).FitArea();
+                        //qrCol.Item().AlignCenter().Text("Ver QR").FontSize(7).FontColor(Colors.Grey.Darken2);
+
+                    });
+                });
 
                 column.Item().PaddingTop(15);
 
@@ -89,7 +115,6 @@ namespace Application.Reports.Pdf
 
                     row.RelativeItem().Column(rightColumn =>
                     {
-
                         rightColumn.Item().AlignRight().Text(text =>
                         {
                             text.DefaultTextStyle(x => x.FontSize(10));

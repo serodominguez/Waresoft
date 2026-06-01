@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import { ref, computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useToast } from 'vue-toastification';
@@ -34,6 +35,7 @@ import GoodsReceiptList from '@/components/GoodsReceipt/GoodsReceiptList.vue';
 import GoodsReceiptForm from '@/components/GoodsReceipt/GoodsReceiptForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
 
+const route = useRoute();
 // ─── Stores ───────────────────────────────────────────────────────────────────
 const goodsReceiptStore = useGoodsReceiptStore();
 const authStore         = useAuthStore();
@@ -233,7 +235,23 @@ const handleActionCompleted = () => {
 };
 
 // ─── Lifecycle ────────────────────────────────────────────────────────────────
-onMounted(() => {
-  fetchGoodsReceipt();
+onMounted(async () => {
+  await fetchGoodsReceipt();
+
+  const idFromRoute = route.params.id as string;
+  if (idFromRoute) {
+    try {
+      // Decodificar Base64 → número real
+      const decoded = atob(idFromRoute);
+      const id      = Number(decoded);
+
+      if (!isNaN(id) && id > 0) {
+        await openForm({ idReceipt: id } as GoodsReceipt);
+      }
+    } catch {
+      // Si el token es inválido/manipulado, simplemente no abre nada
+      console.warn('ID de ruta inválido');
+    }
+  }
 });
 </script>

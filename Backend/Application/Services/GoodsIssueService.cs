@@ -89,19 +89,20 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<GoodsIssueWithDetailsResponseDto>> GoodsIssueById(int issueId)
+        public async Task<BaseResponse<GoodsIssueWithDetailsResponseDto>> GoodsIssueById(int issueId, int authenticatedUserStoreId)
         {
             var response = new BaseResponse<GoodsIssueWithDetailsResponseDto>();
 
             try
             {
                 var issue = await _unitOfWork.GoodsIssueQuery.GetGoodsIssueByIdAsQueryable(issueId)
+                    .Where(i => i.IdStore == authenticatedUserStoreId)
                     .FirstOrDefaultAsync();
 
                 if (issue is null)
                 {
                     response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_QUERY_EMPTY;
+                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                     return response;
                 }
 
@@ -113,11 +114,6 @@ namespace Application.Services
 
                     userName = user?.Names+' '+ user?.LastNames;
                 }
-
-                //var details = await _unitOfWork.GoodsIssueDetailsQuery.GetGoodsIssueDetailsQueryable(issue.Id)
-                //    .ToListAsync();
-
-                //issue.GoodsIssueDetails = details.ToList();
 
                 response.IsSuccess = true;
                 response.Data = GoodsIssueMapp.GoodsIssueWithDetailsResponseDtoMapping(issue, userName);

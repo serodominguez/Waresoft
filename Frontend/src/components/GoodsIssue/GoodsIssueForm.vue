@@ -108,6 +108,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
 import { ref, computed, watch, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useToast } from 'vue-toastification';
@@ -153,6 +154,7 @@ const emit = defineEmits<{
   'close': [];
 }>();
 
+const router = useRouter();
 const goodsIssueStore = useGoodsIssueStore();
 const userStore = useUserStore();
 const authStore = useAuthStore();
@@ -340,6 +342,10 @@ const downloadPdf = async () => {
 const close = () => {
   isOpen.value = false;
   emit('close');
+
+  if (router.currentRoute.value.params.id) {
+    router.replace({ name: 'goodsissue' });
+  }
 };
 
 onMounted(() => {

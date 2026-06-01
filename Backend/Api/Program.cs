@@ -3,13 +3,14 @@ using Web.Api.Filters;
 using Application.Extensions;
 using Infrastructure.Extensions;
 using Infrastructure.RateLimit;
+using Application.Commons.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
 
 // Add services to the container.
 var Cors = "Cors";
-
+builder.Services.Configure<FrontendSettings>(builder.Configuration.GetSection("FrontendSettings"));
 builder.Services.AddInjectionInfrastructure(Configuration);
 builder.Services.AddInjectionApplication(Configuration);
 builder.Services.AddAuthentication(Configuration);

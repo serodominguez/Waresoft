@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import { ref, computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useToast } from 'vue-toastification';
@@ -34,6 +35,7 @@ import GoodsIssueList from '@/components/GoodsIssue/GoodsIssueList.vue';
 import GoodsIssueForm from '@/components/GoodsIssue/GoodsIssueForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
 
+const route = useRoute();
 const goodsIssueStore = useGoodsIssueStore();
 const authStore       = useAuthStore();
 const toast           = useToast();
@@ -209,7 +211,21 @@ const handleActionCompleted = () => {
   fetchGoodsIssue();
 };
 
-onMounted(() => {
-  fetchGoodsIssue();
+onMounted(async () => {
+  await fetchGoodsIssue();
+
+  const idFromRoute = route.params.id as string;
+  if (idFromRoute) {
+    try {
+      const decoded = atob(idFromRoute);
+      const id      = Number(decoded);
+
+      if (!isNaN(id) && id > 0) {
+        await openForm({ idIssue: id } as GoodsIssue);
+      }
+    } catch {
+      console.warn('ID de ruta inválido');
+    }
+  }
 });
 </script>

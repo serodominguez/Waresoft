@@ -94,13 +94,14 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<GoodsReceiptWithDetailsResponseDto>> GoodsReceiptById(int receiptId)
+        public async Task<BaseResponse<GoodsReceiptWithDetailsResponseDto>> GoodsReceiptById(int receiptId, int AuthenticatedUserStoreId)
         {
             var response = new BaseResponse<GoodsReceiptWithDetailsResponseDto>();
 
             try
             {
                 var receipt = await _unitOfWork.GoodsReceiptQuery.GetGoodsReceiptByIdAsQueryable(receiptId)
+                    .Where(r => r.IdStore == AuthenticatedUserStoreId)
                     .FirstOrDefaultAsync();
 
                 if (receipt is null )

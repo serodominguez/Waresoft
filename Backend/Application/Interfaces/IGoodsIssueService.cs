@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface IGoodsIssueService
     {
         Task<BaseResponse<IEnumerable<GoodsIssueResponseDto>>> ListGoodsIssueByStore(int authenticatedStoreId, BaseFiltersRequest filters);
-        Task<BaseResponse<GoodsIssueWithDetailsResponseDto>> GoodsIssueById(int issueId);
+        Task<BaseResponse<GoodsIssueWithDetailsResponseDto>> GoodsIssueById(int issueId, int authenticatedStoreId);
         Task<BaseResponse<bool>> RegisterGoodsIssue(int authenticatedUserId, int authenticatedStoreId, GoodsIssueRequestDto requestDto);
         Task<BaseResponse<bool>> CancelGoodsIssue(int authenticatedUserId, int issueId);
     }

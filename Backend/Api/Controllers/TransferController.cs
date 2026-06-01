@@ -1,8 +1,11 @@
 ﻿using Application.Commons.Bases.Request;
+using Application.Commons.Settings;
 using Application.Dtos.Request.Transfer;
 using Application.Interfaces;
 using Application.Security;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -14,12 +17,14 @@ namespace Web.Api.Controllers
         private readonly ITransferService _transferService;
         private readonly IGenerateExcelService _generateExcelService;
         private readonly IGeneratePdfService _generatePdfService;
+        private readonly string _frontendBaseUrl;
 
-        public TransferController(ITransferService transferService, IGenerateExcelService generateExcelService, IGeneratePdfService generatePdfService)
+        public TransferController(ITransferService transferService, IGenerateExcelService generateExcelService, IGeneratePdfService generatePdfService, IOptions<FrontendSettings> frontendSettings)
         {
             _transferService = transferService;
             _generateExcelService = generateExcelService;
             _generatePdfService = generatePdfService;
+            _frontendBaseUrl = frontendSettings.Value.BaseUrl;
         }
 
 
@@ -95,10 +100,13 @@ namespace Web.Api.Controllers
         [Produces("application/pdf")]
         public async Task<IActionResult> ExportPdfTransfer(int transferId)
         {
+            var encodedId = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(transferId.ToString()));
             var response = await _transferService.TransferById(AuthenticatedUserId, transferId);
+            var qrUrl = $"{_frontendBaseUrl}/traspasos/{encodedId}";
             var fileBytes = _generatePdfService.TransferGeneratePdf(response.Data!,
                     AuthenticatedUserStoreType.ToTitleCase() ?? "",
-                    AuthenticatedUserStoreName.ToTitleCase() ?? "");
+                    AuthenticatedUserStoreName.ToTitleCase() ?? "",
+                    qrUrl);
 
             var fileName = $"Traspaso_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             return File(fileBytes, "application/pdf", fileName);

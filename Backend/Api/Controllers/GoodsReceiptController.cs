@@ -1,8 +1,11 @@
 ﻿using Application.Commons.Bases.Request;
+using Application.Commons.Settings;
 using Application.Dtos.Request.GoodsReceipt;
 using Application.Interfaces;
 using Application.Security;
+using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -14,12 +17,14 @@ namespace Web.Api.Controllers
         private readonly IGoodsReceiptService _goodsReceiptService;
         private readonly IGenerateExcelService _generateExcelService;
         private readonly IGeneratePdfService _generatePdfService;
+        private readonly string _frontendBaseUrl;
 
-        public GoodsReceiptController(IGoodsReceiptService goodsReceiptService, IGenerateExcelService generateExcelService, IGeneratePdfService generatePdfService)
+        public GoodsReceiptController(IGoodsReceiptService goodsReceiptService, IGenerateExcelService generateExcelService, IGeneratePdfService generatePdfService, IOptions<FrontendSettings> frontendSettings)
         {
             _goodsReceiptService = goodsReceiptService;
             _generateExcelService = generateExcelService;
             _generatePdfService = generatePdfService;
+            _frontendBaseUrl = frontendSettings.Value.BaseUrl;
         }
 
         [HttpGet]
@@ -61,7 +66,7 @@ namespace Web.Api.Controllers
         [RequirePermission("Entrada de Productos", "Leer")]
         public async Task<IActionResult> GoodsReceiptById(int receiptId)
         {
-            var response = await _goodsReceiptService.GoodsReceiptById(receiptId);
+            var response = await _goodsReceiptService.GoodsReceiptById(receiptId, AuthenticatedUserStoreId);
             return Ok(response);
         }
 
@@ -89,10 +94,13 @@ namespace Web.Api.Controllers
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ExportPdfGoodsReceipt(int receiptId)
         {
-            var response = await _goodsReceiptService.GoodsReceiptById(receiptId);
+            var encodedId = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(receiptId.ToString()));
+            var response = await _goodsReceiptService.GoodsReceiptById(receiptId, AuthenticatedUserStoreId);
+            var qrUrl = $"{_frontendBaseUrl}/entradas/{encodedId}";
             var fileBytes = _generatePdfService.GoodsReceiptGeneratePdf(response.Data!,                
                 AuthenticatedUserStoreType.ToTitleCase() ?? "",
-                AuthenticatedUserStoreName.ToTitleCase() ?? "");
+                AuthenticatedUserStoreName.ToTitleCase() ?? "",
+                qrUrl);
 
             var fileName = $"Entrada_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             return File(fileBytes, "application/pdf", fileName);

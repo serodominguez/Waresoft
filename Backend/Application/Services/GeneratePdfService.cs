@@ -21,15 +21,15 @@ namespace Application.Services
             _listPdfFactory = listPdfFactory;
         }
 
-        public byte[] GoodsIssueGeneratePdf(GoodsIssueWithDetailsResponseDto issue, string storeType, string storeName)
+        public byte[] GoodsIssueGeneratePdf(GoodsIssueWithDetailsResponseDto issue, string storeType, string storeName, string qrUrl)
         {
-            var generator = new GoodsIssuePdfGenerator(issue, storeType, storeName);
+            var generator = new GoodsIssuePdfGenerator(issue, storeType, storeName, qrUrl);
             return generator.GeneratePdf();
         }
 
-        public byte[] GoodsReceiptGeneratePdf(GoodsReceiptWithDetailsResponseDto receipt, string storeType, string storeName)
+        public byte[] GoodsReceiptGeneratePdf(GoodsReceiptWithDetailsResponseDto receipt, string storeType, string storeName, string qrUrl)
         {
-            var generator = new GoodsReceiptPdfGenerator(receipt, storeType, storeName);
+            var generator = new GoodsReceiptPdfGenerator(receipt, storeType, storeName, qrUrl);
             return generator.GeneratePdf();
         }
 
@@ -51,9 +51,9 @@ namespace Application.Services
             return generator.GeneratePdf();
         }
 
-        public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName)
+        public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName, string qrUrl)
         {
-            var generator = new TransferPdfGenerator(transfer, storeType, storeName);
+            var generator = new TransferPdfGenerator(transfer, storeType, storeName, qrUrl);
             return generator.GeneratePdf();
         }
 

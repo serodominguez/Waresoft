@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import { ref, computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useToast } from 'vue-toastification';
@@ -34,6 +35,7 @@ import TransferList from '@/components/Transfer/TransferList.vue';
 import TransferForm from '@/components/Transfer/TransferForm.vue';
 import CommonModal from '@/components/Common/CommonModal.vue';
 
+const route = useRoute();
 const transferStore = useTransferStore();
 const authStore     = useAuthStore();
 const toast         = useToast();
@@ -212,7 +214,21 @@ const handleActionCompleted = () => {
   fetchTransfers();
 };
 
-onMounted(() => {
-  fetchTransfers();
+onMounted(async () => {
+  await fetchTransfers();
+
+  const idFromRoute = route.params.id as string;
+  if (idFromRoute) {
+    try {
+      const decoded = atob(idFromRoute);
+      const id      = Number(decoded);
+
+      if (!isNaN(id) && id > 0) {
+        await openForm({ idTransfer: id } as Transfer);
+      }
+    } catch {
+      console.warn('ID de ruta inválido');
+    }
+  }
 });
 </script>

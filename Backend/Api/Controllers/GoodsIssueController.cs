@@ -1,8 +1,10 @@
 ﻿using Application.Commons.Bases.Request;
+using Application.Commons.Settings;
 using Application.Dtos.Request.GoodsIssue;
 using Application.Interfaces;
 using Application.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -14,12 +16,14 @@ namespace Web.Api.Controllers
         private readonly IGoodsIssueService _goodsIssueService;
         private readonly IGenerateExcelService _generateExcelService;
         private readonly IGeneratePdfService _generatePdfService;
+        private readonly string _frontendBaseUrl;
 
-        public GoodsIssueController(IGoodsIssueService goodsIssueService, IGenerateExcelService generateExcelService, IGeneratePdfService generatePdfService)
+        public GoodsIssueController(IGoodsIssueService goodsIssueService, IGenerateExcelService generateExcelService, IGeneratePdfService generatePdfService, IOptions<FrontendSettings> frontendSettings)
         {
             _goodsIssueService = goodsIssueService;
             _generateExcelService = generateExcelService;
             _generatePdfService = generatePdfService;
+            _frontendBaseUrl = frontendSettings.Value.BaseUrl;
         }
 
         [HttpGet]
@@ -61,7 +65,7 @@ namespace Web.Api.Controllers
         [RequirePermission("Salida de Productos", "Leer")]
         public async Task<IActionResult> GoodsIssueById(int issueId)
         {
-            var response = await _goodsIssueService.GoodsIssueById(issueId);
+            var response = await _goodsIssueService.GoodsIssueById(issueId, AuthenticatedUserStoreId);
             return Ok(response);
         }
 
@@ -86,10 +90,13 @@ namespace Web.Api.Controllers
         [Produces("application/pdf")]
         public async Task<IActionResult> ExportPdfGoodsIssue(int issueId)
         {
-            var response = await _goodsIssueService.GoodsIssueById(issueId);
+            var encodedId = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(issueId.ToString()));
+            var response = await _goodsIssueService.GoodsIssueById(issueId, AuthenticatedUserStoreId);
+            var qrUrl = $"{_frontendBaseUrl}/salidas/{encodedId}";
             var fileBytes = _generatePdfService.GoodsIssueGeneratePdf(response.Data!,
                 AuthenticatedUserStoreType.ToTitleCase() ?? "",
-                AuthenticatedUserStoreName.ToTitleCase() ?? "");
+                AuthenticatedUserStoreName.ToTitleCase() ?? "",
+                qrUrl);
 
             var fileName = $"Salida_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             return File(fileBytes, "application/pdf", fileName);
