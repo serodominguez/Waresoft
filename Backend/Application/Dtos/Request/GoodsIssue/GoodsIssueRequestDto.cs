@@ -1,13 +1,13 @@
 ﻿namespace Application.Dtos.Request.GoodsIssue
 {
-    public class GoodsIssueRequestDto
+    public record GoodsIssueRequestDto
     {
-        public string? Type { get; set; }
-        public decimal TotalAmount { get; set; }
-        public string? Annotations { get; set; }
-        public int? IdUser { get; set; }
-        public int IdStore { get; set; }
+        public string? Type { get; init; }
+        public decimal TotalAmount { get; init; }
+        public string? Annotations { get; init; }
+        public int? IdUser { get; init; }
+        public int IdStore { get; init; }
 
-        public ICollection<GoodsIssueDetailsRequestDto> GoodsIssueDetails { get; set; } = new List<GoodsIssueDetailsRequestDto>();
+        public ICollection<GoodsIssueDetailsRequestDto> GoodsIssueDetails { get; init; } = new List<GoodsIssueDetailsRequestDto>();
     }
 }

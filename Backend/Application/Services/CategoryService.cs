@@ -79,7 +79,7 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<IEnumerable<CategorySelectResponseDto>>> ListSelectCategories()
+        public async Task<BaseResponse<IEnumerable<CategorySelectResponseDto>>> SelectListCategories()
         {
             var response = new BaseResponse<IEnumerable<CategorySelectResponseDto>>();
 

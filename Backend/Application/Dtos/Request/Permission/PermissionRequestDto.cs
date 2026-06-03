@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Request.Permission
 {
-    public class PermissionRequestDto
+    public record PermissionRequestDto
     {
-        public int IdPermission { get; set; }
-        public bool Status { get; set; }
+        public int IdPermission { get; init; }
+        public bool Status { get; init; }
     }
 }

@@ -59,9 +59,9 @@ namespace Web.Api.Controllers
 
         [HttpGet("Select")]
         [RequirePermission("Usuarios", "Leer")]
-        public async Task<IActionResult> ListSelectUsers()
+        public async Task<IActionResult> SelectListUsers()
         {
-            var response = await _userService.ListSelectUsers();
+            var response = await _userService.SelectListUsers();
             return Ok(response);
         }
 

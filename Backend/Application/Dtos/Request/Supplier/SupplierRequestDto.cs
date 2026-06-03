@@ -1,10 +1,10 @@
 ﻿namespace Application.Dtos.Request.Supplier
 {
-    public class SupplierRequestDto
+    public record SupplierRequestDto
     {
-        public string? CompanyName { get; set; }
-        public string? Contact { get; set; }
-        public string? PhoneNumber { get; set; }
-        public string? Email { get; set; }
+        public string? CompanyName { get; init; }
+        public string? Contact { get; init; }
+        public string? PhoneNumber { get; init; }
+        public string? Email { get; init; }
     }
 }

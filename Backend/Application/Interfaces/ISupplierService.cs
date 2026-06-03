@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface ISupplierService
     {
         Task<BaseResponse<IEnumerable<SupplierResponseDto>>> ListSuppliers(BaseFiltersRequest filters);
-        Task<BaseResponse<IEnumerable<SupplierSelectResponseDto>>> ListSelectSuppliers();
+        Task<BaseResponse<IEnumerable<SupplierSelectResponseDto>>> SelectListSuppliers();
         Task<BaseResponse<SupplierResponseDto>> SupplierById(int supplierId);
         Task<BaseResponse<bool>> RegisterSupplier(int authenticatedUserId, SupplierRequestDto requestDto);
         Task<BaseResponse<bool>> EditSupplier(int authenticatedUserId, int supplierId, SupplierRequestDto requestDto);

@@ -77,7 +77,7 @@ namespace Application.Services
 
             return response;
         }
-        public async Task<BaseResponse<IEnumerable<SupplierSelectResponseDto>>> ListSelectSuppliers()
+        public async Task<BaseResponse<IEnumerable<SupplierSelectResponseDto>>> SelectListSuppliers()
         {
             var response = new BaseResponse<IEnumerable<SupplierSelectResponseDto>>();
 

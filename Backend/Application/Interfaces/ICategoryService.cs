@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface ICategoryService
     {
         Task<BaseResponse<IEnumerable<CategoryResponseDto>>> ListCategories(BaseFiltersRequest filters);
-        Task<BaseResponse<IEnumerable<CategorySelectResponseDto>>> ListSelectCategories();
+        Task<BaseResponse<IEnumerable<CategorySelectResponseDto>>> SelectListCategories();
         Task<BaseResponse<CategoryResponseDto>> CategoryById(int categoryId);
         Task<BaseResponse<bool>> RegisterCategory(int authenticatedUserId, CategoryRequestDto requestDto);
         Task<BaseResponse<bool>> EditCategory(int authenticatedUserId, int categoryId, CategoryRequestDto requestDto);

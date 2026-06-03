@@ -1,17 +1,17 @@
 ﻿namespace Application.Dtos.Response.Store
 {
-    public class StoreResponseDto
+    public record StoreResponseDto
     {
-        public int IdStore { get; set; }
-        public string? StoreName { get; set; }
-        public string? Manager { get; set; }
-        public string? Address { get; set; }
-        public string? PhoneNumber { get; set; }
-        public string? City { get; set; }
-        public string? Email { get; set; }
-        public decimal? ProfitMargin { get; set; }
-        public string? Type { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public string? StatusStore { get; set; }
+        public int IdStore { get; init; }
+        public string? StoreName { get; init; }
+        public string? Manager { get; init; }
+        public string? Address { get; init; }
+        public string? PhoneNumber { get; init; }
+        public string? City { get; init; }
+        public string? Email { get; init; }
+        public decimal? ProfitMargin { get; init; }
+        public string? Type { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusStore { get; init; }
     }
 }

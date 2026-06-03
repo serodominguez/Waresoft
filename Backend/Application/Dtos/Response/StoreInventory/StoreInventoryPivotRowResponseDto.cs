@@ -1,15 +1,15 @@
 ﻿namespace Application.Dtos.Response.StoreInventory
 {
-    public class StoreInventoryPivotRowResponseDto
+    public record StoreInventoryPivotRowResponseDto
     {
-        public string? Image { get; set; }
-        public string? Code { get; set; }
-        public string? Description { get; set; }
-        public string? Material { get; set; }
-        public string? Color { get; set; }
-        public string? BrandName { get; set; }
-        public string? CategoryName { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public Dictionary<string, int>? StockByStore { get; set; }
+        public string? Image { get; init; }
+        public string? Code { get; init; }
+        public string? Description { get; init; }
+        public string? Material { get; init; }
+        public string? Color { get; init; }
+        public string? BrandName { get; init; }
+        public string? CategoryName { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public Dictionary<string, int>? StockByStore { get; init; }
     }
 }

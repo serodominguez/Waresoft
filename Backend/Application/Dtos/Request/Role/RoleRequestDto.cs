@@ -1,7 +1,7 @@
 ﻿namespace Application.Dtos.Request.Role
 {
-    public class RoleRequestDto
+    public record RoleRequestDto
     {
-        public string? RoleName { get; set; }
+        public string? RoleName { get; init; }
     }
 }

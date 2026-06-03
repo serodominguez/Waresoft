@@ -393,14 +393,14 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<byte[]>> GenerateBarcodePdf(ProductBarcodeRequestDto requestDto)
+        public async Task<BaseResponse<ProductSelectResponseDto>> GenerateProductBarcode(ProductBarcodeRequestDto requestDto)
         {
-            var response = new BaseResponse<byte[]>();
+            var response = new BaseResponse<ProductSelectResponseDto>();
 
             try
             {
                 var validationResult = await _barcodeValidator.ValidateAsync(requestDto);
-                if(!validationResult.IsValid)
+                if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
                     response.Message = ReplyMessage.MESSAGE_VALIDATE;
@@ -408,8 +408,8 @@ namespace Application.Services
                     return response;
                 }
 
-                var product = await _unitOfWork.ProductQuery
-                    .GetProductByIdQueryable(requestDto.IdProduct)
+                var product = await _unitOfWork.ProductQuery.GetProductsSelectQueryable()
+                    .Where(p => p.Id == requestDto.IdProduct)
                     .FirstOrDefaultAsync();
 
                 if (product is null)
@@ -419,18 +419,16 @@ namespace Application.Services
                     return response;
                 }
 
-                var pdfBytes = new ProductBarcodePdfGenerator(product.Code!, requestDto.Quantity).GeneratePdf();
-
                 response.IsSuccess = true;
-                response.Data = pdfBytes;
+                response.Data = ProductMapp.ProductsSelectResponseDtoMapping(product);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
+
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
             }
-
             return response;
         }
     }

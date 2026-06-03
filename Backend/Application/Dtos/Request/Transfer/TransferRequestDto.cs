@@ -2,12 +2,12 @@
 
 namespace Application.Dtos.Request.Transfer
 {
-    public class TransferRequestDto
+    public record TransferRequestDto
     {
-        public decimal TotalAmount { get; set; }
-        public string? Annotations { get; set; }
-        public int IdStoreOrigin { get; set; }
-        public int IdStoreDestination { get; set; }
-        public ICollection<TransferDetailsRequestDto> TransferDetails { get; set; } = new List<TransferDetailsRequestDto>();
+        public decimal TotalAmount { get; init; }
+        public string? Annotations { get; init; }
+        public int IdStoreOrigin { get; init; }
+        public int IdStoreDestination { get; init; }
+        public ICollection<TransferDetailsRequestDto> TransferDetails { get; init; } = new List<TransferDetailsRequestDto>();
     }
 }

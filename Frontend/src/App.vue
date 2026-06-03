@@ -8,17 +8,7 @@
   </v-app>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import Appbar from './components/Dashboard/Appbar.vue';
-import Footerbar from './components/Dashboard/Footerbar.vue';
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    Appbar,
-    Footerbar,
-  },
-});
+<script setup lang="ts">
+import Appbar from './components/Dashboard/Appbar.vue'
+import Footerbar from './components/Dashboard/Footerbar.vue'
 </script>
-

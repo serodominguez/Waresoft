@@ -1,13 +1,13 @@
 ﻿namespace Application.Dtos.Response.Permission
 {
-    public class PermissionByRoleResponseDto
+    public record PermissionByRoleResponseDto
     {
-        public int IdPermission { get; set; }
-        public int IdRole { get; set; }
-        public int IdModule { get; set; }
-        public string? ModuleName { get; set; }
-        public int IdAction { get; set; }
-        public string? ActionName { get; set; }
-        public bool Status { get; set; }
+        public int IdPermission { get; init; }
+        public int IdRole { get; init; }
+        public int IdModule { get; init; }
+        public string? ModuleName { get; init; }
+        public int IdAction { get; init; }
+        public string? ActionName { get; init; }
+        public bool Status { get; init; }
     }
 }

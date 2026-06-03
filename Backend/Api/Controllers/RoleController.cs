@@ -60,9 +60,9 @@ namespace Web.Api.Controllers
 
         [HttpGet("Select")]
         [RequirePermission("Roles", "Leer")]
-        public async Task<IActionResult> ListSelectRoles()
+        public async Task<IActionResult> SelectListRoles()
         {
-            var response = await _roleService.ListSelectRoles();
+            var response = await _roleService.SelectListRoles();
             return Ok(response);
         }
 

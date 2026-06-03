@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Request.StoreInventory
 {
-    public class StoreInventoryRequestDto
+    public record StoreInventoryRequestDto
     {
-        public int IdProduct { get; set; }
-        public decimal Price { get; set; }
+        public int IdProduct { get; init; }
+        public decimal Price { get; init; }
     }
 }

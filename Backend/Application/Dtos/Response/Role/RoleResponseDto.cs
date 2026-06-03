@@ -1,10 +1,10 @@
 ﻿namespace Application.Dtos.Response.Role
 {
-    public class RoleResponseDto
+    public record RoleResponseDto
     {
-        public int IdRole { get; set; }
-        public string? RoleName { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public string? StatusRole { get; set; }
+        public int IdRole { get; init; }
+        public string? RoleName { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusRole { get; init; }
     }
 }

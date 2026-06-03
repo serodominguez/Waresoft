@@ -4,21 +4,18 @@ import 'vuetify/styles'
 
 // Vuetify
 import { createVuetify } from 'vuetify';
-import { VDateInput } from 'vuetify/labs/VDateInput';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 import { mdi } from 'vuetify/iconsets/mdi'; 
 import { es, en } from 'vuetify/locale';
-import { ThemeDefinition } from 'vuetify';
+import type { ThemeDefinition } from 'vuetify';
 import { createI18n, I18n } from 'vue-i18n';
 import type { LocaleMessages } from '@intlify/core-base';
 
 // Definición de mensajes para la localización
-const messages: LocaleMessages<any> =  {
-  es: {
-    ...es,
-  },
-  en: {
-    ...en,
-  },
+const messages: LocaleMessages<any> = {
+  es: { ...es },
+  en: { ...en },
 };
 
 // Definición del tema personalizado
@@ -71,27 +68,19 @@ const i18n: I18n = createI18n({
 
 // Creación de la instancia de Vuetify
 const vuetify = createVuetify({
-  components: {
-    VDateInput,
-  },
+  components,   // ✅ incluye VDateInput y todos los demás
+  directives,
   locale: {
     locale: 'es',
-    messages: {
-      es,
-      en,
-    },
+    messages: { es, en },
   },
   icons: {
     defaultSet: 'mdi',
-    sets: {
-      mdi,
-    },
+    sets: { mdi },
   },
   theme: {
     defaultTheme: 'myCustomLightTheme',
-    themes: {
-      myCustomLightTheme,
-    },
+    themes: { myCustomLightTheme },
   },
 });
 

@@ -1,11 +1,11 @@
 ﻿namespace Application.Dtos.Request.Customer
 {
-    public class CustomerRequestDto
+    public record CustomerRequestDto
     {
-        public string? Names { get; set; }
-        public string? LastNames { get; set; }
-        public string? IdentificationNumber { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string? Names { get; init; }
+        public string? LastNames { get; init; }
+        public string? IdentificationNumber { get; init; }
+        public string? PhoneNumber { get; init; }
 
     }
 }

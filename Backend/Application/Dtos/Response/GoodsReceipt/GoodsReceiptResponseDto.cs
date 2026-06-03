@@ -1,21 +1,21 @@
 ﻿namespace Application.Dtos.Response.GoodsReceipt
 {
-    public class GoodsReceiptResponseDto
+    public record GoodsReceiptResponseDto
     {
-        public int IdReceipt { get; set; }
-        public string? Code { get; set; }
-        public string? Type { get; set; }
-        public string? DocumentDate { get; set; }
-        public string? DocumentType { get; set; }
-        public string? DocumentNumber { get; set; }
-        public decimal TotalAmount { get; set; }
-        public string? Annotations { get; set; }
-        public int? IdSupplier { get; set; }
-        public string? CompanyName { get; set; }
-        public int IdStore { get; set; }
-        public string? StoreName { get; set; }
-        public int? AuditCreateUser { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public string? StatusReceipt { get; set; }
+        public int IdReceipt { get; init; }
+        public string? Code { get; init; }
+        public string? Type { get; init; }
+        public string? DocumentDate { get; init; }
+        public string? DocumentType { get; init; }
+        public string? DocumentNumber { get; init; }
+        public decimal TotalAmount { get; init; }
+        public string? Annotations { get; init; }
+        public int? IdSupplier { get; init; }
+        public string? CompanyName { get; init; }
+        public int IdStore { get; init; }
+        public string? StoreName { get; init; }
+        public int? AuditCreateUser { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusReceipt { get; init; }
     }
 }

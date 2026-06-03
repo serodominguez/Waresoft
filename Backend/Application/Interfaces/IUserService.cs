@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface IUserService
     {
         Task<BaseResponse<IEnumerable<UserResponseDto>>> ListUsers(BaseFiltersRequest filters);
-        Task<BaseResponse<IEnumerable<UserSelectResponseDto>>> ListSelectUsers();
+        Task<BaseResponse<IEnumerable<UserSelectResponseDto>>> SelectListUsers();
         Task<BaseResponse<UserResponseDto>> UserById(int userId);
         Task<BaseResponse<bool>> RegisterUser(int authenticatedUserId, UserRequestDto requestDto);
         Task<BaseResponse<bool>> EditUser(int authenticatedUserId, int userId, UserRequestDto requestDto);

@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface IStoreService
     {
         Task<BaseResponse<IEnumerable<StoreResponseDto>>> ListStores(BaseFiltersRequest filters);
-        Task<BaseResponse<IEnumerable<StoreSelectResponseDto>>> ListSelectStores();
+        Task<BaseResponse<IEnumerable<StoreSelectResponseDto>>> SelectListStores();
         Task<BaseResponse<StoreResponseDto>> StoreById(int storeId);
         Task<BaseResponse<bool>> RegisterStore(int authenticatedUserId, StoreRequestDto requestDto);
         Task<BaseResponse<bool>> EditStore(int authenticatedUserId, int storeId, StoreRequestDto requestDto);

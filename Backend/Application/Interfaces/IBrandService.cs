@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface IBrandService
     {
         Task<BaseResponse<IEnumerable<BrandResponseDto>>> ListBrands(BaseFiltersRequest filters);
-        Task<BaseResponse<IEnumerable<BrandSelectResponseDto>>> ListSelectBrands();
+        Task<BaseResponse<IEnumerable<BrandSelectResponseDto>>> SelectListBrands();
         Task<BaseResponse<BrandResponseDto>> BrandById(int brandId);
         Task<BaseResponse<bool>> RegisterBrand(int authenticatedUserId, BrandRequestDto requestDto);
         Task<BaseResponse<bool>> EditBrand(int authenticatedUserId, int brandId, BrandRequestDto requestDto);

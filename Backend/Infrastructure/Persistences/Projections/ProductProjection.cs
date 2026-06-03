@@ -23,5 +23,14 @@ namespace Infrastructure.Persistences.Projections
                 AuditCreateDate = p.AuditCreateDate,
                 IsActive = p.IsActive
             };
+
+        public static Expression<Func<ProductEntity, ProductSelectReadModel>> ToSelect =>
+            p => new ProductSelectReadModel
+            {
+                Id = p.Id,
+                Code = p.Code,
+                Description = p.Description,
+                IsActive = p.IsActive
+            };
     }
 }

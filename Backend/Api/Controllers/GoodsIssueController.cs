@@ -87,7 +87,6 @@ namespace Web.Api.Controllers
 
         [HttpGet("ExportPdf/{issueId:int}")]
         [RequirePermission("Salida de Productos", "Descargar")]
-        [Produces("application/pdf")]
         public async Task<IActionResult> ExportPdfGoodsIssue(int issueId)
         {
             var encodedId = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(issueId.ToString()));

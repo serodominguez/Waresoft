@@ -30,5 +30,13 @@ namespace Infrastructure.Persistences.Repositories.Product
                 .Where(p => p.Id == productId)
                 .Select(ProductProjection.ToSummary);
         }
+
+        public IQueryable<ProductSelectReadModel> GetProductsSelectQueryable()
+        {
+            return _context.Product
+                .AsNoTracking()
+                .Where(p => p.AuditDeleteUser == null && p.AuditDeleteDate == null)
+                .Select(ProductProjection.ToSelect);
+        }
     }
 }

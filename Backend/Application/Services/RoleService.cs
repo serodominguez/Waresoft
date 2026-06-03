@@ -75,7 +75,7 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<IEnumerable<RoleSelectResponseDto>>> ListSelectRoles()
+        public async Task<BaseResponse<IEnumerable<RoleSelectResponseDto>>> SelectListRoles()
         {
             var response = new BaseResponse<IEnumerable<RoleSelectResponseDto>>();
 

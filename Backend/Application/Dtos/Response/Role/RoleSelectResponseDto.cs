@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Response.Role
 {
-    public class RoleSelectResponseDto
+    public record RoleSelectResponseDto
     {
-        public int IdRole { get; set; }
-        public string? RoleName { get; set; }
+        public int IdRole { get; init; }
+        public string? RoleName { get; init; }
     }
 }

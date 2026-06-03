@@ -8,7 +8,7 @@ namespace Application.Interfaces
     public interface IRoleService
     {
         Task<BaseResponse<IEnumerable<RoleResponseDto>>> ListRoles(BaseFiltersRequest filters);
-        Task<BaseResponse<IEnumerable<RoleSelectResponseDto>>> ListSelectRoles();
+        Task<BaseResponse<IEnumerable<RoleSelectResponseDto>>> SelectListRoles();
         Task<BaseResponse<RoleResponseDto>> RoleById(int roleId);
         Task<BaseResponse<bool>> RegisterRole(int authenticatedUserId, RoleRequestDto requestDto);
         Task<BaseResponse<bool>> EditRole(int authenticatedUserId, int roleId, RoleRequestDto requestDto);

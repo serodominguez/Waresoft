@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.Response.GoodsIssue;
 using Application.Dtos.Response.GoodsReceipt;
+using Application.Dtos.Response.Product;
 using Application.Dtos.Response.StoreInventory;
 using Application.Dtos.Response.Transfer;
 using Application.Interfaces;
@@ -48,6 +49,12 @@ namespace Application.Services
         public byte[] PivotInventoryGeneratePdf(StoreInventoryPivotResponseDto pivot, string storeType, string storeName)
         {
             var generator = new PivotPdfGenerator(pivot, storeType, storeName);
+            return generator.GeneratePdf();
+        }
+
+        public byte[] ProductBarcodeGeneratePdf(ProductSelectResponseDto product, int quantity)
+        {
+            var generator = new ProductBarcodePdfGenerator(product, quantity);
             return generator.GeneratePdf();
         }
 

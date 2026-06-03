@@ -189,7 +189,7 @@
   },
   {
     "ContainingType": "Web.Api.Controllers.BrandController",
-    "Method": "ListSelectBrands",
+    "Method": "SelectListBrands",
     "RelativePath": "api/Brand/Select",
     "HttpMethod": "GET",
     "IsController": true,
@@ -371,7 +371,7 @@
   },
   {
     "ContainingType": "Web.Api.Controllers.CategoryController",
-    "Method": "ListSelectCategories",
+    "Method": "SelectListCategories",
     "RelativePath": "api/Category/Select",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1477,7 +1477,7 @@
   },
   {
     "ContainingType": "Web.Api.Controllers.RoleController",
-    "Method": "ListSelectRoles",
+    "Method": "SelectListRoles",
     "RelativePath": "api/Role/Select",
     "HttpMethod": "GET",
     "IsController": true,
@@ -1669,7 +1669,7 @@
   },
   {
     "ContainingType": "Web.Api.Controllers.StoreController",
-    "Method": "ListSelectStores",
+    "Method": "SelectListStores",
     "RelativePath": "api/Store/Select",
     "HttpMethod": "GET",
     "IsController": true,
@@ -2227,7 +2227,7 @@
   },
   {
     "ContainingType": "Web.Api.Controllers.SupplierController",
-    "Method": "ListSelectSuppliers",
+    "Method": "SelectListSuppliers",
     "RelativePath": "api/Supplier/Select",
     "HttpMethod": "GET",
     "IsController": true,
@@ -2560,7 +2560,7 @@
   },
   {
     "ContainingType": "Web.Api.Controllers.UserController",
-    "Method": "ListSelectUsers",
+    "Method": "SelectListUsers",
     "RelativePath": "api/User/Select",
     "HttpMethod": "GET",
     "IsController": true,

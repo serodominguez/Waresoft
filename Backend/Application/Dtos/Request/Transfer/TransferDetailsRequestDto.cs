@@ -1,11 +1,11 @@
 ﻿namespace Application.Dtos.Request.Transfer
 {
-    public class TransferDetailsRequestDto
+    public record TransferDetailsRequestDto
     {
-        public int Item { get; set; }
-        public int IdProduct { get; set; }
-        public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal TotalPrice { get; set; }
+        public int Item { get; init; }
+        public int IdProduct { get; init; }
+        public int Quantity { get; init; }
+        public decimal UnitPrice { get; init; }
+        public decimal TotalPrice { get; init; }
     }
 }

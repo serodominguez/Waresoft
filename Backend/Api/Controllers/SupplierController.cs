@@ -59,9 +59,9 @@ namespace Web.Api.Controllers
 
         [HttpGet("Select")]
         [RequirePermission("Proveedores", "Leer")]
-        public async Task<IActionResult> ListSelectSuppliers()
+        public async Task<IActionResult> SelectListSuppliers()
         {
-            var response = await _supplierService.ListSelectSuppliers();
+            var response = await _supplierService.SelectListSuppliers();
             return Ok(response);
         }
 

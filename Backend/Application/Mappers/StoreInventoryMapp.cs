@@ -35,7 +35,8 @@ namespace Application.Mappers
                 Color = model.Color?.ToSentenceCase(),
                 UnitMeasure = model.UnitMeasure?.ToSentenceCase(),
                 BrandName = model.BrandName?.ToSentenceCase(),
-                CategoryName = model.CategoryName?.ToSentenceCase()
+                CategoryName = model.CategoryName?.ToSentenceCase(),
+                AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null
             };
         }
 

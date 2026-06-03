@@ -1,19 +1,19 @@
 ﻿namespace Application.Dtos.Response.Transfer
 {
-    public class TransferResponseDto
+    public record TransferResponseDto
     {
-        public int IdTransfer { get; set; }
-        public string? Code { get; set; }
-        public string? SendDate { get; set; }
-        public string? ReceiveDate { get; set; }
-        public decimal TotalAmount { get; set; }
-        public string? Annotations { get; set; }
-        public int IdStoreOrigin { get; set; }
-        public string? StoreOrigin { get; set; }
-        public int IdStoreDestination { get; set; }
-        public string? StoreDestination { get; set; }
-        public string? SendUser { get; set; }
-        public string? ReceiveUser { get; set; }
-        public string? StatusTransfer { get; set; }
+        public int IdTransfer { get; init; }
+        public string? Code { get; init; }
+        public string? SendDate { get; init; }
+        public string? ReceiveDate { get; init; }
+        public decimal TotalAmount { get; init; }
+        public string? Annotations { get; init; }
+        public int IdStoreOrigin { get; init; }
+        public string? StoreOrigin { get; init; }
+        public int IdStoreDestination { get; init; }
+        public string? StoreDestination { get; init; }
+        public string? SendUser { get; init; }
+        public string? ReceiveUser { get; init; }
+        public string? StatusTransfer { get; init; }
     }
 }

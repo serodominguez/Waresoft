@@ -1,22 +1,22 @@
 ﻿namespace Application.Dtos.Response.StoreInventory
 {
-    public class StoreInventoryCalculatedResponseDto
+    public record StoreInventoryCalculatedResponseDto
     {
-        public int IdStore { get; set; }
-        public int IdProduct { get; set; }
-        public int StockAvailable { get; set; }
-        public int CalculatedStock { get; set; }
-        public int StockDifference { get; set; }
-        public int StockInTransit { get; set; }
-        public decimal Price { get; set; }
-        public string? Replenishment { get; set; }
-        public string? Code { get; set; }
-        public string? Description { get; set; }
-        public string? Material { get; set; }
-        public string? Color { get; set; }
-        public string? UnitMeasure { get; set; }
-        public string? BrandName { get; set; }
-        public string? CategoryName { get; set; }
-        public string? AuditCreateDate { get; set; }
+        public int IdStore { get; init; }
+        public int IdProduct { get; init; }
+        public int StockAvailable { get; init; }
+        public int CalculatedStock { get; init; }
+        public int StockDifference { get; init; }
+        public int StockInTransit { get; init; }
+        public decimal Price { get; init; }
+        public string? Replenishment { get; init; }
+        public string? Code { get; init; }
+        public string? Description { get; init; }
+        public string? Material { get; init; }
+        public string? Color { get; init; }
+        public string? UnitMeasure { get; init; }
+        public string? BrandName { get; init; }
+        public string? CategoryName { get; init; }
+        public string? AuditCreateDate { get; init; }
     }
 }

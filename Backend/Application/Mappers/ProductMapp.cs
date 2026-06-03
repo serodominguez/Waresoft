@@ -42,5 +42,15 @@ namespace Application.Mappers
                 StatusProduct = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
+
+        public static ProductSelectResponseDto ProductsSelectResponseDtoMapping(ProductSelectReadModel model)
+        {
+            return new ProductSelectResponseDto
+            {
+                IdProduct = model.Id,
+                Code = model.Code,
+                Description = model.Description.ToSentenceCase()
+            };
+        }
     }
 }

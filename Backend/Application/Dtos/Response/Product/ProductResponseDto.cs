@@ -1,21 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Application.Dtos.Response.Product
+﻿namespace Application.Dtos.Response.Product
 {
-    public class ProductResponseDto
+    public record ProductResponseDto
     {
-        public int IdProduct { get; set; }
-        public string? Code { get; set; }
-        public string? Description { get; set; }
-        public string? Material { get; set; }
-        public string? Color { get; set; }
-        public string? UnitMeasure { get; set; }
-        public string? Image { get; set; }  
-        public int IdBrand { get; set; }
-        public string? BrandName { get; set; }
-        public int IdCategory { get; set; }
-        public string? CategoryName { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public string? StatusProduct { get; set; }
+        public int IdProduct { get; init; }
+        public string? Code { get; init; }
+        public string? Description { get; init; }
+        public string? Material { get; init; }
+        public string? Color { get; init; }
+        public string? UnitMeasure { get; init; }
+        public string? Image { get; init; }  
+        public int IdBrand { get; init; }
+        public string? BrandName { get; init; }
+        public int IdCategory { get; init; }
+        public string? CategoryName { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusProduct { get; init; }
     }
 }

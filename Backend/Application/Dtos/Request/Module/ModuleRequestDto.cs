@@ -1,7 +1,7 @@
 ﻿namespace Application.Dtos.Request.Module
 {
-    public class ModuleRequestDto
+    public record ModuleRequestDto
     {
-        public string? ModuleName { get; set; }
+        public string? ModuleName { get; init; }
     }
 }

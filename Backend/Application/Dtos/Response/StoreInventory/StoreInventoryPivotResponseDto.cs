@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Response.StoreInventory
 {
-    public class StoreInventoryPivotResponseDto
+    public record StoreInventoryPivotResponseDto
     {
-        public List<string> Stores { get; set; } = new();
-        public List<StoreInventoryPivotRowResponseDto> Rows { get; set; } = new();
+        public List<string> Stores { get; init; } = new();
+        public List<StoreInventoryPivotRowResponseDto> Rows { get; init; } = new();
     }
 }

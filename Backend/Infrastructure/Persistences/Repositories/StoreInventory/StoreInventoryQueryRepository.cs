@@ -22,10 +22,11 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
 
         public IQueryable<StoreInventoryReadModel> GetInventoryListQueryable(int storeId)
         {
-            return _context.StoreInventory
+            var response = _context.StoreInventory
                 .AsNoTracking()
                 .Where(i => i.IdStore == storeId)
                 .Select(StoreInventoryProjection.ToSummary);
+            return response;
         }
 
         public async Task<List<KardexMovementReadModel>> GetKardexByProductAsync(int storeId, int productId, DateTime? startDate, DateTime? endDate)

@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Response.Supplier
 {
-    public class SupplierSelectResponseDto
+    public record SupplierSelectResponseDto
     {
-        public int IdSupplier { get; set; }
-        public string? CompanyName { get; set; }
+        public int IdSupplier { get; init; }
+        public string? CompanyName { get; init; }
     }
 }

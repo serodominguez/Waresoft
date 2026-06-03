@@ -1,4 +1,5 @@
-﻿using Infrastructure.FilePdf;
+﻿using Application.Dtos.Response.Product;
+using Infrastructure.FilePdf;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -15,12 +16,12 @@ namespace Application.Reports.Pdf
         private const float LabelWidthCm = 3.8f;
         private const float LabelHeightCm = 1.8f;
 
-        private readonly string _code;
+        private readonly ProductSelectResponseDto _product;
         private readonly int _quantity;
 
-        public ProductBarcodePdfGenerator(string code, int quantity)
+        public ProductBarcodePdfGenerator(ProductSelectResponseDto product, int quantity)
         {
-            _code = code;
+            _product = product;
             _quantity = quantity;
         }
 
@@ -54,7 +55,7 @@ namespace Application.Reports.Pdf
 
         private void ComposeLabel(IContainer container)
         {
-            var barcodeImage = GenerateBarcodeImage(_code);
+            var barcodeImage = GenerateBarcodeImage(_product.Code!);
 
             container
                 .Border(0.5f)
@@ -69,7 +70,7 @@ namespace Application.Reports.Pdf
                        .FitWidth();
 
                     col.Item().AlignCenter()
-                       .Text(_code)
+                       .Text(_product.Code!)
                        .FontSize(6);
                 });
         }

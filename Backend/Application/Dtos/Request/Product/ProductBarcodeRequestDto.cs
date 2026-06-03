@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Request.Product
 {
-    public class ProductBarcodeRequestDto
+    public record ProductBarcodeRequestDto
     {
-        public int IdProduct { get; set; }
-        public int Quantity { get; set; }
+        public int IdProduct { get; init; }
+        public int Quantity { get; init; }
     }
 }

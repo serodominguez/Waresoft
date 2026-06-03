@@ -1,11 +1,11 @@
 ﻿namespace Application.Dtos.Request.GoodsReceipt
 {
-    public class GoodsReceiptDetailsRequestDto
+    public record GoodsReceiptDetailsRequestDto
     {
-        public int Item { get; set; }
-        public int IdProduct { get; set; }
-        public int Quantity { get; set; }
-        public decimal UnitCost { get; set; }
-        public decimal TotalCost { get; set; }
+        public int Item { get; init; }
+        public int IdProduct { get; init; }
+        public int Quantity { get; init; }
+        public decimal UnitCost { get; init; }
+        public decimal TotalCost { get; init; }
     }
 }

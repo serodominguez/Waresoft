@@ -1,10 +1,10 @@
 ﻿namespace Application.Dtos.Response.Module
 {
-    public class ModuleResponseDto
+    public record ModuleResponseDto
     {
-        public int IdModule { get; set; }
-        public string? ModuleName { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public string? StatusModule { get; set; }
+        public int IdModule { get; init; }
+        public string? ModuleName { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusModule { get; init; }
     }
 }

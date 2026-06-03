@@ -109,9 +109,11 @@ namespace Web.Api.Controllers
         [RequirePermission("Productos", "Descargar")]
         public async Task<IActionResult> GenerateBarcodePdf([FromBody] ProductBarcodeRequestDto requestDto)
         {
-            var response = await _productService.GenerateBarcodePdf(requestDto);
-            var filename = $"Barcodes_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
-            return File(response.Data!, "application/pdf", filename);
+            var response = await _productService.GenerateProductBarcode(requestDto);
+            var fileBytes = _generatePdfService.ProductBarcodeGeneratePdf(response.Data!, requestDto.Quantity);
+
+            var fileName = $"Barcodes_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            return File(fileBytes, "application/pdf", fileName);
         }
     }
 }

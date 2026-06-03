@@ -1,8 +1,8 @@
 ﻿namespace Application.Dtos.Response.Permission
 {
-    public class PermissionByUserResponseDto
+    public record PermissionByUserResponseDto
     {
-        public string Module { get; set; } = null!;
-        public string Action { get; set; } = null!;
+        public string Module { get; init; } = null!;
+        public string Action { get; init; } = null!;
     }
 }

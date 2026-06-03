@@ -59,9 +59,9 @@ namespace Web.Api.Controllers
 
         [HttpGet("Select")]
         [RequirePermission("Categorías", "Leer")]
-        public async Task<IActionResult> ListSelectCategories()
+        public async Task<IActionResult> SelectListCategories()
         {
-            var response = await _categoryService.ListSelectCategories();
+            var response = await _categoryService.SelectListCategories();
             return Ok(response);
         }
 

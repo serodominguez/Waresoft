@@ -59,9 +59,9 @@ namespace Web.Api.Controllers
 
         [HttpGet("Select")]
         [RequirePermission("Unidades", "Leer")]
-        public async Task<IActionResult> ListSelectStores()
+        public async Task<IActionResult> SelectListStores()
         {
-            var response = await _storeService.ListSelectStores();
+            var response = await _storeService.SelectListStores();
             return Ok(response);
         }
 

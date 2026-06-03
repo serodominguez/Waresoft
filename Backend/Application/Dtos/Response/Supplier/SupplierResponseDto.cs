@@ -1,13 +1,13 @@
 ﻿namespace Application.Dtos.Response.Supplier
 {
-    public class SupplierResponseDto
+    public record SupplierResponseDto
     {
-        public int IdSupplier { get; set; }
-        public string? CompanyName { get; set; }
-        public string? Contact { get; set; }
-        public string? PhoneNumber { get; set; }
-        public string? Email { get; set; }
-        public string? AuditCreateDate { get; set; }
-        public string? StatusSupplier { get; set; }
+        public int IdSupplier { get; init; }
+        public string? CompanyName { get; init; }
+        public string? Contact { get; init; }
+        public string? PhoneNumber { get; init; }
+        public string? Email { get; init; }
+        public string? AuditCreateDate { get; init; }
+        public string? StatusSupplier { get; init; }
     }
 }

@@ -59,9 +59,9 @@ namespace Web.Api.Controllers
 
         [HttpGet("Select")]
         [RequirePermission("Marcas", "Leer")]
-        public async Task<IActionResult> ListSelectBrands()
+        public async Task<IActionResult> SelectListBrands()
         {
-            var response = await _brandService.ListSelectBrands();
+            var response = await _brandService.SelectListBrands();
             return Ok(response);
         }
 

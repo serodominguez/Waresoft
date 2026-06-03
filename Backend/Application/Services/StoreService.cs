@@ -84,7 +84,7 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<IEnumerable<StoreSelectResponseDto>>> ListSelectStores()
+        public async Task<BaseResponse<IEnumerable<StoreSelectResponseDto>>> SelectListStores()
         {
             var response = new BaseResponse<IEnumerable<StoreSelectResponseDto>>();
 

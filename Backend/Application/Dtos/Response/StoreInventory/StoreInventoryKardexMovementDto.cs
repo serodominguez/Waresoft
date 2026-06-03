@@ -1,15 +1,15 @@
 ﻿namespace Application.Dtos.Response.StoreInventory
 {
-    public class StoreInventoryKardexMovementDto
+    public record StoreInventoryKardexMovementDto
     {
-        public int IdProduct { get; set; }
-        public int Quantity { get; set; }
-        public int IdMovement { get; set; }
-        public string? Code { get; set; }
-        public string? Date { get; set; }
-        public string? MovementType { get; set; }
-        public string? Type { get; set; }
-        public string? State { get; set; }
-        public int AccumulatedStock { get; set; }
+        public int IdProduct { get; init; }
+        public int Quantity { get; init; }
+        public int IdMovement { get; init; }
+        public string? Code { get; init; }
+        public string? Date { get; init; }
+        public string? MovementType { get; init; }
+        public string? Type { get; init; }
+        public string? State { get; init; }
+        public int AccumulatedStock { get; init; }
     }
 }

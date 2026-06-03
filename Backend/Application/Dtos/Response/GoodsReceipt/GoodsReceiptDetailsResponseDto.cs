@@ -1,17 +1,17 @@
 ﻿namespace Application.Dtos.Response.GoodsReceipt
 {
-    public class GoodsReceiptDetailsResponseDto
+    public record GoodsReceiptDetailsResponseDto
     {
-        public int Item { get; set; }
-        public int IdProduct { get; set; }
-        public string? Code { get; set; }
-        public string? Description { get; set; }
-        public string? Material { get; set; }
-        public string? Color { get; set; }
-        public string? CategoryName { get; set; }
-        public string? BrandName { get; set; }
-        public int Quantity { get; set; }
-        public decimal UnitCost { get; set; }
-        public decimal TotalCost { get; set; }
+        public int Item { get; init; }
+        public int IdProduct { get; init; }
+        public string? Code { get; init; }
+        public string? Description { get; init; }
+        public string? Material { get; init; }
+        public string? Color { get; init; }
+        public string? CategoryName { get; init; }
+        public string? BrandName { get; init; }
+        public int Quantity { get; init; }
+        public decimal UnitCost { get; init; }
+        public decimal TotalCost { get; init; }
     }
 }

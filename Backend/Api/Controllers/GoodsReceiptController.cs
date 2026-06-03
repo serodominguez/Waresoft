@@ -87,7 +87,7 @@ namespace Web.Api.Controllers
 
         [HttpGet("ExportPdf/{receiptId:int}")]
         [RequirePermission("Entrada de Productos", "Descargar")]
-        [Produces("application/pdf")]
+        //[Produces("application/pdf")]
         //[ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -104,14 +104,5 @@ namespace Web.Api.Controllers
             var fileName = $"Entrada_{response.Data!.Code}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
             return File(fileBytes, "application/pdf", fileName);
         }
-
-        //[HttpGet("ExportPdf/{receiptId:int}")]
-        //[RequirePermission("Ingreso de Productos", "Leer")]
-        //public async Task<IActionResult> ExportPdfGoodsReceipt(int receiptId)
-        //{
-        //    var response = await _goodsReceiptService.ExportPdfGoodsReceipt(receiptId);
-        //    var fileBytes = _generatePdfService.GoodsReceiptGeneratePdf(response.Data!);
-        //    return File(fileBytes, ContentType.ContentTypePdf);
-        //}
     }
 }
