@@ -5,6 +5,9 @@
       <v-divider class="mx-2" inset vertical></v-divider>
       <div class="font-weight-bold" style="font-size: 16px;">{{ localTransfer.code }} </div>
       <v-spacer></v-spacer>
+      <v-chip v-if="localTransfer.idTransfer" :color="statusColor" text-color="white" size="small" label class="mr-2">
+        Estado: {{ localTransfer.statusTransfer }}
+      </v-chip>
     </v-toolbar>
     <v-card-text>
       <v-form ref="formRef" v-model="valid">
@@ -226,6 +229,16 @@ const detailErrors = computed(() => {
 const totalPrice = computed(() =>
   details.value.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0)
 );
+
+const statusColor = computed(() => {
+  switch (localTransfer.value.statusTransfer) {
+    case 'Recibido':  return 'green';
+    case 'Cancelado': return 'red';
+    case 'Pendiente': return 'orange';
+    case 'Enviado':   return 'blue';
+    default:          return 'grey';
+  }
+});
 
 watch(() => props.modelValue, (newValue) => {
   isOpen.value = newValue;

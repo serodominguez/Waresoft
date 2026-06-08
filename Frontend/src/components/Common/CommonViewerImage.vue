@@ -4,7 +4,7 @@
       <v-toolbar color="indigo" density="compact">
         <v-toolbar-title class="text-white text-body-2">
           <v-icon icon="mdi-image" class="mr-2" />
-          {{ productCode || 'Imagen del producto' }}
+          {{ productCode }}
         </v-toolbar-title>
         <v-spacer />
         <!-- Controles de zoom -->

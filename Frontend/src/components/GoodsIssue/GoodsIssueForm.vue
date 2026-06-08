@@ -5,6 +5,10 @@
       <v-divider class="mx-2" inset vertical></v-divider>
       <div class="font-weight-bold" style="font-size: 16px;">{{ localIssue.code }} </div>
       <v-spacer></v-spacer>
+      <v-chip v-if="localIssue.idIssue" :color="localIssue.statusIssue === 'Completado' ? 'green' : 'red'"
+        text-color="white" size="small" label class="mr-2">
+        Estado: {{ localIssue.statusIssue }}
+      </v-chip>
     </v-toolbar>
     <v-card-text>
       <v-form ref="formRef" v-model="valid">

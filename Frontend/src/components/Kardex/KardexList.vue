@@ -127,7 +127,8 @@ const handleOpenPdf = async (item: KardexMovement) => {
 
   pdfUrl.value = null;
   pdfError.value = false;
-  pdfModalTitle.value = `${handler.label} — ${item.code}`;
+  pdfModalTitle.value = `${item.code}`;
+  //pdfModalTitle.value = `${handler.label} — ${item.code}`;
   pdfModal.value = true;
   loadingPdfId.value = item.idMovement;
 

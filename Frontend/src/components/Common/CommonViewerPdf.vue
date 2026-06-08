@@ -4,7 +4,7 @@
             <v-toolbar color="indigo" density="compact">
                 <v-toolbar-title class="text-white text-body-2">
                     <v-icon icon="mdi-file-pdf-box" class="mr-2" />
-                    {{ title }}
+                    {{ props.title }}
                 </v-toolbar-title>
                 <v-spacer />
                 <v-btn icon color="white" @click="handleClose">
