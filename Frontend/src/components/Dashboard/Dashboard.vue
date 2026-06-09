@@ -74,10 +74,16 @@
         <v-card class="stat-card stat-card--blue" elevation="2" rounded="lg">
           <v-card-text class="d-flex align-center justify-space-between pa-5">
             <div>
-              <div class="stat-value">245</div>
+              <div class="stat-value">
+                {{ customerStatsStore.loading ? '...' : (customerStatsStore.stats?.totalActive ?? 0) }}
+              </div>
               <div class="stat-label">Clientes</div>
-              <div class="stat-change positive">
-                <v-icon icon="mdi-arrow-up" size="14"></v-icon> +12% este mes
+              <div v-if="!customerStatsStore.loading && customerStatsStore.stats"
+                :class="['stat-change', customerStatsStore.stats.isPositive ? 'positive' : 'negative']">
+                <v-icon :icon="customerStatsStore.stats.isPositive ? 'mdi-arrow-up' : 'mdi-arrow-down'" size="14" />
+                {{ customerStatsStore.stats.isPositive ? '+' : '-' }}{{ customerStatsStore.stats.percentageChange }}%
+                este
+                mes
               </div>
             </div>
             <v-avatar color="indigo" size="56" class="stat-icon">
@@ -92,10 +98,13 @@
         <v-card class="stat-card stat-card--teal" elevation="2" rounded="lg">
           <v-card-text class="d-flex align-center justify-space-between pa-5">
             <div>
-              <div class="stat-value">1,521</div>
+              <div class="stat-value">
+                {{ productStatsStore.loading ? '...' : (productStatsStore.stats?.totalActive ?? 0) }}
+              </div>
               <div class="stat-label">Productos</div>
-              <div class="stat-change positive">
-                <v-icon icon="mdi-arrow-up" size="14"></v-icon> +38 nuevos
+              <div v-if="!productStatsStore.loading && productStatsStore.stats" class="stat-change positive">
+                <v-icon icon="mdi-arrow-up" size="14" />
+                +{{ productStatsStore.stats.newThisMonth }} nuevos este mes
               </div>
             </div>
             <v-avatar color="teal" size="56" class="stat-icon">
@@ -110,14 +119,20 @@
         <v-card class="stat-card stat-card--green" elevation="2" rounded="lg">
           <v-card-text class="d-flex align-center justify-space-between pa-5">
             <div>
-              <div class="stat-value">$34,245</div>
-              <div class="stat-label">Ingresos</div>
-              <div class="stat-change positive">
-                <v-icon icon="mdi-arrow-up" size="14"></v-icon> +8.5% vs mes ant.
+              <div class="stat-value">
+                {{ transferStatsStore.loading ? '...' : (transferStatsStore.stats?.totalSent ?? 0) }}
+              </div>
+              <div class="stat-label">Traspasos Enviados</div>
+              <div v-if="!transferStatsStore.loading && transferStatsStore.stats"
+                :class="['stat-change', transferStatsStore.stats.isSentPositive ? 'positive' : 'negative']">
+                <v-icon :icon="transferStatsStore.stats.isSentPositive ? 'mdi-arrow-up' : 'mdi-arrow-down'" size="14" />
+                {{ transferStatsStore.stats.isSentPositive ? '+' : '-' }}{{
+                  transferStatsStore.stats.sentPercentageChange
+                }}% vs mes ant.
               </div>
             </div>
             <v-avatar color="green-darken-2" size="56" class="stat-icon">
-              <v-icon icon="mdi-cash-multiple" color="white" size="28"></v-icon>
+              <v-icon icon="mdi-swap-horizontal" color="white" size="28"></v-icon>
             </v-avatar>
           </v-card-text>
         </v-card>
@@ -128,10 +143,16 @@
         <v-card class="stat-card stat-card--orange" elevation="2" rounded="lg">
           <v-card-text class="d-flex align-center justify-space-between pa-5">
             <div>
-              <div class="stat-value">184</div>
-              <div class="stat-label">Pedidos</div>
-              <div class="stat-change negative">
-                <v-icon icon="mdi-arrow-down" size="14"></v-icon> -3 vs ayer
+              <div class="stat-value">
+                {{ transferStatsStore.loading ? '...' : (transferStatsStore.stats?.totalPending ?? 0) }}
+              </div>
+              <div class="stat-label">Traspasos Pendientes</div>
+              <div v-if="!transferStatsStore.loading && transferStatsStore.stats"
+                :class="['stat-change', transferStatsStore.stats.isPendingPositive ? 'positive' : 'negative']">
+                <v-icon :icon="transferStatsStore.stats.isPendingPositive ? 'mdi-arrow-up' : 'mdi-arrow-down'"
+                  size="14" />
+                {{ transferStatsStore.stats.isPendingPositive ? '+' : '-' }}{{
+                  transferStatsStore.stats.differenceVsYesterday }} vs ayer
               </div>
             </div>
             <v-avatar color="deep-orange" size="56" class="stat-icon">
@@ -147,25 +168,28 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { useCustomerStatsStore } from '@/stores/customerStore';
+import { useProductStatsStore } from '@/stores/productStore';
+import { useTransferStatsStore } from '@/stores/transferStore';
 import { Bar, Line } from 'vue-chartjs';
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Filler,
-} from 'chart.js';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, LineElement, PointElement, CategoryScale, LinearScale, Filler } from 'chart.js';
 
 ChartJS.register(
   Title, Tooltip, Legend,
   BarElement, LineElement, PointElement,
   CategoryScale, LinearScale, Filler
 );
+
+const customerStatsStore = useCustomerStatsStore();
+const productStatsStore = useProductStatsStore();
+const transferStatsStore = useTransferStatsStore();
+
+onMounted(() => {
+  customerStatsStore.fetchStats();
+  productStatsStore.fetchStats();
+  transferStatsStore.fetchStats();
+});
 
 const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
 

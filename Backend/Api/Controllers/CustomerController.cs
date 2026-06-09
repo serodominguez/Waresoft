@@ -66,6 +66,14 @@ namespace Web.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Stats")]
+        [RequirePermission("Clientes", "Leer")]
+        public async Task<IActionResult> GetCustomerStats(CancellationToken cancellationToken)
+        {
+            var response = await _customerService.GetCustomerStats(cancellationToken);
+            return Ok(response);
+        }
+
         [HttpPost("Register")]
         [RequirePermission("Clientes", "Crear")]
         public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRequestDto requestDto)

@@ -7,5 +7,6 @@ namespace Infrastructure.Persistences.Interfaces.Product
         IQueryable<ProductReadModel> GetProductsQueryable();
         IQueryable<ProductReadModel> GetProductByIdQueryable(int productId);
         IQueryable<ProductSelectReadModel> GetProductsSelectQueryable();
+        Task<ProductStatsReadModel> GetProductStatsAsync(CancellationToken cancellationToken);
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer v-model="isOpen" app temporary>
     <v-list>
-      <v-list-item variant="plain" :to="{ name: 'home' }">
+      <v-list-item variant="plain" :to="{ name: 'dashboard' }">
         <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
       </v-list-item>
 

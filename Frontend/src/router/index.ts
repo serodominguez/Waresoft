@@ -1,9 +1,8 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 import { normalize } from '@/utils/string';
-import HomeView from '../views/HomeView.vue'
-import DashboardView from '../views/DashboardView.vue'
-import LoginView from '@/views/LoginView.vue';
+import Dashboard from '@/components/Dashboard/Dashboard.vue';
+import Login from '@/components/Login/Login.vue';
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -16,8 +15,8 @@ declare module 'vue-router' {
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "home",
-    component: DashboardView,
+    name: "dashboard",
+    component: Dashboard,
     meta: {
       requiresAuth: true,
     },
@@ -115,7 +114,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/inicio",
     name: "login",
-    component: LoginView,
+    component: Login,
     meta: {
       free: true,
     },

@@ -41,3 +41,15 @@ export interface TransferRegister {
     totalPrice: number;
   }[];
 }
+
+export interface TransferStats {
+  // Pendientes
+  totalPending: number;
+  differenceVsYesterday: number;
+  isPendingPositive: boolean;
+
+  // Enviados
+  totalSent: number;
+  sentPercentageChange: number;
+  isSentPositive: boolean;
+}

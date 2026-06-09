@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BaseService } from './baseService';
-import { Product } from '@/interfaces/productInterface';
+import { Product, ProductStats } from '@/interfaces/productInterface';
 import { BaseResponse } from '@/interfaces/baseInterface';
 
 class ProductService extends BaseService<Product> {
@@ -9,6 +9,11 @@ class ProductService extends BaseService<Product> {
       endpoint: 'Product',
       downloadFileName: 'Productos',
     });
+  }
+
+  async getStats(): Promise<ProductStats> {
+    const response = await axios.get<{ data: ProductStats }>(`api/Product/Stats`);
+    return response.data.data;
   }
 
   async registerProduct(data: FormData): Promise<BaseResponse<Product>> {

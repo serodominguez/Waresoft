@@ -552,6 +552,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Web.Api.Controllers.CustomerController",
+    "Method": "GetCustomerStats",
+    "RelativePath": "api/Customer/Stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Web.Api.Controllers.GoodsIssueController",
     "Method": "ListGoodsIssue",
     "RelativePath": "api/GoodsIssue",
@@ -1301,6 +1311,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.ProductController",
+    "Method": "GetProductStats",
+    "RelativePath": "api/Product/Stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -2384,6 +2404,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.TransferController",
+    "Method": "GetTransferStats",
+    "RelativePath": "api/Transfer/Stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

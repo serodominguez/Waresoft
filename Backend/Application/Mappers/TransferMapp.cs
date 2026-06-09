@@ -86,5 +86,36 @@ namespace Application.Mappers
                         .ToList()
             };
         }
+
+        public static TransferStatsResponseDto TransferStatsResponseDtoMapping(TransferStatsReadModel model)
+        {
+            var pendingDiff = model.PendingToday - model.PendingYesterday;
+
+            decimal sentPercentage = 0;
+            bool isSentPositive = true;
+
+            if (model.SentLastMonth > 0)
+            {
+                sentPercentage = Math.Round(
+                    ((decimal)(model.SentThisMonth - model.SentLastMonth) / model.SentLastMonth) * 100, 1
+                );
+                isSentPositive = sentPercentage >= 0;
+            }
+            else if (model.SentThisMonth > 0)
+            {
+                sentPercentage = 100;
+            }
+
+            return new TransferStatsResponseDto
+            {
+                TotalPending = model.TotalPending,
+                DifferenceVsYesterday = Math.Abs(pendingDiff),
+                IsPendingPositive = pendingDiff >= 0,
+
+                TotalSent = model.TotalSent,
+                SentPercentageChange = Math.Abs(sentPercentage),
+                IsSentPositive = isSentPositive
+            };
+        }
     }
 }

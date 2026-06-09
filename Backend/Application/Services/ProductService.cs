@@ -124,6 +124,26 @@ namespace Application.Services
             return response;
         }
 
+        public async Task<BaseResponse<ProductStatsResponseDto>> GetProductStats(CancellationToken cancellationToken)
+        {
+            var response = new BaseResponse<ProductStatsResponseDto>();
+
+            try
+            {
+                var stats = await _unitOfWork.ProductQuery.GetProductStatsAsync(cancellationToken);
+                response.IsSuccess = true;
+                response.Data = ProductMapp.ProductStatsResponseDtoMapping(stats);
+                response.Message = ReplyMessage.MESSAGE_QUERY;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+            }
+
+            return response;
+        }
+
         public async Task<BaseResponse<bool>> RegisterProduct(int authenticatedUserId, ProductRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();

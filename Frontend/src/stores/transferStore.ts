@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { Transfer, TransferDetail } from '@/interfaces/transferInterface';
+import { Transfer, TransferDetail, TransferStats } from '@/interfaces/transferInterface';
 import { transferService } from '@/services/transferService';
 import { FilterParams } from '@/interfaces/baseInterface';
 import type { TransferRegister } from '@/interfaces/transferInterface';
@@ -131,5 +131,25 @@ export const useTransferStore = defineStore('transfer', () => {
     sendTrasnfer,
     receiveTransfer,
     cancel: disableTransfer
+  };
+});
+
+export const useTransferStatsStore = defineStore('transferStats', () => {
+  const stats = ref<TransferStats | null>(null);
+  const loading = ref<boolean>(false);
+
+  async function fetchStats() {
+    loading.value = true;
+    try {
+      stats.value = await transferService.getStats();
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  return {
+    stats,
+    loading,
+    fetchStats,
   };
 });

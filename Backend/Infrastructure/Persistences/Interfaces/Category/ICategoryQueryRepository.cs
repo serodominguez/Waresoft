@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Persistences.ReadModels.Category;
+using Infrastructure.Persistences.ReadModels.Customer;
 
 namespace Infrastructure.Persistences.Interfaces.Category
 {

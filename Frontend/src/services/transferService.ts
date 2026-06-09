@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BaseService } from "./baseService";
-import { Transfer, TransferRegister } from '@/interfaces/transferInterface'
+import { Transfer, TransferRegister, TransferStats } from '@/interfaces/transferInterface'
 import { BaseResponse } from '@/interfaces/baseInterface';
 
 class TransferService extends BaseService<Transfer> {
@@ -12,6 +12,11 @@ class TransferService extends BaseService<Transfer> {
         create: 'Transfer/Send'
       }
     });
+  }
+
+  async getStats(): Promise<TransferStats> {
+    const response = await axios.get<{ data: TransferStats }>('api/Transfer/Stats');
+    return response.data.data;
   }
 
   async send(data: TransferRegister): Promise<BaseResponse<any>> {

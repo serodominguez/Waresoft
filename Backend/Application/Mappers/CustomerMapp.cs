@@ -33,5 +33,15 @@ namespace Application.Mappers
                 StatusCustomer = ((States)(model.IsActive ? 1 : 0)).ToString()
             };
         }
+
+        public static CustomerStatsResponseDto CustomerStatsResponseDtoMapping(CustomerStatsReadModel model, decimal percentageChange, bool isPositive)
+        {
+            return new CustomerStatsResponseDto
+            {
+                TotalActive = model.TotalActive,
+                PercentageChange = percentageChange,
+                IsPositive = isPositive
+            };
+        }
     }
 }

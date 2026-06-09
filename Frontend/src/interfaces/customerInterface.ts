@@ -7,3 +7,9 @@ export interface Customer {
   auditCreateDate: string;
   statusCustomer: string;
 }
+
+export interface CustomerStats {
+  totalActive: number;
+  percentageChange: number;
+  isPositive: boolean;
+}

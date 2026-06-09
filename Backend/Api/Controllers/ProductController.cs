@@ -65,6 +65,14 @@ namespace Web.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Stats")]
+        [RequirePermission("Productos", "Leer")]
+        public async Task<IActionResult> GetProductStats(CancellationToken cancellationToken)
+        {
+            var response = await _productService.GetProductStats(cancellationToken);
+            return Ok(response);
+        }
+
         [HttpPost("Register")]
         [RequirePermission("Productos", "Crear")]
         public async Task<IActionResult> RegisterProduct([FromForm] ProductRequestDto requestDto)

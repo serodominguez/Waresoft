@@ -99,7 +99,7 @@ const login = async () => {
       await authStore.saveToken(token);
 
       // PASO 6: Todo listo, navegar al home
-      router.push({ name: "home" });
+      router.push({ name: "dashboard" });
       // NO desactiva loading aquí porque ya cambió de página
 
     } else {

@@ -17,3 +17,8 @@ export interface Product {
 export interface ProductCode {
   code: string;
 }
+
+export interface ProductStats {
+  totalActive: number,
+  newThisMonth: number
+}

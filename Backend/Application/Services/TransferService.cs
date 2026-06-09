@@ -9,7 +9,6 @@ using Application.Mappers;
 using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
-using Infrastructure.Persistences.ReadModels.Transfer;
 using Microsoft.EntityFrameworkCore;
 using Utilities.Extensions;
 using Utilities.Static;
@@ -167,6 +166,26 @@ namespace Application.Services
 
                 response.IsSuccess = true;
                 response.Data = TransferMapp.TransferWithDetailsResponseDtoMapping(transfer, details, displayStatus, userSend, userReceive);
+                response.Message = ReplyMessage.MESSAGE_QUERY;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<BaseResponse<TransferStatsResponseDto>> GetTransferStats(int authenticatedStoreId, CancellationToken cancellationToken)
+        {
+            var response = new BaseResponse<TransferStatsResponseDto>();
+
+            try
+            {
+                var stats = await _unitOfWork.TransferQuery.GetTransferStatsAsync(authenticatedStoreId, cancellationToken);
+                response.IsSuccess = true;
+                response.Data = TransferMapp.TransferStatsResponseDtoMapping(stats);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception ex)

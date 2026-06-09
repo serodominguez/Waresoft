@@ -70,6 +70,14 @@ namespace Web.Api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("Stats")]
+        [RequirePermission("Traspaso de Productos", "Leer")]
+        public async Task<IActionResult> GetTransferStats(CancellationToken cancellationToken)
+        {
+            var response = await _transferService.GetTransferStats(AuthenticatedUserStoreId, cancellationToken);
+            return Ok(response);
+        }
+
         [HttpPost("Send")]
         [RequirePermission("Traspaso de Productos", "Crear")]
         public async Task<IActionResult> SendTransfer([FromBody] TransferRequestDto requestDto)

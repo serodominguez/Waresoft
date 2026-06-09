@@ -1,6 +1,7 @@
 import { defineStore, storeToRefs } from 'pinia';
+import { ref } from 'vue';
 import { createBaseStore } from '@/stores/baseStore';
-import { Product } from '@/interfaces/productInterface';
+import { Product, ProductStats } from '@/interfaces/productInterface';
 import { productService } from '@/services/productService';
 
 const useBaseProductStore = createBaseStore<Product>('product-base', productService);
@@ -65,5 +66,25 @@ export const useProductStore = defineStore('product', () => {
     editProduct,
     generateProductCode,
     generateBarcodePdf
+  };
+});
+
+export const useProductStatsStore = defineStore('productStats', () => {
+  const stats = ref<ProductStats | null>(null);
+  const loading = ref<boolean>(false);
+
+  async function fetchStats() {
+    loading.value = true;
+    try {
+      stats.value = await productService.getStats();
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  return {
+    stats,
+    loading,
+    fetchStats,
   };
 });
