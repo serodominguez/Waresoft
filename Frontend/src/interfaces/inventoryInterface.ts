@@ -10,6 +10,7 @@ export interface Inventory {
   calculatedStock: number | null;
   stockDifference: number | null;
   stockInTransit: number | null;
+  minimumStock: number | null;
   price: number | null;
   replenishment: string;
   brandName: string;

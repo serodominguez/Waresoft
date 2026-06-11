@@ -52,14 +52,5 @@ namespace Application.Mappers
                 Description = model.Description.ToSentenceCase()
             };
         }
-
-        public static ProductStatsResponseDto ProductStatsResponseDtoMapping(ProductStatsReadModel model)
-        {
-            return new ProductStatsResponseDto
-            {
-                TotalActive = model.TotalActive,
-                NewThisMonth = model.NewThisMonth
-            };
-        }
     }
 }

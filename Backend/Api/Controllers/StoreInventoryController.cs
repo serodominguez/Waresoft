@@ -157,7 +157,7 @@ namespace Web.Api.Controllers
         [RequirePermission("Inventario", "Editar")]
         public async Task<IActionResult> EditInventory([FromBody] StoreInventoryRequestDto requestDto)
         {
-            var response = await _storeInventoryService.UpdatePriceByProduct(AuthenticatedUserStoreId, AuthenticatedUserId, requestDto);
+            var response = await _storeInventoryService.UpdateMinimumAndPriceByProduct(AuthenticatedUserStoreId, AuthenticatedUserId, requestDto);
             return Ok(response);
         }
 

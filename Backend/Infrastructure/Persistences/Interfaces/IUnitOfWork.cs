@@ -3,6 +3,7 @@ using Infrastructure.Persistences.Interfaces.Action;
 using Infrastructure.Persistences.Interfaces.Brand;
 using Infrastructure.Persistences.Interfaces.Category;
 using Infrastructure.Persistences.Interfaces.Customer;
+using Infrastructure.Persistences.Interfaces.Dashboard;
 using Infrastructure.Persistences.Interfaces.GoodsIssue;
 using Infrastructure.Persistences.Interfaces.GoodsReceipt;
 using Infrastructure.Persistences.Interfaces.Module;
@@ -25,6 +26,7 @@ namespace Infrastructure.Persistences.Interfaces
         IBrandQueryRepository BrandQuery { get; }
         ICategoryQueryRepository CategoryQuery { get; }
         ICustomerQueryRepository CustomerQuery { get; }
+        IDashboardQueryRepository DashboardQuery { get; }
         IGoodsIssueDetailsQueryRepository GoodsIssueDetailsQuery { get; }
         IGoodsIssueQueryRepository GoodsIssueQuery { get; }
         IGoodsReceiptDetailsQueryRepository GoodsReceiptDetailsQuery { get; }

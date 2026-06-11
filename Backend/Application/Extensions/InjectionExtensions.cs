@@ -33,12 +33,13 @@ namespace Application.Extensions
             services.AddTransient<ISecurityApplication, SecurityApplication>();
 
             services.AddScoped<IAuthorizationService, AuthorizationService>();
-            services.AddScoped<IGenerateExcelService, GenerateExcelService>();
-            services.AddScoped<IGoodsIssueService, GoodsIssueService>();
-            services.AddScoped<IGoodsReceiptService, GoodsReceiptService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IGenerateExcelService, GenerateExcelService>();
+            services.AddScoped<IGoodsIssueService, GoodsIssueService>();
+            services.AddScoped<IGoodsReceiptService, GoodsReceiptService>();
             services.AddScoped<IModuleService, ModuleService>();
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IProductService, ProductService>();

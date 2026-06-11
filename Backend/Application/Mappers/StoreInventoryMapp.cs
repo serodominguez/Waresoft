@@ -50,6 +50,7 @@ namespace Application.Mappers
                 CalculatedStock = model.CalculatedStock,
                 StockDifference = model.StockAvailable - model.CalculatedStock,
                 StockInTransit = model.StockInTransit,
+                MinimumStock = model.MinimumStock,
                 Price = model.Price,
                 Replenishment = ((Replenishment)(model.Replenishment!)).ToString().ReplaceUnderscoresWithSpace(),
                 Code = model.Code,

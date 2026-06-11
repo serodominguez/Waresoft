@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
     public class StoreInventoryEntity
     {
@@ -8,6 +6,7 @@ namespace Domain.Entities
         public int IdProduct { get; set; }
         public int StockAvailable { get; set; }
         public int StockInTransit { get; set; }
+        public int MinimumStock { get; set; }
         public decimal Price { get; set; }
         public int? AuditCreateUser { get; set; }
         public DateTime? AuditCreateDate { get; set; }
@@ -15,8 +14,5 @@ namespace Domain.Entities
         public DateTime? AuditUpdateDate { get; set; }
         public virtual ProductEntity Product { get; set; } = null!;
         public virtual StoreEntity Store { get; set; } = null!;
-
-        //[NotMapped]
-        //public int CalculatedStock { get; set; }
     }
 }

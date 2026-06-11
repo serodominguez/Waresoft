@@ -23,7 +23,7 @@
               <v-tooltip v-bind="tooltipProps" text="Editar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Category).statusCategory == 'Activo'" icon
-                    variant="text" color="blue-darken-1" size="small" @click="$emit('edit-category', item)">
+                    variant="text" color="indigo-darken-4" size="small" @click="$emit('edit-category', item)">
                     <v-icon icon="mdi-pencil" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -47,7 +47,7 @@
               </v-tooltip>
               <v-tooltip v-bind="tooltipProps" text="Eliminar" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" v-if="canDelete" icon variant="text" color="blue-grey-darken-1" size="small"
+                  <v-btn v-bind="props" v-if="canDelete" icon variant="text" color="grey-darken-1" size="small"
                     @click="$emit('open-modal', { category: item, action: 0 })">
                     <v-icon icon="mdi-trash-can" size="24"></v-icon>
                   </v-btn>

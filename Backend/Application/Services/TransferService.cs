@@ -177,26 +177,6 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<TransferStatsResponseDto>> GetTransferStats(int authenticatedStoreId, CancellationToken cancellationToken)
-        {
-            var response = new BaseResponse<TransferStatsResponseDto>();
-
-            try
-            {
-                var stats = await _unitOfWork.TransferQuery.GetTransferStatsAsync(authenticatedStoreId, cancellationToken);
-                response.IsSuccess = true;
-                response.Data = TransferMapp.TransferStatsResponseDtoMapping(stats);
-                response.Message = ReplyMessage.MESSAGE_QUERY;
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
-            }
-
-            return response;
-        }
-
         public async Task<BaseResponse<bool>> SendTransfer(int authenticatedUserId, TransferRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();

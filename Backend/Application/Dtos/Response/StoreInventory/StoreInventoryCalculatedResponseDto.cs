@@ -8,6 +8,7 @@
         public int CalculatedStock { get; init; }
         public int StockDifference { get; init; }
         public int StockInTransit { get; init; }
+        public int MinimumStock { get; init; }
         public decimal Price { get; init; }
         public string? Replenishment { get; init; }
         public string? Code { get; init; }

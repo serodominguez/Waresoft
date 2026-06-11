@@ -7,6 +7,7 @@
         public int StockAvailable { get; init; }
         public int CalculatedStock { get; init; }
         public int StockInTransit { get; init; }
+        public int MinimumStock { get; init; }
         public decimal Price { get; init; }
         public int? Replenishment { get; init; }
         public string? Code { get; init; }

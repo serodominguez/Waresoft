@@ -9,7 +9,6 @@ namespace Application.Interfaces
     {
         Task<BaseResponse<IEnumerable<ProductResponseDto>>> ListProducts(BaseFiltersRequest filters);
         Task<BaseResponse<ProductResponseDto>> ProductById(int productId);
-        Task<BaseResponse<ProductStatsResponseDto>> GetProductStats(CancellationToken cancellationToken);
         Task<BaseResponse<bool>> RegisterProduct(int authenticatedUserId, ProductRequestDto requestDto);
         Task<BaseResponse<bool>> EditProduct(int authenticatedUserId, int productId, ProductRequestDto requestDto);
         Task<BaseResponse<bool>> EnableProduct(int authenticatedUserId, int productId);

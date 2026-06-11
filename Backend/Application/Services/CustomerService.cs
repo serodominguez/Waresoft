@@ -111,42 +111,6 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<CustomerStatsResponseDto>> GetCustomerStats(CancellationToken cancellationToken)
-        {
-            var response = new BaseResponse<CustomerStatsResponseDto>();
-
-            try
-            {
-                var stats = await _unitOfWork.CustomerQuery.GetCustomerStatsAsync(cancellationToken);
-
-                decimal percentage = 0;
-                bool isPositive = true;
-
-                if (stats.NewPreviousMonth > 0)
-                {
-                    percentage = Math.Round(
-                        ((decimal)(stats.NewThisMonth - stats.NewPreviousMonth) / stats.NewPreviousMonth) * 100, 1
-                    );
-                    isPositive = percentage >= 0;
-                }
-                else if (stats.NewThisMonth > 0)
-                {
-                    percentage = 100;
-                }
-
-                response.IsSuccess = true;
-                response.Data = CustomerMapp.CustomerStatsResponseDtoMapping(stats, Math.Abs(percentage), isPositive);
-                response.Message = ReplyMessage.MESSAGE_QUERY;
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
-            }
-
-            return response;
-        }
-
         public async Task<BaseResponse<bool>> RegisterCustomer(int authenticatedUserId, CustomerRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();

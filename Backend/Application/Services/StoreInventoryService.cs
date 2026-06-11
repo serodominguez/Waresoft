@@ -216,7 +216,7 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<bool>> UpdatePriceByProduct(int authenticatedUserId, int authenticatedStoreId, StoreInventoryRequestDto requestDto)
+        public async Task<BaseResponse<bool>> UpdateMinimumAndPriceByProduct(int authenticatedUserId, int authenticatedStoreId, StoreInventoryRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();
 
@@ -244,6 +244,7 @@ namespace Application.Services
                 }
 
                 inventory.IdStore = authenticatedStoreId;
+                inventory.MinimumStock = requestDto.MinimumStock;
                 inventory.Price = requestDto.Price;
                 inventory.AuditUpdateUser = authenticatedUserId;
                 inventory.AuditUpdateDate = DateTime.Now;

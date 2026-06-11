@@ -23,6 +23,9 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(i => i.StockInTransit)
                 .IsRequired();
 
+            builder.Property(i => i.MinimumStock)
+                .IsRequired();
+
             builder.Property(i => i.Price)
                 .HasColumnType("decimal(10,2)")
                 .IsRequired();

@@ -14,7 +14,7 @@
             <td>{{ (item as Inventory).categoryName }}</td>
             <td>{{ (item as Inventory).brandName }}</td>
             <td>{{ (item as Inventory).unitMeasure }}</td>
-            <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockAvailable ?? 0) <= 0 }">
+            <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockAvailable ?? 0) <= ((item as Inventory).minimumStock ?? 0) }">
               {{ (item as Inventory).stockAvailable }}
             </td>
             <td class="text-center"
@@ -26,6 +26,9 @@
             </td>
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).stockInTransit ?? 0) > 0 }">
               {{ (item as Inventory).stockInTransit }}
+            </td>
+            <td class="text-center">
+              {{ (item as Inventory).minimumStock }}
             </td>
             <td class="text-center" :class="{ 'text-red': ((item as Inventory).price ?? 0) <= 0 }">
               {{ (item as Inventory).price }}
@@ -40,15 +43,15 @@
               </v-chip>
             </td>
             <td class="text-center">
-              <v-tooltip v-bind="tooltipProps" text="Editar Precio" location="bottom">
+              <v-tooltip v-bind="tooltipProps" text="Editar" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" v-if="canEdit" icon variant="text" color="teal-accent-4" size="small"
+                  <v-btn v-bind="props" v-if="canEdit" icon variant="text" color="indigo-darken-4" size="small"
                     @click="$emit('edit-inventory', item)">
-                    <v-icon icon="mdi-cash-edit" size="24"></v-icon>
+                    <v-icon icon="mdi-file-edit" size="24"></v-icon>
                   </v-btn>
                 </template>
               </v-tooltip>
-              <v-tooltip v-bind="tooltipProps" text="Código de Barras" location="bottom">
+              <v-tooltip v-bind="tooltipProps" text="Imprimir" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="black" size="small"
                     @click="$emit('open-barcode', item)">
@@ -124,8 +127,8 @@
 import { ref, computed } from 'vue';
 import { Inventory } from '@/interfaces/inventoryInterface';
 import { BaseListProps } from '@/interfaces/baselistInterface';
-import CommonFilters from '@/components/Common/CommonFilters.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
+import CommonFilters from '@/components/Common/CommonFilters.vue';
 
 interface Props extends Omit<BaseListProps<Inventory>, 'items' | 'totalItems'> {
   inventories: Inventory[];
@@ -209,6 +212,7 @@ const headers = computed(() => [
   { title: 'Calculado', key: 'calculatedStock', sortable: false, align: 'center' as const },
   { title: 'Diferencias', key: 'stockDifference', sortable: false, align: 'center' as const },
   { title: 'En transito', key: 'stockInTransit', sortable: false, align: 'center' as const },
+  { title: 'Minimo', key: 'minimumStock', sortable: false, align: 'center' as const },
   { title: 'Precio', key: 'price', sortable: false, align: 'center' as const },
   { title: 'Fecha de creación', key: 'auditCreateDate', sortable: false },
   { title: 'Reposición', key: 'replenishment', sortable: false, align: 'center' as const },

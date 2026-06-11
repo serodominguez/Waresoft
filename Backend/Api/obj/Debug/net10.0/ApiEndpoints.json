@@ -552,9 +552,79 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Web.Api.Controllers.CustomerController",
-    "Method": "GetCustomerStats",
-    "RelativePath": "api/Customer/Stats",
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetGoodsIssueStats",
+    "RelativePath": "api/Dashboard/GoodsIssueStats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetInventoryStats",
+    "RelativePath": "api/Dashboard/InventoryStats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetMovementsStats",
+    "RelativePath": "api/Dashboard/MovementsStats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetProductReplenishment",
+    "RelativePath": "api/Dashboard/ProductReplenishment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetProductStats",
+    "RelativePath": "api/Dashboard/ProductStats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetTransferPending",
+    "RelativePath": "api/Dashboard/TransferPending",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetTransfersByStore",
+    "RelativePath": "api/Dashboard/TransfersByStore",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Web.Api.Controllers.DashboardController",
+    "Method": "GetTransferStatus",
+    "RelativePath": "api/Dashboard/TransferStatus",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1311,16 +1381,6 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Web.Api.Controllers.ProductController",
-    "Method": "GetProductStats",
-    "RelativePath": "api/Product/Stats",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -2404,16 +2464,6 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Web.Api.Controllers.TransferController",
-    "Method": "GetTransferStats",
-    "RelativePath": "api/Transfer/Stats",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {

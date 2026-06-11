@@ -6,6 +6,5 @@ namespace Infrastructure.Persistences.Interfaces.Transfer
     {
         IQueryable<TransferReadModel> GetTransferQueryableByStore(int storeId);
         IQueryable<TransferWithDetailsReadModel> GetTransferByIdAsQueryable(int transferId);
-        Task<TransferStatsReadModel> GetTransferStatsAsync(int storeId, CancellationToken cancellationToken);
     }
 }

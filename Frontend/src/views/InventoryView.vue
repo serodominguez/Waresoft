@@ -10,7 +10,7 @@
       @download-excel="downloadExcel" @download-pdf="downloadPdf" @clear-filters="clearFilters"
       @download-inventory-sheet="downloadInventorySheet" @open-barcode="handleOpenBarcode" />
 
-    <PriceForm v-model="form" :inventory="selectedInventory" @saved="handleSaved" />
+    <InventoryForm v-model="form" :inventory="selectedInventory" @saved="handleSaved" />
 
     <BarcodeModal v-model="barcodeModal" :product-id="selectedInventory?.idProduct ?? null" :product-code="selectedInventory?.code ?? ''" />
 
@@ -27,7 +27,7 @@ import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useFilters } from '@/composables/useFilters';
 import { usePagination } from '@/composables/usePagination';
 import InventoryList from '@/components/Inventory/InventoryList.vue';
-import PriceForm from '@/components/Inventory/PriceForm.vue';
+import InventoryForm from '@/components/Inventory/InventoryForm.vue';
 import BarcodeModal from '@/components/Inventory/BarcodeModal.vue';
 
 const inventoryStore = useInventoryStore();
@@ -91,6 +91,7 @@ const openForm = (inventory?: Inventory) => {
     calculatedStock:   null,
     stockDifference:   null,
     stockInTransit:    null,
+    minimumStock:      null,
     price:             null,
     replenishment:     '',
     brandName:         '',

@@ -315,7 +315,7 @@ namespace Infrastructure.Persistences.Repositories.StoreInventory
         
                         -- D. SELECT FINAL
                             SELECT  si.IdStore, si.IdProduct,
-                                    si.StockAvailable, si.StockInTransit, si.Price,
+                                    si.StockAvailable, si.StockInTransit, si.MinimumStock, si.Price,
                                     p.Replenishment, p.Code, p.Description,
                                     p.Material, p.Color, p.UnitMeasure,
                                     b.BrandName, c.CategoryName, p.AuditCreateDate,

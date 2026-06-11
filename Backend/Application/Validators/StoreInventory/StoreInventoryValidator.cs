@@ -10,6 +10,9 @@ namespace Application.Validators.StoreInventory
             RuleFor(x => x.IdProduct)
                 .GreaterThan(0).WithMessage("El identificador del producto es requerido");
 
+            RuleFor(x => x.MinimumStock)
+                .GreaterThan(0).WithMessage("El stock minimo debe ser mayor a 0");
+
             RuleFor(x => x.Price)
                 .GreaterThan(0).WithMessage("El precio debe ser mayor a 0");
                 //.PrecisionScale(18, 2, false).WithMessage("El precio puede tener máximo 2 decimales");
