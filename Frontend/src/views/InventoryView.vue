@@ -23,6 +23,7 @@ import { useToast } from 'vue-toastification';
 import { useInventoryStore } from '@/stores/inventoryStore';
 import { useAuthStore } from '@/stores/authStore';
 import { Inventory } from '@/interfaces/inventoryInterface';
+import { FilterParams } from '@/interfaces/baseInterface';
 import { handleApiError, handleSilentError } from '@/helpers/errorHandler';
 import { useFilters } from '@/composables/useFilters';
 import { usePagination } from '@/composables/usePagination';
@@ -50,16 +51,16 @@ const downloadingExcel = ref(false);
 const downloadingPdf   = ref(false);
 const downloadingSheet = ref(false);
 
+const buildParams = (extraSearch: string | null = search.value): FilterParams => ({
+  pageNumber: currentPage.value,
+  pageSize:   itemsPerPage.value,
+  sort:       'IdProduct',
+  order:      'desc',
+  ...getFilterParams(extraSearch),
+});
+
 const { currentPage, itemsPerPage, updateItemsPerPage, changePage } = usePagination(
-  (params) => {
-    inventoryStore.fetchInventories({
-      pageNumber:  params.pageNumber,
-      pageSize:    params.pageSize,
-      sort:        'IdProduct',
-      order:       'desc',
-      ...getFilterParams(search.value),
-    });
-  }
+  () => inventoryStore.fetchInventories(buildParams())
 );
 
 const inventories      = computed(() => inventoryStore.items);
@@ -104,10 +105,7 @@ const openForm = (inventory?: Inventory) => {
 const fetchInventories = async () => {
   try {
     await inventoryStore.fetchInventories({
-      pageNumber:  currentPage.value,
-      pageSize:    itemsPerPage.value,
-      sort:        'IdProduct',
-      order:       'desc',
+      ...buildParams(),
       stateFilter: state.value === 'Activos' ? 1 : 0,
     });
   } catch (error) {
@@ -130,13 +128,7 @@ const searchInventories = async (params: {
   currentPage.value     = 1;
 
   try {
-    await inventoryStore.fetchInventories({
-      pageNumber: 1,
-      pageSize:   itemsPerPage.value,
-      sort:       'IdProduct',
-      order:      'desc',
-      ...getFilterParams(params.search),
-    });
+    await inventoryStore.fetchInventories(buildParams(params.search));
   } catch (error) {
     handleApiError(error, 'Error al buscar productos');
   }
@@ -155,13 +147,7 @@ const clearFilters = () => {
 const downloadExcel = async (params: { search: string | null }) => {
   downloadingExcel.value = true;
   try {
-    await inventoryStore.downloadInventoriesExcel({
-      pageNumber: currentPage.value,
-      pageSize:   itemsPerPage.value,
-      sort:       'IdProduct',
-      order:      'desc',
-      ...getFilterParams(params.search),
-    });
+    await inventoryStore.downloadInventoriesExcel(buildParams(params.search));
     toast.success('Archivo descargado correctamente');
   } catch (error) {
     handleApiError(error, 'Error al descargar el archivo Excel');
@@ -173,13 +159,7 @@ const downloadExcel = async (params: { search: string | null }) => {
 const downloadPdf = async (params: { search: string | null }) => {
   downloadingPdf.value = true;
   try {
-    await inventoryStore.downloadInventoriesPdf({
-      pageNumber: currentPage.value,
-      pageSize:   itemsPerPage.value,
-      sort:       'IdProduct',
-      order:      'desc',
-      ...getFilterParams(params.search),
-    });
+    await inventoryStore.downloadInventoriesPdf(buildParams(params.search));
     toast.success('Archivo PDF descargado correctamente');
   } catch (error) {
     handleApiError(error, 'Error al descargar el archivo PDF');
@@ -191,13 +171,7 @@ const downloadPdf = async (params: { search: string | null }) => {
 const downloadInventorySheet = async (params: { search: string | null }) => {
   downloadingSheet.value = true;
   try {
-    await inventoryStore.downloadInventorySheet({
-      pageNumber: currentPage.value,
-      pageSize:   itemsPerPage.value,
-      sort:       'IdProduct',
-      order:      'desc',
-      ...getFilterParams(params.search),
-    });
+    await inventoryStore.downloadInventorySheet(buildParams(params.search));
     toast.success('Planilla descargada correctamente');
   } catch (error) {
     handleApiError(error, 'Error al descargar la planilla de inventario');
