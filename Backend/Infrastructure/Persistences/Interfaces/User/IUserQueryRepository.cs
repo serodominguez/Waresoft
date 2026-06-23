@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.User;
 
-namespace Infrastructure.Persistences.Interfaces.User
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IUserQueryRepository
     {

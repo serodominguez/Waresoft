@@ -1,12 +1,12 @@
 ﻿using Dapper;
 using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Product;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Product;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Infrastructure.Persistences.Repositories.Product
+namespace Infrastructure.Persistences.Repositories
 {
     public class ProductQueryRepository : IProductQueryRepository
     {

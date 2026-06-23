@@ -1,13 +1,13 @@
 ﻿using Dapper;
 using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.StoreInventory;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.StoreInventory;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Infrastructure.Persistences.Repositories.StoreInventory
+namespace Infrastructure.Persistences.Repositories
 {
     public class StoreInventoryQueryRepository : IStoreInventoryQueryRepository
     {

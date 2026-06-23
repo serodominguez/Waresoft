@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Customer;
 
-namespace Infrastructure.Persistences.Interfaces.Customer
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface ICustomerQueryRepository
     {

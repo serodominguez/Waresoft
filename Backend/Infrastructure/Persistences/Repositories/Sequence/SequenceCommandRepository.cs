@@ -1,9 +1,9 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Sequence;
+using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistences.Repositories.Sequence
+namespace Infrastructure.Persistences.Repositories
 {
     public class SequenceCommandRepository : ISequenceCommandRepository
     {

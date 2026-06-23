@@ -1,9 +1,9 @@
 ﻿using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Transfer;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Transfer;
 
-namespace Infrastructure.Persistences.Repositories.Transfer
+namespace Infrastructure.Persistences.Repositories
 {
     public class TransferDetailsQueryRepository : ITransferDetailsQueryRepository
     {

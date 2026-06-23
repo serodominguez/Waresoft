@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Permission;
 
-namespace Infrastructure.Persistences.Interfaces.Permission
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IPermissionQueryRepository
     {

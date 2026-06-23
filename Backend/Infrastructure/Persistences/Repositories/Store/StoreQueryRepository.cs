@@ -1,10 +1,10 @@
 ﻿using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Store;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Store;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistences.Repositories.Store
+namespace Infrastructure.Persistences.Repositories
 {
     public class StoreQueryRepository : IStoreQueryRepository
     {

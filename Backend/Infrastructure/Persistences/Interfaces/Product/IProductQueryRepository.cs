@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Product;
 
-namespace Infrastructure.Persistences.Interfaces.Product
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IProductQueryRepository
     {

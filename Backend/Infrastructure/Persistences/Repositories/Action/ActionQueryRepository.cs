@@ -1,10 +1,10 @@
 ﻿using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Action;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Action;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistences.Repositories.Action
+namespace Infrastructure.Persistences.Repositories
 {
     public class ActionQueryRepository : IActionQueryRepository
     {

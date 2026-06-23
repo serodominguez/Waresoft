@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Supplier;
 
-namespace Infrastructure.Persistences.Interfaces.Supplier
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface ISupplierQueryRepository
     {

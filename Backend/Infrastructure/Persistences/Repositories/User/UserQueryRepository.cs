@@ -1,12 +1,12 @@
 ﻿using Dapper;
 using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.User;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.User;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistences.Repositories.User
+namespace Infrastructure.Persistences.Repositories
 {
     public class UserQueryRepository : IUserQueryRepository
     {

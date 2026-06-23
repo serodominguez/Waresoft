@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Transfer;
 
-namespace Infrastructure.Persistences.Interfaces.Transfer
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface ITransferQueryRepository
     {

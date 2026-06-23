@@ -1,10 +1,10 @@
 ﻿using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Supplier;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Supplier;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistences.Repositories.Supplier
+namespace Infrastructure.Persistences.Repositories
 {
     public class SupplierQueryRepository : ISupplierQueryRepository
     {

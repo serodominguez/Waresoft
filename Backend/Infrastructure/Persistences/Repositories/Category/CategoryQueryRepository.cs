@@ -1,10 +1,10 @@
 ﻿using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Category;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Category;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistences.Repositories.Category
+namespace Infrastructure.Persistences.Repositories
 {
     public class CategoryQueryRepository : ICategoryQueryRepository
     {

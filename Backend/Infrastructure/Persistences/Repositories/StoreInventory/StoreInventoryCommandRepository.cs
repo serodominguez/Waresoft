@@ -1,8 +1,8 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.StoreInventory;
+using Infrastructure.Persistences.Interfaces;
 
-namespace Infrastructure.Persistences.Repositories.StoreInventory
+namespace Infrastructure.Persistences.Repositories
 {
     public class StoreInventoryCommandRepository : IStoreInventoryCommandRepository
     {

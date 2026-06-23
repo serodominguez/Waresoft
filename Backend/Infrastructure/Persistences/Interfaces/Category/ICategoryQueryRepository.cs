@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Persistences.ReadModels.Category;
 using Infrastructure.Persistences.ReadModels.Customer;
 
-namespace Infrastructure.Persistences.Interfaces.Category
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface ICategoryQueryRepository
     {

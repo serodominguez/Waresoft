@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Store;
 
-namespace Infrastructure.Persistences.Interfaces.Store
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IStoreQueryRepository
     {

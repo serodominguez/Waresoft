@@ -1,10 +1,10 @@
 ﻿using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Permission;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Permission;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistences.Repositories.Permission
+namespace Infrastructure.Persistences.Repositories
 {
     public class PermissionQueryRepository : IPermissionQueryRepository
     {

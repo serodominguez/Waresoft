@@ -1,11 +1,11 @@
 ﻿using Dapper;
 using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Dashboard;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.ReadModels.Dashboard;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Infrastructure.Persistences.Repositories.Dashboard
+namespace Infrastructure.Persistences.Repositories
 {
     public class DashboardQueryRepository : IDashboardQueryRepository
     {

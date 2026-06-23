@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Role;
 
-namespace Infrastructure.Persistences.Interfaces.Role
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IRoleQueryRepository
     {

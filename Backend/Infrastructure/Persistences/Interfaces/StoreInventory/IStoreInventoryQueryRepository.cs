@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.StoreInventory;
 
-namespace Infrastructure.Persistences.Interfaces.StoreInventory
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IStoreInventoryQueryRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Persistences.Interfaces.Sequence
+﻿namespace Infrastructure.Persistences.Interfaces
 {
     public interface ISequenceQueryRepository
     {

@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Module;
 
-namespace Infrastructure.Persistences.Interfaces.Module
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IModuleQueryRepository
     {

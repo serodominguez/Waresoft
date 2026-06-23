@@ -1,21 +1,4 @@
 ﻿using Domain.Entities;
-using Infrastructure.Persistences.Interfaces.Action;
-using Infrastructure.Persistences.Interfaces.Brand;
-using Infrastructure.Persistences.Interfaces.Category;
-using Infrastructure.Persistences.Interfaces.Customer;
-using Infrastructure.Persistences.Interfaces.Dashboard;
-using Infrastructure.Persistences.Interfaces.GoodsIssue;
-using Infrastructure.Persistences.Interfaces.GoodsReceipt;
-using Infrastructure.Persistences.Interfaces.Module;
-using Infrastructure.Persistences.Interfaces.Permission;
-using Infrastructure.Persistences.Interfaces.Product;
-using Infrastructure.Persistences.Interfaces.Role;
-using Infrastructure.Persistences.Interfaces.Sequence;
-using Infrastructure.Persistences.Interfaces.Store;
-using Infrastructure.Persistences.Interfaces.StoreInventory;
-using Infrastructure.Persistences.Interfaces.Supplier;
-using Infrastructure.Persistences.Interfaces.Transfer;
-using Infrastructure.Persistences.Interfaces.User;
 using System.Data;
 
 namespace Infrastructure.Persistences.Interfaces

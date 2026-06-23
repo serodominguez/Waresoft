@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Brand;
 
-namespace Infrastructure.Persistences.Interfaces.Brand
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IBrandQueryRepository
     {

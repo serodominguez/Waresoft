@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace Infrastructure.Persistences.Interfaces.StoreInventory
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IStoreInventoryCommandRepository
     {

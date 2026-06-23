@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Dashboard;
 
-namespace Infrastructure.Persistences.Interfaces.Dashboard
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IDashboardQueryRepository
     {

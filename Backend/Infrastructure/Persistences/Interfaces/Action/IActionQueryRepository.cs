@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Persistences.ReadModels.Action;
 
-namespace Infrastructure.Persistences.Interfaces.Action
+namespace Infrastructure.Persistences.Interfaces
 {
     public interface IActionQueryRepository
     {

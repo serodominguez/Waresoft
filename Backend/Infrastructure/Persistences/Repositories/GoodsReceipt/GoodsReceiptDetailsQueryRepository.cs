@@ -1,9 +1,9 @@
 ﻿using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.GoodsReceipt;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.GoodsReceipt;
 
-namespace Infrastructure.Persistences.Repositories.GoodsReceipt
+namespace Infrastructure.Persistences.Repositories
 {
     public class GoodsReceiptDetailsQueryRepository : IGoodsReceiptDetailsQueryRepository
     {

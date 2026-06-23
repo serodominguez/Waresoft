@@ -1,13 +1,13 @@
 ﻿using Dapper;
 using Infrastructure.Persistences.Contexts;
-using Infrastructure.Persistences.Interfaces.Customer;
+using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Customer;
 using Infrastructure.Persistences.ReadModels.Product;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Infrastructure.Persistences.Repositories.Customer
+namespace Infrastructure.Persistences.Repositories
 {
     public class CustomerQueryRepository : ICustomerQueryRepository
     {
