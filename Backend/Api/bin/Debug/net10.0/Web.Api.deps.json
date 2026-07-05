@@ -16,7 +16,7 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "10.0.2",
           "NuGet.Packaging": "7.6.0",
           "NuGet.Protocol": "7.6.0",
-          "Swashbuckle.AspNetCore": "10.2.1",
+          "Swashbuckle.AspNetCore": "10.2.3",
           "Utilities": "1.0.0"
         },
         "runtime": {
@@ -1854,11 +1854,11 @@
           }
         }
       },
-      "QuestPDF/2026.6.0": {
+      "QuestPDF/2026.6.1": {
         "runtime": {
           "lib/net10.0/QuestPDF.dll": {
-            "assemblyVersion": "2026.6.0.0",
-            "fileVersion": "2026.6.0.0"
+            "assemblyVersion": "2026.6.1.0",
+            "fileVersion": "2026.6.1.0"
           }
         },
         "runtimeTargets": {
@@ -1960,19 +1960,19 @@
           }
         }
       },
-      "SkiaSharp/3.119.4": {
+      "SkiaSharp/4.148.0": {
         "dependencies": {
-          "SkiaSharp.NativeAssets.Win32": "3.119.4",
-          "SkiaSharp.NativeAssets.macOS": "3.119.4"
+          "SkiaSharp.NativeAssets.Win32": "4.148.0",
+          "SkiaSharp.NativeAssets.macOS": "4.148.0"
         },
         "runtime": {
           "lib/net10.0/SkiaSharp.dll": {
-            "assemblyVersion": "3.119.0.0",
-            "fileVersion": "3.119.4.0"
+            "assemblyVersion": "4.148.0.0",
+            "fileVersion": "4.148.0.0"
           }
         }
       },
-      "SkiaSharp.NativeAssets.macOS/3.119.4": {
+      "SkiaSharp.NativeAssets.macOS/4.148.0": {
         "runtimeTargets": {
           "runtimes/osx/native/libSkiaSharp.dylib": {
             "rid": "osx",
@@ -1981,7 +1981,7 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.Win32/3.119.4": {
+      "SkiaSharp.NativeAssets.Win32/4.148.0": {
         "runtimeTargets": {
           "runtimes/win-arm64/native/libSkiaSharp.dll": {
             "rid": "win-arm64",
@@ -2015,40 +2015,40 @@
           }
         }
       },
-      "Swashbuckle.AspNetCore/10.2.1": {
+      "Swashbuckle.AspNetCore/10.2.3": {
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "10.2.1",
-          "Swashbuckle.AspNetCore.SwaggerGen": "10.2.1",
-          "Swashbuckle.AspNetCore.SwaggerUI": "10.2.1"
+          "Swashbuckle.AspNetCore.Swagger": "10.2.3",
+          "Swashbuckle.AspNetCore.SwaggerGen": "10.2.3",
+          "Swashbuckle.AspNetCore.SwaggerUI": "10.2.3"
         }
       },
-      "Swashbuckle.AspNetCore.Swagger/10.2.1": {
+      "Swashbuckle.AspNetCore.Swagger/10.2.3": {
         "dependencies": {
           "Microsoft.OpenApi": "2.7.5"
         },
         "runtime": {
           "lib/net10.0/Swashbuckle.AspNetCore.Swagger.dll": {
-            "assemblyVersion": "10.2.1.0",
-            "fileVersion": "10.2.1.2634"
+            "assemblyVersion": "10.2.3.0",
+            "fileVersion": "10.2.3.2721"
           }
         }
       },
-      "Swashbuckle.AspNetCore.SwaggerGen/10.2.1": {
+      "Swashbuckle.AspNetCore.SwaggerGen/10.2.3": {
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "10.2.1"
+          "Swashbuckle.AspNetCore.Swagger": "10.2.3"
         },
         "runtime": {
           "lib/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
-            "assemblyVersion": "10.2.1.0",
-            "fileVersion": "10.2.1.2634"
+            "assemblyVersion": "10.2.3.0",
+            "fileVersion": "10.2.3.2721"
           }
         }
       },
-      "Swashbuckle.AspNetCore.SwaggerUI/10.2.1": {
+      "Swashbuckle.AspNetCore.SwaggerUI/10.2.3": {
         "runtime": {
           "lib/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
-            "assemblyVersion": "10.2.1.0",
-            "fileVersion": "10.2.1.2634"
+            "assemblyVersion": "10.2.3.0",
+            "fileVersion": "10.2.3.2721"
           }
         }
       },
@@ -2233,8 +2233,8 @@
           "FluentValidation": "12.1.1",
           "Infrastructure": "1.0.0",
           "QRCoder": "1.8.0",
-          "QuestPDF": "2026.6.0",
-          "SkiaSharp": "3.119.4",
+          "QuestPDF": "2026.6.1",
+          "SkiaSharp": "4.148.0",
           "Utilities": "1.0.0",
           "ZXing.Net": "0.16.11"
         },
@@ -2261,8 +2261,8 @@
           "ClosedXML": "0.105.0",
           "Dapper": "2.1.79",
           "Domain": "1.0.0",
-          "QuestPDF": "2026.6.0",
-          "SkiaSharp": "3.119.4",
+          "QuestPDF": "2026.6.1",
+          "SkiaSharp": "4.148.0",
           "System.Linq.Dynamic.Core": "1.7.2",
           "Utilities": "1.0.0"
         },
@@ -3115,12 +3115,12 @@
       "path": "qrcoder/1.8.0",
       "hashPath": "qrcoder.1.8.0.nupkg.sha512"
     },
-    "QuestPDF/2026.6.0": {
+    "QuestPDF/2026.6.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-0DQY6bGXcFLdj10vXmdMMZqgShQGuy0XvPtkkfntlOmSrtIZTBmlLFQilg3OK/V9c6hlyqus+g6PKm5YexEZ0A==",
-      "path": "questpdf/2026.6.0",
-      "hashPath": "questpdf.2026.6.0.nupkg.sha512"
+      "sha512": "sha512-EuGtkJcYNF/IV5Sd4WzshYJcqG5FNutBrRFPqzzlFxIEV9FOrN1pbPIYf38LVKEz9WCpHZN5SZjcISUefoHQvQ==",
+      "path": "questpdf/2026.6.1",
+      "hashPath": "questpdf.2026.6.1.nupkg.sha512"
     },
     "RBush.Signed/4.0.0": {
       "type": "package",
@@ -3136,54 +3136,54 @@
       "path": "sixlabors.fonts/1.0.0",
       "hashPath": "sixlabors.fonts.1.0.0.nupkg.sha512"
     },
-    "SkiaSharp/3.119.4": {
+    "SkiaSharp/4.148.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-53NOSUZ1Us+91Sm0uCkIivh/k7jOowRErZT2sIWwPFN9mLUvdxnE6rS4sWo4255+Rd2MWUSF+j0NMZHD6Cke+Q==",
-      "path": "skiasharp/3.119.4",
-      "hashPath": "skiasharp.3.119.4.nupkg.sha512"
+      "sha512": "sha512-t+oZDnzvi0en060BFDTmJ16C0zjsiXRrtOe70luIuIi/exVZtl1obrYh8D+IoHlGtp7bqzEBVncafbAl0ttmPQ==",
+      "path": "skiasharp/4.148.0",
+      "hashPath": "skiasharp.4.148.0.nupkg.sha512"
     },
-    "SkiaSharp.NativeAssets.macOS/3.119.4": {
+    "SkiaSharp.NativeAssets.macOS/4.148.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-fgBOWEqbY012x7gMfJU4ezgz6dfhJb30Z6YdW35h85Zoe39+a8YNbAAwL29ihPfWoppg5AjvyKNzD1oCvlqWwA==",
-      "path": "skiasharp.nativeassets.macos/3.119.4",
-      "hashPath": "skiasharp.nativeassets.macos.3.119.4.nupkg.sha512"
+      "sha512": "sha512-1iESVxlqNNbQUiFODuyQJ/5dYUNYwGzZBUyaKNU3pJRM8zPFUkdMW0UZcZPvd6xwrjn53HYklJyKvetXC6ri+A==",
+      "path": "skiasharp.nativeassets.macos/4.148.0",
+      "hashPath": "skiasharp.nativeassets.macos.4.148.0.nupkg.sha512"
     },
-    "SkiaSharp.NativeAssets.Win32/3.119.4": {
+    "SkiaSharp.NativeAssets.Win32/4.148.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg==",
-      "path": "skiasharp.nativeassets.win32/3.119.4",
-      "hashPath": "skiasharp.nativeassets.win32.3.119.4.nupkg.sha512"
+      "sha512": "sha512-LegvQ9zAi9Tmot2YOLv8mcK+g3wbEYfCWUoC5JtyHaN8QrxsaMvfJ8pFPvnEOVuY8qXxs8vVqrO/x42/YaFDRA==",
+      "path": "skiasharp.nativeassets.win32/4.148.0",
+      "hashPath": "skiasharp.nativeassets.win32.4.148.0.nupkg.sha512"
     },
-    "Swashbuckle.AspNetCore/10.2.1": {
+    "Swashbuckle.AspNetCore/10.2.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-SDU6akgCV/H4jFMRfyJ0mgO5jWOuuAqekvEThXg8c/LjnfNz5Nkaz+RUpeTVJKWIRX4wDKC/6R3ogJ4AsRE32A==",
-      "path": "swashbuckle.aspnetcore/10.2.1",
-      "hashPath": "swashbuckle.aspnetcore.10.2.1.nupkg.sha512"
+      "sha512": "sha512-8KNh1RWvofdU6DVLyBs4Z/OpUMnmf8oNvJQc0QxpwySRbi42bwLfdVMMrXZWANg5U5KQGQq1xW6r/hlcqw99tQ==",
+      "path": "swashbuckle.aspnetcore/10.2.3",
+      "hashPath": "swashbuckle.aspnetcore.10.2.3.nupkg.sha512"
     },
-    "Swashbuckle.AspNetCore.Swagger/10.2.1": {
+    "Swashbuckle.AspNetCore.Swagger/10.2.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ej4inPhiWCq+0utG8yaKhIhE8M3k3R/qRaGhpgDZB+O/s+o62/zRMO1Cn2CtQccsrqPE9PYnzCp6hQGYGpJOyQ==",
-      "path": "swashbuckle.aspnetcore.swagger/10.2.1",
-      "hashPath": "swashbuckle.aspnetcore.swagger.10.2.1.nupkg.sha512"
+      "sha512": "sha512-1jUUs3WQnrS0FUtaZPLSy1yYMEwS1zlvDmvQ2/eldPHUANX0LJSLVZecCMgSMdeGiRqeaRrIXLtSz++TCiTMww==",
+      "path": "swashbuckle.aspnetcore.swagger/10.2.3",
+      "hashPath": "swashbuckle.aspnetcore.swagger.10.2.3.nupkg.sha512"
     },
-    "Swashbuckle.AspNetCore.SwaggerGen/10.2.1": {
+    "Swashbuckle.AspNetCore.SwaggerGen/10.2.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-JYX6i/y0xEtQWH/hZyfcage1/ldwww83ueD/gBc34uSnMwyvRLUsOpYcxlliFFxFbZMrY6t+R9ENqolE7zTEOg==",
-      "path": "swashbuckle.aspnetcore.swaggergen/10.2.1",
-      "hashPath": "swashbuckle.aspnetcore.swaggergen.10.2.1.nupkg.sha512"
+      "sha512": "sha512-y7t4coDRAeFYChmvlMRiH2OjbiRrm9AVIDgt17fQfs3x9PVAI5PiwWYOhg+4F13R4Q36WDc9lqfoOnNa3tNbGg==",
+      "path": "swashbuckle.aspnetcore.swaggergen/10.2.3",
+      "hashPath": "swashbuckle.aspnetcore.swaggergen.10.2.3.nupkg.sha512"
     },
-    "Swashbuckle.AspNetCore.SwaggerUI/10.2.1": {
+    "Swashbuckle.AspNetCore.SwaggerUI/10.2.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-vzB8ZAGqXus3fdareJ9GHctaRP9ZL+wW9x8U7s1Y+BWprInFvSg6rpD9VhANNpwXA8fUHqu5Agjl/+hHG1BCQA==",
-      "path": "swashbuckle.aspnetcore.swaggerui/10.2.1",
-      "hashPath": "swashbuckle.aspnetcore.swaggerui.10.2.1.nupkg.sha512"
+      "sha512": "sha512-nthWONRs/FJ4yyG206g1cC52WEG8EqrjuMWjGdR+5XG7lbjFto6NqcI9EMICgVFom/UivIjUVwI76ZHbHwTPfQ==",
+      "path": "swashbuckle.aspnetcore.swaggerui/10.2.3",
+      "hashPath": "swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512"
     },
     "System.ClientModel/1.5.1": {
       "type": "package",

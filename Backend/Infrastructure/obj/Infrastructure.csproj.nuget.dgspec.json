@@ -422,11 +422,11 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.6.0, )"
+              "version": "[2026.6.1, )"
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[3.119.4, )"
+              "version": "[4.148.0, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
