@@ -8,7 +8,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<TransferDetailsEntity> builder)
         {
-            builder.ToTable("TRANSFERS_DETAILS")
+            builder.ToTable("TransfersDetails")
                 .HasKey(d => new { d.IdTransfer, d.Item });
 
             builder.Property(d => d.IdTransfer)

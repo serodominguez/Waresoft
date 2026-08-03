@@ -45,7 +45,7 @@
             <td class="text-center">
               <v-tooltip v-bind="tooltipProps" text="Editar" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" v-if="canEdit" icon variant="text" color="indigo-darken-4" size="small"
+                  <v-btn v-bind="props" v-if="canEdit" icon variant="text" color="grey-darken-1" size="small"
                     @click="$emit('edit-inventory', item)">
                     <v-icon icon="mdi-file-edit" size="24"></v-icon>
                   </v-btn>
@@ -53,7 +53,7 @@
               </v-tooltip>
               <v-tooltip v-bind="tooltipProps" text="Imprimir" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="black" size="small"
+                  <v-btn v-bind="props" v-if="canDownload" icon variant="text" color="grey-darken-1" size="small"
                     @click="$emit('open-barcode', item)">
                     <v-icon icon="mdi-printer" size="24"></v-icon>
                   </v-btn>

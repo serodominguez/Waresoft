@@ -81,7 +81,9 @@ namespace Application.Services
                 filters.Sort ??= "Id";
                 var items = await _orderingQuery.Ordering(filters, products, !(bool)filters.Download!).ToListAsync();
                 response.IsSuccess = true;
-                response.Data = items.Select(ProductMapp.ProductsResponseDtoMapping);
+                //response.Data = items.Select(ProductMapp.ProductsResponseDtoMapping);
+                var baseUrl = _fileStorageImageService.GetBaseUrl();
+                response.Data = items.Select(p => ProductMapp.ProductsResponseDtoMapping(p, baseUrl));
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception ex)
@@ -104,7 +106,9 @@ namespace Application.Services
 
                 if (product is not null)
                 {
-                    response.Data = ProductMapp.ProductsResponseDtoMapping(product);
+                    //response.Data = ProductMapp.ProductsResponseDtoMapping(product);
+                    var baseUrl = _fileStorageImageService.GetBaseUrl();
+                    response.Data = ProductMapp.ProductsResponseDtoMapping(product, baseUrl);
                     response.IsSuccess = true;
                     response.Message = ReplyMessage.MESSAGE_QUERY;
                 }

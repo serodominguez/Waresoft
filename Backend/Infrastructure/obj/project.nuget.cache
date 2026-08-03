@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "FPdcdgwOsp8=",
+  "dgSpecHash": "Fyf/dpwNayU=",
   "success": true,
   "projectFilePath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sergio\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\closedxml\\0.105.1\\closedxml.0.105.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\documentformat.openxml\\3.1.1\\documentformat.openxml.3.1.1.nupkg.sha512",
@@ -30,7 +30,7 @@
     "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\7.7.1\\microsoft.identitymodel.protocols.openidconnect.7.7.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.7.1\\microsoft.identitymodel.tokens.7.7.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\questpdf\\2026.7.1\\questpdf.2026.7.1.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\questpdf\\2026.7.2\\questpdf.2026.7.2.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\rbush.signed\\4.0.0\\rbush.signed.4.0.0.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp\\4.150.1\\skiasharp.4.150.1.nupkg.sha512",

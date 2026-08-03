@@ -24,10 +24,6 @@
             <v-text-field color="indigo" variant="outlined" density="compact" v-model="localTransfer.sendDate"
               label="Fecha envio" readonly />
           </v-col>
-          <v-col v-if="localTransfer.idTransfer" cols="12" md="2">
-            <v-text-field color="indigo" variant="outlined" density="compact" v-model="localTransfer.statusTransfer"
-              label="Estado" readonly />
-          </v-col>
           <v-col v-if="!localTransfer.idTransfer" cols="12" md="2" style="padding-bottom: 22px;">
             <v-tooltip v-bind="tooltipProps" text="Seleccionar Producto" location="bottom">
               <template v-slot:activator="{ props }">
@@ -68,7 +64,7 @@
               <td v-if="!localTransfer.idTransfer" class="text-center">
                 <v-tooltip v-bind="tooltipProps" text="Quitar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="red" size="small" @click="removeProduct(item)">
+                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small" @click="removeProduct(item)">
                       <v-icon icon="mdi-minus-circle-outline" size="24"></v-icon>
                     </v-btn>
                   </template>

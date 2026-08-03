@@ -23,7 +23,7 @@
               <v-tooltip v-bind="tooltipProps" text="Editar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Category).statusCategory == 'Activo'" icon
-                    variant="text" color="indigo-darken-4" size="small" @click="$emit('edit-category', item)">
+                    variant="text" color="grey-darken-1" size="small" @click="$emit('edit-category', item)">
                     <v-icon icon="mdi-pencil" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -31,7 +31,7 @@
               <v-tooltip v-bind="tooltipProps" text="Activar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Category).statusCategory == 'Inactivo'" icon
-                    variant="text" color="green-darken-1" size="small"
+                    variant="text" color="grey-darken-1" size="small"
                     @click="$emit('open-modal', { category: item, action: 1 })">
                     <v-icon icon="mdi-check-circle" size="24"></v-icon>
                   </v-btn>
@@ -40,7 +40,8 @@
               <v-tooltip v-bind="tooltipProps" text="Inactivar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Category).statusCategory == 'Activo'" icon
-                    variant="text" color="red-darken-1" size="small" @click="$emit('open-modal', { category: item, action: 2 })">
+                    variant="text" color="grey-darken-1" size="small"
+                    @click="$emit('open-modal', { category: item, action: 2 })">
                     <v-icon icon="mdi-close-circle" size="24"></v-icon>
                   </v-btn>
                 </template>

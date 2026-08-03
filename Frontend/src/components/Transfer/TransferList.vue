@@ -26,7 +26,7 @@
               <template v-if="canRead">
                 <v-tooltip v-bind="tooltipProps" text="Visualizar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="deep-purple-darken-1" size="small"
+                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
                       @click="$emit('view-transfer', item)">
                       <v-icon icon="mdi-file-eye" size="24"></v-icon>
                     </v-btn>
@@ -35,8 +35,8 @@
                 <v-tooltip v-bind="tooltipProps" text="Imprimir" location="bottom">
                   <template v-slot:activator="{ props }">
                     <template v-if="canRead && (item as Transfer).statusTransfer != 'Cancelado'">
-                      <v-btn v-bind="props" icon variant="text" size="small" @click="$emit('print-pdf', item)"
-                        :loading="printingPdfId === (item as Transfer).idTransfer"
+                      <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
+                        @click="$emit('print-pdf', item)" :loading="printingPdfId === (item as Transfer).idTransfer"
                         :disabled="printingPdfId === (item as Transfer).idTransfer">
                         <v-icon icon="mdi-printer" size="24"></v-icon>
                       </v-btn>
@@ -47,7 +47,7 @@
                   <template v-slot:activator="{ props }">
                     <template
                       v-if="canDelete && !['Cancelado', 'Recibido'].includes((item as Transfer).statusTransfer) && (item as Transfer).idStoreOrigin == currentUser?.storeId">
-                      <v-btn v-bind="props" icon variant="text" color="red-darken-1" size="small"
+                      <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
                         @click="$emit('open-modal', { transfer: item, action: 3 })">
                         <v-icon icon="mdi-file-cancel" size="24"></v-icon>
                       </v-btn>

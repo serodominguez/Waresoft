@@ -38,14 +38,14 @@
           }
         }
       },
-      "ClosedXML/0.105.0": {
+      "ClosedXML/0.105.1": {
         "type": "package",
         "dependencies": {
           "ClosedXML.Parser": "2.0.0",
           "DocumentFormat.OpenXml": "[3.1.1, 4.0.0)",
           "ExcelNumberFormat": "1.1.0",
           "RBush.Signed": "4.0.0",
-          "SixLabors.Fonts": "1.0.0"
+          "SixLabors.Fonts": "[1.0.0, 3.0.0)"
         },
         "compile": {
           "lib/netstandard2.1/ClosedXML.dll": {
@@ -2266,7 +2266,7 @@
           }
         }
       },
-      "QuestPDF/2026.7.1": {
+      "QuestPDF/2026.7.2": {
         "type": "package",
         "compile": {
           "lib/net10.0/QuestPDF.dll": {
@@ -2386,6 +2386,69 @@
         "runtime": {
           "lib/net10.0/SkiaSharp.dll": {
             "related": ".pdb"
+          }
+        }
+      },
+      "SkiaSharp.NativeAssets.Linux.NoDependencies/4.150.1": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/_._": {}
+        },
+        "runtime": {
+          "lib/net10.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-arm/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-arm"
+          },
+          "runtimes/linux-arm64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-arm64"
+          },
+          "runtimes/linux-bionic-arm64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-bionic-arm64"
+          },
+          "runtimes/linux-bionic-x64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-bionic-x64"
+          },
+          "runtimes/linux-loongarch64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-loongarch64"
+          },
+          "runtimes/linux-musl-arm/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-musl-arm"
+          },
+          "runtimes/linux-musl-arm64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-musl-arm64"
+          },
+          "runtimes/linux-musl-loongarch64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-musl-loongarch64"
+          },
+          "runtimes/linux-musl-riscv64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-musl-riscv64"
+          },
+          "runtimes/linux-musl-x64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-musl-x64"
+          },
+          "runtimes/linux-riscv64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-riscv64"
+          },
+          "runtimes/linux-x64/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/linux-x86/native/libSkiaSharp.so": {
+            "assetType": "native",
+            "rid": "linux-x86"
           }
         }
       },
@@ -2841,8 +2904,9 @@
           "FluentValidation": "12.1.1",
           "Infrastructure": "1.0.0",
           "QRCoder": "1.8.0",
-          "QuestPDF": "2026.7.1",
+          "QuestPDF": "2026.7.2",
           "SkiaSharp": "4.150.1",
+          "SkiaSharp.NativeAssets.Linux.NoDependencies": "4.150.1",
           "Utilities": "1.0.0",
           "ZXing.Net": "0.16.11"
         },
@@ -2870,10 +2934,10 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "ClosedXML": "0.105.0",
+          "ClosedXML": "0.105.1",
           "Dapper": "2.1.79",
           "Domain": "1.0.0",
-          "QuestPDF": "2026.7.1",
+          "QuestPDF": "2026.7.2",
           "SkiaSharp": "4.150.1",
           "System.Linq.Dynamic.Core": "1.7.3",
           "Utilities": "1.0.0"
@@ -2941,14 +3005,14 @@
         "lib/netstandard2.0/Azure.Identity.xml"
       ]
     },
-    "ClosedXML/0.105.0": {
-      "sha512": "U0hAdnYyPvF7TqHMFloxrS7pmozab79tFFF4c/bgPtqeelUs7ILpUd3r3c7C0a/DXsUZb3k1n4Pf7Q2LMyMQOg==",
+    "ClosedXML/0.105.1": {
+      "sha512": "X1ruIP9h2FBEK7jmO0peq3s6/Zqt5ve5a9f9kn6WUjdsUWvGbQlqxuGLz822xuFLlmnSeAfWFTGeX/tZlmAt+g==",
       "type": "package",
-      "path": "closedxml/0.105.0",
+      "path": "closedxml/0.105.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "closedxml.0.105.0.nupkg.sha512",
+        "closedxml.0.105.1.nupkg.sha512",
         "closedxml.nuspec",
         "lib/netstandard2.0/ClosedXML.dll",
         "lib/netstandard2.0/ClosedXML.pdb",
@@ -6785,10 +6849,10 @@
         "qrcoder.nuspec"
       ]
     },
-    "QuestPDF/2026.7.1": {
-      "sha512": "GsBxQb48dFAGmvI1eP3SHyz0Pua4uH6aUHX7f0ywTin6hordAviZRAiTiIQiKMLwq6hN1FmgS+qLjfh2v7vhOg==",
+    "QuestPDF/2026.7.2": {
+      "sha512": "GSPOoErqB4Yh7mnbV4m/ykHOF6erHdm5qyMRHDr4sjk+fvrtkEL+RoG5YpOqiWrS833jEiktC1Uthyy5/QMNQA==",
       "type": "package",
-      "path": "questpdf/2026.7.1",
+      "path": "questpdf/2026.7.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6847,7 +6911,7 @@
         "lib/net8.0/QuestPDF.xml",
         "lib/netstandard2.0/QuestPDF.dll",
         "lib/netstandard2.0/QuestPDF.xml",
-        "questpdf.2026.7.1.nupkg.sha512",
+        "questpdf.2026.7.2.nupkg.sha512",
         "questpdf.nuspec",
         "runtimes/linux-arm64/native/libQuestPdfSkia.so",
         "runtimes/linux-arm64/native/libqpdf.so",
@@ -6983,6 +7047,45 @@
         "ref/netstandard2.1/SkiaSharp.dll",
         "skiasharp.4.150.1.nupkg.sha512",
         "skiasharp.nuspec"
+      ]
+    },
+    "SkiaSharp.NativeAssets.Linux.NoDependencies/4.150.1": {
+      "sha512": "2KVadgDky2xQw7lEMRT/u0ftX5K1u8X7MhCN47Em22Z6VM6JJg1c9cwfGuSPAt1oY6+GjGHH18vkeev+nqT9Kw==",
+      "type": "package",
+      "path": "skiasharp.nativeassets.linux.nodependencies/4.150.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "THIRD-PARTY-NOTICES.txt",
+        "build/net462/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
+        "build/net48/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
+        "buildTransitive/net462/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
+        "buildTransitive/net48/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
+        "icon.png",
+        "lib/net10.0/_._",
+        "lib/net462/_._",
+        "lib/net48/_._",
+        "lib/net6.0/_._",
+        "lib/net9.0/_._",
+        "lib/netstandard2.0/_._",
+        "lib/netstandard2.1/_._",
+        "runtimes/linux-arm/native/libSkiaSharp.so",
+        "runtimes/linux-arm64/native/libSkiaSharp.so",
+        "runtimes/linux-bionic-arm64/native/libSkiaSharp.so",
+        "runtimes/linux-bionic-x64/native/libSkiaSharp.so",
+        "runtimes/linux-loongarch64/native/libSkiaSharp.so",
+        "runtimes/linux-musl-arm/native/libSkiaSharp.so",
+        "runtimes/linux-musl-arm64/native/libSkiaSharp.so",
+        "runtimes/linux-musl-loongarch64/native/libSkiaSharp.so",
+        "runtimes/linux-musl-riscv64/native/libSkiaSharp.so",
+        "runtimes/linux-musl-x64/native/libSkiaSharp.so",
+        "runtimes/linux-riscv64/native/libSkiaSharp.so",
+        "runtimes/linux-x64/native/libSkiaSharp.so",
+        "runtimes/linux-x86/native/libSkiaSharp.so",
+        "skiasharp.nativeassets.linux.nodependencies.4.150.1.nupkg.sha512",
+        "skiasharp.nativeassets.linux.nodependencies.nuspec"
       ]
     },
     "SkiaSharp.NativeAssets.macOS/4.150.1": {
@@ -7900,7 +8003,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

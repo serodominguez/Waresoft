@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialogModel" :max-width="smAndDown ? '95vw' : '600px'" persistent>
     <v-card style="overflow: hidden;">
-      <v-toolbar color="indigo" density="compact">
+      <v-toolbar color="#1A202C" density="compact">
         <v-toolbar-title class="text-white text-body-2">
           <v-icon icon="mdi-image" class="mr-2" />
           {{ productCode }}

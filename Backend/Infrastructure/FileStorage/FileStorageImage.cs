@@ -38,9 +38,11 @@ namespace Infrastructure.FileStorage
 
                 if (resized) bitmap.Dispose();
 
-                var currentUrl = $"{scheme}://{host}";
-                var pathDb = Path.Combine(currentUrl, container, fileName).Replace("\\", "/");
-                return pathDb;
+                //var currentUrl = $"{scheme}://{host}";
+                //var pathDb = Path.Combine(currentUrl, container, fileName).Replace("\\", "/");
+                //return pathDb;
+
+                return $"/{container}/{fileName}";
             }
             catch
             {

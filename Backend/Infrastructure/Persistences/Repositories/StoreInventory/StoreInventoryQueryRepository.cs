@@ -38,8 +38,8 @@ namespace Infrastructure.Persistences.Repositories
                                                     r.IdReceipt AS IdMovement, r.Code, 
                                                     r.AuditCreateDate AS Date, 'Entrada' AS MovementType, r.Type,
                                             CAST(r.Status AS VARCHAR(10)) AS State
-                                            FROM GOODS_RECEIPT_DETAILS d
-                                            INNER JOIN GOODS_RECEIPT r ON r.IdReceipt = d.IdReceipt
+                                            FROM GoodsReceiptDetails d
+                                            INNER JOIN GoodsReceipt r ON r.IdReceipt = d.IdReceipt
                                             WHERE d.IdProduct = @ProductId 
                                             AND r.IdStore = @StoreId 
                                             AND r.IsActive = 1 
@@ -51,8 +51,8 @@ namespace Infrastructure.Persistences.Repositories
                                                     i.IdIssue AS IdMovement, i.Code, 
                                                     i.AuditCreateDate AS Date, 'Salida' AS MovementType, i.Type,
                                             CAST(i.Status AS VARCHAR(10)) AS State
-                                            FROM GOODS_ISSUE_DETAILS d
-                                            INNER JOIN GOODS_ISSUE i ON i.IdIssue = d.IdIssue
+                                            FROM GoodsIssueDetails d
+                                            INNER JOIN GoodsIssue i ON i.IdIssue = d.IdIssue
                                             WHERE d.IdProduct = @ProductId 
                                             AND i.IdStore = @StoreId 
                                             AND i.IsActive = 1 
@@ -64,8 +64,8 @@ namespace Infrastructure.Persistences.Repositories
                                                     t.IdTransfer AS IdMovement, t.Code, 
                                                     t.AuditCreateDate AS Date, 'Traspaso' AS MovementType, 'Entrada' AS Type,
                                             CAST(t.Status AS VARCHAR(10)) AS State
-                                            FROM TRANSFERS_DETAILS d
-                                            INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer
+                                            FROM TransfersDetails d
+                                            INNER JOIN Transfers t ON t.IdTransfer = d.IdTransfer
                                             WHERE d.IdProduct = @ProductId 
                                             AND t.IdStoreDestination = @StoreId 
                                             AND t.IsActive = 1 
@@ -77,8 +77,8 @@ namespace Infrastructure.Persistences.Repositories
                                                     t.IdTransfer AS IdMovement, t.Code, 
                                                     t.AuditCreateDate AS Date, 'Traspaso' AS MovementType, 'Salida' AS Type,
                                             CAST(t.Status AS VARCHAR(10)) AS State
-                                            FROM TRANSFERS_DETAILS d
-                                            INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer
+                                            FROM TransfersDetails d
+                                            INNER JOIN Transfers t ON t.IdTransfer = d.IdTransfer
                                             WHERE d.IdProduct = @ProductId 
                                             AND t.IdStoreOrigin = @StoreId 
                                             AND t.IsActive = 1 
@@ -149,10 +149,10 @@ namespace Infrastructure.Persistences.Repositories
             var sql = $@"
                         -- A. CONTAR PRODUCTOS ÚNICOS
                             SELECT COUNT(DISTINCT p.IdProduct) 
-                            FROM PRODUCTS p 
-                            INNER JOIN STORES_INVENTORY si ON p.IdProduct = si.IdProduct
-                            LEFT JOIN CATEGORIES c ON p.IdCategory = c.IdCategory
-                            LEFT JOIN BRANDS b ON p.IdBrand = b.IdBrand
+                            FROM Products p 
+                            INNER JOIN StoresInventory si ON p.IdProduct = si.IdProduct
+                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
+                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
                             WHERE 1=1 {filters};
 
                         -- B. OBTENER IDs DE LA PÁGINA ACTUAL
@@ -160,10 +160,10 @@ namespace Infrastructure.Persistences.Repositories
 
                             SELECT DISTINCT p.IdProduct 
                             INTO #PagedProductIds
-                            FROM PRODUCTS p
-                            INNER JOIN STORES_INVENTORY si ON p.IdProduct = si.IdProduct
-                            LEFT JOIN CATEGORIES c ON p.IdCategory = c.IdCategory
-                            LEFT JOIN BRANDS b ON p.IdBrand = b.IdBrand
+                            FROM Products p
+                            INNER JOIN StoresInventory si ON p.IdProduct = si.IdProduct
+                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
+                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
                             WHERE 1=1 {filters}
                             ORDER BY p.IdProduct DESC
                             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
@@ -173,11 +173,11 @@ namespace Infrastructure.Persistences.Repositories
                                     p.Material, p.Color,b.BrandName, 
                                     c.CategoryName, p.AuditCreateDate,
                             STRING_AGG(CONCAT(si.IdStore, ':', si.StockAvailable), ',') AS StoreStocks
-                            FROM PRODUCTS p
+                            FROM Products p
                             INNER JOIN #PagedProductIds ppi ON p.IdProduct = ppi.IdProduct
-                            INNER JOIN STORES_INVENTORY si ON p.IdProduct = si.IdProduct
-                            LEFT JOIN CATEGORIES c ON p.IdCategory = c.IdCategory
-                            LEFT JOIN BRANDS b ON p.IdBrand = b.IdBrand
+                            INNER JOIN StoresInventory si ON p.IdProduct = si.IdProduct
+                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
+                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
                             GROUP BY 
                                     p.IdProduct, p.Image, p.Code, p.Description,
                                     p.Material, p.Color, b.BrandName, c.CategoryName, p.AuditCreateDate
@@ -251,20 +251,20 @@ namespace Infrastructure.Persistences.Repositories
 
             var sql = $@"
                             SELECT COUNT(*) 
-                            FROM STORES_INVENTORY si 
-                            INNER JOIN PRODUCTS p ON si.IdProduct = p.IdProduct
-                            LEFT JOIN BRANDS b ON p.IdBrand = b.IdBrand
-                            LEFT JOIN CATEGORIES c ON p.IdCategory = c.IdCategory
+                            FROM StoresInventory si 
+                            INNER JOIN Products p ON si.IdProduct = p.IdProduct
+                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
+                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
                             WHERE si.IdStore = @StoreId {productFilters};
 
                         -- B. OBTENER IDs DE LA PÁGINA ACTUAL
                             DROP TABLE IF EXISTS #PagedIds;
         
                             SELECT si.IdProduct INTO #PagedIds
-                            FROM STORES_INVENTORY si
-                            INNER JOIN PRODUCTS p ON si.IdProduct = p.IdProduct
-                            LEFT JOIN BRANDS b ON p.IdBrand = b.IdBrand
-                            LEFT JOIN CATEGORIES c ON p.IdCategory = c.IdCategory
+                            FROM StoresInventory si
+                            INNER JOIN Products p ON si.IdProduct = p.IdProduct
+                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
+                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
                             WHERE si.IdStore = @StoreId {productFilters}
                             ORDER BY p.IdProduct DESC
                             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
@@ -276,8 +276,8 @@ namespace Infrastructure.Persistences.Repositories
 
                         -- Entradas por recepción
                             SELECT d.IdProduct, d.Quantity 
-                            FROM GOODS_RECEIPT_DETAILS d 
-                            INNER JOIN GOODS_RECEIPT r ON r.IdReceipt = d.IdReceipt 
+                            FROM GoodsReceiptDetails d 
+                            INNER JOIN GoodsReceipt r ON r.IdReceipt = d.IdReceipt 
                             WHERE r.IdStore = @StoreId 
                             AND r.IsActive = 1 
                             AND r.Status = 1
@@ -286,8 +286,8 @@ namespace Infrastructure.Persistences.Repositories
                 
                         -- Salidas por despacho
                             SELECT d.IdProduct, -d.Quantity
-                            FROM GOODS_ISSUE_DETAILS d 
-                            INNER JOIN GOODS_ISSUE i ON i.IdIssue = d.IdIssue 
+                            FROM GoodsIssueDetails d 
+                            INNER JOIN GoodsIssue i ON i.IdIssue = d.IdIssue 
                             WHERE i.IdStore = @StoreId 
                             AND i.IsActive= 1 
                             AND i.Status = 1
@@ -296,8 +296,8 @@ namespace Infrastructure.Persistences.Repositories
                 
                         -- Entradas por transferencia (destino)
                             SELECT d.IdProduct, d.Quantity 
-                            FROM TRANSFERS_DETAILS d 
-                            INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer 
+                            FROM TransfersDetails d 
+                            INNER JOIN Transfers t ON t.IdTransfer = d.IdTransfer 
                             WHERE t.IdStoreDestination = @StoreId 
                             AND t.IsActive = 1 
                             AND t.Status != 0
@@ -306,8 +306,8 @@ namespace Infrastructure.Persistences.Repositories
                 
                         -- Salidas por transferencia (origen)
                             SELECT d.IdProduct, -d.Quantity 
-                            FROM TRANSFERS_DETAILS d 
-                            INNER JOIN TRANSFERS t ON t.IdTransfer = d.IdTransfer 
+                            FROM TransfersDetails d 
+                            INNER JOIN Transfers t ON t.IdTransfer = d.IdTransfer 
                             WHERE t.IdStoreOrigin = @StoreId 
                             AND t.IsActive = 1 
                             AND t.Status != 0
@@ -320,11 +320,11 @@ namespace Infrastructure.Persistences.Repositories
                                     p.Material, p.Color, p.UnitMeasure,
                                     b.BrandName, c.CategoryName, p.AuditCreateDate,
                             COALESCE(cs.Total, 0) AS CalculatedStock
-                            FROM STORES_INVENTORY si
+                            FROM StoresInventory si
                             INNER JOIN #PagedIds pi ON si.IdProduct = pi.IdProduct
-                            INNER JOIN PRODUCTS p ON si.IdProduct = p.IdProduct
-                            LEFT JOIN BRANDS b ON p.IdBrand = b.IdBrand
-                            LEFT JOIN CATEGORIES c ON p.IdCategory = c.IdCategory
+                            INNER JOIN Products p ON si.IdProduct = p.IdProduct
+                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
+                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
                             LEFT JOIN TotalMovementCTE cs ON si.IdProduct = cs.IdProduct
                             WHERE si.IdStore = @StoreId
                             ORDER BY p.IdProduct DESC;

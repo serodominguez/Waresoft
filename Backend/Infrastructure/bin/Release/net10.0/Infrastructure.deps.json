@@ -8,12 +8,12 @@
     ".NETCoreApp,Version=v10.0": {
       "Infrastructure/1.0.0": {
         "dependencies": {
-          "ClosedXML": "0.105.0",
-          "Dapper": "2.1.72",
+          "ClosedXML": "0.105.1",
+          "Dapper": "2.1.79",
           "Domain": "1.0.0",
-          "QuestPDF": "2026.2.4",
-          "SixLabors.ImageSharp": "3.1.12",
-          "System.Linq.Dynamic.Core": "1.7.2",
+          "QuestPDF": "2026.7.2",
+          "SkiaSharp": "4.150.1",
+          "System.Linq.Dynamic.Core": "1.7.3",
           "Utilities": "1.0.0"
         },
         "runtime": {
@@ -46,7 +46,7 @@
           }
         }
       },
-      "ClosedXML/0.105.0": {
+      "ClosedXML/0.105.1": {
         "dependencies": {
           "ClosedXML.Parser": "2.0.0",
           "DocumentFormat.OpenXml": "3.1.1",
@@ -56,8 +56,8 @@
         },
         "runtime": {
           "lib/netstandard2.1/ClosedXML.dll": {
-            "assemblyVersion": "0.105.0.0",
-            "fileVersion": "0.105.0.0"
+            "assemblyVersion": "0.105.1.0",
+            "fileVersion": "0.105.1.0"
           }
         }
       },
@@ -69,11 +69,11 @@
           }
         }
       },
-      "Dapper/2.1.72": {
+      "Dapper/2.1.79": {
         "runtime": {
           "lib/net10.0/Dapper.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.1.72.10375"
+            "fileVersion": "2.1.79.29349"
           }
         }
       },
@@ -215,45 +215,45 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/10.0.6": {
+      "Microsoft.EntityFrameworkCore/10.0.10": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.6"
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.10"
         },
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
-            "assemblyVersion": "10.0.6.0",
-            "fileVersion": "10.0.626.17701"
+            "assemblyVersion": "10.0.10.0",
+            "fileVersion": "10.0.1026.32716"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/10.0.6": {
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.10": {
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
-            "assemblyVersion": "10.0.6.0",
-            "fileVersion": "10.0.626.17701"
+            "assemblyVersion": "10.0.10.0",
+            "fileVersion": "10.0.1026.32716"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/10.0.6": {
+      "Microsoft.EntityFrameworkCore.Relational/10.0.10": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.6"
+          "Microsoft.EntityFrameworkCore": "10.0.10"
         },
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
-            "assemblyVersion": "10.0.6.0",
-            "fileVersion": "10.0.626.17701"
+            "assemblyVersion": "10.0.10.0",
+            "fileVersion": "10.0.1026.32716"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.SqlServer/10.0.6": {
+      "Microsoft.EntityFrameworkCore.SqlServer/10.0.10": {
         "dependencies": {
           "Microsoft.Data.SqlClient": "6.1.1",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.6"
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.10"
         },
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {
-            "assemblyVersion": "10.0.6.0",
-            "fileVersion": "10.0.626.17701"
+            "assemblyVersion": "10.0.10.0",
+            "fileVersion": "10.0.1026.32716"
           }
         }
       },
@@ -352,11 +352,11 @@
           }
         }
       },
-      "QuestPDF/2026.2.4": {
+      "QuestPDF/2026.7.2": {
         "runtime": {
           "lib/net10.0/QuestPDF.dll": {
-            "assemblyVersion": "2026.2.4.0",
-            "fileVersion": "2026.2.4.0"
+            "assemblyVersion": "2026.7.2.0",
+            "fileVersion": "2026.7.2.0"
           }
         },
         "runtimeTargets": {
@@ -410,32 +410,22 @@
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
+          "runtimes/win-arm64/native/QuestPdfSkia.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-arm64/native/qpdf.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
           "runtimes/win-x64/native/QuestPdfSkia.dll": {
             "rid": "win-x64",
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
-          "runtimes/win-x64/native/libgcc_s_seh-1.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x64/native/libstdc++-6.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x64/native/libwinpthread-1.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "1.0.0.0"
-          },
           "runtimes/win-x64/native/qpdf.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x64/native/zlib1.dll": {
             "rid": "win-x64",
             "assetType": "native",
             "fileVersion": "0.0.0.0"
@@ -445,27 +435,7 @@
             "assetType": "native",
             "fileVersion": "0.0.0.0"
           },
-          "runtimes/win-x86/native/libgcc_s_dw2-1.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x86/native/libstdc++-6.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x86/native/libwinpthread-1.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
-            "fileVersion": "1.0.0.0"
-          },
           "runtimes/win-x86/native/qpdf.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x86/native/zlib1.dll": {
             "rid": "win-x86",
             "assetType": "native",
             "fileVersion": "0.0.0.0"
@@ -488,11 +458,58 @@
           }
         }
       },
-      "SixLabors.ImageSharp/3.1.12": {
+      "SkiaSharp/4.150.1": {
+        "dependencies": {
+          "SkiaSharp.NativeAssets.Win32": "4.150.1",
+          "SkiaSharp.NativeAssets.macOS": "4.150.1"
+        },
         "runtime": {
-          "lib/net6.0/SixLabors.ImageSharp.dll": {
-            "assemblyVersion": "3.0.0.0",
-            "fileVersion": "3.1.12.0"
+          "lib/net10.0/SkiaSharp.dll": {
+            "assemblyVersion": "4.150.0.0",
+            "fileVersion": "4.150.1.0"
+          }
+        }
+      },
+      "SkiaSharp.NativeAssets.macOS/4.150.1": {
+        "runtimeTargets": {
+          "runtimes/osx/native/libSkiaSharp.dylib": {
+            "rid": "osx",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "SkiaSharp.NativeAssets.Win32/4.150.1": {
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/libSkiaSharp.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-arm64/native/libSkiaSharp.pdb": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/libSkiaSharp.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/libSkiaSharp.pdb": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x86/native/libSkiaSharp.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x86/native/libSkiaSharp.pdb": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -538,11 +555,11 @@
           }
         }
       },
-      "System.Linq.Dynamic.Core/1.7.2": {
+      "System.Linq.Dynamic.Core/1.7.3": {
         "runtime": {
           "lib/net10.0/System.Linq.Dynamic.Core.dll": {
-            "assemblyVersion": "1.7.2.0",
-            "fileVersion": "1.7.2.0"
+            "assemblyVersion": "1.7.3.0",
+            "fileVersion": "1.7.3.0"
           }
         }
       },
@@ -564,7 +581,7 @@
       },
       "Domain/1.0.0": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.6"
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.10"
         },
         "runtime": {
           "Domain.dll": {
@@ -603,12 +620,12 @@
       "path": "azure.identity/1.14.2",
       "hashPath": "azure.identity.1.14.2.nupkg.sha512"
     },
-    "ClosedXML/0.105.0": {
+    "ClosedXML/0.105.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-U0hAdnYyPvF7TqHMFloxrS7pmozab79tFFF4c/bgPtqeelUs7ILpUd3r3c7C0a/DXsUZb3k1n4Pf7Q2LMyMQOg==",
-      "path": "closedxml/0.105.0",
-      "hashPath": "closedxml.0.105.0.nupkg.sha512"
+      "sha512": "sha512-X1ruIP9h2FBEK7jmO0peq3s6/Zqt5ve5a9f9kn6WUjdsUWvGbQlqxuGLz822xuFLlmnSeAfWFTGeX/tZlmAt+g==",
+      "path": "closedxml/0.105.1",
+      "hashPath": "closedxml.0.105.1.nupkg.sha512"
     },
     "ClosedXML.Parser/2.0.0": {
       "type": "package",
@@ -617,12 +634,12 @@
       "path": "closedxml.parser/2.0.0",
       "hashPath": "closedxml.parser.2.0.0.nupkg.sha512"
     },
-    "Dapper/2.1.72": {
+    "Dapper/2.1.79": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ns4mGqQd9a/MhP8m6w556vVlZIa0/MfUu03zrxjZC/jlr1uVCsUac8bkdB+Fs98Llbd56rRSo1eZH5VVmeGZyw==",
-      "path": "dapper/2.1.72",
-      "hashPath": "dapper.2.1.72.nupkg.sha512"
+      "sha512": "sha512-8YijbzgTfmqmQOnVNorYM6K++pxqnW3nJ4aC1sRHzxUA2CcuoJ9gsTem3kgBnPRMc38zZHl4Esb6hAezXIEEuw==",
+      "path": "dapper/2.1.79",
+      "hashPath": "dapper.2.1.79.nupkg.sha512"
     },
     "DocumentFormat.OpenXml/3.1.1": {
       "type": "package",
@@ -673,33 +690,33 @@
       "path": "microsoft.data.sqlclient.sni.runtime/6.0.2",
       "hashPath": "microsoft.data.sqlclient.sni.runtime.6.0.2.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore/10.0.6": {
+    "Microsoft.EntityFrameworkCore/10.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-eDy7bu3G+51FRC0cPtXTqUI9iAdDYl/XBQ5UguN8NFOA7QNmFvUEf36wA7PZ4ctsnxRN4t3dIvs2VKVE5H+EQQ==",
-      "path": "microsoft.entityframeworkcore/10.0.6",
-      "hashPath": "microsoft.entityframeworkcore.10.0.6.nupkg.sha512"
+      "sha512": "sha512-a0V7zj/VbYP6dTdWpUgE/r2PuLKtUGe2aJ0lVKkn/wP9ZhaxUz2kQydVfvOjCv2SKxlrqdBfHhPD4Cvlf+4ffA==",
+      "path": "microsoft.entityframeworkcore/10.0.10",
+      "hashPath": "microsoft.entityframeworkcore.10.0.10.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/10.0.6": {
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-4F+e6uxhVmyduu+Ve1INxek94adt4RAddWqykXNDnOOWQrJJ20izw/9qRpZdkLnIW9oj/3qnLWUtsv37U0xJCw==",
-      "path": "microsoft.entityframeworkcore.abstractions/10.0.6",
-      "hashPath": "microsoft.entityframeworkcore.abstractions.10.0.6.nupkg.sha512"
+      "sha512": "sha512-bOzrFCl6uZCjaSh2bG1ToRQRdx+iXvxosCg9hFyG9OWeAzOFI4xev9OqKeWfKf/kAHyox2JnbcvLVf2ceA7sqA==",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.10",
+      "hashPath": "microsoft.entityframeworkcore.abstractions.10.0.10.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Relational/10.0.6": {
+    "Microsoft.EntityFrameworkCore.Relational/10.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-t+pXPUjiAemBTstY57yUAoywOO6znVD3lwy7UERJpji0wmS70XHg0h8EcpX6+7KT6ZVCIndr1pW0GdOobZ4yCg==",
-      "path": "microsoft.entityframeworkcore.relational/10.0.6",
-      "hashPath": "microsoft.entityframeworkcore.relational.10.0.6.nupkg.sha512"
+      "sha512": "sha512-wNonj40aZxia+GtuBiiD6ZqVh4h6y5Nje1bGdmzZ8/ui0QRsAN+S0SIrLHFCEGbG9cDbeaE40sh+Lr7o9rRs6g==",
+      "path": "microsoft.entityframeworkcore.relational/10.0.10",
+      "hashPath": "microsoft.entityframeworkcore.relational.10.0.10.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.SqlServer/10.0.6": {
+    "Microsoft.EntityFrameworkCore.SqlServer/10.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-07TkaZNqIsbzY4IhPO5Puag3wzVlhL4uJ+5x4wNLgp/Teen8fWh3sPdL2+OaboFBTeNOTo5vxpH2N6n52iX8ow==",
-      "path": "microsoft.entityframeworkcore.sqlserver/10.0.6",
-      "hashPath": "microsoft.entityframeworkcore.sqlserver.10.0.6.nupkg.sha512"
+      "sha512": "sha512-xwAOvQ1WCfWyA4sRkoYVHyTm8UJ7NDYpRo++2oWuXGQ9g60Z1yepaQBmoPDT2nX24q4ISWnktAW9zARFTiSVvg==",
+      "path": "microsoft.entityframeworkcore.sqlserver/10.0.10",
+      "hashPath": "microsoft.entityframeworkcore.sqlserver.10.0.10.nupkg.sha512"
     },
     "Microsoft.Identity.Client/4.73.1": {
       "type": "package",
@@ -764,12 +781,12 @@
       "path": "microsoft.sqlserver.server/1.0.0",
       "hashPath": "microsoft.sqlserver.server.1.0.0.nupkg.sha512"
     },
-    "QuestPDF/2026.2.4": {
+    "QuestPDF/2026.7.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-fajBdRJFr3hu2Mr6mEVsXjvVKD9Q/Q6hfPEUMpV/xlwxWdFebmpGdi0FLQTApMvpapy72v9dvcGuk7e7NQmQyQ==",
-      "path": "questpdf/2026.2.4",
-      "hashPath": "questpdf.2026.2.4.nupkg.sha512"
+      "sha512": "sha512-GSPOoErqB4Yh7mnbV4m/ykHOF6erHdm5qyMRHDr4sjk+fvrtkEL+RoG5YpOqiWrS833jEiktC1Uthyy5/QMNQA==",
+      "path": "questpdf/2026.7.2",
+      "hashPath": "questpdf.2026.7.2.nupkg.sha512"
     },
     "RBush.Signed/4.0.0": {
       "type": "package",
@@ -785,12 +802,26 @@
       "path": "sixlabors.fonts/1.0.0",
       "hashPath": "sixlabors.fonts.1.0.0.nupkg.sha512"
     },
-    "SixLabors.ImageSharp/3.1.12": {
+    "SkiaSharp/4.150.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-iAg6zifihXEFS/t7fiHhZBGAdCp3FavsF4i2ZIDp0JfeYeDVzvmlbY1CNhhIKimaIzrzSi5M/NBFcWvZT2rB/A==",
-      "path": "sixlabors.imagesharp/3.1.12",
-      "hashPath": "sixlabors.imagesharp.3.1.12.nupkg.sha512"
+      "sha512": "sha512-5v3T8X1N62Dp+AkPO70GNBNS/NRBPGMOTiN+Prg33sZAcm/Ug3YOAH+3RTj/jxJV8NGTJs2idGpC2Qdae2mGLQ==",
+      "path": "skiasharp/4.150.1",
+      "hashPath": "skiasharp.4.150.1.nupkg.sha512"
+    },
+    "SkiaSharp.NativeAssets.macOS/4.150.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-r755HVwaHZhyf1clWjrM2/RoOZYCzkQEmE9pu/mVsebPejWu52niNPUwtfyf112qoF0PIk6OndqVOUoITj6TwQ==",
+      "path": "skiasharp.nativeassets.macos/4.150.1",
+      "hashPath": "skiasharp.nativeassets.macos.4.150.1.nupkg.sha512"
+    },
+    "SkiaSharp.NativeAssets.Win32/4.150.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qrLSL8OonbkMJdSH8heK0Jl39Y2xxZGdd7Ru4cyBXk2ITdx+Fu1sCFLmvCKmnMaYs//mlN/YSpSpOurEXErcQw==",
+      "path": "skiasharp.nativeassets.win32/4.150.1",
+      "hashPath": "skiasharp.nativeassets.win32.4.150.1.nupkg.sha512"
     },
     "System.ClientModel/1.5.1": {
       "type": "package",
@@ -820,12 +851,12 @@
       "path": "system.io.packaging/8.0.1",
       "hashPath": "system.io.packaging.8.0.1.nupkg.sha512"
     },
-    "System.Linq.Dynamic.Core/1.7.2": {
+    "System.Linq.Dynamic.Core/1.7.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-11SGBy8DCywOVElSs2J+Cd4WFHruFrBnaaQ86q2HWHBGcCAQDLnbA0ivpFvMeXGPqcEPE+Q3HZtXaXN4F8JLQg==",
-      "path": "system.linq.dynamic.core/1.7.2",
-      "hashPath": "system.linq.dynamic.core.1.7.2.nupkg.sha512"
+      "sha512": "sha512-0m52+B4Jce/9AXLXPZnnFW7NeLotHBuYvbsVF3D/DTvvbCGJZdskPn5xjr5sjnnFI3XekNdPqG2djyJE3UU7SA==",
+      "path": "system.linq.dynamic.core/1.7.3",
+      "hashPath": "system.linq.dynamic.core.1.7.3.nupkg.sha512"
     },
     "System.Memory.Data/8.0.1": {
       "type": "package",

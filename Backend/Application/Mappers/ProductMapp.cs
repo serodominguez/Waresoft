@@ -2,6 +2,7 @@
 using Application.Dtos.Response.Product;
 using Domain.Entities;
 using Infrastructure.Persistences.ReadModels.Product;
+using System.Buffers.Text;
 using Utilities.Extensions;
 using Utilities.Static;
 
@@ -23,7 +24,7 @@ namespace Application.Mappers
             };
         }
 
-        public static ProductResponseDto ProductsResponseDtoMapping(ProductReadModel model)
+        public static ProductResponseDto ProductsResponseDtoMapping(ProductReadModel model, string baseUrl = "")
         {
             return new ProductResponseDto
             {
@@ -33,7 +34,8 @@ namespace Application.Mappers
                 Material = model.Material.ToSentenceCase(),
                 Color = model.Color.ToSentenceCase(),
                 UnitMeasure = model.UnitMeasure.ToSentenceCase(),
-                Image = model.Image,
+                //Image = model.Image,
+                Image = !string.IsNullOrEmpty(model.Image) ? $"{baseUrl}{model.Image}" : null,
                 IdBrand = model.IdBrand,
                 BrandName = model.BrandName.ToSentenceCase(),
                 IdCategory = model.IdCategory,

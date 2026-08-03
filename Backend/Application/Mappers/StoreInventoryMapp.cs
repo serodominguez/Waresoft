@@ -64,7 +64,7 @@ namespace Application.Mappers
             };
         }
 
-        public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<InventoryPivotReadModel> items, List<StoreReadModel> stores)
+        public static StoreInventoryPivotResponseDto StoreInventoryPivotMapping(List<InventoryPivotReadModel> items, List<StoreReadModel> stores, string baseUrl = "")
         {
             var storeDict = stores
                 .Where(s => !string.IsNullOrEmpty(s.StoreName))
@@ -72,7 +72,8 @@ namespace Application.Mappers
 
             var rows = items.Select(item => new StoreInventoryPivotRowResponseDto
             {
-                Image = item.Image,
+                //Image = item.Image,
+                Image = !string.IsNullOrEmpty(item.Image) ? $"{baseUrl}{item.Image}" : null,
                 Code = item.Code,
                 Description = item.Description?.ToSentenceCase(),
                 Material = item.Material?.ToSentenceCase(),

@@ -43,13 +43,16 @@ namespace Application.Reports.Pdf
 
         private void ComposeContent(IContainer container)
         {
-            container.Grid(grid =>
+            container.Table(table =>
             {
-                grid.Columns(ColumnsPerRow);
-                grid.Spacing(4);
+                table.ColumnsDefinition(columns =>
+                {
+                    for (int i = 0; i < ColumnsPerRow; i++)
+                        columns.RelativeColumn();
+                });
 
                 for (int i = 0; i < _quantity; i++)
-                    grid.Item().Element(ComposeLabel);
+                    table.Cell().Padding(2).Element(ComposeLabel);
             });
         }
 

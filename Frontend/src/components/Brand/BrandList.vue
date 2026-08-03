@@ -22,7 +22,7 @@
               <v-tooltip v-bind="tooltipProps" text="Editar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Brand).statusBrand == 'Activo'" icon variant="text"
-                    color="blue-darken-1" size="small" @click="$emit('edit-brand', item)">
+                    color="grey-darken-1" size="small" @click="$emit('edit-brand', item)">
                     <v-icon icon="mdi-pencil" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -30,7 +30,7 @@
               <v-tooltip v-bind="tooltipProps" text="Activar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Brand).statusBrand == 'Inactivo'" icon variant="text"
-                    color="green-darken-1" size="small" @click="$emit('open-modal', { brand: item, action: 1 })">
+                    color="grey-darken-1" size="small" @click="$emit('open-modal', { brand: item, action: 1 })">
                     <v-icon icon="mdi-check-circle" size="24"></v-icon>
                   </v-btn>
                 </template>
@@ -38,14 +38,14 @@
               <v-tooltip v-bind="tooltipProps" text="Inactivar" location="bottom">
                 <template v-slot:activator="{ props }">
                   <v-btn v-bind="props" v-if="canEdit && (item as Brand).statusBrand == 'Activo'" icon variant="text"
-                    color="red-darken-1" size="small" @click="$emit('open-modal', { brand: item, action: 2 })">
+                    color="grey-darken-1" size="small" @click="$emit('open-modal', { brand: item, action: 2 })">
                     <v-icon icon="mdi-close-circle" size="24"></v-icon>
                   </v-btn>
                 </template>
               </v-tooltip>
               <v-tooltip v-bind="tooltipProps" text="Eliminar" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" v-if="canDelete" icon variant="text" color="blue-grey-darken-1" size="small"
+                  <v-btn v-bind="props" v-if="canDelete" icon variant="text" color="grey-darken-1" size="small"
                     @click="$emit('open-modal', { brand: item, action: 0 })">
                     <v-icon icon="mdi-trash-can" size="24"></v-icon>
                   </v-btn>

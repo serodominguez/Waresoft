@@ -6,7 +6,7 @@
                     <v-list-item-title class="text-h6">Filtros</v-list-item-title>
                     <v-tooltip v-bind="tooltipProps" text="Cerrar" location="bottom">
                         <template v-slot:activator="{ props }">
-                            <v-btn v-bind="props" color="red" icon="mdi-close-circle-outline" variant="text"
+                            <v-btn v-bind="props" color="red" icon="mdi-close-circle" variant="text"
                                 size="small" @click="drawerModel = false"></v-btn>
                         </template>
                     </v-tooltip>

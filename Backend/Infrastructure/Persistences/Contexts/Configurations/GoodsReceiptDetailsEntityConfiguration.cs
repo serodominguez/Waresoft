@@ -8,7 +8,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<GoodsReceiptDetailsEntity> builder)
         {
-            builder.ToTable("GOODS_RECEIPT_DETAILS")
+            builder.ToTable("GoodsReceiptDetails")
                 .HasKey(d => new { d.IdReceipt, d.Item });
 
             builder.Property(d => d.IdReceipt)

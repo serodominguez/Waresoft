@@ -26,7 +26,7 @@
               <template v-if="canRead">
                 <v-tooltip v-bind="tooltipProps" text="Visualizar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="deep-purple-darken-1" size="small"
+                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
                       @click="$emit('view-goodsreceipt', item)">
                       <v-icon icon="mdi-file-eye" size="24"></v-icon>
                     </v-btn>
@@ -36,8 +36,8 @@
               <template v-if="canRead && (item as GoodsReceipt).statusReceipt == 'Completado'">
                 <v-tooltip v-bind="tooltipProps" text="Imprimir" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" size="small" @click="$emit('print-pdf', item)"
-                      :loading="printingPdfId === (item as GoodsReceipt).idReceipt"
+                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
+                      @click="$emit('print-pdf', item)" :loading="printingPdfId === (item as GoodsReceipt).idReceipt"
                       :disabled="printingPdfId === (item as GoodsReceipt).idReceipt">
                       <v-icon icon="mdi-printer" size="24"></v-icon>
                     </v-btn>
@@ -47,7 +47,7 @@
               <template v-if="canDelete && (item as GoodsReceipt).statusReceipt != 'Cancelado'">
                 <v-tooltip v-bind="tooltipProps" text="Cancelar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="red-darken-1" size="small"
+                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
                       @click="$emit('open-modal', { goodsreceipt: item, action: 3 })">
                       <v-icon icon="mdi-file-cancel" size="22"></v-icon>
                     </v-btn>

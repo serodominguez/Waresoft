@@ -8,7 +8,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<GoodsIssueDetailsEntity> builder)
         {
-            builder.ToTable("GOODS_ISSUE_DETAILS")
+            builder.ToTable("GoodsIssueDetails")
                             .HasKey(d => new { d.IdIssue, d.Item });
 
             builder.Property(d => d.IdIssue)

@@ -18,12 +18,14 @@ namespace Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<StoreInventoryRequestDto> _validator;
         private readonly IOrderingQuery _orderingQuery;
+        private readonly IFileStorageImageService _fileStorageImageService;
 
-        public StoreInventoryService(IUnitOfWork unitOfWork, IValidator<StoreInventoryRequestDto> validator, IOrderingQuery orderingQuery)
+        public StoreInventoryService(IUnitOfWork unitOfWork, IValidator<StoreInventoryRequestDto> validator, IOrderingQuery orderingQuery, IFileStorageImageService fileStorageImageService)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
             _orderingQuery = orderingQuery;
+            _fileStorageImageService = fileStorageImageService;
         }
 
         public async Task<BaseResponse<IEnumerable<StoreInventoryResponseDto>>> ListInventory(int authenticatedStoreId, BaseFiltersRequest filters)
@@ -158,7 +160,9 @@ namespace Application.Services
 
             var stores = await _unitOfWork.StoreQuery.GetStoresListQueryable().ToListAsync();
 
-            response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
+            //response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
+            var baseUrl = _fileStorageImageService.GetBaseUrl();
+            response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores, baseUrl);
             response.TotalRecords = total;
             response.IsSuccess = true;
             response.Message = ReplyMessage.MESSAGE_QUERY;

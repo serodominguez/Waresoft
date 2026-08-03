@@ -1,0 +1,7 @@
+{
+  "Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Application",
+  "Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Domain",
+  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure",
+  "Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities",
+  "Web.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api"
+}

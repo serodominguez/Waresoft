@@ -92,7 +92,7 @@
               <td v-if="!localReceipt.idReceipt" class="text-center">
                 <v-tooltip v-bind="tooltipProps" text="Quitar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="red" size="small" @click="removeProduct(item)">
+                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small" @click="removeProduct(item)">
                       <v-icon icon="mdi-minus-circle-outline" size="24"></v-icon>
                     </v-btn>
                   </template>

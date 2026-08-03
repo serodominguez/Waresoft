@@ -27,7 +27,7 @@
             <td class="text-center">
               <v-tooltip text="Visualizar" location="bottom">
                 <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props" icon size="small" variant="text" color="deep-purple-darken-1"
+                  <v-btn v-bind="props" icon size="small" variant="text" color="grey-darken-1"
                     :loading="loadingPdfId === (item as KardexMovement).idMovement"
                     @click="handleOpenPdf(item as KardexMovement)">
                     <v-icon icon="mdi-file-eye" size="24" />

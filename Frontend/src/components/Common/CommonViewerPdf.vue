@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="model" max-width="960" persistent>
         <v-card style="overflow: hidden;">
-            <v-toolbar color="indigo" density="compact">
+            <v-toolbar color="#1A202C" density="compact">
                 <v-toolbar-title class="text-white text-body-2">
                     <v-icon icon="mdi-file-pdf-box" class="mr-2" />
                     {{ props.title }}

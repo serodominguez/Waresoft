@@ -48,7 +48,7 @@
               <td class="text-center">
                 <v-tooltip v-bind="tooltipProps" text="Agegar" location="bottom">
                   <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" icon variant="text" color="indigo" size="small"
+                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
                       @click="handleProductAdd(item)">
                       <v-icon icon="mdi-plus-circle" size="24"></v-icon>
                     </v-btn>

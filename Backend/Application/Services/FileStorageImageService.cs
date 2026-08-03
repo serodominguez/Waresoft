@@ -19,16 +19,35 @@ namespace Application.Services
             _fileStorageImage = fileStorageImage;
         }
 
-        public async Task<string> SaveFile(string container, IFormFile file)
+        public string GetBaseUrl()
         {
             var httpContext = _httpContextAccessor.HttpContext
                 ?? throw new InvalidOperationException("No HTTP context available");
+
+            return $"{httpContext.Request.Scheme}://{httpContext.Request.Host.Value}";
+        }
+
+        public async Task<string> SaveFile(string container, IFormFile file)
+        {
+            //var httpContext = _httpContextAccessor.HttpContext
+            //    ?? throw new InvalidOperationException("No HTTP context available");
+
+            //var webRootPath = Path.Combine(_env.ContentRootPath, "wwwroot");
+            //var scheme = httpContext.Request.Scheme;
+            //var host = httpContext.Request.Host.Value;
+
+            //return await _fileStorageImage.SaveFile(container, file, webRootPath, scheme, host);
+
+            var httpContext = _httpContextAccessor.HttpContext
+                    ?? throw new InvalidOperationException("No HTTP context available");
 
             var webRootPath = Path.Combine(_env.ContentRootPath, "wwwroot");
             var scheme = httpContext.Request.Scheme;
             var host = httpContext.Request.Host.Value;
 
-            return await _fileStorageImage.SaveFile(container, file, webRootPath, scheme, host);
+            var relativePath = await _fileStorageImage.SaveFile(container, file, webRootPath, scheme, host);
+
+            return relativePath;
         }
 
         public async Task<string> EditFile(string container, IFormFile file, string route)

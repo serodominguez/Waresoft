@@ -8,7 +8,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<StoreInventoryEntity> builder)
         {
-            builder.ToTable("STORES_INVENTORY")
+            builder.ToTable("StoresInventory")
                 .HasKey(i => new { i.IdStore, i.IdProduct });
 
             builder.Property(i => i.IdStore)

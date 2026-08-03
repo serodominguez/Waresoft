@@ -48,9 +48,9 @@ namespace Infrastructure.Persistences.Repositories
             const string sql = @"
                                 SELECT u.IdUser as Id, u.UserName, u.PasswordHash, u.PasswordSalt,
                                         u.IdRole, u.IdStore, r.RoleName, s.StoreName, s.Type
-                                FROM USERS u
-                                INNER JOIN ROLES r ON r.IdRole = u.IdRole
-                                INNER JOIN STORES s ON s.IdStore = u.IdStore
+                                FROM Users u
+                                INNER JOIN Roles r ON r.IdRole = u.IdRole
+                                INNER JOIN Stores s ON s.IdStore = u.IdStore
                                 WHERE u.AuditDeleteUser IS NULL 
                                 AND u.AuditDeleteDate IS NULL
                                 AND u.UserName = @UserName

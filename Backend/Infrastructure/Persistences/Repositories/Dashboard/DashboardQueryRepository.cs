@@ -28,7 +28,7 @@ namespace Infrastructure.Persistences.Repositories
                             COUNT(CASE WHEN AuditCreateDate >= @Last7Days THEN 1 END) AS IssuedLast7Days,
                             COUNT(CASE WHEN AuditCreateDate >= @Previous7Days 
                             AND AuditCreateDate < @Last7Days THEN 1 END) AS IssuedPrevious7Days
-                        FROM GOODS_ISSUE
+                        FROM GoodsIssue
                         WHERE IdStore = @StoreId
                         AND AuditDeleteUser IS NULL
                         AND AuditDeleteDate IS NULL";
@@ -58,7 +58,7 @@ namespace Infrastructure.Persistences.Repositories
                             COUNT(CASE WHEN si.StockAvailable < si.MinimumStock AND si.AuditUpdateDate >= @StartOfMonth THEN 1 END) AS BelowMinimumThisMonth,
                             COUNT(CASE WHEN si.StockAvailable < si.MinimumStock AND si.AuditUpdateDate >= @StartOfLastMonth 
                             AND si.AuditUpdateDate <  @StartOfMonth THEN 1 END) AS BelowMinimumLastMonth
-                        FROM STORES_INVENTORY si INNER JOIN PRODUCTS p ON p.IdProduct = si.IdProduct
+                        FROM StoresInventory si INNER JOIN Products p ON p.IdProduct = si.IdProduct
                         WHERE si.IdStore = @StoreId AND p.IsActive = 1 AND p.AuditDeleteUser IS NULL AND p.AuditDeleteDate IS NULL";
 
             using var connection = _context.Database.GetDbConnection();
@@ -91,11 +91,11 @@ namespace Infrastructure.Persistences.Repositories
                         LEFT JOIN (SELECT MONTH(AuditCreateDate) AS Month,
                                 YEAR(AuditCreateDate)  AS Year,
                                 SUM(TotalAmount) AS TotalReceipts
-                        FROM GOODS_RECEIPT
+                        FROM GoodsReceipt
                         WHERE IdStore = @StoreId AND AuditCreateDate >= @StartDate AND AuditDeleteUser IS NULL AND AuditDeleteDate IS NULL
                         GROUP BY MONTH(AuditCreateDate), YEAR(AuditCreateDate)) r ON r.Month = m.Month AND r.Year = m.Year
                         LEFT JOIN (SELECT MONTH(AuditCreateDate) AS Month, YEAR(AuditCreateDate)  AS Year, SUM(TotalAmount) AS TotalIssues
-                        FROM GOODS_ISSUE
+                        FROM GoodsIssue
                         WHERE IdStore = @StoreId AND AuditCreateDate >= @StartDate AND AuditDeleteUser IS NULL AND AuditDeleteDate IS NULL
                         GROUP BY MONTH(AuditCreateDate), YEAR(AuditCreateDate)) i ON i.Month = m.Month AND i.Year = m.Year
                         ORDER BY m.Year, m.Month";
@@ -122,8 +122,8 @@ namespace Infrastructure.Persistences.Repositories
                             COUNT(CASE WHEN p.Replenishment = 1 AND p.IsActive = 1 THEN 1 END) AS Available,
                             COUNT(CASE WHEN p.Replenishment = 2 AND p.IsActive = 0 THEN 1 END) AS NotAvailable,
                             COUNT(CASE WHEN p.AuditDeleteUser IS NOT NULL THEN 1 END) AS Discontinued
-                        FROM STORES_INVENTORY si
-                        INNER JOIN PRODUCTS p ON p.IdProduct = si.IdProduct
+                        FROM StoresInventory si
+                        INNER JOIN Products p ON p.IdProduct = si.IdProduct
                         WHERE si.IdStore = @StoreId";
 
             using var connection = _context.Database.GetDbConnection();
@@ -149,7 +149,7 @@ namespace Infrastructure.Persistences.Repositories
                         SELECT
                             COUNT(CASE WHEN IsActive = 1 THEN 1 END) AS TotalActive,
                             COUNT(CASE WHEN AuditCreateDate >= @StartOfCurrentMonth THEN 1 END)  AS NewThisMonth
-                        FROM PRODUCTS
+                        FROM Products
                         WHERE AuditDeleteUser IS NULL
                         AND AuditDeleteDate IS NULL";
 
@@ -174,8 +174,8 @@ namespace Infrastructure.Persistences.Repositories
             var sql = @"
                         SELECT TOP 5 s.StoreName,
                             COUNT(t.IdStoreDestination) AS TotalTransfers
-                        FROM TRANSFERS t
-                        INNER JOIN STORES s ON s.IdStore = t.IdStoreDestination
+                        FROM Transfers t
+                        INNER JOIN Stores s ON s.IdStore = t.IdStoreDestination
                         WHERE t.IdStoreOrigin = @StoreId
                         AND t.AuditCreateDate >= @StartDate
                         AND t.AuditDeleteUser IS NULL
@@ -217,7 +217,7 @@ namespace Infrastructure.Persistences.Repositories
                             COUNT(CASE WHEN Status = 1 AND IdStoreOrigin = @StoreId 
                             AND AuditCreateDate >= @StartOfLastMonth 
                             AND AuditCreateDate < @StartOfThisMonth THEN 1 END) AS SentLastMonth
-                        FROM TRANSFERS
+                        FROM Transfers
                         WHERE AuditDeleteUser IS NULL
                         AND AuditDeleteDate IS NULL";
 
@@ -253,7 +253,7 @@ namespace Infrastructure.Persistences.Repositories
                             COUNT(CASE WHEN t.Status = 2 AND t.IdStoreDestination = @StoreId THEN 1 END) AS Received
                         FROM (SELECT MONTH(DATEADD(MONTH, number, @StartDate)) AS Month, YEAR(DATEADD(MONTH,  number, @StartDate)) AS Year
                                 FROM master.dbo.spt_values WHERE type = 'P' AND number BETWEEN 0 AND 5) m
-                        LEFT JOIN TRANSFERS t ON MONTH(t.AuditCreateDate) = m.Month
+                        LEFT JOIN Transfers t ON MONTH(t.AuditCreateDate) = m.Month
                             AND YEAR(t.AuditCreateDate)  = m.Year
                             AND (t.IdStoreOrigin = @StoreId OR t.IdStoreDestination = @StoreId)
                             AND t.AuditDeleteUser IS NULL

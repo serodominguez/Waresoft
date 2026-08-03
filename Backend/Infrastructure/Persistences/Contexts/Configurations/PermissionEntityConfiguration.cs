@@ -10,7 +10,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
         {
             base.Configure(builder);
 
-            builder.ToTable("PERMISSIONS");
+            builder.ToTable("Permissions");
 
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id)

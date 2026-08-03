@@ -17,7 +17,7 @@ namespace Infrastructure.Persistences.Repositories
         public async Task<string> GenerateProductCodeAsync()
         {
             var sequence = await _context.Sequence
-                .FromSqlRaw("SELECT Name, IdStore, CurrentValue, LastUpdated FROM SEQUENCES WITH (UPDLOCK, ROWLOCK) WHERE Name = 'PRODUCT'")
+                .FromSqlRaw("SELECT Name, IdStore, CurrentValue, LastUpdated FROM Sequences WITH (UPDLOCK, ROWLOCK) WHERE Name = 'PRODUCT'")
                 .FirstOrDefaultAsync();
 
             if (sequence == null)
@@ -47,7 +47,7 @@ namespace Infrastructure.Persistences.Repositories
 
             var results = await _context.Database
                 .SqlQueryRaw<int>(@"
-                UPDATE SEQUENCES 
+                UPDATE Sequences 
                 SET CurrentValue = CurrentValue + 1,
                     LastUpdated = GETUTCDATE()
                 OUTPUT INSERTED.CurrentValue
@@ -58,7 +58,7 @@ namespace Infrastructure.Persistences.Repositories
             if (results.Count == 0)
             {
                 await _context.Database.ExecuteSqlRawAsync(@"
-                INSERT INTO SEQUENCES (Name, IdStore, CurrentValue, LastUpdated) 
+                INSERT INTO Sequences (Name, IdStore, CurrentValue, LastUpdated) 
                 VALUES ({0}, {1}, 1, GETUTCDATE())",
                 sequenceName, storeId);
 
@@ -76,7 +76,7 @@ namespace Infrastructure.Persistences.Repositories
         {
             var results = await _context.Database
                 .SqlQueryRaw<int>(@"
-                UPDATE SEQUENCES 
+                UPDATE Sequences 
                 SET CurrentValue = CurrentValue + 1,
                     LastUpdated = GETUTCDATE()
                 OUTPUT INSERTED.CurrentValue

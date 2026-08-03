@@ -8,7 +8,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<SequenceEntity> builder)
         {
-            builder.ToTable("SEQUENCES")
+            builder.ToTable("Sequences")
                 .HasKey(s => new { s.Name, s.IdStore });
 
             builder.Property(s => s.Name)
