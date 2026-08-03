@@ -6,11 +6,11 @@ using Utilities.Static;
 
 namespace Test.Api.Category
 {
-    public class CategoryApplicationTest : IClassFixture<ApiFactory>
+    public class CategoryServiceTest : IClassFixture<ApiFactory>
     {
         private readonly IServiceScopeFactory _scopeFactory;
 
-        public CategoryApplicationTest(ApiFactory factory)
+        public CategoryServiceTest(ApiFactory factory)
         {
             _scopeFactory = factory.Services.GetRequiredService<IServiceScopeFactory>();
         }
