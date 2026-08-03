@@ -163,6 +163,7 @@ namespace Application.Services
 
                 transaction.Commit();
                 response.IsSuccess = true;
+                response.Data = true;
                 response.Message = ReplyMessage.MESSAGE_SAVE;
             }
             catch (Exception ex)

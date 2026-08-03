@@ -20,7 +20,7 @@ namespace Application.Validators.Store
             RuleFor(x => x.Address)
                 .NotEmpty().WithMessage("La dirección es requerida")
                 .MaximumLength(60).WithMessage("La dirección no puede tener más de 60 caracteres")
-                .Matches("^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ]+$");
+                .Matches("^[a-zA-Z0-9 .áéíóúñÁÉÍÓÚÑ]+$");
 
             RuleFor(x => x.City)
                 .NotEmpty().WithMessage("La ciudad es requerida")
