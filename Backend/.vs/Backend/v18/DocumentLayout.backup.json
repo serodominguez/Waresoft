@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8002D552-700C-43AD-8CFE-2B0A23760639}|Test.Api\\Test.Api.csproj|d:\\projects\\it solutions\\waresoft\\backend\\test.api\\customer\\customerservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8002D552-700C-43AD-8CFE-2B0A23760639}|Test.Api\\Test.Api.csproj|solutionrelative:test.api\\customer\\customerservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8002D552-700C-43AD-8CFE-2B0A23760639}|Test.Api\\Test.Api.csproj|d:\\projects\\it solutions\\waresoft\\backend\\test.api\\supplier\\supplierservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8002D552-700C-43AD-8CFE-2B0A23760639}|Test.Api\\Test.Api.csproj|solutionrelative:test.api\\supplier\\supplierservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CustomerServiceTest.cs",
-              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Test.Api\\Customer\\CustomerServiceTest.cs",
-              "RelativeDocumentMoniker": "Test.Api\\Customer\\CustomerServiceTest.cs",
-              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Test.Api\\Customer\\CustomerServiceTest.cs",
-              "RelativeToolTip": "Test.Api\\Customer\\CustomerServiceTest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGcBAAAJAAAAAAAAAA==",
+              "Title": "SupplierServiceTest.cs",
+              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Test.Api\\Supplier\\SupplierServiceTest.cs",
+              "RelativeDocumentMoniker": "Test.Api\\Supplier\\SupplierServiceTest.cs",
+              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Test.Api\\Supplier\\SupplierServiceTest.cs",
+              "RelativeToolTip": "Test.Api\\Supplier\\SupplierServiceTest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-03T20:38:07.518Z",
+              "WhenOpened": "2026-08-03T21:02:27.1Z",
               "EditorCaption": ""
             }
           ]

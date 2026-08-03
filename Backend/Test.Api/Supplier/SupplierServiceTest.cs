@@ -1,16 +1,16 @@
 ﻿using Application.Commons.Bases.Request;
-using Application.Dtos.Request.Customer;
+using Application.Dtos.Request.Supplier;
 using Application.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Utilities.Static;
 
-namespace Test.Api.Customer
+namespace Test.Api.Supplier
 {
-    public class CustomerServiceTest : IClassFixture<ApiFactory>
+    public class SupplierServiceTest : IClassFixture<ApiFactory>
     {
         private readonly IServiceScopeFactory _scopeFactory;
 
-        public CustomerServiceTest(ApiFactory factory)
+        public SupplierServiceTest(ApiFactory factory)
         {
             _scopeFactory = factory.Services.GetRequiredService<IServiceScopeFactory>();
         }
@@ -18,19 +18,19 @@ namespace Test.Api.Customer
         // ===================== REGISTER =====================
 
         [Fact]
-        public async Task RegisterCustomer_WhenSendingEmptyValues_ValidationErrors()
+        public async Task RegisterSupplier_WhenSendingEmptyValues_ValidationErrors()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_VALIDATE;
 
-            var result = await context.RegisterCustomer(1, new CustomerRequestDto()
+            var result = await context.RegisterSupplier(1, new SupplierRequestDto()
             {
-                Names = "",
-                LastNames = "",
-                IdentificationNumber = "",
+                CompanyName = "",
+                Contact = "",
                 PhoneNumber = "",
+                Email = "",
             });
 
             Assert.Equal(expected, result.Message);
@@ -39,19 +39,19 @@ namespace Test.Api.Customer
         }
 
         [Fact]
-        public async Task RegisterCustomer_WhenSendingCorrectValues_RegisteredSuccessfully()
+        public async Task RegisterSupplier_WhenSendingCorrectValues_RegisteredSuccessfully()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_SAVE;
 
-            var result = await context.RegisterCustomer(1, new CustomerRequestDto()
+            var result = await context.RegisterSupplier(1, new SupplierRequestDto()
             {
-                Names = "Juan",
-                LastNames = "Perez",
-                IdentificationNumber = "12345678",
+                CompanyName = "Proveedor Test",
+                Contact = "Juan Perez",
                 PhoneNumber = "77712345",
+                Email = "proveedor@test.com",
             });
 
             Assert.Equal(expected, result.Message);
@@ -62,14 +62,14 @@ namespace Test.Api.Customer
         // ===================== LIST =====================
 
         [Fact]
-        public async Task ListCustomers_WhenCalled_ReturnsData()
+        public async Task ListSuppliers_WhenCalled_ReturnsData()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_QUERY;
 
-            var result = await context.ListCustomers(new BaseFiltersRequest()
+            var result = await context.ListSuppliers(new BaseFiltersRequest()
             {
                 NumberPage = 1,
                 NumberRecordsPage = 10,
@@ -84,12 +84,12 @@ namespace Test.Api.Customer
         }
 
         [Fact]
-        public async Task ListCustomers_WhenFilteringByNames_ReturnsFilteredData()
+        public async Task ListSuppliers_WhenFilteringByCompanyName_ReturnsFilteredData()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var result = await context.ListCustomers(new BaseFiltersRequest()
+            var result = await context.ListSuppliers(new BaseFiltersRequest()
             {
                 NumberPage = 1,
                 NumberRecordsPage = 10,
@@ -104,12 +104,12 @@ namespace Test.Api.Customer
         }
 
         [Fact]
-        public async Task ListCustomers_WhenFilteringByLastNames_ReturnsFilteredData()
+        public async Task ListSuppliers_WhenFilteringByContact_ReturnsFilteredData()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var result = await context.ListCustomers(new BaseFiltersRequest()
+            var result = await context.ListSuppliers(new BaseFiltersRequest()
             {
                 NumberPage = 1,
                 NumberRecordsPage = 10,
@@ -124,32 +124,12 @@ namespace Test.Api.Customer
         }
 
         [Fact]
-        public async Task ListCustomers_WhenFilteringByIdentificationNumber_ReturnsFilteredData()
+        public async Task ListSuppliers_WhenFilteringByState_ReturnsFilteredData()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var result = await context.ListCustomers(new BaseFiltersRequest()
-            {
-                NumberPage = 1,
-                NumberRecordsPage = 10,
-                Sort = "Id",
-                Download = false,
-                NumberFilter = 3,
-                TextFilter = "1"
-            });
-
-            Assert.True(result.IsSuccess);
-            Assert.NotNull(result.Data);
-        }
-
-        [Fact]
-        public async Task ListCustomers_WhenFilteringByState_ReturnsFilteredData()
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
-
-            var result = await context.ListCustomers(new BaseFiltersRequest()
+            var result = await context.ListSuppliers(new BaseFiltersRequest()
             {
                 NumberPage = 1,
                 NumberRecordsPage = 10,
@@ -162,18 +142,35 @@ namespace Test.Api.Customer
             Assert.NotNull(result.Data);
         }
 
-        // ===================== CUSTOMER BY ID =====================
+        // ===================== SELECT LIST =====================
 
         [Fact]
-        public async Task CustomerById_WhenIdExists_ReturnsCustomer()
+        public async Task SelectListSuppliers_WhenCalled_ReturnsActiveSuppliers()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var customerId = 1; // ID real en tu BD
             var expected = ReplyMessage.MESSAGE_QUERY;
 
-            var result = await context.CustomerById(customerId);
+            var result = await context.SelectListSuppliers();
+
+            Assert.Equal(expected, result.Message);
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Data);
+        }
+
+        // ===================== SUPPLIER BY ID =====================
+
+        [Fact]
+        public async Task SupplierById_WhenIdExists_ReturnsSupplier()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
+
+            var supplierId = 1; // ID real en tu BD
+            var expected = ReplyMessage.MESSAGE_QUERY;
+
+            var result = await context.SupplierById(supplierId);
 
             Assert.Equal(expected, result.Message);
             Assert.True(result.IsSuccess);
@@ -181,14 +178,14 @@ namespace Test.Api.Customer
         }
 
         [Fact]
-        public async Task CustomerById_WhenIdNotExists_ReturnsNotFound()
+        public async Task SupplierById_WhenIdNotExists_ReturnsNotFound()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_NOT_FOUND;
 
-            var result = await context.CustomerById(999999);
+            var result = await context.SupplierById(999999);
 
             Assert.Equal(expected, result.Message);
             Assert.False(result.IsSuccess);
@@ -198,19 +195,19 @@ namespace Test.Api.Customer
         // ===================== EDIT =====================
 
         [Fact]
-        public async Task EditCustomer_WhenSendingEmptyValues_ValidationErrors()
+        public async Task EditSupplier_WhenSendingEmptyValues_ValidationErrors()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_VALIDATE;
 
-            var result = await context.EditCustomer(1, 1, new CustomerRequestDto()
+            var result = await context.EditSupplier(1, 1, new SupplierRequestDto()
             {
-                Names = "",
-                LastNames = "",
-                IdentificationNumber = "",
+                CompanyName = "",
+                Contact = "",
                 PhoneNumber = "",
+                Email = "",
             });
 
             Assert.Equal(expected, result.Message);
@@ -219,19 +216,19 @@ namespace Test.Api.Customer
         }
 
         [Fact]
-        public async Task EditCustomer_WhenIdNotExists_ReturnsNotFound()
+        public async Task EditSupplier_WhenIdNotExists_ReturnsNotFound()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_NOT_FOUND;
 
-            var result = await context.EditCustomer(1, 999999, new CustomerRequestDto()
+            var result = await context.EditSupplier(1, 999999, new SupplierRequestDto()
             {
-                Names = "Juan",
-                LastNames = "Perez",
-                IdentificationNumber = "12345678",
+                CompanyName = "Proveedor Editado",
+                Contact = "Juan Perez",
                 PhoneNumber = "77712345",
+                Email = "editado@test.com",
             });
 
             Assert.Equal(expected, result.Message);
@@ -239,20 +236,20 @@ namespace Test.Api.Customer
         }
 
         [Fact]
-        public async Task EditCustomer_WhenSendingCorrectValues_UpdatedSuccessfully()
+        public async Task EditSupplier_WhenSendingCorrectValues_UpdatedSuccessfully()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var customerId = 1; // ID real en tu BD
+            var supplierId = 1; // ID real en tu BD
             var expected = ReplyMessage.MESSAGE_UPDATE;
 
-            var result = await context.EditCustomer(1, customerId, new CustomerRequestDto()
+            var result = await context.EditSupplier(1, supplierId, new SupplierRequestDto()
             {
-                Names = "Juan",
-                LastNames = "Perez",
-                IdentificationNumber = "12345678",
+                CompanyName = "Proveedor Editado",
+                Contact = "Juan Perez",
                 PhoneNumber = "77712345",
+                Email = "editado@test.com",
             });
 
             Assert.Equal(expected, result.Message);
@@ -263,29 +260,29 @@ namespace Test.Api.Customer
         // ===================== ENABLE =====================
 
         [Fact]
-        public async Task EnableCustomer_WhenIdNotExists_ReturnsNotFound()
+        public async Task EnableSupplier_WhenIdNotExists_ReturnsNotFound()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_NOT_FOUND;
 
-            var result = await context.EnableCustomer(1, 999999);
+            var result = await context.EnableSupplier(1, 999999);
 
             Assert.Equal(expected, result.Message);
             Assert.False(result.IsSuccess);
         }
 
         [Fact]
-        public async Task EnableCustomer_WhenIdExists_ActivatedSuccessfully()
+        public async Task EnableSupplier_WhenIdExists_ActivatedSuccessfully()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var customerId = 2; // Customer con IsActive = 0 en tu BD
+            var supplierId = 2; // Supplier con IsActive = false en tu BD
             var expected = ReplyMessage.MESSAGE_ACTIVATE;
 
-            var result = await context.EnableCustomer(1, customerId);
+            var result = await context.EnableSupplier(1, supplierId);
 
             Assert.Equal(expected, result.Message);
             Assert.True(result.IsSuccess);
@@ -295,29 +292,29 @@ namespace Test.Api.Customer
         // ===================== DISABLE =====================
 
         [Fact]
-        public async Task DisableCustomer_WhenIdNotExists_ReturnsNotFound()
+        public async Task DisableSupplier_WhenIdNotExists_ReturnsNotFound()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_NOT_FOUND;
 
-            var result = await context.DisableCustomer(1, 999999);
+            var result = await context.DisableSupplier(1, 999999);
 
             Assert.Equal(expected, result.Message);
             Assert.False(result.IsSuccess);
         }
 
         [Fact]
-        public async Task DisableCustomer_WhenIdExists_DeactivatedSuccessfully()
+        public async Task DisableSupplier_WhenIdExists_DeactivatedSuccessfully()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var customerId = 1; // Customer con IsActive = 1 en tu BD
+            var supplierId = 1; // Supplier con IsActive = true en tu BD
             var expected = ReplyMessage.MESSAGE_INACTIVATE;
 
-            var result = await context.DisableCustomer(1, customerId);
+            var result = await context.DisableSupplier(1, supplierId);
 
             Assert.Equal(expected, result.Message);
             Assert.True(result.IsSuccess);
@@ -327,29 +324,29 @@ namespace Test.Api.Customer
         // ===================== REMOVE =====================
 
         [Fact]
-        public async Task RemoveCustomer_WhenIdNotExists_ReturnsNotFound()
+        public async Task RemoveSupplier_WhenIdNotExists_ReturnsNotFound()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
             var expected = ReplyMessage.MESSAGE_NOT_FOUND;
 
-            var result = await context.RemoveCustomer(1, 999999);
+            var result = await context.RemoveSupplier(1, 999999);
 
             Assert.Equal(expected, result.Message);
             Assert.False(result.IsSuccess);
         }
 
         [Fact]
-        public async Task RemoveCustomer_WhenIdExists_DeletedSuccessfully()
+        public async Task RemoveSupplier_WhenIdExists_DeletedSuccessfully()
         {
             using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
+            var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var customerId = 5; // Customer dedicado para remove en tu BD
+            var supplierId = 5; // Supplier dedicado para remove en tu BD
             var expected = ReplyMessage.MESSAGE_DELETE;
 
-            var result = await context.RemoveCustomer(1, customerId);
+            var result = await context.RemoveSupplier(1, supplierId);
 
             Assert.Equal(expected, result.Message);
             Assert.True(result.IsSuccess);
