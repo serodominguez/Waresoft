@@ -17,8 +17,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasColumnName("IdProduct");
 
             builder.Property(p => p.Code)
-                .HasMaxLength(25)
-                .IsRequired();
+                .HasMaxLength(25);
 
             builder.Property(p => p.Description)
                 .HasMaxLength(50)

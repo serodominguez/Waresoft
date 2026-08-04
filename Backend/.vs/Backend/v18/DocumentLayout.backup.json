@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{8002D552-700C-43AD-8CFE-2B0A23760639}|Test.Api\\Test.Api.csproj|d:\\projects\\it solutions\\waresoft\\backend\\test.api\\module\\moduleservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8002D552-700C-43AD-8CFE-2B0A23760639}|Test.Api\\Test.Api.csproj|solutionrelative:test.api\\module\\moduleservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,24 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ModuleServiceTest.cs",
-              "DocumentMoniker": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Test.Api\\Module\\ModuleServiceTest.cs",
-              "RelativeDocumentMoniker": "Test.Api\\Module\\ModuleServiceTest.cs",
-              "ToolTip": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Test.Api\\Module\\ModuleServiceTest.cs",
-              "RelativeToolTip": "Test.Api\\Module\\ModuleServiceTest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-03T21:32:43.515Z",
-              "EditorCaption": ""
             }
           ]
         }

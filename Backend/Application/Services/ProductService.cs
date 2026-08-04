@@ -89,7 +89,8 @@ namespace Application.Services
             catch (Exception ex)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message + " | STACK: " + ex.StackTrace;
+                //response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
             }
 
             return response;

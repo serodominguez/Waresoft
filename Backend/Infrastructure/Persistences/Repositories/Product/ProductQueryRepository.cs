@@ -1,5 +1,4 @@
-﻿using Dapper;
-using Infrastructure.Persistences.Contexts;
+﻿using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
 using Infrastructure.Persistences.Projections;
 using Infrastructure.Persistences.ReadModels.Product;
@@ -20,7 +19,7 @@ namespace Infrastructure.Persistences.Repositories
         public IQueryable<ProductReadModel> GetProductsQueryable()
         {
             return _context.Product
-                .AsTracking()
+                .AsNoTracking()
                 .Where(p => p.AuditDeleteUser == null && p.AuditDeleteDate == null)
                 .Select(ProductProjection.ToSummary);
         }
