@@ -13,7 +13,7 @@ namespace Test.Api
             builder.ConfigureAppConfiguration(configurationBuilder =>
             {
                 var integrationConfiguration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettingstest.json")
                 .AddEnvironmentVariables()
                 .Build();
 

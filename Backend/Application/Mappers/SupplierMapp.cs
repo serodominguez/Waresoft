@@ -26,7 +26,7 @@ namespace Application.Mappers
             {
                 IdSupplier = model.Id,
                 CompanyName = model.CompanyName.ToTitleCase(),
-                Contact = model.Contact.ToSentenceCase(),
+                Contact = model.Contact.ToTitleCase(),
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 AuditCreateDate = model.AuditCreateDate.HasValue ? model.AuditCreateDate.Value.ToString("dd/MM/yyyy HH:mm") : null,

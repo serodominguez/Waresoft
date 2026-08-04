@@ -23,9 +23,6 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             // Act
             var result = await context.RegisterCategory(1, new CategoryRequestDto()
             {
@@ -34,7 +31,7 @@ namespace Test.Api.Category
             });
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -45,9 +42,6 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_SAVE;
-
             // Act
             var result = await context.RegisterCategory(1, new CategoryRequestDto()
             {
@@ -55,10 +49,21 @@ namespace Test.Api.Category
                 Description = "Descripcion Test",
             });
 
+            var list = await context.ListCategories(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Categoria Test"
+            });
+
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Contains(list.Data!, x => x.CategoryName == "Categoria test");
         }
 
         // ===================== LIST =====================
@@ -68,9 +73,6 @@ namespace Test.Api.Category
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
-
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_QUERY;
 
             // Act
             var result = await context.ListCategories(new BaseFiltersRequest()
@@ -82,7 +84,7 @@ namespace Test.Api.Category
             });
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.TotalRecords > 0);
@@ -102,13 +104,13 @@ namespace Test.Api.Category
                 Sort = "Id",
                 Download = false,
                 NumberFilter = 1,
-                TextFilter = "montura"
+                TextFilter = "Categoria"
             });
 
             // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
-            Assert.True(result.TotalRecords > 0);
+            Assert.All(result.Data!, x => Assert.Contains("categoria", x.CategoryName!.ToLower()));
         }
 
         [Fact]
@@ -141,14 +143,11 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             // Act
             var result = await context.SelectListCategories();
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.Data!.Any());
@@ -164,13 +163,12 @@ namespace Test.Api.Category
 
             // Arrange
             var categoryId = 1;
-            var expected = ReplyMessage.MESSAGE_QUERY;
 
             // Act
             var result = await context.CategoryById(categoryId);
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.Equal(categoryId, result.Data!.IdCategory);
@@ -182,14 +180,11 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             // Act
             var result = await context.CategoryById(999999);
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -202,9 +197,6 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             // Act
             var result = await context.EditCategory(1, 1, new CategoryRequestDto()
             {
@@ -213,7 +205,7 @@ namespace Test.Api.Category
             });
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -224,9 +216,6 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             // Act
             var result = await context.EditCategory(1, 999999, new CategoryRequestDto()
             {
@@ -235,7 +224,7 @@ namespace Test.Api.Category
             });
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -245,21 +234,39 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var categoryId = 1;
-            var expected = ReplyMessage.MESSAGE_UPDATE;
+            // Arrange — creamos una categoría para editar
+            await context.RegisterCategory(1, new CategoryRequestDto()
+            {
+                CategoryName = "Categoria Para Editar",
+                Description = "Descripcion original",
+            });
+
+            var list = await context.ListCategories(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Categoria Para Editar"
+            });
+            var categoryId = list.Data!.First().IdCategory;
 
             // Act
             var result = await context.EditCategory(1, categoryId, new CategoryRequestDto()
             {
-                CategoryName = "Montura Adulto",
-                Description = "Monturas para adultos",
+                CategoryName = "Categoria Editada",
+                Description = "Descripcion editada",
             });
 
+            var updated = await context.CategoryById(categoryId);
+
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal("Categoria editada", updated.Data!.CategoryName);
+            Assert.Equal("Descripcion editada", updated.Data!.Description);
         }
 
         // ===================== ENABLE =====================
@@ -270,14 +277,11 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             // Act
             var result = await context.EnableCategory(1, 999999);
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -287,17 +291,19 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var categoryId = 5; // pinia store — IsActive = 0 en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            var categoryId = 1;
+            await context.DisableCategory(1, categoryId);
 
             // Act
             var result = await context.EnableCategory(1, categoryId);
 
+            var category = await context.CategoryById(categoryId);
+
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Activo.ToString(), category.Data!.StatusCategory);
         }
 
         // ===================== DISABLE =====================
@@ -308,14 +314,11 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             // Act
             var result = await context.DisableCategory(1, 999999);
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -326,16 +329,19 @@ namespace Test.Api.Category
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
             // Arrange
-            var categoryId = 1; // montura adulto — IsActive = 1 en tu BD
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            var categoryId = 1;
+            await context.EnableCategory(1, categoryId);
 
             // Act
             var result = await context.DisableCategory(1, categoryId);
 
+            var category = await context.CategoryById(categoryId);
+
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), category.Data!.StatusCategory);
         }
 
         // ===================== REMOVE =====================
@@ -346,14 +352,11 @@ namespace Test.Api.Category
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
-            // Arrange
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             // Act
             var result = await context.RemoveCategory(1, 999999);
 
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -364,16 +367,33 @@ namespace Test.Api.Category
             var context = scope.ServiceProvider.GetRequiredService<ICategoryService>();
 
             // Arrange
-            var categoryId = 14; // prueba hoy — el que registraste manualmente
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            await context.RegisterCategory(1, new CategoryRequestDto()
+            {
+                CategoryName = "Categoria Para Eliminar",
+                Description = "Descripcion para eliminar",
+            });
+
+            var list = await context.ListCategories(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Categoria Para Eliminar"
+            });
+            var categoryId = list.Data!.First().IdCategory;
 
             // Act
             var result = await context.RemoveCategory(1, categoryId);
 
+            var deleted = await context.CategoryById(categoryId);
+
             // Assert
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusCategory);
         }
     }
 }

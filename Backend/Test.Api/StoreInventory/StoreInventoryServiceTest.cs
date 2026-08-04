@@ -23,8 +23,6 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListInventory(1, new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -33,9 +31,10 @@ namespace Test.Api.StoreInventory
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.True(result.TotalRecords > 0);
         }
 
         [Fact]
@@ -56,6 +55,7 @@ namespace Test.Api.StoreInventory
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("001", x.Code!));
         }
 
         [Fact]
@@ -86,8 +86,6 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListInventoryCalculated(1, new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -95,9 +93,10 @@ namespace Test.Api.StoreInventory
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.True(result.TotalRecords > 0);
         }
 
         [Fact]
@@ -126,8 +125,6 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListInventoryPivot(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -135,9 +132,10 @@ namespace Test.Api.StoreInventory
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.True(result.TotalRecords > 0);
         }
 
         // ===================== LIST KARDEX INVENTORY =====================
@@ -148,16 +146,16 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
+            var productId = 1;
 
-            var result = await context.ListKardexInventory(1, 1, new BaseFiltersRequest()
+            var result = await context.ListKardexInventory(1, productId, new BaseFiltersRequest()
             {
                 NumberPage = 1,
                 NumberRecordsPage = 10,
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
         }
@@ -168,8 +166,6 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.ListKardexInventory(1, 999999, new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -177,7 +173,7 @@ namespace Test.Api.StoreInventory
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -209,8 +205,6 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.UpdateMinimumAndPriceByProduct(1, 1, new StoreInventoryRequestDto()
             {
                 IdProduct = 0,
@@ -218,7 +212,7 @@ namespace Test.Api.StoreInventory
                 MinimumStock = 0,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -229,8 +223,6 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.UpdateMinimumAndPriceByProduct(1, 1, new StoreInventoryRequestDto()
             {
                 IdProduct = 999999,
@@ -238,7 +230,7 @@ namespace Test.Api.StoreInventory
                 MinimumStock = 5,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -248,18 +240,42 @@ namespace Test.Api.StoreInventory
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreInventoryService>();
 
-            var expected = ReplyMessage.MESSAGE_UPDATE;
+            // Arrange - leer valores actuales para restaurarlos luego
+            var current = (await context.ListInventoryCalculated(1, new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Download = false
+            })).Data!.First(x => x.IdProduct == 1);
 
+            // Act
             var result = await context.UpdateMinimumAndPriceByProduct(1, 1, new StoreInventoryRequestDto()
             {
-                IdProduct = 1, // producto existente en store 1
+                IdProduct = 1,
                 Price = 10.50m,
                 MinimumStock = 5,
             });
 
-            Assert.Equal(expected, result.Message);
+            var updatedItem = (await context.ListInventoryCalculated(1, new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Download = false
+            })).Data!.First(x => x.IdProduct == 1);
+
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(10.50m, updatedItem.Price);
+            Assert.Equal(5, updatedItem.MinimumStock);
+
+            // Teardown - restaurar valores originales
+            await context.UpdateMinimumAndPriceByProduct(1, 1, new StoreInventoryRequestDto()
+            {
+                IdProduct = 1,
+                Price = current.Price,
+                MinimumStock = current.MinimumStock,
+            });
         }
     }
 }

@@ -23,8 +23,6 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.RegisterUser(1, new UserRequestDto()
             {
                 UserName = "",
@@ -35,7 +33,7 @@ namespace Test.Api.User
                 IdStore = 0,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -45,8 +43,6 @@ namespace Test.Api.User
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
-
-            var expected = ReplyMessage.MESSAGE_SAVE;
 
             var result = await context.RegisterUser(1, new UserRequestDto()
             {
@@ -58,9 +54,20 @@ namespace Test.Api.User
                 IdStore = 1,
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListUsers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "usuarioTest"
+            });
+
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Contains(list.Data!, x => x.UserName == "usuarioTest");
         }
 
         // ===================== LIST =====================
@@ -71,8 +78,6 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListUsers(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -81,7 +86,7 @@ namespace Test.Api.User
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.TotalRecords > 0);
@@ -105,6 +110,7 @@ namespace Test.Api.User
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("admin", x.UserName!.ToLower()));
         }
 
         [Fact]
@@ -135,11 +141,9 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.SelectListUsers();
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.Data!.Any());
@@ -154,11 +158,10 @@ namespace Test.Api.User
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
             var userId = 1;
-            var expected = ReplyMessage.MESSAGE_QUERY;
 
             var result = await context.UserById(userId);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.Equal(userId, result.Data!.IdUser);
@@ -170,11 +173,9 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.UserById(999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -187,8 +188,6 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.EditUser(1, 1, new UserRequestDto()
             {
                 UserName = "",
@@ -199,7 +198,7 @@ namespace Test.Api.User
                 IdStore = 0,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -209,8 +208,6 @@ namespace Test.Api.User
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
-
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
 
             var result = await context.EditUser(1, 999999, new UserRequestDto()
             {
@@ -222,7 +219,7 @@ namespace Test.Api.User
                 IdStore = 1,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -232,23 +229,47 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var userId = 1;
-            var expected = ReplyMessage.MESSAGE_UPDATE;
+            // Arrange
+            await context.RegisterUser(1, new UserRequestDto()
+            {
+                UserName = "usuarioParaEditar",
+                Names = "Nombre Original",
+                LastNames = "Apellido Original",
+                Password = "Password123!",
+                IdRole = 1,
+                IdStore = 1,
+            });
 
+            var list = await context.ListUsers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "usuarioParaEditar"
+            });
+            var userId = list.Data!.First().IdUser;
+
+            // Act
             var result = await context.EditUser(1, userId, new UserRequestDto()
             {
-                UserName = "admin",
-                Names = "Administrador",
-                LastNames = "Sistema",
+                UserName = "usuarioEditado",
+                Names = "Nombre Editado",
+                LastNames = "Apellido Editado",
                 Password = "Password123!",
                 IdRole = 1,
                 IdStore = 1,
                 UpdatePassword = false,
             });
 
-            Assert.Equal(expected, result.Message);
+            var updated = await context.UserById(userId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal("Nombre Editado", updated.Data!.Names);
+            Assert.Equal("Apellido Editado", updated.Data!.LastNames);
         }
 
         // ===================== ENABLE =====================
@@ -259,11 +280,9 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EnableUser(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -273,14 +292,19 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var userId = 5; // usuario con IsActive = false en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            // Arrange
+            var userId = 5;
+            await context.DisableUser(1, userId);
 
+            // Act
             var result = await context.EnableUser(1, userId);
 
-            Assert.Equal(expected, result.Message);
+            var user = await context.UserById(userId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Activo.ToString(), user.Data!.StatusUser);
         }
 
         // ===================== DISABLE =====================
@@ -291,11 +315,9 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.DisableUser(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -305,14 +327,19 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var userId = 1; // usuario activo en tu BD
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            // Arrange
+            var userId = 5;
+            await context.EnableUser(1, userId);
 
+            // Act
             var result = await context.DisableUser(1, userId);
 
-            Assert.Equal(expected, result.Message);
+            var user = await context.UserById(userId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), user.Data!.StatusUser);
         }
 
         // ===================== REMOVE =====================
@@ -323,11 +350,9 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.RemoveUser(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -337,14 +362,37 @@ namespace Test.Api.User
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            var userId = 2;
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            // Arrange
+            await context.RegisterUser(1, new UserRequestDto()
+            {
+                UserName = "usuarioParaEliminar",
+                Names = "Nombre Eliminar",
+                LastNames = "Apellido Eliminar",
+                Password = "Password123!",
+                IdRole = 1,
+                IdStore = 1,
+            });
 
+            var list = await context.ListUsers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "usuarioParaEliminar"
+            });
+            var userId = list.Data!.First().IdUser;
+
+            // Act
             var result = await context.RemoveUser(1, userId);
 
-            Assert.Equal(expected, result.Message);
+            var deleted = await context.UserById(userId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusUser);
         }
     }
 }

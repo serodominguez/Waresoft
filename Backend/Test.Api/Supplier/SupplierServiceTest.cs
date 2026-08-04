@@ -23,8 +23,6 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.RegisterSupplier(1, new SupplierRequestDto()
             {
                 CompanyName = "",
@@ -33,7 +31,7 @@ namespace Test.Api.Supplier
                 Email = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -44,8 +42,6 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_SAVE;
-
             var result = await context.RegisterSupplier(1, new SupplierRequestDto()
             {
                 CompanyName = "Proveedor Test",
@@ -54,9 +50,20 @@ namespace Test.Api.Supplier
                 Email = "proveedor@test.com",
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListSuppliers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Proveedor Test"
+            });
+
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Contains(list.Data!, x => x.CompanyName == "Proveedor Test");
         }
 
         // ===================== LIST =====================
@@ -67,8 +74,6 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListSuppliers(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -77,7 +82,7 @@ namespace Test.Api.Supplier
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.TotalRecords > 0);
@@ -101,6 +106,7 @@ namespace Test.Api.Supplier
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.CompanyName!.ToLower()));
         }
 
         [Fact]
@@ -121,6 +127,7 @@ namespace Test.Api.Supplier
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.Contact!.ToLower()));
         }
 
         [Fact]
@@ -140,6 +147,7 @@ namespace Test.Api.Supplier
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Equal(States.Activo.ToString(), x.StatusSupplier));
         }
 
         // ===================== SELECT LIST =====================
@@ -150,13 +158,12 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.SelectListSuppliers();
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.True(result.Data!.Any());
         }
 
         // ===================== SUPPLIER BY ID =====================
@@ -167,14 +174,14 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var supplierId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_QUERY;
+            var supplierId = 1;
 
             var result = await context.SupplierById(supplierId);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.Equal(supplierId, result.Data!.IdSupplier);
         }
 
         [Fact]
@@ -183,11 +190,9 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.SupplierById(999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -200,8 +205,6 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.EditSupplier(1, 1, new SupplierRequestDto()
             {
                 CompanyName = "",
@@ -210,7 +213,7 @@ namespace Test.Api.Supplier
                 Email = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -221,8 +224,6 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EditSupplier(1, 999999, new SupplierRequestDto()
             {
                 CompanyName = "Proveedor Editado",
@@ -231,7 +232,7 @@ namespace Test.Api.Supplier
                 Email = "editado@test.com",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -241,20 +242,42 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var supplierId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_UPDATE;
+            // Arrange
+            await context.RegisterSupplier(1, new SupplierRequestDto()
+            {
+                CompanyName = "Proveedor Para Editar",
+                Contact = "Contacto Original",
+                PhoneNumber = "77700001",
+                Email = "original@test.com",
+            });
 
+            var list = await context.ListSuppliers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Proveedor Para Editar"
+            });
+            var supplierId = list.Data!.First().IdSupplier;
+
+            // Act
             var result = await context.EditSupplier(1, supplierId, new SupplierRequestDto()
             {
                 CompanyName = "Proveedor Editado",
-                Contact = "Juan Perez",
-                PhoneNumber = "77712345",
+                Contact = "Contacto Editado",
+                PhoneNumber = "77700002",
                 Email = "editado@test.com",
             });
 
-            Assert.Equal(expected, result.Message);
+            var updated = await context.SupplierById(supplierId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal("Proveedor Editado", updated.Data!.CompanyName);
+            Assert.Equal("Contacto Editado", updated.Data!.Contact);
         }
 
         // ===================== ENABLE =====================
@@ -265,11 +288,9 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EnableSupplier(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -279,14 +300,19 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var supplierId = 2; // Supplier con IsActive = false en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            // Arrange
+            var supplierId = 1;
+            await context.DisableSupplier(1, supplierId);
 
+            // Act
             var result = await context.EnableSupplier(1, supplierId);
 
-            Assert.Equal(expected, result.Message);
+            var supplier = await context.SupplierById(supplierId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Activo.ToString(), supplier.Data!.StatusSupplier);
         }
 
         // ===================== DISABLE =====================
@@ -297,11 +323,9 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.DisableSupplier(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -311,14 +335,19 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var supplierId = 1; // Supplier con IsActive = true en tu BD
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            // Arrange
+            var supplierId = 1;
+            await context.EnableSupplier(1, supplierId);
 
+            // Act
             var result = await context.DisableSupplier(1, supplierId);
 
-            Assert.Equal(expected, result.Message);
+            var supplier = await context.SupplierById(supplierId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), supplier.Data!.StatusSupplier);
         }
 
         // ===================== REMOVE =====================
@@ -329,11 +358,9 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.RemoveSupplier(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -343,14 +370,35 @@ namespace Test.Api.Supplier
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ISupplierService>();
 
-            var supplierId = 5; // Supplier dedicado para remove en tu BD
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            // Arrange
+            await context.RegisterSupplier(1, new SupplierRequestDto()
+            {
+                CompanyName = "Proveedor Para Eliminar",
+                Contact = "Contacto Eliminar",
+                PhoneNumber = "77799999",
+                Email = "eliminar@test.com",
+            });
 
+            var list = await context.ListSuppliers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Proveedor Para Eliminar"
+            });
+            var supplierId = list.Data!.First().IdSupplier;
+
+            // Act
             var result = await context.RemoveSupplier(1, supplierId);
 
-            Assert.Equal(expected, result.Message);
+            var deleted = await context.SupplierById(supplierId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusSupplier);
         }
     }
 }

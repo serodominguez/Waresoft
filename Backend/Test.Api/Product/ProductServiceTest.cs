@@ -23,8 +23,6 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.RegisterProduct(1, new ProductRequestDto()
             {
                 Description = "",
@@ -33,7 +31,7 @@ namespace Test.Api.Product
                 IdCategory = 0,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -44,21 +42,30 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_SAVE;
-
             var result = await context.RegisterProduct(1, new ProductRequestDto()
             {
                 Description = "Producto Test",
                 Material = "Algodon",
                 Color = "Rojo",
                 UnitMeasure = "Unidad",
-                IdBrand = 1,    // ID real en tu BD
-                IdCategory = 1, // ID real en tu BD
+                IdBrand = 1,
+                IdCategory = 1,
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListProducts(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 2,
+                TextFilter = "Producto Test"
+            });
+
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Contains(list.Data!, x => x.Description == "Producto test");
         }
 
         // ===================== LIST =====================
@@ -69,8 +76,6 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListProducts(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -79,7 +84,7 @@ namespace Test.Api.Product
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.TotalRecords > 0);
@@ -103,6 +108,7 @@ namespace Test.Api.Product
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("P", x.Code!.ToUpper()));
         }
 
         [Fact]
@@ -123,6 +129,7 @@ namespace Test.Api.Product
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.Description!.ToLower()));
         }
 
         [Fact]
@@ -143,6 +150,7 @@ namespace Test.Api.Product
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.Material!.ToLower()));
         }
 
         [Fact]
@@ -163,6 +171,7 @@ namespace Test.Api.Product
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.Color!.ToLower()));
         }
 
         [Fact]
@@ -183,6 +192,7 @@ namespace Test.Api.Product
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.BrandName!.ToLower()));
         }
 
         [Fact]
@@ -203,6 +213,7 @@ namespace Test.Api.Product
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.CategoryName!.ToLower()));
         }
 
         [Fact]
@@ -222,6 +233,7 @@ namespace Test.Api.Product
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Equal(States.Activo.ToString(), x.StatusProduct));
         }
 
         // ===================== PRODUCT BY ID =====================
@@ -232,14 +244,14 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var productId = 26;
-            var expected = ReplyMessage.MESSAGE_QUERY;
+            var productId = 1;
 
             var result = await context.ProductById(productId);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.Equal(productId, result.Data!.IdProduct);
         }
 
         [Fact]
@@ -248,11 +260,9 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.ProductById(999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -265,8 +275,6 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.EditProduct(1, 1, new ProductRequestDto()
             {
                 Description = "",
@@ -275,7 +283,7 @@ namespace Test.Api.Product
                 IdCategory = 0,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -286,8 +294,6 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EditProduct(1, 999999, new ProductRequestDto()
             {
                 Description = "Producto Editado",
@@ -296,7 +302,7 @@ namespace Test.Api.Product
                 IdCategory = 1,
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -306,22 +312,47 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var productId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_UPDATE;
-
-            var result = await context.EditProduct(1, productId, new ProductRequestDto()
+            // Arrange
+            await context.RegisterProduct(1, new ProductRequestDto()
             {
-                Description = "Producto Editado",
+                Description = "Producto Para Editar",
                 Material = "Algodon",
-                Color = "Rojo",
+                Color = "Azul",
                 UnitMeasure = "Unidad",
                 IdBrand = 1,
                 IdCategory = 1,
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListProducts(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 2,
+                TextFilter = "Producto Para Editar"
+            });
+            var productId = list.Data!.First().IdProduct;
+
+            // Act
+            var result = await context.EditProduct(1, productId, new ProductRequestDto()
+            {
+                Description = "Producto Editado",
+                Material = "Poliester",
+                Color = "Verde",
+                UnitMeasure = "Unidad",
+                IdBrand = 1,
+                IdCategory = 1,
+            });
+
+            var updated = await context.ProductById(productId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal("Producto editado", updated.Data!.Description);
+            Assert.Equal("Poliester", updated.Data!.Material);
+            Assert.Equal("Verde", updated.Data!.Color);
         }
 
         // ===================== ENABLE =====================
@@ -332,11 +363,9 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EnableProduct(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -346,14 +375,19 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var productId = 2; // Producto con IsActive = false en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            // Arrange
+            var productId = 2;
+            await context.DisableProduct(1, productId);
 
+            // Act
             var result = await context.EnableProduct(1, productId);
 
-            Assert.Equal(expected, result.Message);
+            var product = await context.ProductById(productId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Activo.ToString(), product.Data!.StatusProduct);
         }
 
         // ===================== DISABLE =====================
@@ -364,11 +398,9 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.DisableProduct(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -378,14 +410,19 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var productId = 26;
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            // Arrange
+            var productId = 2;
+            await context.EnableProduct(1, productId);
 
+            // Act
             var result = await context.DisableProduct(1, productId);
 
-            Assert.Equal(expected, result.Message);
+            var product = await context.ProductById(productId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), product.Data!.StatusProduct);
         }
 
         // ===================== REMOVE =====================
@@ -396,11 +433,9 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.RemoveProduct(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -410,14 +445,37 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var productId = 5; // Producto dedicado para remove en tu BD
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            // Arrange
+            await context.RegisterProduct(1, new ProductRequestDto()
+            {
+                Description = "Producto Para Eliminar",
+                Material = "Algodon",
+                Color = "Negro",
+                UnitMeasure = "Unidad",
+                IdBrand = 1,
+                IdCategory = 1,
+            });
 
+            var list = await context.ListProducts(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 2,
+                TextFilter = "Producto Para Eliminar"
+            });
+            var productId = list.Data!.First().IdProduct;
+
+            // Act
             var result = await context.RemoveProduct(1, productId);
 
-            Assert.Equal(expected, result.Message);
+            var deleted = await context.ProductById(productId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusProduct);
         }
 
         // ===================== GENERATE BARCODE =====================
@@ -428,16 +486,13 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.GenerateProductBarcode(new ProductBarcodeRequestDto()
             {
                 IdProduct = 999999,
                 Quantity = 1
-
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -447,9 +502,8 @@ namespace Test.Api.Product
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IProductService>();
 
-            var productId = 26;
+            var productId = 1;
             var quantity = 5;
-            var expected = ReplyMessage.MESSAGE_QUERY;
 
             var result = await context.GenerateProductBarcode(new ProductBarcodeRequestDto()
             {
@@ -457,8 +511,9 @@ namespace Test.Api.Product
                 Quantity = quantity
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Data);
             Assert.NotNull(result.Data);
         }
     }

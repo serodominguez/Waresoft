@@ -31,6 +31,7 @@ D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\LatoFont\La
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\LatoFont\Lato-Thin.ttf
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\LatoFont\Lato-ThinItalic.ttf
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\LatoFont\OFL.txt
+D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\appsettingstest.json
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.deps.json
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.runtimeconfig.json
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll

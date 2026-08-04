@@ -23,14 +23,14 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
+            // Act
             var result = await context.RegisterBrand(1, new BrandRequestDto()
             {
                 BrandName = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -41,16 +41,29 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_SAVE;
-
+            // Act
             var result = await context.RegisterBrand(1, new BrandRequestDto()
             {
                 BrandName = "Brand Test",
             });
 
-            Assert.Equal(expected, result.Message);
+            // Consultamos para verificar que realmente se guardó en BD
+            var list = await context.ListBrands(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Brand Test"
+            });
+
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            // Confirma que realmente se guardó en BD
+            Assert.Contains(list.Data!, x => x.BrandName == "Brand Test");
         }
 
         // ===================== LIST =====================
@@ -61,8 +74,7 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
+            // Act
             var result = await context.ListBrands(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -71,9 +83,11 @@ namespace Test.Api.Brand
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            // Confirma que realmente devuelve registros
             Assert.True(result.TotalRecords > 0);
         }
 
@@ -83,6 +97,7 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
+            // Act
             var result = await context.ListBrands(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -90,11 +105,14 @@ namespace Test.Api.Brand
                 Sort = "Id",
                 Download = false,
                 NumberFilter = 1,
-                TextFilter = "a"
+                TextFilter = "Brand"
             });
 
+            // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            // Confirma que todos los resultados contienen el texto filtrado
+            Assert.All(result.Data!, x => Assert.Contains("brand", x.BrandName!.ToLower()));
         }
 
         [Fact]
@@ -103,6 +121,7 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
+            // Act
             var result = await context.ListBrands(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -112,8 +131,11 @@ namespace Test.Api.Brand
                 StateFilter = 1
             });
 
+            // Assert
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            // Confirma que todos están activos usando el enum States
+            Assert.All(result.Data!, x => Assert.Equal(States.Activo.ToString(), x.StatusBrand));
         }
 
         // ===================== SELECT LIST =====================
@@ -124,13 +146,14 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
+            // Act
             var result = await context.SelectListBrands();
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            // Confirma que devuelve al menos un registro
             Assert.True(result.Data!.Any());
         }
 
@@ -142,14 +165,18 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var brandId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_QUERY;
+            // Arrange
+            var brandId = 1;
 
+            // Act
             var result = await context.BrandById(brandId);
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            // Confirma que devuelve el id correcto
+            Assert.Equal(brandId, result.Data!.IdBrand);
         }
 
         [Fact]
@@ -158,11 +185,11 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
+            // Act
             var result = await context.BrandById(999999);
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -175,14 +202,14 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
+            // Act
             var result = await context.EditBrand(1, 1, new BrandRequestDto()
             {
                 BrandName = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -193,14 +220,14 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
+            // Act
             var result = await context.EditBrand(1, 999999, new BrandRequestDto()
             {
                 BrandName = "Brand Editada",
             });
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -210,17 +237,40 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var brandId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_UPDATE;
-
-            var result = await context.EditBrand(1, brandId, new BrandRequestDto()
+            // Arrange — creamos una marca para editar
+            await context.RegisterBrand(1, new BrandRequestDto()
             {
-                BrandName = "Brand Original",
+                BrandName = "Brand Para Editar",
             });
 
-            Assert.Equal(expected, result.Message);
+            // Obtenemos el id de la que acabamos de crear
+            var list = await context.ListBrands(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Brand Para Editar"
+            });
+            var brandId = list.Data!.First().IdBrand;
+
+            // Act
+            var result = await context.EditBrand(1, brandId, new BrandRequestDto()
+            {
+                BrandName = "Brand Editada",
+            });
+
+            // Consultamos para verificar que realmente cambió en BD
+            var updated = await context.BrandById(brandId);
+
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            // Confirma que realmente se editó en BD
+            // NormalizeString y ToSentenceCase capitalizan solo la primera letra
+            Assert.Equal("Brand Editada", updated.Data!.BrandName);
         }
 
         // ===================== ENABLE =====================
@@ -231,11 +281,11 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
+            // Act
             var result = await context.EnableBrand(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -245,14 +295,22 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var brandId = 2; // Brand con IsActive = 0 en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            // Arrange — desactivamos primero para tener un estado conocido
+            var brandId = 1;
+            await context.DisableBrand(1, brandId);
 
+            // Act
             var result = await context.EnableBrand(1, brandId);
 
-            Assert.Equal(expected, result.Message);
+            // Consultamos para verificar que realmente cambió en BD
+            var brand = await context.BrandById(brandId);
+
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            // Confirma que realmente se activó en BD usando el enum States
+            Assert.Equal(States.Activo.ToString(), brand.Data!.StatusBrand);
         }
 
         // ===================== DISABLE =====================
@@ -263,11 +321,11 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
+            // Act
             var result = await context.DisableBrand(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -277,14 +335,22 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var brandId = 1; // Brand con IsActive = 1 en tu BD
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            // Arrange — activamos primero para tener un estado conocido
+            var brandId = 1;
+            await context.EnableBrand(1, brandId);
 
+            // Act
             var result = await context.DisableBrand(1, brandId);
 
-            Assert.Equal(expected, result.Message);
+            // Consultamos para verificar que realmente cambió en BD
+            var brand = await context.BrandById(brandId);
+
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            // Confirma que realmente se desactivó en BD usando el enum States
+            Assert.Equal(States.Inactivo.ToString(), brand.Data!.StatusBrand);
         }
 
         // ===================== REMOVE =====================
@@ -295,11 +361,11 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
+            // Act
             var result = await context.RemoveBrand(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -309,14 +375,36 @@ namespace Test.Api.Brand
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IBrandService>();
 
-            var brandId = 5; // Brand dedicada para remove en tu BD
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            // Arrange — creamos una marca para eliminar
+            await context.RegisterBrand(1, new BrandRequestDto()
+            {
+                BrandName = "Brand Para Eliminar",
+            });
 
+            // Obtenemos el id de la que acabamos de crear
+            var list = await context.ListBrands(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Brand Para Eliminar"
+            });
+            var brandId = list.Data!.First().IdBrand;
+
+            // Act
             var result = await context.RemoveBrand(1, brandId);
 
-            Assert.Equal(expected, result.Message);
+            // Consultamos para verificar que realmente se eliminó (IsActive = false)
+            var deleted = await context.BrandById(brandId);
+
+            // Assert
+            Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            // Confirma que realmente se marcó como inactivo en BD
+            Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusBrand);
         }
     }
 }

@@ -23,8 +23,6 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.RegisterCustomer(1, new CustomerRequestDto()
             {
                 Names = "",
@@ -33,7 +31,7 @@ namespace Test.Api.Customer
                 PhoneNumber = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -44,8 +42,6 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_SAVE;
-
             var result = await context.RegisterCustomer(1, new CustomerRequestDto()
             {
                 Names = "Juan",
@@ -54,9 +50,20 @@ namespace Test.Api.Customer
                 PhoneNumber = "77712345",
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListCustomers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 3,
+                TextFilter = "12345678"
+            });
+
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Contains(list.Data!, x => x.IdentificationNumber == "12345678");
         }
 
         // ===================== LIST =====================
@@ -67,8 +74,6 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListCustomers(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -77,7 +82,7 @@ namespace Test.Api.Customer
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.TotalRecords > 0);
@@ -101,6 +106,7 @@ namespace Test.Api.Customer
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.Names!.ToLower()));
         }
 
         [Fact]
@@ -121,6 +127,7 @@ namespace Test.Api.Customer
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.LastNames!.ToLower()));
         }
 
         [Fact]
@@ -141,6 +148,7 @@ namespace Test.Api.Customer
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("1", x.IdentificationNumber!));
         }
 
         [Fact]
@@ -160,6 +168,7 @@ namespace Test.Api.Customer
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Equal(States.Activo.ToString(), x.StatusCustomer));
         }
 
         // ===================== CUSTOMER BY ID =====================
@@ -170,14 +179,14 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var customerId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_QUERY;
+            var customerId = 1;
 
             var result = await context.CustomerById(customerId);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.Equal(customerId, result.Data!.IdCustomer);
         }
 
         [Fact]
@@ -186,11 +195,9 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.CustomerById(999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -203,8 +210,6 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.EditCustomer(1, 1, new CustomerRequestDto()
             {
                 Names = "",
@@ -213,7 +218,7 @@ namespace Test.Api.Customer
                 PhoneNumber = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -224,8 +229,6 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EditCustomer(1, 999999, new CustomerRequestDto()
             {
                 Names = "Juan",
@@ -234,7 +237,7 @@ namespace Test.Api.Customer
                 PhoneNumber = "77712345",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -244,20 +247,42 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var customerId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_UPDATE;
-
-            var result = await context.EditCustomer(1, customerId, new CustomerRequestDto()
+            // Arrange
+            await context.RegisterCustomer(1, new CustomerRequestDto()
             {
-                Names = "Juan",
-                LastNames = "Perez",
-                IdentificationNumber = "12345678",
-                PhoneNumber = "77712345",
+                Names = "Cliente Para Editar",
+                LastNames = "Apellido Original",
+                IdentificationNumber = "99991111",
+                PhoneNumber = "77700001",
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListCustomers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 3,
+                TextFilter = "99991111"
+            });
+            var customerId = list.Data!.First().IdCustomer;
+
+            // Act
+            var result = await context.EditCustomer(1, customerId, new CustomerRequestDto()
+            {
+                Names = "Cliente Editado",
+                LastNames = "Apellido Editado",
+                IdentificationNumber = "99991111",
+                PhoneNumber = "77700002",
+            });
+
+            var updated = await context.CustomerById(customerId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal("Cliente Editado", updated.Data!.Names);
+            Assert.Equal("Apellido Editado", updated.Data!.LastNames);
         }
 
         // ===================== ENABLE =====================
@@ -268,11 +293,9 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EnableCustomer(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -282,14 +305,19 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var customerId = 2; // Customer con IsActive = 0 en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            // Arrange
+            var customerId = 1;
+            await context.DisableCustomer(1, customerId);
 
+            // Act
             var result = await context.EnableCustomer(1, customerId);
 
-            Assert.Equal(expected, result.Message);
+            var customer = await context.CustomerById(customerId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Activo.ToString(), customer.Data!.StatusCustomer);
         }
 
         // ===================== DISABLE =====================
@@ -300,11 +328,9 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.DisableCustomer(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -314,14 +340,19 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var customerId = 1; // Customer con IsActive = 1 en tu BD
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            // Arrange
+            var customerId = 1;
+            await context.EnableCustomer(1, customerId);
 
+            // Act
             var result = await context.DisableCustomer(1, customerId);
 
-            Assert.Equal(expected, result.Message);
+            var customer = await context.CustomerById(customerId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), customer.Data!.StatusCustomer);
         }
 
         // ===================== REMOVE =====================
@@ -332,11 +363,9 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.RemoveCustomer(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -346,14 +375,35 @@ namespace Test.Api.Customer
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ICustomerService>();
 
-            var customerId = 5; // Customer dedicado para remove en tu BD
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            // Arrange
+            await context.RegisterCustomer(1, new CustomerRequestDto()
+            {
+                Names = "Cliente Para Eliminar",
+                LastNames = "Apellido Eliminar",
+                IdentificationNumber = "99999999",
+                PhoneNumber = "77799999",
+            });
 
+            var list = await context.ListCustomers(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 3,
+                TextFilter = "99999999"
+            });
+            var customerId = list.Data!.First().IdCustomer;
+
+            // Act
             var result = await context.RemoveCustomer(1, customerId);
 
-            Assert.Equal(expected, result.Message);
+            var deleted = await context.CustomerById(customerId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusCustomer);
         }
     }
 }

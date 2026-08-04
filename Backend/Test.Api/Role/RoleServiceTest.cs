@@ -23,14 +23,12 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.RegisterRole(1, new RoleRequestDto()
             {
                 RoleName = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -41,16 +39,25 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_SAVE;
-
             var result = await context.RegisterRole(1, new RoleRequestDto()
             {
                 RoleName = "Rol Test",
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListRoles(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Rol Test"
+            });
+
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Contains(list.Data!, x => x.RoleName == "Rol test");
         }
 
         // ===================== LIST =====================
@@ -61,8 +68,6 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListRoles(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -71,7 +76,7 @@ namespace Test.Api.Role
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.TotalRecords > 0);
@@ -95,6 +100,7 @@ namespace Test.Api.Role
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.RoleName!.ToLower()));
         }
 
         [Fact]
@@ -114,6 +120,7 @@ namespace Test.Api.Role
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Equal(States.Activo.ToString(), x.StatusRole));
         }
 
         // ===================== SELECT LIST =====================
@@ -124,13 +131,12 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.SelectListRoles();
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.True(result.Data!.Any());
         }
 
         // ===================== ROLE BY ID =====================
@@ -141,14 +147,14 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var roleId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_QUERY;
+            var roleId = 1;
 
             var result = await context.RoleById(roleId);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.Equal(roleId, result.Data!.IdRole);
         }
 
         [Fact]
@@ -157,11 +163,9 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.RoleById(999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -174,14 +178,12 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.EditRole(1, 1, new RoleRequestDto()
             {
                 RoleName = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -192,34 +194,60 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EditRole(1, 999999, new RoleRequestDto()
             {
                 RoleName = "Rol Editado",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
         [Fact]
         public async Task EditRole_WhenSendingCorrectValues_UpdatedSuccessfully()
         {
-            using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
+            int roleId;
 
-            var roleId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_UPDATE;
-
-            var result = await context.EditRole(1, roleId, new RoleRequestDto()
+            // Arrange
+            using (var scope = _scopeFactory.CreateScope())
             {
-                RoleName = "Rol Editado",
-            });
+                var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            Assert.Equal(expected, result.Message);
-            Assert.True(result.IsSuccess);
-            Assert.True(result.Data);
+                await context.RegisterRole(1, new RoleRequestDto()
+                {
+                    RoleName = "Rol Para Editar",
+                });
+
+                var list = await context.ListRoles(new BaseFiltersRequest()
+                {
+                    NumberPage = 1,
+                    NumberRecordsPage = 100,
+                    Sort = "Id",
+                    Download = false,
+                    NumberFilter = 1,
+                    TextFilter = "Rol Para Editar"
+                });
+
+                roleId = list.Data!.First().IdRole;
+            }
+
+            // Act
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
+
+                var result = await context.EditRole(1, roleId, new RoleRequestDto()
+                {
+                    RoleName = "Rol Editado",
+                });
+
+                var updated = await context.RoleById(roleId);
+
+                Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
+                Assert.True(result.IsSuccess);
+                Assert.True(result.Data);
+                Assert.Equal("Rol editado", updated.Data!.RoleName);
+            }
         }
 
         // ===================== ENABLE =====================
@@ -230,11 +258,9 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EnableRole(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -244,14 +270,19 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var roleId = 2; // Rol con IsActive = false en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            // Arrange
+            var roleId = 1;
+            await context.DisableRole(1, roleId);
 
+            // Act
             var result = await context.EnableRole(1, roleId);
 
-            Assert.Equal(expected, result.Message);
+            var role = await context.RoleById(roleId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Activo.ToString(), role.Data!.StatusRole);
         }
 
         // ===================== DISABLE =====================
@@ -262,11 +293,9 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.DisableRole(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -276,14 +305,19 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var roleId = 1; // Rol con IsActive = true en tu BD
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            // Arrange
+            var roleId = 5;
+            await context.EnableRole(1, roleId);
 
+            // Act
             var result = await context.DisableRole(1, roleId);
 
-            Assert.Equal(expected, result.Message);
+            var role = await context.RoleById(roleId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), role.Data!.StatusRole);
         }
 
         // ===================== REMOVE =====================
@@ -294,28 +328,54 @@ namespace Test.Api.Role
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.RemoveRole(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
         [Fact]
         public async Task RemoveRole_WhenIdExists_DeletedSuccessfully()
         {
-            using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
+            int roleId;
 
-            var roleId = 5; // Rol dedicado para remove en tu BD
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            // Arrange
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
 
-            var result = await context.RemoveRole(1, roleId);
+                await context.RegisterRole(1, new RoleRequestDto()
+                {
+                    RoleName = "Rol Para Eliminar",
+                });
 
-            Assert.Equal(expected, result.Message);
-            Assert.True(result.IsSuccess);
-            Assert.True(result.Data);
+                var list = await context.ListRoles(new BaseFiltersRequest()
+                {
+                    NumberPage = 1,
+                    NumberRecordsPage = 100,
+                    Sort = "Id",
+                    Download = false,
+                    NumberFilter = 1,
+                    TextFilter = "Rol Para Eliminar"
+                });
+
+                roleId = list.Data!.First().IdRole;
+            }
+
+            // Act
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<IRoleService>();
+
+                var result = await context.RemoveRole(1, roleId);
+
+                var deleted = await context.RoleById(roleId);
+
+                Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
+                Assert.True(result.IsSuccess);
+                Assert.True(result.Data);
+                Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusRole);
+            }
         }
     }
 }

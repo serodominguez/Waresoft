@@ -30,7 +30,7 @@ namespace Application.Mappers
             {
                 IdStore = model.Id,
                 StoreName = model.StoreName.ToTitleCase(),
-                Manager = model.Manager.ToSentenceCase(),
+                Manager = model.Manager.ToTitleCase(),
                 Address = model.Address.ToSentenceCaseMultiple(),
                 PhoneNumber = model.PhoneNumber,
                 City = model.City.ToTitleCase(),

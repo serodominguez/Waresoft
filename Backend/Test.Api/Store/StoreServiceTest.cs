@@ -23,8 +23,6 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
-
             var result = await context.RegisterStore(1, new StoreRequestDto()
             {
                 StoreName = "",
@@ -37,7 +35,7 @@ namespace Test.Api.Store
                 Type = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -47,8 +45,6 @@ namespace Test.Api.Store
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
-
-            var expected = ReplyMessage.MESSAGE_SAVE;
 
             var result = await context.RegisterStore(1, new StoreRequestDto()
             {
@@ -62,9 +58,20 @@ namespace Test.Api.Store
                 Type = "Sucursal",
             });
 
-            Assert.Equal(expected, result.Message);
+            var list = await context.ListStores(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Tienda Test"
+            });
+
+            Assert.Equal(ReplyMessage.MESSAGE_SAVE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Contains(list.Data!, x => x.StoreName == "Tienda Test");
         }
 
         // ===================== LIST =====================
@@ -75,8 +82,6 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.ListStores(new BaseFiltersRequest()
             {
                 NumberPage = 1,
@@ -85,7 +90,7 @@ namespace Test.Api.Store
                 Download = false
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.True(result.TotalRecords > 0);
@@ -109,6 +114,7 @@ namespace Test.Api.Store
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.StoreName!.ToLower()));
         }
 
         [Fact]
@@ -129,6 +135,7 @@ namespace Test.Api.Store
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.Manager!.ToLower()));
         }
 
         [Fact]
@@ -149,6 +156,7 @@ namespace Test.Api.Store
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.Address!.ToLower()));
         }
 
         [Fact]
@@ -169,6 +177,7 @@ namespace Test.Api.Store
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Contains("a", x.City!.ToLower()));
         }
 
         [Fact]
@@ -188,6 +197,7 @@ namespace Test.Api.Store
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.All(result.Data!, x => Assert.Equal(States.Activo.ToString(), x.StatusStore));
         }
 
         // ===================== SELECT LIST =====================
@@ -198,13 +208,12 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var expected = ReplyMessage.MESSAGE_QUERY;
-
             var result = await context.SelectListStores();
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.True(result.Data!.Any());
         }
 
         // ===================== STORE BY ID =====================
@@ -215,14 +224,14 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var storeId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_QUERY;
+            var storeId = 1;
 
             var result = await context.StoreById(storeId);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
+            Assert.Equal(storeId, result.Data!.IdStore);
         }
 
         [Fact]
@@ -231,11 +240,9 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.StoreById(999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
         }
@@ -247,8 +254,6 @@ namespace Test.Api.Store
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
-
-            var expected = ReplyMessage.MESSAGE_VALIDATE;
 
             var result = await context.EditStore(1, 1, new StoreRequestDto()
             {
@@ -262,7 +267,7 @@ namespace Test.Api.Store
                 Type = "",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_VALIDATE, result.Message);
             Assert.False(result.IsSuccess);
             Assert.NotNull(result.Errors);
         }
@@ -272,8 +277,6 @@ namespace Test.Api.Store
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
-
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
 
             var result = await context.EditStore(1, 999999, new StoreRequestDto()
             {
@@ -287,7 +290,7 @@ namespace Test.Api.Store
                 Type = "Casa Matriz",
             });
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -297,24 +300,50 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var storeId = 1; // ID real en tu BD
-            var expected = ReplyMessage.MESSAGE_UPDATE;
+            // Arrange
+            await context.RegisterStore(1, new StoreRequestDto()
+            {
+                StoreName = "Tienda Para Editar",
+                Manager = "Gerente Original",
+                Address = "Av. Original 123",
+                PhoneNumber = "77700001",
+                City = "Cochabamba",
+                Email = "original@test.com",
+                ProfitMargin = 0.10m,
+                Type = "Sucursal",
+            });
 
+            var list = await context.ListStores(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Tienda Para Editar"
+            });
+            var storeId = list.Data!.First().IdStore;
+
+            // Act
             var result = await context.EditStore(1, storeId, new StoreRequestDto()
             {
                 StoreName = "Tienda Editada",
-                Manager = "Juan Perez",
-                Address = "Av. Test 123",
-                PhoneNumber = "77712345",
-                City = "Cochabamba",
+                Manager = "Gerente Editado",
+                Address = "Av. Editada 456",
+                PhoneNumber = "77700002",
+                City = "La Paz",
                 Email = "editada@test.com",
                 ProfitMargin = 0.15m,
                 Type = "Casa Matriz",
             });
 
-            Assert.Equal(expected, result.Message);
+            var updated = await context.StoreById(storeId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_UPDATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal("Tienda Editada", updated.Data!.StoreName);
+            Assert.Equal("Gerente Editado", updated.Data!.Manager);
         }
 
         // ===================== ENABLE =====================
@@ -325,11 +354,9 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.EnableStore(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -339,14 +366,19 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var storeId = 2; // Store con IsActive = false en tu BD
-            var expected = ReplyMessage.MESSAGE_ACTIVATE;
+            // Arrange
+            var storeId = 1;
+            await context.DisableStore(1, storeId);
 
+            // Act
             var result = await context.EnableStore(1, storeId);
 
-            Assert.Equal(expected, result.Message);
+            var store = await context.StoreById(storeId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_ACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Activo.ToString(), store.Data!.StatusStore);
         }
 
         // ===================== DISABLE =====================
@@ -357,11 +389,9 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.DisableStore(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -371,14 +401,19 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var storeId = 1; // Store con IsActive = true en tu BD
-            var expected = ReplyMessage.MESSAGE_INACTIVATE;
+            // Arrange
+            var storeId = 1;
+            await context.EnableStore(1, storeId);
 
+            // Act
             var result = await context.DisableStore(1, storeId);
 
-            Assert.Equal(expected, result.Message);
+            var store = await context.StoreById(storeId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_INACTIVATE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), store.Data!.StatusStore);
         }
 
         // ===================== REMOVE =====================
@@ -389,11 +424,9 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var expected = ReplyMessage.MESSAGE_NOT_FOUND;
-
             var result = await context.RemoveStore(1, 999999);
 
-            Assert.Equal(expected, result.Message);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
             Assert.False(result.IsSuccess);
         }
 
@@ -403,14 +436,39 @@ namespace Test.Api.Store
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IStoreService>();
 
-            var storeId = 5; // Store dedicado para remove en tu BD
-            var expected = ReplyMessage.MESSAGE_DELETE;
+            // Arrange
+            await context.RegisterStore(1, new StoreRequestDto()
+            {
+                StoreName = "Tienda Para Eliminar",
+                Manager = "Gerente Eliminar",
+                Address = "Av. Eliminar 999",
+                PhoneNumber = "77799999",
+                City = "Cochabamba",
+                Email = "eliminar@test.com",
+                ProfitMargin = 0.10m,
+                Type = "Sucursal",
+            });
 
+            var list = await context.ListStores(new BaseFiltersRequest()
+            {
+                NumberPage = 1,
+                NumberRecordsPage = 100,
+                Sort = "Id",
+                Download = false,
+                NumberFilter = 1,
+                TextFilter = "Tienda Para Eliminar"
+            });
+            var storeId = list.Data!.First().IdStore;
+
+            // Act
             var result = await context.RemoveStore(1, storeId);
 
-            Assert.Equal(expected, result.Message);
+            var deleted = await context.StoreById(storeId);
+
+            Assert.Equal(ReplyMessage.MESSAGE_DELETE, result.Message);
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
+            Assert.Equal(States.Inactivo.ToString(), deleted.Data!.StatusStore);
         }
     }
 }
