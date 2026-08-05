@@ -14,7 +14,7 @@
     <PackageReference Include="ClosedXML" Version="0.105.1" />
     <PackageReference Include="Dapper" Version="2.1.79" />
     <PackageReference Include="QuestPDF" Version="2026.7.2" />
-    <PackageReference Include="SkiaSharp" Version="4.150.1" />
+    <PackageReference Include="SkiaSharp" Version="4.151.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.3" />
   </ItemGroup>
 

@@ -4,13 +4,13 @@ import type { BaseResponse } from '@/interfaces/baseInterface';
 
 vi.mock('@/services/goodsReceiptService', () => ({
   goodsReceiptService: {
-    fetchAll:              vi.fn(),
+    fetchAll: vi.fn(),
     getReceiptWithDetails: vi.fn(),
-    downloadExcel:         vi.fn(),
-    downloadPdf:           vi.fn(),
-    exportPdf:             vi.fn(),
-    register:              vi.fn(),
-    disable:               vi.fn(),
+    downloadExcel: vi.fn(),
+    downloadPdf: vi.fn(),
+    exportPdf: vi.fn(),
+    register: vi.fn(),
+    disable: vi.fn(),
   }
 }));
 
@@ -114,7 +114,7 @@ describe('useGoodsReceiptStore', () => {
     );
     const store = useGoodsReceiptStore();
 
-    await store.fetchGoodsReceipt().catch(() => {});
+    await store.fetchGoodsReceipt().catch(() => { });
 
     expect(store.loading).toBe(false);
   });

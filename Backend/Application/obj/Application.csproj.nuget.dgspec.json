@@ -84,11 +84,11 @@
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.150.1, )"
+              "version": "[4.151.0, )"
             },
             "SkiaSharp.NativeAssets.Linux.NoDependencies": {
               "target": "Package",
-              "version": "[4.150.1, )"
+              "version": "[4.151.0, )"
             },
             "ZXing.Net": {
               "target": "Package",
@@ -811,7 +811,7 @@
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.150.1, )"
+              "version": "[4.151.0, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",

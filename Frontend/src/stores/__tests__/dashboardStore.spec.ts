@@ -3,28 +3,28 @@ import { setActivePinia, createPinia } from 'pinia';
 
 vi.mock('@/services/dashboardService', () => ({
   dashboardService: {
-    getGoodsIssueStats:     vi.fn(),
-    getInventoryStats:      vi.fn(),
-    getMovementsStats:      vi.fn(),
-    getProductReplenishment:vi.fn(),
-    getProductStats:        vi.fn(),
-    getTransfersByStore:    vi.fn(),
-    getTransferStatus:      vi.fn(),
-    getTransferPending:     vi.fn(),
+    getGoodsIssueStats: vi.fn(),
+    getInventoryStats: vi.fn(),
+    getMovementsStats: vi.fn(),
+    getProductReplenishment: vi.fn(),
+    getProductStats: vi.fn(),
+    getTransfersByStore: vi.fn(),
+    getTransferStatus: vi.fn(),
+    getTransferPending: vi.fn(),
   }
 }));
 
 import { dashboardService } from '@/services/dashboardService';
 import { useDashboardStore } from '../dashboardStore';
 
-const mockGoodsIssueStats     = { totalIssues: 10, differenceVsLast7Days: 2, isPositive: true };
-const mockInventoryStats      = { belowMinimum: 5, differenceVsLastMonth: -1, isPositive: false };
-const mockMovementsStats      = [{ month: 'Ene', receipts: 10, issues: 5 }];
-const mockProductReplenishment= { available: 100, notAvailable: 20, discontinued: 5 };
-const mockProductStats        = { totalActive: 200, newThisMonth: 15 };
-const mockTransfersByStore    = [{ storeName: 'Tienda A', totalTransfers: 8 }];
-const mockTransferStatus      = [{ month: 'Ene', sent: 3, pending: 1, received: 4 }];
-const mockTransferPending     = { totalPending: 3, differenceVsYesterday: 1, isPendingPositive: false };
+const mockGoodsIssueStats = { totalIssues: 10, differenceVsLast7Days: 2, isPositive: true };
+const mockInventoryStats = { belowMinimum: 5, differenceVsLastMonth: -1, isPositive: false };
+const mockMovementsStats = [{ month: 'Ene', receipts: 10, issues: 5 }];
+const mockProductReplenishment = { available: 100, notAvailable: 20, discontinued: 5 };
+const mockProductStats = { totalActive: 200, newThisMonth: 15 };
+const mockTransfersByStore = [{ storeName: 'Tienda A', totalTransfers: 8 }];
+const mockTransferStatus = [{ month: 'Ene', sent: 3, pending: 1, received: 4 }];
+const mockTransferPending = { totalPending: 3, differenceVsYesterday: 1, isPendingPositive: false };
 
 beforeEach(() => {
   setActivePinia(createPinia());
@@ -98,7 +98,7 @@ describe('useDashboardStore', () => {
     vi.mocked(dashboardService.getGoodsIssueStats).mockRejectedValue(new Error('Network Error'));
     const store = useDashboardStore();
 
-    await store.fetchAll().catch(() => {});
+    await store.fetchAll().catch(() => { });
 
     expect(store.loading).toBe(false);
   });

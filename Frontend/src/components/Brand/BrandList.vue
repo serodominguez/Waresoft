@@ -117,17 +117,31 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { Brand } from '@/interfaces/brandInterface';
-import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-interface Props extends Omit<BaseListProps<Brand>, 'items' | 'totalItems'> {
+//Props & Emits
+const props = withDefaults(defineProps<{
+  // ListPermissions
+  canCreate: boolean;
+  canRead: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canDownload: boolean;
+  // ListState
+  drawer: boolean;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  // Propias
   brands: Brand[];
   totalBrands: number;
-}
-
-//Props & Emits
-const props = withDefaults(defineProps<Props>(), {
+  loading: boolean;
+  downloadingExcel?: boolean;
+  downloadingPdf?: boolean;
+  itemsPerPage?: number;
+}>(), {
   drawer: false,
   selectedFilter: 'Marca',
   state: 'Activos',

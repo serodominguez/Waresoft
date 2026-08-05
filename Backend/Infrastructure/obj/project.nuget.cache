@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Fyf/dpwNayU=",
+  "dgSpecHash": "c+pciKVHBmo=",
   "success": true,
   "projectFilePath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -33,9 +33,9 @@
     "C:\\Users\\Sergio\\.nuget\\packages\\questpdf\\2026.7.2\\questpdf.2026.7.2.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\rbush.signed\\4.0.0\\rbush.signed.4.0.0.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp\\4.150.1\\skiasharp.4.150.1.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp.nativeassets.macos\\4.150.1\\skiasharp.nativeassets.macos.4.150.1.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp.nativeassets.win32\\4.150.1\\skiasharp.nativeassets.win32.4.150.1.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp\\4.151.0\\skiasharp.4.151.0.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp.nativeassets.macos\\4.151.0\\skiasharp.nativeassets.macos.4.151.0.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp.nativeassets.win32\\4.151.0\\skiasharp.nativeassets.win32.4.151.0.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\system.clientmodel\\1.5.1\\system.clientmodel.1.5.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\system.configuration.configurationmanager\\9.0.4\\system.configuration.configurationmanager.9.0.4.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.7.1\\system.identitymodel.tokens.jwt.7.7.1.nupkg.sha512",

@@ -80,19 +80,26 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { InventoryPivotRow } from '@/interfaces/inventoryInterface';
-import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 import CommonViewerImage from '../Common/CommonViewerImage.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-interface Props extends Pick<BaseListProps<InventoryPivotRow>, 'loading' | 'canRead' | 'canDownload' | 'itemsPerPage' | 'drawer' | 'selectedFilter' |
-  'state' | 'startDate' | 'endDate' | 'downloadingExcel' | 'downloadingPdf'> {
+const props = withDefaults(defineProps<{
+  loading: boolean;
+  canRead: boolean;
+  canDownload: boolean;
+  itemsPerPage?: number;
+  drawer: boolean;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  downloadingExcel?: boolean;
+  downloadingPdf?: boolean;
   stores: string[];
   rows: InventoryPivotRow[];
   totalRows: number;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   stores: () => [],
   rows: () => [],
   loading: false,

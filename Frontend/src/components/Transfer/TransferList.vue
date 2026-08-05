@@ -130,19 +130,30 @@ import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 import { Transfer } from '@/interfaces/transferInterface';
-import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFiltersMovements.vue';
 import { TransferStatusOptions } from '@/constants/transferStatus';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-interface Props extends Omit<BaseListProps<Transfer>, 'items' | 'totalItems'> {
+const props = withDefaults(defineProps<{
+  canCreate: boolean;
+  canRead: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canDownload: boolean;
+  drawer: boolean;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  loading: boolean;
+  downloadingExcel?: boolean;
+  downloadingPdf?: boolean;
+  itemsPerPage?: number;
   transfers: Transfer[];
   totalTransfers: number;
   currentPage: number;
   printingPdfId?: number | string | null;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   drawer: false,
   selectedFilter: 'Código',
   state: 'Todos',

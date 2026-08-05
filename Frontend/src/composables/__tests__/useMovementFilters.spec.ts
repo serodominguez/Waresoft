@@ -2,15 +2,15 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { useMovementFilters } from '../useMovementFilters';
 
 const filterMap = {
-  'Código':    1,
-  'Tienda':    2,
+  'Código': 1,
+  'Tienda': 2,
   'Proveedor': 3,
 };
 
 const stateMap = {
-  'Todos':      0,
+  'Todos': 0,
   'Completado': 1,
-  'Anulado':    2,
+  'Anulado': 2,
 };
 
 describe('useMovementFilters', () => {
@@ -81,7 +81,7 @@ describe('useMovementFilters', () => {
     const { startDate, endDate, getFilterParams } = useMovementFilters('Código', filterMap, stateMap, 'Completado');
 
     startDate.value = new Date(2025, 0, 15); // 15 enero 2025
-    endDate.value   = new Date(2025, 11, 31); // 31 diciembre 2025
+    endDate.value = new Date(2025, 11, 31); // 31 diciembre 2025
     const params = getFilterParams(null);
 
     expect(params.startDate).toBe('2025-01-15');

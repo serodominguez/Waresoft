@@ -120,19 +120,30 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { GoodsReceipt } from '@/interfaces/goodsReceiptInterface';
-import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFiltersMovements.vue';
 import { GoodsStatusOptions } from '@/constants/goodsStatus';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-interface Props extends Omit<BaseListProps<GoodsReceipt>, 'items' | 'totalItems'> {
+const props = withDefaults(defineProps<{
+  canCreate: boolean;
+  canRead: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canDownload: boolean;
+  drawer: boolean;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  loading: boolean;
+  downloadingExcel?: boolean;
+  downloadingPdf?: boolean;
+  itemsPerPage?: number;
   goodsreceipt: GoodsReceipt[];
   totalGoodsReceipt: number;
   currentPage: number;
   printingPdfId?: number | string | null;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   drawer: false,
   selectedFilter: 'Código',
   state: 'Completado',

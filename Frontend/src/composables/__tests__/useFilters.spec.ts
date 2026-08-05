@@ -2,9 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { useFilters } from '../useFilters';
 
 const filterMap = {
-  'Nombre':   1,
-  'Código':   2,
-  'Email':    3,
+  'Nombre': 1,
+  'Código': 2,
+  'Email': 3,
 };
 
 describe('useFilters', () => {
@@ -72,7 +72,7 @@ describe('useFilters', () => {
     const { startDate, endDate, getFilterParams } = useFilters('Nombre', filterMap);
 
     startDate.value = new Date(2025, 2, 5);  // 5 marzo 2025
-    endDate.value   = new Date(2025, 5, 20); // 20 junio 2025
+    endDate.value = new Date(2025, 5, 20); // 20 junio 2025
     const params = getFilterParams(null);
 
     expect(params.startDate).toBe('2025-03-05');

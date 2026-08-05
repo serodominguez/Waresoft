@@ -2,38 +2,38 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createPinia, setActivePinia } from 'pinia';
 
 // Mock de todos los stores
-vi.mock('@/stores/brandStore',        () => ({ useBrandStore:        vi.fn() }));
-vi.mock('@/stores/categoryStore',     () => ({ useCategoryStore:     vi.fn() }));
-vi.mock('@/stores/customerStore',     () => ({ useCustomerStore:     vi.fn() }));
-vi.mock('@/stores/goodsIssueStore',   () => ({ useGoodsIssueStore:   vi.fn() }));
+vi.mock('@/stores/brandStore', () => ({ useBrandStore: vi.fn() }));
+vi.mock('@/stores/categoryStore', () => ({ useCategoryStore: vi.fn() }));
+vi.mock('@/stores/customerStore', () => ({ useCustomerStore: vi.fn() }));
+vi.mock('@/stores/goodsIssueStore', () => ({ useGoodsIssueStore: vi.fn() }));
 vi.mock('@/stores/goodsReceiptStore', () => ({ useGoodsReceiptStore: vi.fn() }));
-vi.mock('@/stores/moduleStore',       () => ({ useModuleStore:       vi.fn() }));
-vi.mock('@/stores/productStore',      () => ({ useProductStore:      vi.fn() }));
-vi.mock('@/stores/roleStore',         () => ({ useRoleStore:         vi.fn() }));
-vi.mock('@/stores/storeStore',        () => ({ useStoreStore:        vi.fn() }));
-vi.mock('@/stores/supplierStore',     () => ({ useSupplierStore:     vi.fn() }));
-vi.mock('@/stores/transferStore',     () => ({ useTransferStore:     vi.fn() }));
-vi.mock('@/stores/userStore',         () => ({ useUserStore:         vi.fn() }));
+vi.mock('@/stores/moduleStore', () => ({ useModuleStore: vi.fn() }));
+vi.mock('@/stores/productStore', () => ({ useProductStore: vi.fn() }));
+vi.mock('@/stores/roleStore', () => ({ useRoleStore: vi.fn() }));
+vi.mock('@/stores/storeStore', () => ({ useStoreStore: vi.fn() }));
+vi.mock('@/stores/supplierStore', () => ({ useSupplierStore: vi.fn() }));
+vi.mock('@/stores/transferStore', () => ({ useTransferStore: vi.fn() }));
+vi.mock('@/stores/userStore', () => ({ useUserStore: vi.fn() }));
 
-import { useBrandStore }        from '@/stores/brandStore';
-import { useCategoryStore }     from '@/stores/categoryStore';
-import { useCustomerStore }     from '@/stores/customerStore';
-import { useGoodsIssueStore }   from '@/stores/goodsIssueStore';
+import { useBrandStore } from '@/stores/brandStore';
+import { useCategoryStore } from '@/stores/categoryStore';
+import { useCustomerStore } from '@/stores/customerStore';
+import { useGoodsIssueStore } from '@/stores/goodsIssueStore';
 import { useGoodsReceiptStore } from '@/stores/goodsReceiptStore';
-import { useModuleStore }       from '@/stores/moduleStore';
-import { useProductStore }      from '@/stores/productStore';
-import { useRoleStore }         from '@/stores/roleStore';
-import { useStoreStore }        from '@/stores/storeStore';
-import { useSupplierStore }     from '@/stores/supplierStore';
-import { useTransferStore }     from '@/stores/transferStore';
-import { useUserStore }         from '@/stores/userStore';
-import { useStoreMapper }       from '../useStoreMapper';
+import { useModuleStore } from '@/stores/moduleStore';
+import { useProductStore } from '@/stores/productStore';
+import { useRoleStore } from '@/stores/roleStore';
+import { useStoreStore } from '@/stores/storeStore';
+import { useSupplierStore } from '@/stores/supplierStore';
+import { useTransferStore } from '@/stores/transferStore';
+import { useUserStore } from '@/stores/userStore';
+import { useStoreMapper } from '../useStoreMapper';
 
 const makeMockStore = (overrides = {}) => ({
-  remove:  vi.fn().mockResolvedValue({ isSuccess: true }),
-  enable:  vi.fn().mockResolvedValue({ isSuccess: true }),
+  remove: vi.fn().mockResolvedValue({ isSuccess: true }),
+  enable: vi.fn().mockResolvedValue({ isSuccess: true }),
   disable: vi.fn().mockResolvedValue({ isSuccess: true }),
-  cancel:  vi.fn().mockResolvedValue({ isSuccess: true }),
+  cancel: vi.fn().mockResolvedValue({ isSuccess: true }),
   ...overrides,
 });
 

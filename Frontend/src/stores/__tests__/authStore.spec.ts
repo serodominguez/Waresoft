@@ -27,19 +27,19 @@ import router from '@/router/index';
 import { useAuthStore } from '../authStore';
 
 const mockJwtDecode = vi.mocked(jwtDecode);
-const mockAxiosGet  = vi.mocked(axios.get);
+const mockAxiosGet = vi.mocked(axios.get);
 
 const mockDecoded = {
-  userId:    '1',
-  userName:  'sergio',
-  role:      'Admin',
+  userId: '1',
+  userName: 'sergio',
+  role: 'Admin',
   storeName: 'Tienda Central',
   storeType: 'Principal',
-  storeId:   '1',
-  nbf:       0,
-  exp:       Math.floor(Date.now() / 1000) + 3600, // válido por 1 hora
-  iss:       'waresoft',
-  aud:       'waresoft',
+  storeId: '1',
+  nbf: 0,
+  exp: Math.floor(Date.now() / 1000) + 3600, // válido por 1 hora
+  iss: 'waresoft',
+  aud: 'waresoft',
 };
 
 const mockPermissions = [

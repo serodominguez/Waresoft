@@ -3,16 +3,16 @@ import { setActivePinia, createPinia } from 'pinia';
 import { createBaseStore } from '../baseStore';
 
 const makeService = (overrides = {}) => ({
-  fetchAll:      vi.fn().mockResolvedValue({ isSuccess: true, data: [], totalRecords: 0 }),
-  select:        vi.fn().mockResolvedValue({ isSuccess: true, data: [] }),
-  fetchById:     vi.fn().mockResolvedValue({ isSuccess: true, data: { id: 1 } }),
+  fetchAll: vi.fn().mockResolvedValue({ isSuccess: true, data: [], totalRecords: 0 }),
+  select: vi.fn().mockResolvedValue({ isSuccess: true, data: [] }),
+  fetchById: vi.fn().mockResolvedValue({ isSuccess: true, data: { id: 1 } }),
   downloadExcel: vi.fn().mockResolvedValue(undefined),
-  downloadPdf:   vi.fn().mockResolvedValue(undefined),
-  create:        vi.fn().mockResolvedValue({ isSuccess: true }),
-  update:        vi.fn().mockResolvedValue({ isSuccess: true }),
-  enable:        vi.fn().mockResolvedValue({ isSuccess: true }),
-  disable:       vi.fn().mockResolvedValue({ isSuccess: true }),
-  remove:        vi.fn().mockResolvedValue({ isSuccess: true }),
+  downloadPdf: vi.fn().mockResolvedValue(undefined),
+  create: vi.fn().mockResolvedValue({ isSuccess: true }),
+  update: vi.fn().mockResolvedValue({ isSuccess: true }),
+  enable: vi.fn().mockResolvedValue({ isSuccess: true }),
+  disable: vi.fn().mockResolvedValue({ isSuccess: true }),
+  remove: vi.fn().mockResolvedValue({ isSuccess: true }),
   ...overrides,
 });
 
@@ -72,7 +72,7 @@ describe('baseStore', () => {
     });
     const store = createBaseStore('test-loading', service)();
 
-    await store.fetchAll().catch(() => {});
+    await store.fetchAll().catch(() => { });
 
     expect(store.loading).toBe(false);
   });

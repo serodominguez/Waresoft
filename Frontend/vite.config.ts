@@ -54,7 +54,8 @@ export default defineConfig({
     'vuetify/directives',
     'vuetify/components/VChip', 
     'vuetify/components/VDivider', 
-    'vuetify/components/VForm'
+    'vuetify/components/VForm',
+    'vuetify/components/VFileInput'
     ]
   },
   test: {

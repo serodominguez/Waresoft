@@ -4,16 +4,16 @@ import { setActivePinia, createPinia } from 'pinia';
 vi.mock('@/services/customerService', () => ({
   customerService: {
     getStats: vi.fn(),
-    fetchAll:      vi.fn().mockResolvedValue({ isSuccess: true, data: [], totalRecords: 0 }),
-    select:        vi.fn().mockResolvedValue({ isSuccess: true, data: [] }),
-    fetchById:     vi.fn().mockResolvedValue({ isSuccess: true, data: null }),
+    fetchAll: vi.fn().mockResolvedValue({ isSuccess: true, data: [], totalRecords: 0 }),
+    select: vi.fn().mockResolvedValue({ isSuccess: true, data: [] }),
+    fetchById: vi.fn().mockResolvedValue({ isSuccess: true, data: null }),
     downloadExcel: vi.fn().mockResolvedValue(undefined),
-    downloadPdf:   vi.fn().mockResolvedValue(undefined),
-    create:        vi.fn().mockResolvedValue({ isSuccess: true }),
-    update:        vi.fn().mockResolvedValue({ isSuccess: true }),
-    enable:        vi.fn().mockResolvedValue({ isSuccess: true }),
-    disable:       vi.fn().mockResolvedValue({ isSuccess: true }),
-    remove:        vi.fn().mockResolvedValue({ isSuccess: true }),
+    downloadPdf: vi.fn().mockResolvedValue(undefined),
+    create: vi.fn().mockResolvedValue({ isSuccess: true }),
+    update: vi.fn().mockResolvedValue({ isSuccess: true }),
+    enable: vi.fn().mockResolvedValue({ isSuccess: true }),
+    disable: vi.fn().mockResolvedValue({ isSuccess: true }),
+    remove: vi.fn().mockResolvedValue({ isSuccess: true }),
   }
 }));
 
@@ -23,9 +23,9 @@ import { useCustomerStatsStore } from '../customerStore';
 const mockGetStats = vi.mocked(customerService.getStats);
 
 const mockStats = {
-  totalActive:       42,
-  percentageChange:  5.5,
-  isPositive:        true,
+  totalActive: 42,
+  percentageChange: 5.5,
+  isPositive: true,
 };
 
 beforeEach(() => {
@@ -64,7 +64,7 @@ describe('useCustomerStatsStore', () => {
     mockGetStats.mockRejectedValue(new Error('Network Error'));
     const store = useCustomerStatsStore();
 
-    await store.fetchStats().catch(() => {});
+    await store.fetchStats().catch(() => { });
 
     expect(store.loading).toBe(false);
   });

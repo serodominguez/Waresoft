@@ -9,6 +9,7 @@ using Domain.Entities;
 using FluentValidation;
 using Infrastructure.Persistences.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Extensions;
 using Utilities.Static;
 
 namespace Application.Services
@@ -229,7 +230,7 @@ namespace Application.Services
                     return response;
                 }
 
-                role.RoleName = requestDto.RoleName;
+                role.RoleName = requestDto.RoleName.NormalizeString();
                 role.AuditUpdateUser = authenticatedUserId;
                 role.AuditUpdateDate = DateTime.Now;
 

@@ -120,16 +120,27 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { Category } from '@/interfaces/categoryInterface';
-import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-interface Props extends Omit<BaseListProps<Category>, 'items' | 'totalItems'> {
+const props = withDefaults(defineProps<{
+  canCreate: boolean;
+  canRead: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canDownload: boolean;
+  drawer: boolean;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
   categories: Category[];
   totalCategories: number;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+  loading: boolean;
+  downloadingExcel?: boolean;
+  downloadingPdf?: boolean;
+  itemsPerPage?: number;
+}>(), {
   drawer: false,
   selectedFilter: 'Categoría',
   state: 'Activos',

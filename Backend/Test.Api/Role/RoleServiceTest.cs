@@ -356,7 +356,7 @@ namespace Test.Api.Role
                     Sort = "Id",
                     Download = false,
                     NumberFilter = 1,
-                    TextFilter = "Rol Para Eliminar"
+                    TextFilter = "rol para eliminar"
                 });
 
                 roleId = list.Data!.First().IdRole;

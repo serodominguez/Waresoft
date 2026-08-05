@@ -118,16 +118,27 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { Module } from '@/interfaces/moduleInterface';
-import { BaseListProps } from '@/interfaces/baselistInterface';
 import CommonFilters from '@/components/Common/CommonFilters.vue';
 import { useResponsiveTooltip } from '@/composables/useResponsiveTooltip';
 
-interface Props extends Omit<BaseListProps<Module>, 'items' | 'totalItems'> {
+const props = withDefaults(defineProps<{
+  canCreate: boolean;
+  canRead: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+  canDownload: boolean;
+  drawer: boolean;
+  selectedFilter: string;
+  state: string;
+  startDate: Date | null;
+  endDate: Date | null;
   modules: Module[];
   totalModules: number;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+  loading: boolean;
+  downloadingExcel?: boolean;
+  downloadingPdf?: boolean;
+  itemsPerPage?: number;
+}>(), {
   drawer: false,
   selectedFilter: 'Módulo',
   state: 'Activos',

@@ -610,11 +610,11 @@
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.150.1, )"
+              "version": "[4.151.0, )"
             },
             "SkiaSharp.NativeAssets.Linux.NoDependencies": {
               "target": "Package",
-              "version": "[4.150.1, )"
+              "version": "[4.151.0, )"
             },
             "ZXing.Net": {
               "target": "Package",
@@ -1337,7 +1337,7 @@
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.150.1, )"
+              "version": "[4.151.0, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
@@ -1839,19 +1839,23 @@
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[17.14.1, )"
+              "version": "[18.8.1, )"
             },
             "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.4, )"
+              "version": "[10.0.1, )"
             },
             "xunit": {
               "target": "Package",
               "version": "[2.9.3, )"
             },
             "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.4, )"
+              "version": "[3.1.5, )"
             }
           },
           "imports": [

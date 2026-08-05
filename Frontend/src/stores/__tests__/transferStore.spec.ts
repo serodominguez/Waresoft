@@ -4,15 +4,15 @@ import type { BaseResponse } from '@/interfaces/baseInterface';
 
 vi.mock('@/services/transferService', () => ({
   transferService: {
-    fetchAll:                vi.fn(),
-    getTransferWithDetails:  vi.fn(),
-    downloadExcel:           vi.fn(),
-    downloadPdf:             vi.fn(),
-    exportPdf:               vi.fn(),
-    send:                    vi.fn(),
-    receive:                 vi.fn(),
-    disable:                 vi.fn(),
-    getStats:                vi.fn(),
+    fetchAll: vi.fn(),
+    getTransferWithDetails: vi.fn(),
+    downloadExcel: vi.fn(),
+    downloadPdf: vi.fn(),
+    exportPdf: vi.fn(),
+    send: vi.fn(),
+    receive: vi.fn(),
+    disable: vi.fn(),
+    getStats: vi.fn(),
   }
 }));
 
@@ -126,7 +126,7 @@ describe('useTransferStore', () => {
     );
     const store = useTransferStore();
 
-    await store.fetchTransfers().catch(() => {});
+    await store.fetchTransfers().catch(() => { });
 
     expect(store.loading).toBe(false);
   });
@@ -303,7 +303,7 @@ describe('useTransferStatsStore', () => {
     vi.mocked(transferService.getStats).mockRejectedValue(new Error('Error de red'));
     const store = useTransferStatsStore();
 
-    await store.fetchStats().catch(() => {});
+    await store.fetchStats().catch(() => { });
 
     expect(store.loading).toBe(false);
   });

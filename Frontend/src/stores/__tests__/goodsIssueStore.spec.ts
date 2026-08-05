@@ -4,13 +4,13 @@ import type { BaseResponse, FilterParams } from '@/interfaces/baseInterface';
 
 vi.mock('@/services/goodsIssueService', () => ({
   goodsIssueService: {
-    fetchAll:             vi.fn(),
-    getIssueWithDetails:  vi.fn(),
-    downloadExcel:        vi.fn(),
-    downloadPdf:          vi.fn(),
-    exportPdf:            vi.fn(),
-    register:             vi.fn(),
-    disable:              vi.fn()
+    fetchAll: vi.fn(),
+    getIssueWithDetails: vi.fn(),
+    downloadExcel: vi.fn(),
+    downloadPdf: vi.fn(),
+    exportPdf: vi.fn(),
+    register: vi.fn(),
+    disable: vi.fn()
   }
 }));
 
@@ -115,7 +115,7 @@ describe('useGoodsIssueStore', () => {
     );
     const store = useGoodsIssueStore();
 
-    await store.fetchGoodsIssue().catch(() => {});
+    await store.fetchGoodsIssue().catch(() => { });
 
     expect(store.loading).toBe(false);
   });
