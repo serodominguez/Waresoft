@@ -203,7 +203,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
 
@@ -219,7 +219,7 @@ router.beforeEach(async (to, from) => {
   // Rutas libres
   if (to.matched.some(record => record.meta.free)) {
     if (currentUser && to.name === 'login') {
-      return { name: 'home' }
+      return { name: 'dashboard' }
     }
     return true
   }
@@ -246,7 +246,7 @@ router.beforeEach(async (to, from) => {
         normalize(p.module) === normalizedRouteModule
     )
 
-    return hasModuleAccess ? true : { name: 'home' }
+    return hasModuleAccess ? true : { name: 'dashboard' }
   }
 
   return true

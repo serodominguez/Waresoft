@@ -89,7 +89,7 @@ namespace Application.Services
 
                 response.TotalRecords = await transfers.CountAsync();
 
-                filters.Sort ??= "IdTransfer";
+                filters.Sort ??= "Id";
                 var items = await _orderingQuery.Ordering(filters, transfers, !(bool)filters.Download!).ToListAsync();
 
                 var users = await _unitOfWork.UserQuery.GetUsersListQueryable()

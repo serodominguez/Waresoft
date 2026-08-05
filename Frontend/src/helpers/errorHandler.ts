@@ -173,7 +173,7 @@ export class ErrorHandler {
   ): AppError {
     const {
       showToast = true,
-      logToConsole = process.env.NODE_ENV !== 'production',
+      logToConsole = import.meta.env.DEV,
       throwError = false,
       customMessage,
       onError,

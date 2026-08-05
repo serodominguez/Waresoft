@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-
-namespace Application.Dtos.Request.Transfer
+﻿namespace Application.Dtos.Request.Transfer
 {
     public record TransferRequestDto
     {

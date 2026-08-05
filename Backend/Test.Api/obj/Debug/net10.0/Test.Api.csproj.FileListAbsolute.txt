@@ -1,3 +1,6 @@
+D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\linux-arm\native\libSkiaSharp.so
+D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\linux-arm64\native\libSkiaSharp.so
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\.msCoverageSourceRootsMapping_Test.Api
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\CoverletSourceRootsMapping_Test.Api
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\testhost.dll
@@ -582,7 +585,6 @@ D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\ja\Microsof
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
@@ -699,8 +701,6 @@ D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\wi
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\win-x64\native\qpdf.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\win-x86\native\QuestPdfSkia.dll
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\win-x86\native\qpdf.dll
-D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\linux-arm\native\libSkiaSharp.so
-D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\linux-arm64\native\libSkiaSharp.so
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\linux-bionic-arm64\native\libSkiaSharp.so
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\linux-bionic-x64\native\libSkiaSharp.so
 D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\runtimes\linux-loongarch64\native\libSkiaSharp.so

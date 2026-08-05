@@ -149,7 +149,7 @@ export function setupAxiosInterceptors() {
 // Configuración de timeout global
 export function configureAxiosDefaults() {
   // Base URL
-  axios.defaults.baseURL = process.env.VUE_APP_API_URL || 'https://localhost:7145/';
+  axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'https://localhost:7145/';
 
   // Timeout (30 segundos)
   axios.defaults.timeout = 30000;
