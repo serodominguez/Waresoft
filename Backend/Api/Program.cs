@@ -1,12 +1,50 @@
-using Web.Api.Extensions;
-using Web.Api.Filters;
+using Application.Commons.Settings;
 using Application.Extensions;
 using Infrastructure.Extensions;
 using Infrastructure.RateLimit;
-using Application.Commons.Settings;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
+using System.Collections.ObjectModel;
+using System.Data;
+using Web.Api.Extensions;
+using Web.Api.Filters;
+using Web.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
+
+// ── Serilog ──────────────────────────────────────────────────────────────────
+var columnOptions = new ColumnOptions
+{
+    AdditionalColumns = new Collection<SqlColumn>
+    {
+        new SqlColumn { ColumnName = "MachineName", DataType = SqlDbType.NVarChar, DataLength = 64 },
+        new SqlColumn { ColumnName = "ThreadId",    DataType = SqlDbType.NVarChar, DataLength = 16 },
+        new SqlColumn { ColumnName = "RequestPath", DataType = SqlDbType.NVarChar, DataLength = 512 },
+        new SqlColumn { ColumnName = "StackTrace",  DataType = SqlDbType.NVarChar, DataLength = -1 },
+    }
+};
+columnOptions.Store.Remove(StandardColumn.Properties);
+columnOptions.Store.Remove(StandardColumn.MessageTemplate);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+    .Enrich.WithThreadId()
+    .WriteTo.MSSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("DefaultConnection"),
+        sinkOptions: new MSSqlServerSinkOptions
+        {
+            TableName = "SystemLogs",
+            AutoCreateSqlTable = false
+        },
+        columnOptions: columnOptions
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Add services to the container.
 var Cors = "Cors";
@@ -20,10 +58,8 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<PermissionAuthorizationFilter>();
 });
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
-
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(options =>
@@ -38,7 +74,6 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Bindear configuración
 builder.Services.Configure<EndpointRateLimitOptions>(
     builder.Configuration.GetSection("EndpointRateLimit"));
 
@@ -49,13 +84,10 @@ var app = builder.Build();
 var enableSwagger = app.Configuration.GetValue<bool>("EnableSwagger");
 
 // Pipeline.
-
 app.UseRouting();
-
 app.UseCors(Cors);
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<EndpointRateLimit>();
-
 app.UseStaticFiles();
 
 if (enableSwagger)
@@ -64,10 +96,9 @@ if (enableSwagger)
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-        options.RoutePrefix = "swagger"; 
+        options.RoutePrefix = "swagger";
     });
 }
-;
 
 if (app.Environment.IsDevelopment())
 {
@@ -75,15 +106,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapFallbackToController("Index", "Home");
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

@@ -610,11 +610,11 @@
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.151.0, )"
+              "version": "[4.151.1, )"
             },
             "SkiaSharp.NativeAssets.Linux.NoDependencies": {
               "target": "Package",
-              "version": "[4.151.0, )"
+              "version": "[4.151.1, )"
             },
             "ZXing.Net": {
               "target": "Package",
@@ -1335,9 +1335,25 @@
               "target": "Package",
               "version": "[2026.7.2, )"
             },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Serilog.Enrichers.Environment": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "Serilog.Enrichers.Thread": {
+              "target": "Package",
+              "version": "[4.0.0, )"
+            },
+            "Serilog.Sinks.MSSqlServer": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.151.0, )"
+              "version": "[4.151.1, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
@@ -1847,15 +1863,15 @@
               "target": "Package",
               "version": "[10.0.1, )"
             },
-            "xunit": {
-              "target": "Package",
-              "version": "[2.9.3, )"
-            },
             "xunit.runner.visualstudio": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "xunit.v3": {
+              "target": "Package",
+              "version": "[3.2.2, )"
             }
           },
           "imports": [

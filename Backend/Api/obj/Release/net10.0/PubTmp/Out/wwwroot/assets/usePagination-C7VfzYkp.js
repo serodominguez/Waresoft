@@ -1,0 +1,1 @@
+import{vc as e}from"./errorHandler-Cjodfdmm.js";function t(t){let n=e(1),r=e(10);return{currentPage:n,itemsPerPage:r,updateItemsPerPage:e=>{r.value=e,n.value=1,t({pageNumber:1,pageSize:e})},changePage:e=>{n.value=e,t({pageNumber:e,pageSize:r.value})}}}export{t};

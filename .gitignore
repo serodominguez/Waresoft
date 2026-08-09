@@ -1,5 +1,7 @@
 appsettings.Development.json
 appsettings.json
+.env.development
+.env.production
 Waresoft.bak
 Index.txt
 Backend.rar
