@@ -14,12 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
 
 // ── Serilog ──────────────────────────────────────────────────────────────────
+Serilog.Debugging.SelfLog.Enable(msg => System.Diagnostics.Debug.WriteLine(msg));
 var columnOptions = new ColumnOptions
 {
     AdditionalColumns = new Collection<SqlColumn>
     {
         new SqlColumn { ColumnName = "MachineName", DataType = SqlDbType.NVarChar, DataLength = 64 },
-        new SqlColumn { ColumnName = "ThreadId",    DataType = SqlDbType.NVarChar, DataLength = 16 },
+        new SqlColumn { ColumnName = "ThreadId",    DataType = SqlDbType.Int },
         new SqlColumn { ColumnName = "RequestPath", DataType = SqlDbType.NVarChar, DataLength = 512 },
         new SqlColumn { ColumnName = "StackTrace",  DataType = SqlDbType.NVarChar, DataLength = -1 },
     }
@@ -33,7 +34,7 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.WithMachineName()
     .Enrich.WithThreadId()
     .WriteTo.MSSqlServer(
-        connectionString: builder.Configuration.GetConnectionString("DefaultConnection"),
+        connectionString: builder.Configuration.GetConnectionString("DbConnection"),
         sinkOptions: new MSSqlServerSinkOptions
         {
             TableName = "SystemLogs",
@@ -84,9 +85,9 @@ var app = builder.Build();
 var enableSwagger = app.Configuration.GetValue<bool>("EnableSwagger");
 
 // Pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseRouting();
 app.UseCors(Cors);
-app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<EndpointRateLimit>();
 app.UseStaticFiles();
 

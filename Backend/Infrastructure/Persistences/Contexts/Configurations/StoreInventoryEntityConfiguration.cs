@@ -27,7 +27,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .IsRequired();
 
             builder.Property(i => i.Price)
-                .HasColumnType("decimal(10,2)")
+                .HasPrecision(18, 2)
                 .IsRequired();
 
             builder.Property(i => i.AuditCreateUser);

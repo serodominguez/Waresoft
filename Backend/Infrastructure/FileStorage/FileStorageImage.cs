@@ -82,18 +82,12 @@ namespace Infrastructure.FileStorage
             if (string.IsNullOrEmpty(route))
                 return Task.CompletedTask;
 
-            try
-            {
-                var fileName = Path.GetFileName(route);
-                var directoryFile = Path.Combine(webRootPath, container, fileName);
-                if (File.Exists(directoryFile))
-                    File.Delete(directoryFile);
-                return Task.CompletedTask;
-            }
-            catch
-            {
-                throw;
-            }
+            var fileName = Path.GetFileName(route);
+            var directoryFile = Path.Combine(webRootPath, container, fileName);
+            if (File.Exists(directoryFile))
+                File.Delete(directoryFile);
+
+            return Task.CompletedTask;
         }
     }
 }

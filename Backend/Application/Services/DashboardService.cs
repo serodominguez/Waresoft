@@ -27,10 +27,11 @@ namespace Application.Services
                 response.Data = DashboardMapp.GoodsIssueStatsResponseDtoMapping(stats);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -47,10 +48,11 @@ namespace Application.Services
                 response.Data = DashboardMapp.InventoryStatsResponseDtoMapping(stats);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -67,10 +69,11 @@ namespace Application.Services
                 response.Data = movements.Select(DashboardMapp.MovementStatsResponseDtoMapping);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -87,10 +90,11 @@ namespace Application.Services
                 response.Data = DashboardMapp.ProductReplenishmentResponseDtoMapping(status);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -107,10 +111,11 @@ namespace Application.Services
                 response.Data = DashboardMapp.ProductStatsResponseDtoMapping(stats);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -126,10 +131,11 @@ namespace Application.Services
                 response.Data = transfers.Select(DashboardMapp.TransferByStoreResponseDtoMapping);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
             return response;
         }
@@ -145,10 +151,11 @@ namespace Application.Services
                 response.Data = DashboardMapp.TransferPendingResponseDtoMapping(stats);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -165,10 +172,11 @@ namespace Application.Services
                 response.Data = transfers.Select(DashboardMapp.TransferStatusResponseDtoMapping);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;

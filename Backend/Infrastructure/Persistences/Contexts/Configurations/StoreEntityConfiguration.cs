@@ -39,6 +39,7 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .HasMaxLength(50);
 
             builder.Property(s => s.ProfitMargin)
+                .HasPrecision(3, 2)
                 .IsRequired();
 
             builder.Property(s => s.Type)

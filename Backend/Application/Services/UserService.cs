@@ -39,15 +39,24 @@ namespace Application.Services
 
                 if (filters.NumberFilter.HasValue && !string.IsNullOrEmpty(filters.TextFilter))
                 {
-                    users = filters.NumberFilter switch
+                    switch (filters.NumberFilter)
                     {
-                        1 => users.Where(x => x.UserName!.Contains(filters.TextFilter)),
-                        2 => users.Where(x => x.Names!.Contains(filters.TextFilter)),
-                        3 => users.Where(x => x.LastNames!.Contains(filters.TextFilter)),
-                        4 => users.Where(x => x.StoreName!.Contains(filters.TextFilter)),
-                        5 => users.Where(x => x.RoleName!.Contains(filters.TextFilter)),
-                        _ => users
-                    };
+                        case 1:
+                            users = users.Where(x => x.UserName!.Contains(filters.TextFilter));
+                            break;
+                        case 2:
+                            users = users.Where(x => x.Names!.Contains(filters.TextFilter));
+                            break;
+                        case 3:
+                            users = users.Where(x => x.LastNames!.Contains(filters.TextFilter));
+                            break;
+                        case 4:
+                            users = users.Where(x => x.StoreName!.Contains(filters.TextFilter));
+                            break;
+                        case 5:
+                            users = users.Where(x => x.RoleName!.Contains(filters.TextFilter));
+                            break;
+                    }
                 }
 
                 if (filters.StateFilter.HasValue)
@@ -73,10 +82,11 @@ namespace Application.Services
                 response.Data = items.Select(UserMapp.UsersResponseDtoMapping);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -104,10 +114,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -134,10 +145,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -185,10 +197,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -253,10 +266,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -297,10 +311,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -341,10 +356,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -385,10 +401,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;

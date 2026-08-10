@@ -25,36 +25,46 @@ namespace Application.Services
         {
             var response = new BaseResponse<string>();
 
-            var validationResult = await _validator.ValidateAsync(requestDto);
-
-            if (!validationResult.IsValid)
+            try
             {
-                response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_VALIDATE;
-                response.Errors = validationResult.Errors;
-                return response;
-            }
+                var validationResult = await _validator.ValidateAsync(requestDto);
 
-            var user = await _unitOfWork.UserQuery.GetUserAccountAsync(requestDto.UserName!, true);
-
-            if (user is not null)
-            {
-                if (!_security.VerifyPasswordHash(requestDto.Password!, user.PasswordHash!, user.PasswordSalt!))
+                if (!validationResult.IsValid)
                 {
                     response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_INCORRECT_PASSWORD;
+                    response.Message = ReplyMessage.MESSAGE_VALIDATE;
+                    response.Errors = validationResult.Errors;
+                    return response;
+                }
+
+                var user = await _unitOfWork.UserQuery.GetUserAccountAsync(requestDto.UserName!, true);
+
+                if (user is not null)
+                {
+                    if (!_security.VerifyPasswordHash(requestDto.Password!, user.PasswordHash!, user.PasswordSalt!))
+                    {
+                        response.IsSuccess = false;
+                        response.Message = ReplyMessage.MESSAGE_INCORRECT_PASSWORD;
+                    }
+                    else
+                    {
+                        response.IsSuccess = true;
+                        response.Data = _security.GenerateToken(user);
+                        response.Message = ReplyMessage.MESSAGE_TOKEN;
+                    }
                 }
                 else
                 {
-                    response.IsSuccess = true;
-                    response.Data = _security.GenerateToken(user);
-                    response.Message = ReplyMessage.MESSAGE_TOKEN;
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_INCORRECT_USER;
                 }
+
             }
-            else
+            catch (Exception) 
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_INCORRECT_USER;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;

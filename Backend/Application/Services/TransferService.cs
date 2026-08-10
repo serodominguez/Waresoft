@@ -111,10 +111,11 @@ namespace Application.Services
                 });
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -168,10 +169,11 @@ namespace Application.Services
                 response.Data = TransferMapp.TransferWithDetailsResponseDtoMapping(transfer, details, displayStatus, userSend, userReceive);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -244,11 +246,12 @@ namespace Application.Services
                 response.Data = true;
                 response.Message = ReplyMessage.MESSAGE_SAVE;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 transaction.Rollback();
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -344,11 +347,12 @@ namespace Application.Services
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_SAVE;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 transaction.Rollback();
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -413,11 +417,12 @@ namespace Application.Services
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_DELETE;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 transaction.Rollback();
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;

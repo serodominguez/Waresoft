@@ -43,7 +43,7 @@ namespace Application.Services
 
             var webRootPath = Path.Combine(_env.ContentRootPath, "wwwroot");
             var scheme = httpContext.Request.Scheme;
-            var host = httpContext.Request.Host.Value;
+            var host = httpContext.Request.Host.Value ?? string.Empty;
 
             var relativePath = await _fileStorageImage.SaveFile(container, file, webRootPath, scheme, host);
 
@@ -57,7 +57,7 @@ namespace Application.Services
 
             var webRootPath = Path.Combine(_env.ContentRootPath, "wwwroot");
             var scheme = httpContext.Request.Scheme;
-            var host = httpContext.Request.Host.Value;
+            var host = httpContext.Request.Host.Value ?? string.Empty;
 
             return await _fileStorageImage.EditFile(container, file, route, webRootPath, scheme, host);
         }

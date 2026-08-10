@@ -85,10 +85,11 @@ namespace Application.Services
                 response.Message = ReplyMessage.MESSAGE_QUERY;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -128,10 +129,11 @@ namespace Application.Services
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
@@ -141,31 +143,41 @@ namespace Application.Services
         {
             var response = new BaseResponse<StoreInventoryPivotResponseDto>();
 
-            DateTime? start = string.IsNullOrEmpty(filters.StartDate) ? null : Convert.ToDateTime(filters.StartDate);
-            DateTime? end = string.IsNullOrEmpty(filters.EndDate) ? null : Convert.ToDateTime(filters.EndDate).AddDays(1);
-            bool? state = filters.StateFilter != null ? Convert.ToBoolean(filters.StateFilter) : null;
+            try
+            {
+                DateTime? start = string.IsNullOrEmpty(filters.StartDate) ? null : Convert.ToDateTime(filters.StartDate);
+                DateTime? end = string.IsNullOrEmpty(filters.EndDate) ? null : Convert.ToDateTime(filters.EndDate).AddDays(1);
+                bool? state = filters.StateFilter != null ? Convert.ToBoolean(filters.StateFilter) : null;
 
-            bool isDownload = filters.Download ?? false;
-            int pageNumber = isDownload ? 1 : filters.NumberPage;
-            int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
+                bool isDownload = filters.Download ?? false;
+                int pageNumber = isDownload ? 1 : filters.NumberPage;
+                int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
 
-            var (items, total) = await _unitOfWork.StoreInventoryQuery.GetInventoryPivotAsync(
-                filters.NumberFilter,
-                filters.TextFilter,
-                state, 
-                start, 
-                end,
-                pageNumber,
-                pageSize);
+                var (items, total) = await _unitOfWork.StoreInventoryQuery.GetInventoryPivotAsync(
+                    filters.NumberFilter,
+                    filters.TextFilter,
+                    state,
+                    start,
+                    end,
+                    pageNumber,
+                    pageSize);
 
-            var stores = await _unitOfWork.StoreQuery.GetStoresListQueryable().ToListAsync();
+                var stores = await _unitOfWork.StoreQuery.GetStoresListQueryable().ToListAsync();
 
-            //response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
-            var baseUrl = _fileStorageImageService.GetBaseUrl();
-            response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores, baseUrl);
-            response.TotalRecords = total;
-            response.IsSuccess = true;
-            response.Message = ReplyMessage.MESSAGE_QUERY;
+                //response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores);
+                var baseUrl = _fileStorageImageService.GetBaseUrl();
+                response.Data = StoreInventoryMapp.StoreInventoryPivotMapping(items, stores, baseUrl);
+                response.TotalRecords = total;
+                response.IsSuccess = true;
+                response.Message = ReplyMessage.MESSAGE_QUERY;
+                
+            }
+            catch (Exception)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
+            }
 
             return response;
         }
@@ -212,10 +224,11 @@ namespace Application.Services
                 response.IsSuccess = true;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
             return response;
         }
@@ -268,10 +281,11 @@ namespace Application.Services
                     response.Message = ReplyMessage.MESSAGE_FAILED;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;

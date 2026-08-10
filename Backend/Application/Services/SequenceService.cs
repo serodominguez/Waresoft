@@ -26,10 +26,11 @@ namespace Application.Services
                 response.Data = code;
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION + ex.Message;
+                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+                throw;
             }
 
             return response;
