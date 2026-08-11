@@ -14,7 +14,6 @@
           "QRCoder": "1.8.0",
           "QuestPDF": "2026.7.2",
           "SkiaSharp": "4.151.1",
-          "SkiaSharp.NativeAssets.Linux.NoDependencies": "4.151.1",
           "Utilities": "1.0.0",
           "ZXing.Net": "0.16.11"
         },
@@ -616,75 +615,6 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.Linux.NoDependencies/4.151.1": {
-        "runtimeTargets": {
-          "runtimes/linux-arm/native/libSkiaSharp.so": {
-            "rid": "linux-arm",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-arm64/native/libSkiaSharp.so": {
-            "rid": "linux-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-bionic-arm64/native/libSkiaSharp.so": {
-            "rid": "linux-bionic-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-bionic-x64/native/libSkiaSharp.so": {
-            "rid": "linux-bionic-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-loongarch64/native/libSkiaSharp.so": {
-            "rid": "linux-loongarch64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-musl-arm/native/libSkiaSharp.so": {
-            "rid": "linux-musl-arm",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-musl-arm64/native/libSkiaSharp.so": {
-            "rid": "linux-musl-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-musl-loongarch64/native/libSkiaSharp.so": {
-            "rid": "linux-musl-loongarch64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-musl-riscv64/native/libSkiaSharp.so": {
-            "rid": "linux-musl-riscv64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-musl-x64/native/libSkiaSharp.so": {
-            "rid": "linux-musl-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-riscv64/native/libSkiaSharp.so": {
-            "rid": "linux-riscv64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-x64/native/libSkiaSharp.so": {
-            "rid": "linux-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-x86/native/libSkiaSharp.so": {
-            "rid": "linux-x86",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "SkiaSharp.NativeAssets.macOS/4.151.1": {
         "runtimeTargets": {
           "runtimes/osx/native/libSkiaSharp.dylib": {
@@ -1149,13 +1079,6 @@
       "sha512": "sha512-FNlVsGZ9to3o9pObVqhIZanHjUGOoPb/Zxk5svCSLMJnKwxPKV7sIJrjs9BpB/jF3j9OdsaMOb4cfwSJbjueSw==",
       "path": "skiasharp/4.151.1",
       "hashPath": "skiasharp.4.151.1.nupkg.sha512"
-    },
-    "SkiaSharp.NativeAssets.Linux.NoDependencies/4.151.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-lqPwXxYhKlmRfCuq1vGRLYEtRo3tn3ij1IGi0tI2qzkKHU6HOznHqZW+NqHV8aSKasPmRawbwlKLLPI132+SEA==",
-      "path": "skiasharp.nativeassets.linux.nodependencies/4.151.1",
-      "hashPath": "skiasharp.nativeassets.linux.nodependencies.4.151.1.nupkg.sha512"
     },
     "SkiaSharp.NativeAssets.macOS/4.151.1": {
       "type": "package",

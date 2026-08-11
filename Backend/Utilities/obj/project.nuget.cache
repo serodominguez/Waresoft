@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "oIS09nFIGBM=",
+  "dgSpecHash": "HyoFvZZNSK4=",
   "success": true,
   "projectFilePath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Utilities\\Utilities.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.10\\microsoft.netcore.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\10.0.10\\microsoft.netcore.app.runtime.linux-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.10\\microsoft.aspnetcore.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\10.0.10\\microsoft.aspnetcore.app.runtime.linux-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\10.0.10\\microsoft.netcore.app.host.linux-x64.10.0.10.nupkg.sha512"
+  ],
   "logs": []
 }

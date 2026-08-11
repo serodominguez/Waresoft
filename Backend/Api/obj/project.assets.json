@@ -162,7 +162,7 @@
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
-          "lib/net6.0/Humanizer.dll": {
+          "lib/net6.0/_._": {
             "related": ".xml"
           }
         },
@@ -744,7 +744,7 @@
       "Microsoft.AspNetCore.Razor.Language/6.0.24": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Microsoft.AspNetCore.Razor.Language.dll": {}
+          "lib/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Razor.Language.dll": {}
@@ -775,7 +775,7 @@
           "System.Reflection.MetadataLoadContext": "8.0.0"
         },
         "compile": {
-          "ref/net8.0/Microsoft.Build.dll": {
+          "ref/net8.0/_._": {
             "related": ".xml"
           }
         },
@@ -788,7 +788,7 @@
       "Microsoft.Build.Framework/18.0.2": {
         "type": "package",
         "compile": {
-          "ref/net10.0/Microsoft.Build.Framework.dll": {
+          "ref/net10.0/_._": {
             "related": ".xml"
           }
         },
@@ -811,7 +811,7 @@
           "Microsoft.CodeAnalysis.Analyzers": "3.11.0"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.dll": {
+          "lib/net9.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -869,7 +869,7 @@
           "Microsoft.CodeAnalysis.Common": "[5.0.0]"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.CSharp.dll": {
+          "lib/net9.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -937,7 +937,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.CSharp.Features.dll": {
+          "lib/net9.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -999,7 +999,7 @@
           "System.Composition": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.CSharp.Workspaces.dll": {
+          "lib/net9.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -1057,7 +1057,7 @@
           "System.Data.DataSetExtensions": "4.5.0"
         },
         "compile": {
-          "lib/netstandard2.0/Microsoft.CodeAnalysis.Elfie.dll": {}
+          "lib/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.CodeAnalysis.Elfie.dll": {}
@@ -1078,7 +1078,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.Features.dll": {
+          "lib/net9.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -1137,7 +1137,7 @@
           "Microsoft.CodeAnalysis.Common": "4.0.0"
         },
         "compile": {
-          "lib/netstandard2.0/Microsoft.CodeAnalysis.Razor.dll": {}
+          "lib/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.CodeAnalysis.Razor.dll": {}
@@ -1150,7 +1150,7 @@
           "Microsoft.CodeAnalysis.Common": "[5.0.0]"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.Scripting.dll": {
+          "lib/net9.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -1210,7 +1210,7 @@
           "System.Composition": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.Workspaces.dll": {
+          "lib/net9.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -1273,10 +1273,7 @@
           "System.Composition": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/Microsoft.CodeAnalysis.ExternalAccess.RazorCompiler.dll": {},
-          "lib/net9.0/Microsoft.CodeAnalysis.Workspaces.MSBuild.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net9.0/_._": {}
         },
         "runtime": {
           "lib/net9.0/Microsoft.CodeAnalysis.ExternalAccess.RazorCompiler.dll": {},
@@ -1457,7 +1454,7 @@
       "Microsoft.DiaSymReader/2.0.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Microsoft.DiaSymReader.dll": {
+          "lib/netstandard2.0/_._": {
             "related": ".pdb;.xml"
           }
         },
@@ -1485,7 +1482,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net9.0/Microsoft.DotNet.Scaffolding.Shared.dll": {
+          "lib/net9.0/_._": {
             "related": ".xml"
           }
         },
@@ -1716,7 +1713,7 @@
       "Microsoft.NET.StringTools/17.11.48": {
         "type": "package",
         "compile": {
-          "ref/net8.0/Microsoft.NET.StringTools.dll": {
+          "ref/net8.0/_._": {
             "related": ".xml"
           }
         },
@@ -1755,7 +1752,7 @@
       "Microsoft.VisualStudio.SolutionPersistence/1.0.52": {
         "type": "package",
         "compile": {
-          "lib/net8.0/Microsoft.VisualStudio.SolutionPersistence.dll": {
+          "lib/net8.0/_._": {
             "related": ".xml"
           }
         },
@@ -1790,7 +1787,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net10.0/Microsoft.VisualStudio.Web.CodeGeneration.dll": {
+          "lib/net10.0/_._": {
             "related": ".xml"
           }
         },
@@ -1822,7 +1819,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net10.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll": {
+          "lib/net10.0/_._": {
             "related": ".xml"
           }
         },
@@ -1858,7 +1855,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net10.0/dotnet-aspnet-codegenerator-design.dll": {
+          "lib/net10.0/_._": {
             "related": ".xml"
           }
         },
@@ -1894,7 +1891,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net10.0/Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll": {
+          "lib/net10.0/_._": {
             "related": ".runtimeconfig.json;.xml"
           }
         },
@@ -1926,7 +1923,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net10.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll": {
+          "lib/net10.0/_._": {
             "related": ".xml"
           }
         },
@@ -1956,7 +1953,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net10.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll": {
+          "lib/net10.0/_._": {
             "related": ".xml"
           }
         },
@@ -1992,7 +1989,7 @@
           "System.Security.Cryptography.ProtectedData": "9.0.6"
         },
         "compile": {
-          "lib/net10.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {
+          "lib/net10.0/_._": {
             "related": ".xml"
           }
         },
@@ -2030,7 +2027,7 @@
           "System.CodeDom": "6.0.0"
         },
         "compile": {
-          "lib/net6.0/Mono.TextTemplating.dll": {}
+          "lib/net6.0/_._": {}
         },
         "runtime": {
           "lib/net6.0/Mono.TextTemplating.dll": {}
@@ -2093,7 +2090,7 @@
           "NuGet.Protocol": "6.12.1"
         },
         "compile": {
-          "lib/net5.0/NuGet.DependencyResolver.Core.dll": {
+          "lib/net5.0/_._": {
             "related": ".xml"
           }
         },
@@ -2123,7 +2120,7 @@
           "NuGet.Versioning": "6.12.1"
         },
         "compile": {
-          "lib/netstandard2.0/NuGet.LibraryModel.dll": {
+          "lib/netstandard2.0/_._": {
             "related": ".xml"
           }
         },
@@ -2158,7 +2155,7 @@
           "NuGet.DependencyResolver.Core": "6.12.1"
         },
         "compile": {
-          "lib/net5.0/NuGet.ProjectModel.dll": {
+          "lib/net5.0/_._": {
             "related": ".xml"
           }
         },
@@ -2541,69 +2538,6 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.Linux.NoDependencies/4.151.1": {
-        "type": "package",
-        "compile": {
-          "lib/net10.0/_._": {}
-        },
-        "runtime": {
-          "lib/net10.0/_._": {}
-        },
-        "runtimeTargets": {
-          "runtimes/linux-arm/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-arm"
-          },
-          "runtimes/linux-arm64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-arm64"
-          },
-          "runtimes/linux-bionic-arm64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-bionic-arm64"
-          },
-          "runtimes/linux-bionic-x64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-bionic-x64"
-          },
-          "runtimes/linux-loongarch64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-loongarch64"
-          },
-          "runtimes/linux-musl-arm/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-musl-arm"
-          },
-          "runtimes/linux-musl-arm64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-musl-arm64"
-          },
-          "runtimes/linux-musl-loongarch64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-musl-loongarch64"
-          },
-          "runtimes/linux-musl-riscv64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-musl-riscv64"
-          },
-          "runtimes/linux-musl-x64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-musl-x64"
-          },
-          "runtimes/linux-riscv64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-riscv64"
-          },
-          "runtimes/linux-x64/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-x64"
-          },
-          "runtimes/linux-x86/native/libSkiaSharp.so": {
-            "assetType": "native",
-            "rid": "linux-x86"
-          }
-        }
-      },
       "SkiaSharp.NativeAssets.macOS/4.151.1": {
         "type": "package",
         "compile": {
@@ -2723,7 +2657,7 @@
       "System.CodeDom/6.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/System.CodeDom.dll": {
+          "lib/net6.0/_._": {
             "related": ".xml"
           }
         },
@@ -2758,7 +2692,7 @@
       "System.Composition.AttributedModel/9.0.0": {
         "type": "package",
         "compile": {
-          "lib/net9.0/System.Composition.AttributedModel.dll": {
+          "lib/net9.0/_._": {
             "related": ".xml"
           }
         },
@@ -2777,7 +2711,7 @@
           "System.Composition.AttributedModel": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/System.Composition.Convention.dll": {
+          "lib/net9.0/_._": {
             "related": ".xml"
           }
         },
@@ -2796,7 +2730,7 @@
           "System.Composition.Runtime": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/System.Composition.Hosting.dll": {
+          "lib/net9.0/_._": {
             "related": ".xml"
           }
         },
@@ -2812,7 +2746,7 @@
       "System.Composition.Runtime/9.0.0": {
         "type": "package",
         "compile": {
-          "lib/net9.0/System.Composition.Runtime.dll": {
+          "lib/net9.0/_._": {
             "related": ".xml"
           }
         },
@@ -2833,7 +2767,7 @@
           "System.Composition.Runtime": "9.0.0"
         },
         "compile": {
-          "lib/net9.0/System.Composition.TypedParts.dll": {
+          "lib/net9.0/_._": {
             "related": ".xml"
           }
         },
@@ -2868,7 +2802,7 @@
       "System.Data.DataSetExtensions/4.5.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/System.Data.DataSetExtensions.dll": {}
+          "ref/netstandard2.0/_._": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Data.DataSetExtensions.dll": {}
@@ -2952,7 +2886,7 @@
       "System.Reflection.MetadataLoadContext/8.0.0": {
         "type": "package",
         "compile": {
-          "lib/net8.0/System.Reflection.MetadataLoadContext.dll": {
+          "lib/net8.0/_._": {
             "related": ".xml"
           }
         },
@@ -3026,7 +2960,6 @@
           "QRCoder": "1.8.0",
           "QuestPDF": "2026.7.2",
           "SkiaSharp": "4.151.1",
-          "SkiaSharp.NativeAssets.Linux.NoDependencies": "4.151.1",
           "Utilities": "1.0.0",
           "ZXing.Net": "0.16.11"
         },
@@ -7388,45 +7321,6 @@
         "skiasharp.nuspec"
       ]
     },
-    "SkiaSharp.NativeAssets.Linux.NoDependencies/4.151.1": {
-      "sha512": "lqPwXxYhKlmRfCuq1vGRLYEtRo3tn3ij1IGi0tI2qzkKHU6HOznHqZW+NqHV8aSKasPmRawbwlKLLPI132+SEA==",
-      "type": "package",
-      "path": "skiasharp.nativeassets.linux.nodependencies/4.151.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.txt",
-        "README.md",
-        "THIRD-PARTY-NOTICES.txt",
-        "build/net462/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
-        "build/net48/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
-        "buildTransitive/net462/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
-        "buildTransitive/net48/SkiaSharp.NativeAssets.Linux.NoDependencies.targets",
-        "icon.png",
-        "lib/net10.0/_._",
-        "lib/net462/_._",
-        "lib/net48/_._",
-        "lib/net6.0/_._",
-        "lib/net9.0/_._",
-        "lib/netstandard2.0/_._",
-        "lib/netstandard2.1/_._",
-        "runtimes/linux-arm/native/libSkiaSharp.so",
-        "runtimes/linux-arm64/native/libSkiaSharp.so",
-        "runtimes/linux-bionic-arm64/native/libSkiaSharp.so",
-        "runtimes/linux-bionic-x64/native/libSkiaSharp.so",
-        "runtimes/linux-loongarch64/native/libSkiaSharp.so",
-        "runtimes/linux-musl-arm/native/libSkiaSharp.so",
-        "runtimes/linux-musl-arm64/native/libSkiaSharp.so",
-        "runtimes/linux-musl-loongarch64/native/libSkiaSharp.so",
-        "runtimes/linux-musl-riscv64/native/libSkiaSharp.so",
-        "runtimes/linux-musl-x64/native/libSkiaSharp.so",
-        "runtimes/linux-riscv64/native/libSkiaSharp.so",
-        "runtimes/linux-x64/native/libSkiaSharp.so",
-        "runtimes/linux-x86/native/libSkiaSharp.so",
-        "skiasharp.nativeassets.linux.nodependencies.4.151.1.nupkg.sha512",
-        "skiasharp.nativeassets.linux.nodependencies.nuspec"
-      ]
-    },
     "SkiaSharp.NativeAssets.macOS/4.151.1": {
       "sha512": "nLXwdhi0oB7pqqNLbSOLX+FIZQOMAU/yFPspzcDTJjTmPbMWyp0JWyeVj8sFJ/cweurEfT0J/lvfgdXX2EFHXA==",
       "type": "package",
@@ -8258,6 +8152,8 @@
             "version": "[10.0.10, )"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
             "target": "Package",
             "version": "[10.0.2, )"
           },

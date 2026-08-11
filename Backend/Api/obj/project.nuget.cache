@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "w4AWY4LHbzU=",
+  "dgSpecHash": "FfjVR6h6PoI=",
   "success": true,
   "projectFilePath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj",
   "expectedPackageFiles": [
@@ -138,7 +138,6 @@
     "C:\\Users\\Sergio\\.nuget\\packages\\serilog.sinks.mssqlserver\\10.0.0\\serilog.sinks.mssqlserver.10.0.0.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp\\4.151.1\\skiasharp.4.151.1.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp.nativeassets.linux.nodependencies\\4.151.1\\skiasharp.nativeassets.linux.nodependencies.4.151.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp.nativeassets.macos\\4.151.1\\skiasharp.nativeassets.macos.4.151.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\skiasharp.nativeassets.win32\\4.151.1\\skiasharp.nativeassets.win32.4.151.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\swashbuckle.aspnetcore\\10.2.3\\swashbuckle.aspnetcore.10.2.3.nupkg.sha512",

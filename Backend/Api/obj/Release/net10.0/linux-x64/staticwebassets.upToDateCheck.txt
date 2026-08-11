@@ -1,0 +1,145 @@
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\inventoryStore-B4rTBehs.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\usePagination-C7VfzYkp.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\favicon.svg
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\InventoryView-BpA-VEik.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CustomerView-D94OuXMf.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\webfontloader-DBC6ooZR.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VForm-CLspLPMz.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\currency-BcfwyMpL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonModal-Bdo5Pvon.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\productStore-B-5biYTB.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\index-COtFG-s1.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\manifest.webmanifest
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\RoleView-mHorBjZK.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VCheckbox-mJlZkhXv.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\GoodsReceiptView-B3wdbQEW.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ConsolidatedView-B482cdTG.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonProductOut-CrpaUDLb.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VDateInput-DAjyZyQo.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\transferStore-T1pcEBPL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\useResponsiveTooltip-CmSpt3XG.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\SupplierView-9NwQUQN8.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VDateInput-DNbskGMP.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\robots.txt
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\UserView-CB7lAZNL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VFileInput-Dmd-2ca9.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VFileInput-HYy7i9zh.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonFilters-C2WG0b5L.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\PermissionView-CGAtr4Rj.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\useModelSync-8pdUyyPK.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VAutocomplete-D48FgPMA.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\index-CR32wOIR.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\KardexView-Cm-GWSWm.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\favicon.ico
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VCheckbox-ChRKi1kj.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VNavigationDrawer-DBk7LT9M.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\safari-pinned-tab.svg
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\rolldown-runtime-hePW80VL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VAutocomplete-BcDF2DaG.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\GoodsIssueView-CH1PWFt6.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\BrandView-mW3AZLA-.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VSwitch-FGoTnWb6.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VNavigationDrawer-wQBy6Uy6.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\TransferView-BIPXRwau.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\workbox-9c191d2f.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\sw.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ProductView-B_rqQCet.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VSwitch-DmoFAcRp.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\registerSW.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonViewerImage-xXGciRoS.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\index.html
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\roleStore-DXUSWFQ_.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\StoreView-CZWVpMpY.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ModuleView-CY5oczuO.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\errorHandler-CqVvt2zW.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\goodsStatus-l0qx4S64.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\errorHandler-Cjodfdmm.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CategoryView-BVhAZf7p.js
+wwwroot\assets\BrandView-mW3AZLA-.js
+wwwroot\assets\CategoryView-BVhAZf7p.js
+wwwroot\assets\CommonFilters-C2WG0b5L.js
+wwwroot\assets\CommonModal-Bdo5Pvon.js
+wwwroot\assets\CommonProductOut-CrpaUDLb.js
+wwwroot\assets\CommonViewerImage-xXGciRoS.js
+wwwroot\assets\ConsolidatedView-B482cdTG.js
+wwwroot\assets\CustomerView-D94OuXMf.js
+wwwroot\assets\GoodsIssueView-CH1PWFt6.js
+wwwroot\assets\GoodsReceiptView-B3wdbQEW.js
+wwwroot\assets\InventoryView-BpA-VEik.js
+wwwroot\assets\KardexView-Cm-GWSWm.js
+wwwroot\assets\ModuleView-CY5oczuO.js
+wwwroot\assets\PermissionView-CGAtr4Rj.js
+wwwroot\assets\ProductView-B_rqQCet.js
+wwwroot\assets\RoleView-mHorBjZK.js
+wwwroot\assets\StoreView-CZWVpMpY.js
+wwwroot\assets\SupplierView-9NwQUQN8.js
+wwwroot\assets\TransferView-BIPXRwau.js
+wwwroot\assets\UserView-CB7lAZNL.js
+wwwroot\assets\VAutocomplete-BcDF2DaG.js
+wwwroot\assets\VAutocomplete-D48FgPMA.css
+wwwroot\assets\VCheckbox-ChRKi1kj.css
+wwwroot\assets\VCheckbox-mJlZkhXv.js
+wwwroot\assets\VDateInput-DAjyZyQo.css
+wwwroot\assets\VDateInput-DNbskGMP.js
+wwwroot\assets\VFileInput-Dmd-2ca9.js
+wwwroot\assets\VFileInput-HYy7i9zh.css
+wwwroot\assets\VForm-CLspLPMz.js
+wwwroot\assets\VNavigationDrawer-DBk7LT9M.js
+wwwroot\assets\VNavigationDrawer-wQBy6Uy6.css
+wwwroot\assets\VSwitch-DmoFAcRp.js
+wwwroot\assets\VSwitch-FGoTnWb6.css
+wwwroot\assets\currency-BcfwyMpL.js
+wwwroot\assets\errorHandler-Cjodfdmm.js
+wwwroot\assets\errorHandler-CqVvt2zW.css
+wwwroot\assets\goodsStatus-l0qx4S64.js
+wwwroot\assets\index-COtFG-s1.js
+wwwroot\assets\index-CR32wOIR.css
+wwwroot\assets\inventoryStore-B4rTBehs.js
+wwwroot\assets\materialdesignicons-webfont-B7mPwVP_.ttf
+wwwroot\assets\materialdesignicons-webfont-CSr8KVlo.eot
+wwwroot\assets\materialdesignicons-webfont-Dp5v-WZN.woff2
+wwwroot\assets\materialdesignicons-webfont-PXm3-2wK.woff
+wwwroot\assets\productStore-B-5biYTB.js
+wwwroot\assets\roleStore-DXUSWFQ_.js
+wwwroot\assets\rolldown-runtime-hePW80VL.js
+wwwroot\assets\transferStore-T1pcEBPL.js
+wwwroot\assets\useModelSync-8pdUyyPK.js
+wwwroot\assets\usePagination-C7VfzYkp.js
+wwwroot\assets\useResponsiveTooltip-CmSpt3XG.js
+wwwroot\assets\webfontloader-DBC6ooZR.js
+wwwroot\favicon.ico
+wwwroot\img\icons\android-chrome-192x192.png
+wwwroot\img\icons\android-chrome-512x512.png
+wwwroot\img\icons\android-chrome-maskable-192x192.png
+wwwroot\img\icons\android-chrome-maskable-512x512.png
+wwwroot\img\icons\apple-touch-icon-120x120.png
+wwwroot\img\icons\apple-touch-icon-152x152.png
+wwwroot\img\icons\apple-touch-icon-180x180.png
+wwwroot\img\icons\apple-touch-icon-60x60.png
+wwwroot\img\icons\apple-touch-icon-76x76.png
+wwwroot\img\icons\apple-touch-icon.png
+wwwroot\img\icons\favicon-16x16.png
+wwwroot\img\icons\favicon-32x32.png
+wwwroot\img\icons\favicon.svg
+wwwroot\img\icons\msapplication-icon-144x144.png
+wwwroot\img\icons\mstile-150x150-logo.png
+wwwroot\img\icons\safari-pinned-tab.svg
+wwwroot\index.html
+wwwroot\manifest.webmanifest
+wwwroot\products\12cc754c-0920-4327-affd-a5236908704b.jpg
+wwwroot\products\34add40f-1d89-4954-bf93-850f4c855692.jpg
+wwwroot\products\3ce9f3cd-5cc5-41b6-9fa4-b419f168cd19.jpg
+wwwroot\products\45987e0c-ae5a-4494-b339-ade018cc40cd.jpg
+wwwroot\products\539b8afc-aced-4a32-9e33-ef010c056715.jpg
+wwwroot\products\60518d69-6c23-4972-bf79-25e6244ba98c.jpg
+wwwroot\products\9d389187-175e-4f34-aa6b-e687ba66a0ea.jpg
+wwwroot\products\b0d66e33-83bd-48dc-8197-9059965dce29.jpg
+wwwroot\products\b8c2269f-4dca-4c4f-8694-6ed30fb17cef.jpg
+wwwroot\products\cbe8e188-3e43-458a-8bd2-6733dabacea9.jpg
+wwwroot\products\de0239ed-e0c9-4b41-8997-cd8fb7e0a3ea.jpg
+wwwroot\products\f10e418f-2a10-4a02-83a7-b26b0adba437.jpg
+wwwroot\products\f5ff2b45-4989-4528-aa6f-be704e523552.jpg
+wwwroot\registerSW.js
+wwwroot\robots.txt
+wwwroot\sw.js
+wwwroot\workbox-9c191d2f.js

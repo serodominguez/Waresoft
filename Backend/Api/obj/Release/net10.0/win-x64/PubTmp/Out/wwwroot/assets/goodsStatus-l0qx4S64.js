@@ -1,0 +1,1 @@
+var e=[`Completado`,`Cancelado`,`Todos`],t={Cancelado:0,Completado:1,Todos:2};export{e as n,t};

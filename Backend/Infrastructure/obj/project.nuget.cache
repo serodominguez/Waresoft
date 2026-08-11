@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IP0CDQMurVg=",
+  "dgSpecHash": "yAFv7Zm1Dus=",
   "success": true,
   "projectFilePath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -51,7 +51,13 @@
     "C:\\Users\\Sergio\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\system.linq.dynamic.core\\1.7.3\\system.linq.dynamic.core.1.7.3.nupkg.sha512",
     "C:\\Users\\Sergio\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.13\\system.security.cryptography.pkcs.9.0.13.nupkg.sha512",
-    "C:\\Users\\Sergio\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.15\\system.security.cryptography.protecteddata.9.0.15.nupkg.sha512"
+    "C:\\Users\\Sergio\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.15\\system.security.cryptography.protecteddata.9.0.15.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.10\\microsoft.netcore.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\10.0.10\\microsoft.netcore.app.runtime.linux-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.10\\microsoft.aspnetcore.app.runtime.win-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\10.0.10\\microsoft.aspnetcore.app.runtime.linux-x64.10.0.10.nupkg.sha512",
+    "C:\\Users\\Sergio\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\10.0.10\\microsoft.netcore.app.host.linux-x64.10.0.10.nupkg.sha512"
   ],
   "logs": []
 }

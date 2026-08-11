@@ -1,0 +1,1 @@
+import{n as e,r as t}from"./useResponsiveTooltip-CmSpt3XG.js";var n=new class extends e{constructor(){super({endpoint:`Role`,downloadFileName:`Roles`})}},r=t(`role`,n);export{r as t};
