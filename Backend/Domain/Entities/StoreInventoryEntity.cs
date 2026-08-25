@@ -12,6 +12,7 @@
         public DateTime? AuditCreateDate { get; set; }
         public int? AuditUpdateUser { get; set; }
         public DateTime? AuditUpdateDate { get; set; }
+
         public virtual ProductEntity Product { get; set; } = null!;
         public virtual StoreEntity Store { get; set; } = null!;
     }

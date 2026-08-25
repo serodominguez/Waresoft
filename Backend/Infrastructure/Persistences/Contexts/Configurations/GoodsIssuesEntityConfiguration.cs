@@ -36,6 +36,9 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.Property(i => i.IdStore)
                 .IsRequired();
 
+            builder.Property(i => i.IdPeriod)
+                .IsRequired();
+
             builder.Property(i => i.Status);
 
             builder.HasOne(u => u.User)
@@ -45,6 +48,11 @@ namespace Infrastructure.Persistences.Contexts.Configurations
             builder.HasOne(s => s.Store)
                 .WithMany(i => i.GoodsIssue)
                 .HasForeignKey(s => s.IdStore);
+
+            builder.HasOne(i => i.InventoryPeriod)
+                .WithMany(p => p.GoodsIssue)
+                .HasForeignKey(i => i.IdPeriod)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -14,6 +14,8 @@
         public int IdStoreDestination { get; init; }
         public string? StoreDestination { get; init; }
         public string? TypeDestination { get; init; }
+        public int IdPeriod { get; init; }
+        public string? PeriodName { get; init; }
         public int? AuditCreateUser { get; init; }
         public DateTime? AuditCreateDate { get; init; }
         public int? AuditUpdateUser { get; init; }

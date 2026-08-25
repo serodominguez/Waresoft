@@ -1,6 +1,9 @@
-﻿using Domain.Entities;
+﻿using DocumentFormat.OpenXml.InkML;
+using Domain.Entities;
 using Infrastructure.Persistences.Contexts;
 using Infrastructure.Persistences.Interfaces;
+using Infrastructure.Persistences.Interfaces.InventoryPeriod;
+using Infrastructure.Persistences.Repositories.InventoryPeriod;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data;
 
@@ -19,6 +22,7 @@ namespace Infrastructure.Persistences.Repositories
         private IGoodsIssueQueryRepository _goodsIssueQuery = null!;
         private IGoodsReceiptDetailsQueryRepository _goodsReceiptDetailsQuery = null!;
         private IGoodsReceiptQueryRepository _goodsReceiptQuery = null!;
+        private IInventoryPeriodQueryRepository _inventoryPeriodQuery = null!;
         private IModuleQueryRepository _moduleQuery = null!;
         private IPermissionQueryRepository _permissionQuery = null!;
         private IProductQueryRepository _productQuery = null!;
@@ -37,6 +41,7 @@ namespace Infrastructure.Persistences.Repositories
         private IGenericRepository<CustomerEntity> _customerCommand = null!;
         private IGenericRepository<GoodsIssueEntity> _goodsIssueCommand = null!;
         private IGenericRepository<GoodsReceiptEntity> _goodsReceiptCommand = null!;
+        private IInventoryPeriodCommandRepository _inventoryPeriodCommand = null!;
         private IGenericRepository<ModuleEntity> _moduleCommand = null!;
         private IGenericRepository<PermissionEntity> _permissionCommand = null!;
         private IGenericRepository<ProductEntity> _productCommand = null!;
@@ -62,6 +67,7 @@ namespace Infrastructure.Persistences.Repositories
         public IGoodsIssueQueryRepository GoodsIssueQuery => _goodsIssueQuery ?? new GoodsIssueQueryRepository(_context);
         public IGoodsReceiptDetailsQueryRepository GoodsReceiptDetailsQuery => _goodsReceiptDetailsQuery ?? new GoodsReceiptDetailsQueryRepository(_context);
         public IGoodsReceiptQueryRepository GoodsReceiptQuery => _goodsReceiptQuery ?? new GoodsReceiptQueryRepository(_context);
+        public IInventoryPeriodQueryRepository InventoryPeriodQuery => _inventoryPeriodQuery ?? new InventoryPeriodQueryRepository(_context);
         public IModuleQueryRepository ModuleQuery => _moduleQuery ?? new ModuleQueryRepository(_context);
         public IPermissionQueryRepository PermissionQuery => _permissionQuery ?? new PermissionQueryRepository(_context);
         public IProductQueryRepository ProductQuery => _productQuery ?? new ProductQueryRepository(_context);
@@ -80,6 +86,7 @@ namespace Infrastructure.Persistences.Repositories
         public IGenericRepository<CustomerEntity> CustomerCommand => _customerCommand ?? new GenericRepository<CustomerEntity>(_context);
         public IGenericRepository<GoodsIssueEntity> GoodsIssueCommand => _goodsIssueCommand ?? new GenericRepository<GoodsIssueEntity>(_context);
         public IGenericRepository<GoodsReceiptEntity> GoodsReceiptCommand => _goodsReceiptCommand ?? new GenericRepository<GoodsReceiptEntity>(_context);
+        public IInventoryPeriodCommandRepository InventoryPeriodCommand => _inventoryPeriodCommand ?? new InventoryPeriodCommandRepository(_context);
         public IGenericRepository<ModuleEntity> ModuleCommand => _moduleCommand ?? new GenericRepository<ModuleEntity>(_context);
         public IGenericRepository<PermissionEntity> PermissionCommand => _permissionCommand ?? new GenericRepository<PermissionEntity>(_context);
         public IGenericRepository<ProductEntity> ProductCommand => _productCommand ?? new GenericRepository<ProductEntity>(_context);

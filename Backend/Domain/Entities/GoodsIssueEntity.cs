@@ -8,10 +8,12 @@
         public string? Annotations { get; set; }
         public int? IdUser { get; set; }
         public int IdStore { get; set; }
+        public int IdPeriod { get; set; }
         public int Status { get; set; }
 
         public virtual UserEntity? User { get; set; }
         public virtual StoreEntity Store { get; set; } = null!;
+        public virtual InventoryPeriodEntity InventoryPeriod { get; set; } = null!;
         public virtual ICollection<GoodsIssueDetailsEntity> GoodsIssueDetails { get; set; } = null!;
     }
 }

@@ -328,7 +328,11 @@ const saveTransfer = async () => {
       close();
     }
   } catch (error) {
-    handleApiError(error, 'Error al registrar el traspaso');
+    const serverMessage = (error as any)?.response?.data?.message ?? (error as any)?.message ?? '';
+    const message = serverMessage === 'No existe un período abierto para este almacén'
+      ? serverMessage
+      : 'Error al registrar el traspaso';
+    handleApiError(error, message);
   } finally {
     saving.value = false;
   }

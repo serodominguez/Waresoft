@@ -1,0 +1,39 @@
+2026-08-25T15:52:19.7231180+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 1.9.1+cb5afc3bb9bb01ebd75b57f89e8358b914ee2a49
+2026-08-25T15:52:19.7337354+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-08-25T15:52:19.7346684+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-08-25T15:52:19.7346724+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 15:52:19.702
+2026-08-25T15:52:19.7347614+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 1748
+2026-08-25T15:52:19.7347916+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-08-25T15:52:19.7348081+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-08-25T15:52:19.7348183+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-08-25T15:52:19.7349024+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-08-25T15:52:19.7350732+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 52382'
+2026-08-25T15:52:19.7358635+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-08-25T15:52:19.7570070+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-08-25T15:52:19.7720649+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-08-25T15:52:20.0090857+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '3.2.2' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-08-25T15:52:20.0205369+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v3.2.2+728c1dce01 (64-bit .NET 10.0.11)
+2026-08-25T15:52:20.0718154+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-08-25T15:52:20.1436535+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-08-25T15:52:20.1691062+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-08-25T15:52:23.0667209+00:00 xUnit.net ERROR     Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenNoOpenPeriod_ReturnsError [FAIL]
+2026-08-25T15:52:23.0672552+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-08-25T15:52:23.0672640+00:00 xUnit.net INFORMATION                     ↓ (pos 3)
+2026-08-25T15:52:23.0672669+00:00 xUnit.net INFORMATION       Expected: "No existe un período abierto para este almacén"
+2026-08-25T15:52:23.0672677+00:00 xUnit.net INFORMATION       Actual:   "No se encotrarón registros. para el producto con I"···
+2026-08-25T15:52:23.0672685+00:00 xUnit.net INFORMATION                     ↑ (pos 3)
+2026-08-25T15:52:23.0676628+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T15:52:23.0684519+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\GoodsIssue\GoodsIssueServiceTest.cs(295,0): at Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenNoOpenPeriod_ReturnsError()
+2026-08-25T15:52:23.0684609+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T15:52:23.5804778+00:00 xUnit.net ERROR     Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenSendingCorrectValues_RegisteredSuccessfully [FAIL]
+2026-08-25T15:52:23.5805031+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-08-25T15:52:23.5805045+00:00 xUnit.net INFORMATION                   ↓ (pos 1)
+2026-08-25T15:52:23.5805054+00:00 xUnit.net INFORMATION       Expected: "Se registró correctamente."
+2026-08-25T15:52:23.5805080+00:00 xUnit.net INFORMATION       Actual:   "Stock no disponible. para el producto con Id:1"
+2026-08-25T15:52:23.5805225+00:00 xUnit.net INFORMATION                   ↑ (pos 1)
+2026-08-25T15:52:23.5805465+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T15:52:23.5805660+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\GoodsIssue\GoodsIssueServiceTest.cs(237,0): at Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenSendingCorrectValues_RegisteredSuccessfully()
+2026-08-25T15:52:23.5805687+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T15:52:23.6006086+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-08-25T15:52:23.6067738+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-08-25T15:52:23.6124164+00:00 xUnit.net INFORMATION    Test.Api  Total: 14, Errors: 0, Failed: 2, Skipped: 0, Not Run: 0, Time: 3.436s

@@ -14,6 +14,8 @@
         public string? CompanyName { get; init; }
         public int IdStore { get; init; }
         public string? StoreName { get; init; }
+        public int IdPeriod { get; init; }
+        public string? PeriodName { get; init; }
         public int? AuditCreateUser { get; init; }
         public DateTime? AuditCreateDate { get; init; }
         public int Status { get; init; }

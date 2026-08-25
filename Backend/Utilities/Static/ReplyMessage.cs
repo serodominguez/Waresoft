@@ -15,6 +15,7 @@
         public const string MESSAGE_NOT_FOUND = "No se encotrarón registros.";
         public const string MESSAGE_QUERY = "Consulta Exitosa.";
         public const string MESSAGE_QUERY_EMPTY = "No se realizarón cambios.";
+        public const string MESSAGE_PERIOD_NOT_FOUND = "No existe un período abierto para este almacén";
         public const string MESSAGE_ROLE_NOT_FOUND = "Rol no encontrado.";
         public const string MESSAGE_ROLE_WITHOUT_PERMISSIONS = "El rol no tiene permisos asignados.";
         public const string MESSAGE_STOCK_NOT_AVAILABLE = "Stock no disponible.";

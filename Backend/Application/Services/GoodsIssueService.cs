@@ -144,6 +144,18 @@ namespace Application.Services
                 return response;
             }
 
+            var currentPeriod = await _unitOfWork.InventoryPeriodQuery
+                .GetPeriodListQueryable(authenticatedUserStoreId)
+                .Where(p => p.Status == "OPEN")
+                .FirstOrDefaultAsync();
+
+            if (currentPeriod is null)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_PERIOD_NOT_FOUND;
+                return response;
+            }
+
             if (requestDto.Type != ContainerConstants.Adjustment)
             {
                 var productIds = requestDto.GoodsIssueDetails.Select(x => x.IdProduct).ToList();
@@ -171,7 +183,7 @@ namespace Application.Services
 
                 var entity = GoodsIssueMapp.GoodsIssueMapping(requestDto);
                 entity.Code = generatedCode;
-
+                entity.IdPeriod = currentPeriod.IdPeriod;
                 //if (entity.Type != ContainerConstants.Consignment ||  entity.IdUser == 0)
                 //{
                 //    entity.IdUser = authenticatedUserId;

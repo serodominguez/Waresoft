@@ -21,6 +21,8 @@ namespace Infrastructure.Persistences.Projections
                 CompanyName = r.Supplier!.CompanyName,
                 IdStore = r.IdStore,
                 StoreName = r.Store.StoreName,
+                IdPeriod = r.IdPeriod,
+                PeriodName = r.InventoryPeriod.PeriodName,
                 AuditCreateUser = r.AuditCreateUser,
                 AuditCreateDate = r.AuditCreateDate,
                 Status = r.Status
@@ -41,6 +43,8 @@ namespace Infrastructure.Persistences.Projections
                 CompanyName = r.Supplier!.CompanyName,
                 IdStore = r.IdStore,
                 StoreName = r.Store.StoreName,
+                IdPeriod = r.IdPeriod,
+                PeriodName = r.InventoryPeriod.PeriodName,
                 AuditCreateUser = r.AuditCreateUser,
                 AuditCreateDate = r.AuditCreateDate,
                 Status = r.Status,

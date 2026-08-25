@@ -9,10 +9,12 @@
         public string? Annotations { get; set; }
         public int IdStoreOrigin { get; set; }
         public int IdStoreDestination { get; set; }
+        public int IdPeriod { get; set; }
         public int Status { get; set; }
 
         public virtual StoreEntity StoreOrigin { get; set; } = null!;
         public virtual StoreEntity StoreDestination { get; set; } = null!;
+        public virtual InventoryPeriodEntity InventoryPeriod { get; set; } = null!;
         public ICollection<TransferDetailsEntity> TransferDetails { get; set; } = new List<TransferDetailsEntity>();
     }
 }

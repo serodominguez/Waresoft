@@ -1,0 +1,51 @@
+2026-08-25T19:19:09.1087231+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 1.9.1+cb5afc3bb9bb01ebd75b57f89e8358b914ee2a49
+2026-08-25T19:19:09.1192503+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-08-25T19:19:09.1201427+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-08-25T19:19:09.1201466+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 19:19:09.088
+2026-08-25T19:19:09.1202248+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 3164
+2026-08-25T19:19:09.1202498+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-08-25T19:19:09.1202642+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-08-25T19:19:09.1202735+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-08-25T19:19:09.1203562+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-08-25T19:19:09.1205557+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 53420'
+2026-08-25T19:19:09.1214863+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-08-25T19:19:09.1427711+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-08-25T19:19:09.1576650+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-08-25T19:19:09.3839198+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '3.2.2' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-08-25T19:19:09.3955125+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v3.2.2+728c1dce01 (64-bit .NET 10.0.11)
+2026-08-25T19:19:09.4481153+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-08-25T19:19:09.5207545+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-08-25T19:19:09.5465325+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-08-25T19:19:12.3050317+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference [FAIL]
+2026-08-25T19:19:12.3055569+00:00 xUnit.net INFORMATION       System.InvalidOperationException : Sequence contains no matching element
+2026-08-25T19:19:12.3059673+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T19:19:12.3065125+00:00 xUnit.net INFORMATION            at System.Linq.ThrowHelper.ThrowNoMatchException()
+2026-08-25T19:19:12.3065292+00:00 xUnit.net INFORMATION            at System.Linq.Enumerable.First[TSource](IEnumerable`1 source, Func`2 predicate)
+2026-08-25T19:19:12.3065540+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(363,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference()
+2026-08-25T19:19:12.3065591+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T19:19:12.3149274+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenOpenPeriodExistsWithoutPhysicalCount_ClosesSuccessfully [FAIL]
+2026-08-25T19:19:12.3149502+00:00 xUnit.net INFORMATION       System.InvalidOperationException : Sequence contains no matching element
+2026-08-25T19:19:12.3149849+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T19:19:12.3149995+00:00 xUnit.net INFORMATION            at System.Linq.ThrowHelper.ThrowNoMatchException()
+2026-08-25T19:19:12.3150066+00:00 xUnit.net INFORMATION            at System.Linq.Enumerable.First[TSource](IEnumerable`1 source, Func`2 predicate)
+2026-08-25T19:19:12.3150321+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(326,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenOpenPeriodExistsWithoutPhysicalCount_ClosesSuccessfully()
+2026-08-25T19:19:12.3150365+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T19:19:12.3206222+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.OpenPeriod_WhenValidDataAndNoPreviousPeriod_OpensSuccessfully [FAIL]
+2026-08-25T19:19:12.3206405+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-08-25T19:19:12.3206439+00:00 xUnit.net INFORMATION                  ↓ (pos 0)
+2026-08-25T19:19:12.3206466+00:00 xUnit.net INFORMATION       Expected: "Se registró correctamente."
+2026-08-25T19:19:12.3206477+00:00 xUnit.net INFORMATION       Actual:   "Errores de validación."
+2026-08-25T19:19:12.3206488+00:00 xUnit.net INFORMATION                  ↑ (pos 0)
+2026-08-25T19:19:12.3206549+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T19:19:12.3206733+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(246,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.OpenPeriod_WhenValidDataAndNoPreviousPeriod_OpensSuccessfully()
+2026-08-25T19:19:12.3206760+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T19:19:12.4741957+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.OpenPeriod_WhenAlreadyOpenPeriodExists_ReturnsFail [FAIL]
+2026-08-25T19:19:12.4742117+00:00 xUnit.net INFORMATION       Assert.Contains() Failure: Sub-string not found
+2026-08-25T19:19:12.4742137+00:00 xUnit.net INFORMATION       String:    "Errores de validación."
+2026-08-25T19:19:12.4742149+00:00 xUnit.net INFORMATION       Not found: "período abierto"
+2026-08-25T19:19:12.4742189+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T19:19:12.4742356+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(227,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.OpenPeriod_WhenAlreadyOpenPeriodExists_ReturnsFail()
+2026-08-25T19:19:12.4742430+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T19:19:12.6026547+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-08-25T19:19:12.6087749+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-08-25T19:19:12.6142546+00:00 xUnit.net INFORMATION    Test.Api  Total: 18, Errors: 0, Failed: 4, Skipped: 0, Not Run: 0, Time: 3.061s

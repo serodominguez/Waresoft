@@ -1,60 +1,60 @@
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\inventoryStore-B4rTBehs.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\usePagination-C7VfzYkp.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\favicon.svg
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\InventoryView-BpA-VEik.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CustomerView-D94OuXMf.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\webfontloader-DBC6ooZR.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VForm-CLspLPMz.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\currency-BcfwyMpL.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonModal-Bdo5Pvon.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\productStore-B-5biYTB.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\index-COtFG-s1.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\manifest.webmanifest
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\RoleView-mHorBjZK.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VCheckbox-mJlZkhXv.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\GoodsReceiptView-B3wdbQEW.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ConsolidatedView-B482cdTG.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonProductOut-CrpaUDLb.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VDateInput-DAjyZyQo.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\transferStore-T1pcEBPL.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\useResponsiveTooltip-CmSpt3XG.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\SupplierView-9NwQUQN8.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VDateInput-DNbskGMP.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\robots.txt
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\UserView-CB7lAZNL.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VFileInput-Dmd-2ca9.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VFileInput-HYy7i9zh.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonFilters-C2WG0b5L.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\PermissionView-CGAtr4Rj.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\useModelSync-8pdUyyPK.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VAutocomplete-D48FgPMA.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\index-CR32wOIR.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\KardexView-Cm-GWSWm.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\favicon.ico
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VCheckbox-ChRKi1kj.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VNavigationDrawer-DBk7LT9M.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\safari-pinned-tab.svg
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\rolldown-runtime-hePW80VL.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VAutocomplete-BcDF2DaG.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\GoodsIssueView-CH1PWFt6.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ProductView-B_rqQCet.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\BrandView-mW3AZLA-.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\index-BuMhdCdg.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\GoodsIssueView-CH1PWFt6.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\useModelSync-8pdUyyPK.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\PermissionView-CGAtr4Rj.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ConsolidatedView-B482cdTG.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\transferStore-T1pcEBPL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\errorHandler-CqVvt2zW.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\rolldown-runtime-hePW80VL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\useResponsiveTooltip-CmSpt3XG.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\manifest.webmanifest
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VForm-CLspLPMz.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\index.html
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VCheckbox-ChRKi1kj.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\registerSW.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VSwitch-DmoFAcRp.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\workbox-9c191d2f.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\safari-pinned-tab.svg
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VSwitch-FGoTnWb6.css
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VNavigationDrawer-wQBy6Uy6.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\TransferView-BIPXRwau.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\workbox-9c191d2f.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\sw.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ProductView-B_rqQCet.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VSwitch-DmoFAcRp.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\registerSW.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VDateInput-DNbskGMP.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\RoleView-mHorBjZK.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\usePagination-C7VfzYkp.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VFileInput-Dmd-2ca9.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\errorHandler-Cjodfdmm.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\productStore-B-5biYTB.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VNavigationDrawer-DBk7LT9M.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\InventoryView-BpA-VEik.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\currency-BcfwyMpL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\inventoryStore-B4rTBehs.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonViewerImage-xXGciRoS.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\index.html
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonProductOut-CrpaUDLb.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\GoodsReceiptView-B3wdbQEW.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\UserView-CB7lAZNL.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VDateInput-DAjyZyQo.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\img\icons\favicon.svg
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\SupplierView-9NwQUQN8.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\TransferView-BIPXRwau.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\favicon.ico
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\index-CR32wOIR.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VCheckbox-mJlZkhXv.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CategoryView-BVhAZf7p.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\goodsStatus-l0qx4S64.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CustomerView-D94OuXMf.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VFileInput-HYy7i9zh.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VAutocomplete-BcDF2DaG.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\webfontloader-DBC6ooZR.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\sw.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\VAutocomplete-D48FgPMA.css
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\KardexView-Cm-GWSWm.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\robots.txt
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonFilters-C2WG0b5L.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CommonModal-Bdo5Pvon.js
+D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ModuleView-CY5oczuO.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\roleStore-DXUSWFQ_.js
 D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\StoreView-CZWVpMpY.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\ModuleView-CY5oczuO.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\errorHandler-CqVvt2zW.css
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\goodsStatus-l0qx4S64.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\errorHandler-Cjodfdmm.js
-D:\Projects\IT Solutions\Waresoft\Backend\Api\wwwroot\assets\CategoryView-BVhAZf7p.js
 wwwroot\assets\BrandView-mW3AZLA-.js
 wwwroot\assets\CategoryView-BVhAZf7p.js
 wwwroot\assets\CommonFilters-C2WG0b5L.js
@@ -92,7 +92,7 @@ wwwroot\assets\currency-BcfwyMpL.js
 wwwroot\assets\errorHandler-Cjodfdmm.js
 wwwroot\assets\errorHandler-CqVvt2zW.css
 wwwroot\assets\goodsStatus-l0qx4S64.js
-wwwroot\assets\index-COtFG-s1.js
+wwwroot\assets\index-BuMhdCdg.js
 wwwroot\assets\index-CR32wOIR.css
 wwwroot\assets\inventoryStore-B4rTBehs.js
 wwwroot\assets\materialdesignicons-webfont-B7mPwVP_.ttf

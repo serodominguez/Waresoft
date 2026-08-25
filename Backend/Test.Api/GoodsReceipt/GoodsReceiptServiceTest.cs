@@ -271,6 +271,38 @@ namespace Test.Api.GoodsReceipt
             }
         }
 
+        [Fact]
+        public async Task RegisterGoodsReceipt_WhenNoOpenPeriod_ReturnsError()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<IGoodsReceiptService>();
+
+            var result = await context.RegisterGoodsReceipt(1, 999, new GoodsReceiptRequestDto()
+            {
+                Type = "Adquisición",
+                DocumentDate = DateTime.Now.ToString("yyyy-MM-dd"),
+                DocumentType = "Factura",
+                DocumentNumber = "001-001-00000001",
+                TotalAmount = 100,
+                IdSupplier = 1,
+                IdStore = 999,
+                GoodsReceiptDetails = new List<GoodsReceiptDetailsRequestDto>()
+        {
+            new GoodsReceiptDetailsRequestDto
+            {
+                Item = 1,
+                IdProduct = 1,
+                Quantity = 10,
+                UnitCost = 10,
+                TotalCost = 100
+            }
+        }
+            });
+
+            Assert.False(result.IsSuccess);
+            Assert.Equal(ReplyMessage.MESSAGE_PERIOD_NOT_FOUND, result.Message);
+        }
+
         // ===================== CANCEL =====================
 
         [Fact]

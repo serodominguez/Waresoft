@@ -16,6 +16,9 @@ namespace Infrastructure.Persistences.Contexts
         public virtual DbSet<GoodsIssueDetailsEntity> GoodsIssueDetails { get; set; }
         public virtual DbSet<GoodsReceiptEntity> GoodsReceipt { get; set; }
         public virtual DbSet<GoodsReceiptDetailsEntity> GoodsReceiptDetails { get; set; }
+        public virtual DbSet<InventoryPeriodClosingEntity> InventoryPeriodClosing { get; set; }
+        public virtual DbSet<InventoryPeriodEntity> InventoryPeriod { get; set; }
+        public virtual DbSet<InventoryPeriodOpeningEntity> InventoryPeriodOpening { get; set; }
         public virtual DbSet<ModuleEntity> Module { get; set; }
         public virtual DbSet<PermissionEntity> Permission { get; set; }
         public virtual DbSet<ProductEntity> Product { get; set; }

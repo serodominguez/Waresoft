@@ -11,10 +11,12 @@
         public string? Annotations { get; set; }
         public int IdStore { get; set; }
         public int? IdSupplier { get; set; }
+        public int IdPeriod { get; set; }
         public int Status { get; set; }
 
         public virtual StoreEntity Store { get; set; } = null!;
         public virtual SupplierEntity? Supplier { get; set; }
+        public virtual InventoryPeriodEntity InventoryPeriod { get; set; } = null!;
         public virtual ICollection<GoodsReceiptDetailsEntity> GoodsReceiptDetails { get; set; } = null!;
     }
 }

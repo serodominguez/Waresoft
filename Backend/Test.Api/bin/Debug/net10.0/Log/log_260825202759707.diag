@@ -1,0 +1,46 @@
+2026-08-25T20:27:59.7162218+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 1.9.1+cb5afc3bb9bb01ebd75b57f89e8358b914ee2a49
+2026-08-25T20:27:59.7268783+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-08-25T20:27:59.7279024+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-08-25T20:27:59.7279072+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 20:27:59.694
+2026-08-25T20:27:59.7279972+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 17604
+2026-08-25T20:27:59.7280273+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-08-25T20:27:59.7280435+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-08-25T20:27:59.7280596+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-08-25T20:27:59.7281548+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-08-25T20:27:59.7283218+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 53806'
+2026-08-25T20:27:59.7291094+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-08-25T20:27:59.7501576+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-08-25T20:27:59.7651511+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-08-25T20:27:59.9964550+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '3.2.2' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-08-25T20:28:00.0083342+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v3.2.2+728c1dce01 (64-bit .NET 10.0.11)
+2026-08-25T20:28:00.0596606+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-08-25T20:28:00.1340278+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-08-25T20:28:00.1635820+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-08-25T20:28:08.2497409+00:00 xUnit.net ERROR     Test.Api.Transfer.TransferServiceTest.SendTransfer_WhenSendingCorrectValues_SentSuccessfully [FAIL]
+2026-08-25T20:28:08.2505333+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-08-25T20:28:08.2505456+00:00 xUnit.net INFORMATION                   ↓ (pos 1)
+2026-08-25T20:28:08.2505473+00:00 xUnit.net INFORMATION       Expected: "Se registró correctamente."
+2026-08-25T20:28:08.2505486+00:00 xUnit.net INFORMATION       Actual:   "Stock no disponible. para el producto con Id:1"
+2026-08-25T20:28:08.2505497+00:00 xUnit.net INFORMATION                   ↑ (pos 1)
+2026-08-25T20:28:08.2510814+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T20:28:08.2516964+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\Transfer\TransferServiceTest.cs(219,0): at Test.Api.Transfer.TransferServiceTest.SendTransfer_WhenSendingCorrectValues_SentSuccessfully()
+2026-08-25T20:28:08.2517090+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T20:28:08.6214248+00:00 xUnit.net ERROR     Test.Api.Transfer.TransferServiceTest.ReceiveTransfer_WhenIdExists_ReceivedSuccessfully [FAIL]
+2026-08-25T20:28:08.6214562+00:00 xUnit.net INFORMATION       System.InvalidOperationException : Sequence contains no elements
+2026-08-25T20:28:08.6215122+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T20:28:08.6215233+00:00 xUnit.net INFORMATION            at System.Linq.ThrowHelper.ThrowNoElementsException()
+2026-08-25T20:28:08.6215290+00:00 xUnit.net INFORMATION            at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+2026-08-25T20:28:08.6215648+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\Transfer\TransferServiceTest.cs(333,0): at Test.Api.Transfer.TransferServiceTest.ReceiveTransfer_WhenIdExists_ReceivedSuccessfully()
+2026-08-25T20:28:08.6215689+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T20:28:08.6291736+00:00 xUnit.net ERROR     Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenSendingCorrectValues_RegisteredSuccessfully [FAIL]
+2026-08-25T20:28:08.6291981+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-08-25T20:28:08.6292002+00:00 xUnit.net INFORMATION                   ↓ (pos 1)
+2026-08-25T20:28:08.6292015+00:00 xUnit.net INFORMATION       Expected: "Se registró correctamente."
+2026-08-25T20:28:08.6292041+00:00 xUnit.net INFORMATION       Actual:   "Stock no disponible. para el producto con Id:1"
+2026-08-25T20:28:08.6292053+00:00 xUnit.net INFORMATION                   ↑ (pos 1)
+2026-08-25T20:28:08.6292135+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T20:28:08.6292338+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\GoodsIssue\GoodsIssueServiceTest.cs(237,0): at Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenSendingCorrectValues_RegisteredSuccessfully()
+2026-08-25T20:28:08.6292375+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T20:28:08.8857883+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-08-25T20:28:08.8920757+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-08-25T20:28:08.8987960+00:00 xUnit.net INFORMATION    Test.Api  Total: 267, Errors: 0, Failed: 3, Skipped: 0, Not Run: 0, Time: 8.727s

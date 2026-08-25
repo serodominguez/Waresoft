@@ -4,12 +4,12 @@
     "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Test.Api\\Test.Api.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj": {
+    "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj",
-        "projectName": "Web.Api",
-        "projectPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj",
+        "projectUniqueName": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Api.csproj",
+        "projectName": "Api",
+        "projectPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Api.csproj",
         "packagesPath": "C:\\Users\\Sergio\\.nuget\\packages\\",
         "outputPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\obj\\",
         "projectStyle": "PackageReference",
@@ -55,7 +55,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net10.0": {
@@ -64,17 +64,17 @@
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[10.0.10, )"
+              "version": "[10.0.11, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[10.0.10, )"
+              "version": "[10.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.10, )"
+              "version": "[10.0.11, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -84,11 +84,11 @@
             },
             "NuGet.Packaging": {
               "target": "Package",
-              "version": "[7.6.0, )"
+              "version": "[7.9.0, )"
             },
             "NuGet.Protocol": {
               "target": "Package",
-              "version": "[7.6.0, )"
+              "version": "[7.9.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -114,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -583,7 +583,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net10.0": {
@@ -596,11 +596,11 @@
             },
             "Microsoft.AspNetCore.Http.Abstractions": {
               "target": "Package",
-              "version": "[2.3.11, )"
+              "version": "[2.3.12, )"
             },
             "Microsoft.Extensions.Hosting.Abstractions": {
               "target": "Package",
-              "version": "[10.0.10, )"
+              "version": "[10.0.11, )"
             },
             "QRCoder": {
               "target": "Package",
@@ -608,7 +608,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.7.2, )"
+              "version": "[2026.7.3, )"
             },
             "SkiaSharp": {
               "target": "Package",
@@ -635,7 +635,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -954,7 +954,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net10.0": {
@@ -963,13 +963,13 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[10.0.10, )"
+              "version": "[10.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.10, )"
+              "version": "[10.0.11, )"
             }
           },
           "imports": [
@@ -988,7 +988,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1314,7 +1314,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net10.0": {
@@ -1331,7 +1331,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.7.2, )"
+              "version": "[2026.7.3, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",
@@ -1377,7 +1377,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -1824,8 +1824,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj": {
-                "projectPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Web.Api.csproj"
+              "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Api.csproj": {
+                "projectPath": "D:\\Projects\\IT Solutions\\Waresoft\\Backend\\Api\\Api.csproj"
               }
             }
           }
@@ -1840,7 +1840,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net10.0": {
@@ -1849,7 +1849,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.Mvc.Testing": {
               "target": "Package",
-              "version": "[10.0.10, )"
+              "version": "[10.0.11, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
@@ -1888,7 +1888,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -2207,7 +2207,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net10.0": {
@@ -2229,7 +2229,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

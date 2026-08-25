@@ -149,6 +149,18 @@ namespace Application.Services
                 return response;
             }
 
+            var currentPeriod = await _unitOfWork.InventoryPeriodQuery
+            .GetPeriodListQueryable(authenticatedUserStoreId)
+            .Where(p => p.Status == "OPEN")
+            .FirstOrDefaultAsync();
+
+            if (currentPeriod is null)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_PERIOD_NOT_FOUND;
+                return response;
+            }
+
             using var transaction = _unitOfWork.BeginTransaction();
 
             try
@@ -157,6 +169,7 @@ namespace Application.Services
 
                 var entity = GoodsReceiptMapp.GoodsReceiptMapping(requestDto);
                 entity.Code = generatedCode;
+                entity.IdPeriod = currentPeriod.IdPeriod;
 
                 if (requestDto.Type != ContainerConstants.Acquisition)
                 {

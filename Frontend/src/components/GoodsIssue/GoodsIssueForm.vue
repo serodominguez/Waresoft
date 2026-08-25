@@ -323,7 +323,11 @@ const saveIssue = async () => {
       close();
     }
   } catch (error) {
-    handleApiError(error, 'Error al registrar la salida');
+    const serverMessage = (error as any)?.response?.data?.message ?? (error as any)?.message ?? '';
+    const message = serverMessage === 'No existe un período abierto para este almacén'
+      ? serverMessage
+      : 'Error al registrar la entrada';
+    handleApiError(error, message);
   } finally {
     saving.value = false;
   }

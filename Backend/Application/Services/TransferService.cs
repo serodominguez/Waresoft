@@ -192,6 +192,18 @@ namespace Application.Services
                 return response;
             }
 
+            var currentPeriod = await _unitOfWork.InventoryPeriodQuery
+                .GetPeriodListQueryable(requestDto.IdStoreOrigin)
+                .Where(p => p.Status == "OPEN")
+                .FirstOrDefaultAsync();
+
+            if (currentPeriod is null)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_PERIOD_NOT_FOUND;
+                return response;
+            }
+
             var productIds = requestDto.TransferDetails.Select(x => x.IdProduct).ToList();
             var quantities = requestDto.TransferDetails.ToDictionary(x => x.IdProduct, x => x.Quantity);
 
@@ -214,8 +226,10 @@ namespace Application.Services
             {
                 var generatedCode = await _unitOfWork.SequenceCommand.GenerateTransferCodeAsync(ContainerConstants.Transfer, ContainerConstants.TransferPrefixes);
 
+
                 var entity = TransferMapp.TransferMapping(requestDto);
                 entity.Code = generatedCode;
+                entity.IdPeriod = currentPeriod.IdPeriod;
                 entity.SendDate = DateTime.Now;
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;

@@ -18,5 +18,7 @@
         public virtual ICollection<GoodsIssueDetailsEntity> GoodsIssueDetails { get; set; } = new List<GoodsIssueDetailsEntity>();
         public virtual ICollection<GoodsReceiptDetailsEntity> GoodsReceiptDetails { get; set; } = new List<GoodsReceiptDetailsEntity>();
         public virtual ICollection<TransferDetailsEntity> TransferDetails { get; set; } = new List<TransferDetailsEntity>();
+        public virtual ICollection<InventoryPeriodClosingEntity> InventoryPeriodClosing { get; set; } = new List<InventoryPeriodClosingEntity>();
+        public virtual ICollection<InventoryPeriodOpeningEntity> InventoryPeriodOpening { get; set; } = new List<InventoryPeriodOpeningEntity>();
     }
 }

@@ -1,0 +1,30 @@
+2026-08-25T16:16:32.1693124+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 1.9.1+cb5afc3bb9bb01ebd75b57f89e8358b914ee2a49
+2026-08-25T16:16:32.1802697+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-08-25T16:16:32.1811710+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-08-25T16:16:32.1811748+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 16:16:32.148
+2026-08-25T16:16:32.1813511+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 7120
+2026-08-25T16:16:32.1813876+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-08-25T16:16:32.1814074+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-08-25T16:16:32.1814189+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-08-25T16:16:32.1815324+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-08-25T16:16:32.1817725+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 52569'
+2026-08-25T16:16:32.1826041+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-08-25T16:16:32.2037436+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-08-25T16:16:32.2185003+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-08-25T16:16:32.4455432+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '3.2.2' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-08-25T16:16:32.4570635+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v3.2.2+728c1dce01 (64-bit .NET 10.0.11)
+2026-08-25T16:16:32.5071007+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-08-25T16:16:32.5784237+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-08-25T16:16:32.6042549+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-08-25T16:16:35.3698708+00:00 xUnit.net ERROR     Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenNoOpenPeriod_ReturnsError [FAIL]
+2026-08-25T16:16:35.3703947+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-08-25T16:16:35.3704056+00:00 xUnit.net INFORMATION                     ↓ (pos 3)
+2026-08-25T16:16:35.3704076+00:00 xUnit.net INFORMATION       Expected: "No se encotrarón registros."
+2026-08-25T16:16:35.3704121+00:00 xUnit.net INFORMATION       Actual:   "No existe un período abierto para este almacén"
+2026-08-25T16:16:35.3704138+00:00 xUnit.net INFORMATION                     ↑ (pos 3)
+2026-08-25T16:16:35.3708683+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T16:16:35.3716772+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\GoodsIssue\GoodsIssueServiceTest.cs(295,0): at Test.Api.GoodsIssue.GoodsIssueServiceTest.RegisterGoodsIssue_WhenNoOpenPeriod_ReturnsError()
+2026-08-25T16:16:35.3716874+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T16:16:36.0056210+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-08-25T16:16:36.0118427+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-08-25T16:16:36.0172414+00:00 xUnit.net INFORMATION    Test.Api  Total: 14, Errors: 0, Failed: 1, Skipped: 0, Not Run: 0, Time: 3.406s

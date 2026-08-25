@@ -1,0 +1,50 @@
+2026-08-25T20:09:16.8963225+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 1.9.1+cb5afc3bb9bb01ebd75b57f89e8358b914ee2a49
+2026-08-25T20:09:16.9071385+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-08-25T20:09:16.9080548+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-08-25T20:09:16.9080591+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 20:09:16.875
+2026-08-25T20:09:16.9081420+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 1952
+2026-08-25T20:09:16.9081753+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-08-25T20:09:16.9081908+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-08-25T20:09:16.9082006+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-08-25T20:09:16.9082855+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-08-25T20:09:16.9084824+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 53571'
+2026-08-25T20:09:16.9092702+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-08-25T20:09:16.9300453+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-08-25T20:09:16.9449065+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-08-25T20:09:17.1756860+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '3.2.2' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-08-25T20:09:17.1871483+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v3.2.2+728c1dce01 (64-bit .NET 10.0.11)
+2026-08-25T20:09:17.2370519+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-08-25T20:09:17.3100960+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-08-25T20:09:17.3360024+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-08-25T20:09:20.8317634+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference [FAIL]
+2026-08-25T20:09:20.8324266+00:00 xUnit.net INFORMATION       System.InvalidOperationException : The connection is already in a transaction and cannot participate in another transaction.
+2026-08-25T20:09:20.8329403+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T20:09:20.8336086+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.EnsureNoTransactions()
+2026-08-25T20:09:20.8336277+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction(IsolationLevel isolationLevel)
+2026-08-25T20:09:20.8336363+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction()
+2026-08-25T20:09:20.8336452+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade.BeginTransaction()
+2026-08-25T20:09:20.8336686+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Infrastructure\Persistences\Repositories\UnitOfWork.cs(103,0): at Infrastructure.Persistences.Repositories.UnitOfWork.BeginTransaction()
+2026-08-25T20:09:20.8336846+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Application\Services\InventoryPeriodService.cs(178,0): at Application.Services.InventoryPeriodService.OpenPeriod(Int32 authenticatedUserId, Int32 authenticatedStoreId, InventoryPeriodOpenRequestDto requestDto)
+2026-08-25T20:09:20.8337009+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(416,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference()
+2026-08-25T20:09:20.8337039+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T20:09:20.8470773+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenOpenPeriodExistsWithoutPhysicalCount_ClosesSuccessfully [FAIL]
+2026-08-25T20:09:20.8470960+00:00 xUnit.net INFORMATION       System.InvalidOperationException : Sequence contains no matching element
+2026-08-25T20:09:20.8471194+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T20:09:20.8471432+00:00 xUnit.net INFORMATION            at System.Linq.ThrowHelper.ThrowNoMatchException()
+2026-08-25T20:09:20.8471484+00:00 xUnit.net INFORMATION            at System.Linq.Enumerable.First[TSource](IEnumerable`1 source, Func`2 predicate)
+2026-08-25T20:09:20.8471624+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(336,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenOpenPeriodExistsWithoutPhysicalCount_ClosesSuccessfully()
+2026-08-25T20:09:20.8471646+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T20:09:21.0236292+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.OpenPeriod_WhenAlreadyOpenPeriodExists_ReturnsFail [FAIL]
+2026-08-25T20:09:21.0236523+00:00 xUnit.net INFORMATION       System.InvalidOperationException : The connection is already in a transaction and cannot participate in another transaction.
+2026-08-25T20:09:21.0236667+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-08-25T20:09:21.0236810+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.EnsureNoTransactions()
+2026-08-25T20:09:21.0236905+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction(IsolationLevel isolationLevel)
+2026-08-25T20:09:21.0236986+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction()
+2026-08-25T20:09:21.0237053+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade.BeginTransaction()
+2026-08-25T20:09:21.0237263+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Infrastructure\Persistences\Repositories\UnitOfWork.cs(103,0): at Infrastructure.Persistences.Repositories.UnitOfWork.BeginTransaction()
+2026-08-25T20:09:21.0237408+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Application\Services\InventoryPeriodService.cs(178,0): at Application.Services.InventoryPeriodService.OpenPeriod(Int32 authenticatedUserId, Int32 authenticatedStoreId, InventoryPeriodOpenRequestDto requestDto)
+2026-08-25T20:09:21.0237578+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(266,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.OpenPeriod_WhenAlreadyOpenPeriodExists_ReturnsFail()
+2026-08-25T20:09:21.0237603+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-08-25T20:09:21.1188985+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-08-25T20:09:21.1248503+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-08-25T20:09:21.1302094+00:00 xUnit.net INFORMATION    Test.Api  Total: 19, Errors: 0, Failed: 3, Skipped: 0, Not Run: 0, Time: 3.788s

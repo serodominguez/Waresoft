@@ -19,6 +19,8 @@ namespace Infrastructure.Persistences.Projections
                 LastNames = i.User!.LastNames,
                 IdStore = i.IdStore,
                 StoreName = i.Store.StoreName,
+                IdPeriod = i.IdPeriod,
+                PeriodName = i.InventoryPeriod.PeriodName,
                 AuditCreateUser = i.AuditCreateUser,
                 AuditCreateDate = i.AuditCreateDate,
                 Status = i.Status
@@ -37,6 +39,8 @@ namespace Infrastructure.Persistences.Projections
                 LastNames = i.User!.LastNames,
                 IdStore = i.IdStore,
                 StoreName = i.Store!.StoreName,
+                IdPeriod = i.IdPeriod,
+                PeriodName = i.InventoryPeriod.PeriodName,
                 AuditCreateUser = i.AuditCreateUser,
                 AuditCreateDate = i.AuditCreateDate,
                 Status = i.Status,

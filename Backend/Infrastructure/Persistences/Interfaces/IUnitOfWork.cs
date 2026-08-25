@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructure.Persistences.Interfaces.InventoryPeriod;
 using System.Data;
 
 namespace Infrastructure.Persistences.Interfaces
@@ -14,6 +15,7 @@ namespace Infrastructure.Persistences.Interfaces
         IGoodsIssueQueryRepository GoodsIssueQuery { get; }
         IGoodsReceiptDetailsQueryRepository GoodsReceiptDetailsQuery { get; }
         IGoodsReceiptQueryRepository GoodsReceiptQuery { get; }
+        IInventoryPeriodQueryRepository InventoryPeriodQuery { get; }
         IModuleQueryRepository ModuleQuery { get; }
         IPermissionQueryRepository PermissionQuery { get; }
         IProductQueryRepository ProductQuery { get; }
@@ -31,6 +33,7 @@ namespace Infrastructure.Persistences.Interfaces
         IGenericRepository<CustomerEntity> CustomerCommand { get; }
         IGenericRepository<GoodsIssueEntity> GoodsIssueCommand { get; }
         IGenericRepository<GoodsReceiptEntity> GoodsReceiptCommand { get; }
+        IInventoryPeriodCommandRepository InventoryPeriodCommand { get; }
         IGenericRepository<ModuleEntity> ModuleCommand { get; } 
         IGenericRepository<PermissionEntity> PermissionCommand { get; }
         IGenericRepository<ProductEntity> ProductCommand { get; }

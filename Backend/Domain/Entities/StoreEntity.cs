@@ -17,5 +17,6 @@
         public virtual ICollection<GoodsReceiptEntity> GoodsReceipt { get; set; } = new List<GoodsReceiptEntity>();
         public ICollection<TransferEntity> TransfersAsOrigin { get; set; } = new List<TransferEntity>();
         public ICollection<TransferEntity> TransfersAsDestination { get; set; } = new List<TransferEntity>();
+        public virtual ICollection<InventoryPeriodEntity> InventoryPeriod { get; set; } = new List<InventoryPeriodEntity>();
     }
 }

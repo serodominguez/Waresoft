@@ -266,6 +266,35 @@ namespace Test.Api.GoodsIssue
             }
         }
 
+        [Fact]
+        public async Task RegisterGoodsIssue_WhenNoOpenPeriod_ReturnsError()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<IGoodsIssueService>();
+
+            // Se usa una tienda que no tiene período abierto
+            var result = await context.RegisterGoodsIssue(1, 999, new GoodsIssueRequestDto()
+            {
+                Type = "Baja",
+                TotalAmount = 100,
+                IdStore = 999,
+                GoodsIssueDetails = new List<GoodsIssueDetailsRequestDto>()
+        {
+            new GoodsIssueDetailsRequestDto
+            {
+                Item = 1,
+                IdProduct = 1,
+                Quantity = 1,
+                UnitPrice = 100,
+                TotalPrice = 100
+            }
+        }
+            });
+
+            Assert.False(result.IsSuccess);
+            Assert.Equal(ReplyMessage.MESSAGE_PERIOD_NOT_FOUND, result.Message);
+        }
+
         // ===================== CANCEL =====================
 
         [Fact]

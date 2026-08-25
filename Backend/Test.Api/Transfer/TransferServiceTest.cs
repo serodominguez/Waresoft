@@ -250,6 +250,35 @@ namespace Test.Api.Transfer
             }
         }
 
+        [Fact]
+        public async Task SendTransfer_WhenNoOpenPeriod_ReturnsError()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ITransferService>();
+
+            // Se usa una tienda origen que no tiene período abierto
+            var result = await context.SendTransfer(1, new TransferRequestDto()
+            {
+                IdStoreOrigin = 999,
+                IdStoreDestination = 2,
+                TotalAmount = 100,
+                TransferDetails = new List<TransferDetailsRequestDto>()
+        {
+            new TransferDetailsRequestDto
+            {
+                Item = 1,
+                IdProduct = 1,
+                Quantity = 1,
+                UnitPrice = 100,
+                TotalPrice = 100
+            }
+        }
+            });
+
+            Assert.False(result.IsSuccess);
+            Assert.Equal(ReplyMessage.MESSAGE_PERIOD_NOT_FOUND, result.Message);
+        }
+
         // ===================== RECEIVE =====================
 
         [Fact]
