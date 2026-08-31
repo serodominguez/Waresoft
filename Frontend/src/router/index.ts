@@ -102,13 +102,22 @@ const routes: Array<RouteRecordRaw> = [
       module: "inventario",
     },
   },
+    {
+    path: "/periodo",
+    name: "inventory-period",
+    component: () => import("@/views/InventoryPeriodView.vue"),
+    meta: {
+      requiresAuth: true,
+      module: "periodo",
+    },
+  },
   {
     path: "/kardex",
     name: "kardex",
     component: () => import("@/views/KardexView.vue"),
     meta: {
       requiresAuth: true,
-      module: "inventario",
+      module: "kardex",
     },
   },
   {

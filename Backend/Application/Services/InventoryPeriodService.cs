@@ -41,17 +41,37 @@ namespace Application.Services
                     periods = periods.Where(x => x.PeriodName!.Contains(filters.TextFilter));
                 }
 
+                if (filters.StateFilter.HasValue)
+                {
+                    var stateValue = Convert.ToInt32(filters.StateFilter);
+
+                    switch (stateValue)
+                    {
+                        case 0:
+                            periods = periods.Where(x => x.Status == 0);
+                            break;
+
+                        case 1:
+                            periods = periods.Where(x => x.Status == 1);
+                            break;
+
+                        case 2:
+                            periods = periods.Where(x => x.Status == 2);
+                            break;
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(filters.StartDate) && !string.IsNullOrEmpty(filters.EndDate))
                 {
                     var startDate = Convert.ToDateTime(filters.StartDate).Date;
                     var endDate = Convert.ToDateTime(filters.EndDate).Date.AddDays(1);
-                    periods = periods.Where(x => x.StartDate >= startDate && x.StartDate < endDate);
+                    periods = periods.Where(x => x.OpenedDate >= startDate && x.OpenedDate < endDate);
                 }
 
                 response.TotalRecords = await periods.CountAsync();
 
                 filters.Sort ??= "IdPeriod";
-                var items = await _orderingQuery.Ordering(filters, periods, true).ToListAsync();
+                var items = await _orderingQuery.Ordering(filters, periods, !(bool)filters.Download!).ToListAsync();
 
                 response.IsSuccess = true;
                 response.Data = items.Select(InventoryPeriodMapp.InventoryPeriodResponseMapping);
@@ -182,7 +202,7 @@ namespace Application.Services
                 // Verificar que no exista un período abierto para el almacén
                 var existingOpenPeriod = await _unitOfWork.InventoryPeriodQuery
                     .GetPeriodListQueryable(authenticatedStoreId)
-                    .AnyAsync(p => p.Status == "OPEN");
+                    .AnyAsync(p => p.Status == 1);
 
                 if (existingOpenPeriod)
                 {
@@ -197,7 +217,7 @@ namespace Application.Services
                 // Verificar si existe un período cerrado anterior
                 var lastClosedPeriod = await _unitOfWork.InventoryPeriodQuery
                     .GetPeriodListQueryable(authenticatedStoreId)
-                    .Where(p => p.Status == "CLOSED")
+                    .Where(p => p.Status == 0)
                     .OrderByDescending(p => p.IdPeriod)
                     .FirstOrDefaultAsync();
 
@@ -270,7 +290,7 @@ namespace Application.Services
                 // Verificar que el período exista y esté abierto
                 var period = await _unitOfWork.InventoryPeriodQuery
                     .GetPeriodListQueryable(authenticatedStoreId)
-                    .FirstOrDefaultAsync(p => p.IdPeriod == requestDto.IdPeriod && p.Status == "OPEN");
+                    .FirstOrDefaultAsync(p => p.IdPeriod == requestDto.IdPeriod && p.Status == 1);
 
                 if (period is null)
                 {

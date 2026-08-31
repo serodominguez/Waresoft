@@ -3,6 +3,7 @@ using Application.Dtos.Response.InventoryPeriod;
 using Domain.Entities;
 using Infrastructure.Persistences.ReadModels.InventoryPeriod;
 using Utilities.Extensions;
+using Utilities.Static;
 
 namespace Application.Mappers
 {
@@ -16,7 +17,7 @@ namespace Application.Mappers
                 PeriodName = dto.PeriodName,
                 StartDate = dto.StartDate,
                 EndDate = dto.EndDate,
-                Status = "OPEN",
+                Status = 1,
                 OpenedByUser = authenticatedUserId,
                 OpenedDate = DateTime.Now
             };
@@ -32,7 +33,7 @@ namespace Application.Mappers
                 PeriodName = model.PeriodName,
                 StartDate = model.StartDate.HasValue ? model.StartDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 EndDate = model.EndDate.HasValue ? model.EndDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = model.Status,
+                StatusPeriod = ((Periods)(model.Status)).ToString(),
                 OpenedByUser = model.OpenedByUser,
                 OpenedDate = model.OpenedDate.ToString("dd/MM/yyyy HH:mm"),
                 ClosedByUser = model.ClosedByUser,
@@ -50,7 +51,7 @@ namespace Application.Mappers
                 PeriodName = model.PeriodName,
                 StartDate = model.StartDate.HasValue ? model.StartDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
                 EndDate = model.EndDate.HasValue ? model.EndDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
-                Status = model.Status,
+                StatusPeriod = ((Periods)(model.Status)).ToString(),
                 OpenedByUser = model.OpenedByUser,
                 OpenedDate = model.OpenedDate.ToString("dd/MM/yyyy HH:mm"),
                 ClosedByUser = model.ClosedByUser,

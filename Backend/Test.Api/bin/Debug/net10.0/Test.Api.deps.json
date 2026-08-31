@@ -40,10 +40,10 @@
         "dependencies": {
           "Api": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Testing": "10.0.11",
-          "Microsoft.NET.Test.Sdk": "18.8.1",
+          "Microsoft.NET.Test.Sdk": "18.9.0",
           "coverlet.collector": "10.0.1",
-          "xunit.runner.visualstudio": "3.1.5",
-          "xunit.v3": "3.2.2",
+          "xunit.runner.visualstudio": "4.0.0",
+          "xunit.v3": "4.0.0",
           "Microsoft.AspNetCore.Antiforgery": "10.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "10.0.0.0",
           "Microsoft.AspNetCore.Authentication.BearerToken": "10.0.0.0",
@@ -300,7 +300,7 @@
           "System.Runtime.Serialization.Json": "10.0.0.0",
           "System.Runtime.Serialization.Primitives": "10.0.0.0",
           "System.Runtime.Serialization.Xml": "10.0.0.0",
-          "System.Security.AccessControl": "10.0.0.0",
+          "System.Security.AccessControl.Reference": "10.0.0.0",
           "System.Security.Claims": "10.0.0.0",
           "System.Security.Cryptography.Algorithms": "10.0.0.0",
           "System.Security.Cryptography.Cng": "10.0.0.0",
@@ -537,11 +537,11 @@
           "lib/net10.0/Microsoft.Bcl.Cryptography.dll": {}
         }
       },
-      "Microsoft.CodeCoverage/18.8.1": {
+      "Microsoft.CodeCoverage/18.9.0": {
         "runtime": {
           "lib/net8.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.26.25601"
+            "fileVersion": "18.900.26.32603"
           }
         },
         "compile": {
@@ -828,10 +828,10 @@
           "lib/net10.0/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.NET.Test.Sdk/18.8.1": {
+      "Microsoft.NET.Test.Sdk/18.9.0": {
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.8.1",
-          "Microsoft.TestPlatform.TestHost": "18.8.1"
+          "Microsoft.CodeCoverage": "18.9.0",
+          "Microsoft.TestPlatform.TestHost": "18.9.0"
         }
       },
       "Microsoft.OpenApi/2.7.5": {
@@ -856,15 +856,15 @@
           "lib/netstandard2.0/Microsoft.SqlServer.Server.dll": {}
         }
       },
-      "Microsoft.Testing.Extensions.Telemetry/1.9.1": {
+      "Microsoft.Testing.Extensions.Telemetry/2.3.3": {
         "dependencies": {
           "Microsoft.ApplicationInsights": "2.23.0",
-          "Microsoft.Testing.Platform": "1.9.1"
+          "Microsoft.Testing.Platform": "2.3.3"
         },
         "runtime": {
           "lib/net9.0/Microsoft.Testing.Extensions.Telemetry.dll": {
-            "assemblyVersion": "1.9.1.0",
-            "fileVersion": "1.900.125.56105"
+            "assemblyVersion": "2.3.3.0",
+            "fileVersion": "2.300.326.37705"
           }
         },
         "resources": {
@@ -912,25 +912,25 @@
           "lib/net9.0/Microsoft.Testing.Extensions.Telemetry.dll": {}
         }
       },
-      "Microsoft.Testing.Extensions.TrxReport.Abstractions/1.9.1": {
+      "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.3.3": {
         "dependencies": {
-          "Microsoft.Testing.Platform": "1.9.1"
+          "Microsoft.Testing.Platform": "2.3.3"
         },
         "runtime": {
           "lib/net9.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll": {
-            "assemblyVersion": "1.9.1.0",
-            "fileVersion": "1.900.125.56105"
+            "assemblyVersion": "2.3.3.0",
+            "fileVersion": "2.300.326.37705"
           }
         },
         "compile": {
           "lib/net9.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll": {}
         }
       },
-      "Microsoft.Testing.Platform/1.9.1": {
+      "Microsoft.Testing.Platform/2.3.3": {
         "runtime": {
           "lib/net9.0/Microsoft.Testing.Platform.dll": {
-            "assemblyVersion": "1.9.1.0",
-            "fileVersion": "1.900.125.56105"
+            "assemblyVersion": "2.3.3.0",
+            "fileVersion": "2.300.326.37705"
           }
         },
         "resources": {
@@ -978,14 +978,14 @@
           "lib/net9.0/Microsoft.Testing.Platform.dll": {}
         }
       },
-      "Microsoft.Testing.Platform.MSBuild/1.9.1": {
+      "Microsoft.Testing.Platform.MSBuild/2.3.3": {
         "dependencies": {
-          "Microsoft.Testing.Platform": "1.9.1"
+          "Microsoft.Testing.Platform": "2.3.3"
         },
         "runtime": {
           "lib/net9.0/Microsoft.Testing.Extensions.MSBuild.dll": {
-            "assemblyVersion": "1.9.1.0",
-            "fileVersion": "1.900.125.56105"
+            "assemblyVersion": "2.3.3.0",
+            "fileVersion": "2.300.326.37705"
           }
         },
         "resources": {
@@ -1033,19 +1033,19 @@
           "lib/net9.0/Microsoft.Testing.Extensions.MSBuild.dll": {}
         }
       },
-      "Microsoft.TestPlatform.ObjectModel/18.8.1": {
+      "Microsoft.TestPlatform.ObjectModel/18.9.0": {
         "runtime": {
           "lib/net8.0/Microsoft.TestPlatform.CoreUtilities.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           },
           "lib/net8.0/Microsoft.TestPlatform.PlatformAbstractions.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           },
           "lib/net8.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           }
         },
         "resources": {
@@ -1134,30 +1134,30 @@
           "lib/net8.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll": {}
         }
       },
-      "Microsoft.TestPlatform.TestHost/18.8.1": {
+      "Microsoft.TestPlatform.TestHost/18.9.0": {
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.8.1"
+          "Microsoft.TestPlatform.ObjectModel": "18.9.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.TestPlatform.CommunicationUtilities.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           },
           "lib/net8.0/Microsoft.TestPlatform.CrossPlatEngine.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           },
           "lib/net8.0/Microsoft.TestPlatform.Utilities.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           },
           "lib/net8.0/Microsoft.VisualStudio.TestPlatform.Common.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           },
           "lib/net8.0/testhost.dll": {
             "assemblyVersion": "15.0.0.0",
-            "fileVersion": "18.800.126.36407"
+            "fileVersion": "18.900.26.41304"
           }
         },
         "resources": {
@@ -1416,11 +1416,11 @@
           "lib/net6.0/QRCoder.dll": {}
         }
       },
-      "QuestPDF/2026.7.3": {
+      "QuestPDF/2026.8.0": {
         "runtime": {
           "lib/net10.0/QuestPDF.dll": {
-            "assemblyVersion": "2026.7.3.0",
-            "fileVersion": "2026.7.3.0"
+            "assemblyVersion": "2026.8.0.0",
+            "fileVersion": "2026.8.0.0"
           }
         },
         "runtimeTargets": {
@@ -1887,11 +1887,11 @@
           "lib/net8.0/System.IO.Packaging.dll": {}
         }
       },
-      "System.Linq.Dynamic.Core/1.7.3": {
+      "System.Linq.Dynamic.Core/1.7.4": {
         "runtime": {
           "lib/net10.0/System.Linq.Dynamic.Core.dll": {
-            "assemblyVersion": "1.7.3.0",
-            "fileVersion": "1.7.3.0"
+            "assemblyVersion": "1.7.4.0",
+            "fileVersion": "1.7.4.0"
           }
         },
         "compile": {
@@ -1909,100 +1909,101 @@
           "lib/net9.0/System.Security.Cryptography.ProtectedData.dll": {}
         }
       },
-      "xunit.v3/3.2.2": {
+      "xunit.v3/4.0.0": {
         "dependencies": {
-          "xunit.v3.mtp-v1": "3.2.2"
+          "xunit.v3.mtp-v2": "4.0.0"
         }
       },
-      "xunit.v3.assert/3.2.2": {
+      "xunit.v3.assert/4.0.0": {
         "runtime": {
           "lib/net8.0/xunit.v3.assert.dll": {
-            "assemblyVersion": "3.2.2.0",
-            "fileVersion": "3.2.2.0"
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         },
         "compile": {
           "lib/net8.0/xunit.v3.assert.dll": {}
         }
       },
-      "xunit.v3.common/3.2.2": {
+      "xunit.v3.common/4.0.0": {
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
         },
         "runtime": {
           "lib/netstandard2.0/xunit.v3.common.dll": {
-            "assemblyVersion": "3.2.2.0",
-            "fileVersion": "3.2.2.0"
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         },
         "compile": {
           "lib/netstandard2.0/xunit.v3.common.dll": {}
         }
       },
-      "xunit.v3.core.mtp-v1/3.2.2": {
+      "xunit.v3.core.mtp-v2/4.0.0": {
         "dependencies": {
-          "Microsoft.Testing.Extensions.Telemetry": "1.9.1",
-          "Microsoft.Testing.Extensions.TrxReport.Abstractions": "1.9.1",
-          "Microsoft.Testing.Platform": "1.9.1",
-          "Microsoft.Testing.Platform.MSBuild": "1.9.1",
-          "xunit.v3.extensibility.core": "3.2.2",
-          "xunit.v3.runner.inproc.console": "3.2.2"
+          "Microsoft.Testing.Extensions.Telemetry": "2.3.3",
+          "Microsoft.Testing.Extensions.TrxReport.Abstractions": "2.3.3",
+          "Microsoft.Testing.Platform": "2.3.3",
+          "Microsoft.Testing.Platform.MSBuild": "2.3.3",
+          "xunit.v3.extensibility.core": "4.0.0",
+          "xunit.v3.runner.inproc.console": "4.0.0"
         },
         "runtime": {
-          "lib/net8.0/xunit.v3.mtp-v1.dll": {
-            "assemblyVersion": "3.2.2.0",
-            "fileVersion": "3.2.2.0"
+          "lib/net8.0/xunit.v3.mtp-v2.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         },
         "compile": {
-          "lib/net8.0/xunit.v3.mtp-v1.dll": {}
+          "lib/net8.0/xunit.v3.mtp-v2.dll": {}
         }
       },
-      "xunit.v3.extensibility.core/3.2.2": {
+      "xunit.v3.extensibility.core/4.0.0": {
         "dependencies": {
-          "xunit.v3.common": "3.2.2"
+          "xunit.v3.common": "4.0.0"
         },
         "runtime": {
           "lib/netstandard2.0/xunit.v3.core.dll": {
-            "assemblyVersion": "3.2.2.0",
-            "fileVersion": "3.2.2.0"
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         },
         "compile": {
           "lib/netstandard2.0/xunit.v3.core.dll": {}
         }
       },
-      "xunit.v3.mtp-v1/3.2.2": {
+      "xunit.v3.mtp-v2/4.0.0": {
         "dependencies": {
-          "xunit.analyzers": "1.27.0",
-          "xunit.v3.assert": "3.2.2",
-          "xunit.v3.core.mtp-v1": "3.2.2"
+          "xunit.analyzers": "2.0.0",
+          "xunit.v3.assert": "4.0.0",
+          "xunit.v3.core.mtp-v2": "4.0.0"
         }
       },
-      "xunit.v3.runner.common/3.2.2": {
+      "xunit.v3.runner.common/4.0.0": {
         "dependencies": {
           "Microsoft.Win32.Registry": "5.0.0",
-          "xunit.v3.common": "3.2.2"
+          "System.Security.AccessControl": "6.0.1",
+          "xunit.v3.common": "4.0.0"
         },
         "runtime": {
           "lib/netstandard2.0/xunit.v3.runner.common.dll": {
-            "assemblyVersion": "3.2.2.0",
-            "fileVersion": "3.2.2.0"
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         },
         "compile": {
           "lib/netstandard2.0/xunit.v3.runner.common.dll": {}
         }
       },
-      "xunit.v3.runner.inproc.console/3.2.2": {
+      "xunit.v3.runner.inproc.console/4.0.0": {
         "dependencies": {
-          "xunit.v3.extensibility.core": "3.2.2",
-          "xunit.v3.runner.common": "3.2.2"
+          "xunit.v3.extensibility.core": "4.0.0",
+          "xunit.v3.runner.common": "4.0.0"
         },
         "runtime": {
           "lib/net8.0/xunit.v3.runner.inproc.console.dll": {
-            "assemblyVersion": "3.2.2.0",
-            "fileVersion": "3.2.2.0"
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         },
         "compile": {
@@ -2049,7 +2050,7 @@
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.12",
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.11",
           "QRCoder": "1.8.0",
-          "QuestPDF": "2026.7.3",
+          "QuestPDF": "2026.8.0",
           "SkiaSharp": "4.151.1",
           "Utilities": "1.0.0",
           "ZXing.Net": "0.16.11"
@@ -2083,13 +2084,13 @@
           "ClosedXML": "0.105.1",
           "Dapper": "2.1.79",
           "Domain": "1.0.0",
-          "QuestPDF": "2026.7.3",
+          "QuestPDF": "2026.8.0",
           "Serilog.AspNetCore": "10.0.0",
           "Serilog.Enrichers.Environment": "3.0.1",
           "Serilog.Enrichers.Thread": "4.0.0",
           "Serilog.Sinks.MSSqlServer": "10.0.0",
           "SkiaSharp": "4.151.1",
-          "System.Linq.Dynamic.Core": "1.7.3",
+          "System.Linq.Dynamic.Core": "1.7.4",
           "Utilities": "1.0.0"
         },
         "runtime": {
@@ -3649,7 +3650,7 @@
         },
         "compileOnly": true
       },
-      "System.Security.AccessControl/10.0.0.0": {
+      "System.Security.AccessControl.Reference/10.0.0.0": {
         "compile": {
           "System.Security.AccessControl.dll": {}
         },
@@ -4223,16 +4224,19 @@
       "System.Diagnostics.EventLog/10.0.11": {
         "compileOnly": true
       },
+      "System.Security.AccessControl/6.0.1": {
+        "compileOnly": true
+      },
       "System.Security.Cryptography.Pkcs/9.0.13": {
         "compile": {
           "lib/net9.0/System.Security.Cryptography.Pkcs.dll": {}
         },
         "compileOnly": true
       },
-      "xunit.analyzers/1.27.0": {
+      "xunit.analyzers/2.0.0": {
         "compileOnly": true
       },
-      "xunit.runner.visualstudio/3.1.5": {
+      "xunit.runner.visualstudio/4.0.0": {
         "compileOnly": true
       }
     }
@@ -4341,12 +4345,12 @@
       "path": "microsoft.bcl.cryptography/10.0.2",
       "hashPath": "microsoft.bcl.cryptography.10.0.2.nupkg.sha512"
     },
-    "Microsoft.CodeCoverage/18.8.1": {
+    "Microsoft.CodeCoverage/18.9.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Eclse/ZZjr4lmWzZFNN9h/OluhKL+SK/QbUyKUewgX139aGeyMEO/DkMPwuFs2MixvanTnz6891rF8UHDg+W4Q==",
-      "path": "microsoft.codecoverage/18.8.1",
-      "hashPath": "microsoft.codecoverage.18.8.1.nupkg.sha512"
+      "sha512": "sha512-MtegCIKGuG0r/LCdIjoR1HgzCGIUBhR3aNdbtQpts5vMXQuqBDZ2Jsd2uFKoHFM2XrQV6ZrDf3F5oLi3SLTp8w==",
+      "path": "microsoft.codecoverage/18.9.0",
+      "hashPath": "microsoft.codecoverage.18.9.0.nupkg.sha512"
     },
     "Microsoft.Data.SqlClient/7.0.1": {
       "type": "package",
@@ -4453,12 +4457,12 @@
       "path": "microsoft.identitymodel.tokens/8.19.2",
       "hashPath": "microsoft.identitymodel.tokens.8.19.2.nupkg.sha512"
     },
-    "Microsoft.NET.Test.Sdk/18.8.1": {
+    "Microsoft.NET.Test.Sdk/18.9.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-dknJL3/9Y3t4XuCBqnc0PevPxgLsUMmVhjwup/b1HNovA8zWcj3XsfIf7c6p05363DWcqL7X/YhDL9B+Zymv1w==",
-      "path": "microsoft.net.test.sdk/18.8.1",
-      "hashPath": "microsoft.net.test.sdk.18.8.1.nupkg.sha512"
+      "sha512": "sha512-xIzVXa/VpKXqDWzyC/5Hw8JbFY5u9k3Jc53CpcjBiOXvkQGio484LD9FNwOiGUSMDcYL3Rcw9sNgGi5WrswlPQ==",
+      "path": "microsoft.net.test.sdk/18.9.0",
+      "hashPath": "microsoft.net.test.sdk.18.9.0.nupkg.sha512"
     },
     "Microsoft.OpenApi/2.7.5": {
       "type": "package",
@@ -4474,47 +4478,47 @@
       "path": "microsoft.sqlserver.server/1.0.0",
       "hashPath": "microsoft.sqlserver.server.1.0.0.nupkg.sha512"
     },
-    "Microsoft.Testing.Extensions.Telemetry/1.9.1": {
+    "Microsoft.Testing.Extensions.Telemetry/2.3.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-No5AudZMmSb+uNXjlgL2y3/stHD2IT4uxqc5yHwkE+/nNux9jbKcaJMvcp9SwgP4DVD8L9/P3OUz8mmmcvEIdQ==",
-      "path": "microsoft.testing.extensions.telemetry/1.9.1",
-      "hashPath": "microsoft.testing.extensions.telemetry.1.9.1.nupkg.sha512"
+      "sha512": "sha512-nY8ceQyPWB9TRE1WE5Oe/sks2e10SxgPv61vBHsFYpgCeDtNwhpMZwmL29GklO3/etTdOsLdrCmNr4zJWaR2fg==",
+      "path": "microsoft.testing.extensions.telemetry/2.3.3",
+      "hashPath": "microsoft.testing.extensions.telemetry.2.3.3.nupkg.sha512"
     },
-    "Microsoft.Testing.Extensions.TrxReport.Abstractions/1.9.1": {
+    "Microsoft.Testing.Extensions.TrxReport.Abstractions/2.3.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AL46Xe1WBi85Ntd4mNPvat5ZSsZ2uejiVqoKCypr8J3wK0elA5xJ3AN4G/Q4GIwzUFnggZoH/DBjnr9J18IO/g==",
-      "path": "microsoft.testing.extensions.trxreport.abstractions/1.9.1",
-      "hashPath": "microsoft.testing.extensions.trxreport.abstractions.1.9.1.nupkg.sha512"
+      "sha512": "sha512-dceVNxnfTEjKnrIreLcMfkgrzzBY8kgCCJX5NAv7Lq/6vPlTP4VB5zxKeuYy0yfCoBtWuPkLjUG6qtOBMfpypA==",
+      "path": "microsoft.testing.extensions.trxreport.abstractions/2.3.3",
+      "hashPath": "microsoft.testing.extensions.trxreport.abstractions.2.3.3.nupkg.sha512"
     },
-    "Microsoft.Testing.Platform/1.9.1": {
+    "Microsoft.Testing.Platform/2.3.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-QafNtNSmEI0zazdebnsIkDKmFtTSpmx/5PLOjURWwozcPb3tvRxzosQSL8xwYNM1iPhhKiBksXZyRSE2COisrA==",
-      "path": "microsoft.testing.platform/1.9.1",
-      "hashPath": "microsoft.testing.platform.1.9.1.nupkg.sha512"
+      "sha512": "sha512-ENbH4BQh9riXtOKc25KKITfiGGWhWMBJA7pZuNaF9zxzzSaVkp5AMeZxGQ6sXYaR6xb724NLz985Is6XIYqLSg==",
+      "path": "microsoft.testing.platform/2.3.3",
+      "hashPath": "microsoft.testing.platform.2.3.3.nupkg.sha512"
     },
-    "Microsoft.Testing.Platform.MSBuild/1.9.1": {
+    "Microsoft.Testing.Platform.MSBuild/2.3.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-oTUtyR4X/s9ytuiNA29FGsNCCH0rNmY5Wdm14NCKLjTM1cT9edVSlA+rGS/mVmusPqcP0l/x9qOnMXg16v87RQ==",
-      "path": "microsoft.testing.platform.msbuild/1.9.1",
-      "hashPath": "microsoft.testing.platform.msbuild.1.9.1.nupkg.sha512"
+      "sha512": "sha512-iVAvNbZ5JPDZSrTcIrCDoCsAkzjDxwDEt2mDuMd8ng1P6e2P2NCd0g0BsoBVG+nJLSmK//V+yeEvjCa3E2fxHw==",
+      "path": "microsoft.testing.platform.msbuild/2.3.3",
+      "hashPath": "microsoft.testing.platform.msbuild.2.3.3.nupkg.sha512"
     },
-    "Microsoft.TestPlatform.ObjectModel/18.8.1": {
+    "Microsoft.TestPlatform.ObjectModel/18.9.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-qLbktNB1+b1XZLNJBTzaWVVJAd6PEzD7cgD406geMb6PcFZhp3EDNa1tctWx1+mtMU6MP/6ozVvFPC9vs2a9rw==",
-      "path": "microsoft.testplatform.objectmodel/18.8.1",
-      "hashPath": "microsoft.testplatform.objectmodel.18.8.1.nupkg.sha512"
+      "sha512": "sha512-Fz/qXC52VXXopzHj7v2reCKcCqSxkTDCkEDfkNAH0vni/7qK/KLMiEYtRmnUanxO2F2g2zZZ60qCpxF0AF7URA==",
+      "path": "microsoft.testplatform.objectmodel/18.9.0",
+      "hashPath": "microsoft.testplatform.objectmodel.18.9.0.nupkg.sha512"
     },
-    "Microsoft.TestPlatform.TestHost/18.8.1": {
+    "Microsoft.TestPlatform.TestHost/18.9.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-FaQHPDTUOcE+SFTjssNPfrub2lT9Zyon4J2W/KLHt/efLJACb1TCeWXyOgh0D/4Q1e4n+S3E6mOKud+9nLZlEA==",
-      "path": "microsoft.testplatform.testhost/18.8.1",
-      "hashPath": "microsoft.testplatform.testhost.18.8.1.nupkg.sha512"
+      "sha512": "sha512-Oq+Pma/J86aZL72t71bcESvDszDsTjUfl6PIsuDdPoKTHZfNMhKamCfLD5fKx51W/u0KozXtJo2/3fnt0sgPxg==",
+      "path": "microsoft.testplatform.testhost/18.9.0",
+      "hashPath": "microsoft.testplatform.testhost.18.9.0.nupkg.sha512"
     },
     "Microsoft.Win32.SystemEvents/6.0.0": {
       "type": "package",
@@ -4579,12 +4583,12 @@
       "path": "qrcoder/1.8.0",
       "hashPath": "qrcoder.1.8.0.nupkg.sha512"
     },
-    "QuestPDF/2026.7.3": {
+    "QuestPDF/2026.8.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-MYpJrSLwUkgaX/POQj+9GY8QreFoLXjHCiUPCNl0XrHF+nLDT9KeUFZbeaUNu1P5spt5QeYzCbf2tDF0z5idHg==",
-      "path": "questpdf/2026.7.3",
-      "hashPath": "questpdf.2026.7.3.nupkg.sha512"
+      "sha512": "sha512-6c/YtDiZm8NgxnFdUDom+IWGVXKhiwBVJ3cvlyIXZYH7Wp0HaXWoR2XWj/RAsZfjpW7J5LMVc1EF6JnJFouoXQ==",
+      "path": "questpdf/2026.8.0",
+      "hashPath": "questpdf.2026.8.0.nupkg.sha512"
     },
     "RBush.Signed/4.0.0": {
       "type": "package",
@@ -4761,12 +4765,12 @@
       "path": "system.io.packaging/8.0.1",
       "hashPath": "system.io.packaging.8.0.1.nupkg.sha512"
     },
-    "System.Linq.Dynamic.Core/1.7.3": {
+    "System.Linq.Dynamic.Core/1.7.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-0m52+B4Jce/9AXLXPZnnFW7NeLotHBuYvbsVF3D/DTvvbCGJZdskPn5xjr5sjnnFI3XekNdPqG2djyJE3UU7SA==",
-      "path": "system.linq.dynamic.core/1.7.3",
-      "hashPath": "system.linq.dynamic.core.1.7.3.nupkg.sha512"
+      "sha512": "sha512-2VJGKUdPjA59aqv/ehvBS+oVoFQqqsiVZlbcyDmuwypgy96Ss1/b8U13Yufk0TXtzveMWAPQAfnZzH+bs1r7Vw==",
+      "path": "system.linq.dynamic.core/1.7.4",
+      "hashPath": "system.linq.dynamic.core.1.7.4.nupkg.sha512"
     },
     "System.Security.Cryptography.ProtectedData/9.0.15": {
       "type": "package",
@@ -4775,61 +4779,61 @@
       "path": "system.security.cryptography.protecteddata/9.0.15",
       "hashPath": "system.security.cryptography.protecteddata.9.0.15.nupkg.sha512"
     },
-    "xunit.v3/3.2.2": {
+    "xunit.v3/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-L+4/4y0Uqcg8/d6hfnxhnwh4j9FaeULvefTwrk30rr1o4n/vdPfyUQ8k0yzH8VJx7bmFEkDdcRfbtbjEHlaYcA==",
-      "path": "xunit.v3/3.2.2",
-      "hashPath": "xunit.v3.3.2.2.nupkg.sha512"
+      "sha512": "sha512-czH4MaZ2k2eLjetuN5W1fUEnNVADsTOeYxDvrqIFh04XO6H3Y8Yu1FrSy3psF1q06DZV33wftjqZVv4acwIp9Q==",
+      "path": "xunit.v3/4.0.0",
+      "hashPath": "xunit.v3.4.0.0.nupkg.sha512"
     },
-    "xunit.v3.assert/3.2.2": {
+    "xunit.v3.assert/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-BPciBghgEEaJN/JG00QfCYDfEfnLgQhfnYEy+j1izoeHVNYd5+3Wm8GJ6JgYysOhpBPYGE+sbf75JtrRc7jrdA==",
-      "path": "xunit.v3.assert/3.2.2",
-      "hashPath": "xunit.v3.assert.3.2.2.nupkg.sha512"
+      "sha512": "sha512-QxYfC+98lCMe7Kl9iWDUeUn+gmiPJ2Sz/r+trSdp1mvKyDMXj8S1kYdfkFNJSHyUSQ6KWomenSDgfWhGpR8zEQ==",
+      "path": "xunit.v3.assert/4.0.0",
+      "hashPath": "xunit.v3.assert.4.0.0.nupkg.sha512"
     },
-    "xunit.v3.common/3.2.2": {
+    "xunit.v3.common/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Hj775PEH6GTbbg0wfKRvG2hNspDCvTH9irXhH4qIWgdrOSV1sQlqPie+DOvFeigsFg2fxSM3ZAaaCDQs+KreFA==",
-      "path": "xunit.v3.common/3.2.2",
-      "hashPath": "xunit.v3.common.3.2.2.nupkg.sha512"
+      "sha512": "sha512-cjaNGmOVA5QJxcp6uuSsDhbt0lNmxezFo226mbYOuXm9E9Owq8bYTKxa9wnAMZRnbvyCmCYhAvc/+UAzf0M2vA==",
+      "path": "xunit.v3.common/4.0.0",
+      "hashPath": "xunit.v3.common.4.0.0.nupkg.sha512"
     },
-    "xunit.v3.core.mtp-v1/3.2.2": {
+    "xunit.v3.core.mtp-v2/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Ga5aA2Ca9ktz+5k3g5ukzwfexwoqwDUpV6z7atSEUvqtd6JuybU1XopHqg1oFd78QdTfZgZE9h5sHpO4qYIi5w==",
-      "path": "xunit.v3.core.mtp-v1/3.2.2",
-      "hashPath": "xunit.v3.core.mtp-v1.3.2.2.nupkg.sha512"
+      "sha512": "sha512-2I7apws+6HPz5aYi4choAn7c8P4jPAvwbfAtLSy0JPH89oeY/z1Zqz65Cm3HJmput5l56Z1sJOinTxsAQmbyWQ==",
+      "path": "xunit.v3.core.mtp-v2/4.0.0",
+      "hashPath": "xunit.v3.core.mtp-v2.4.0.0.nupkg.sha512"
     },
-    "xunit.v3.extensibility.core/3.2.2": {
+    "xunit.v3.extensibility.core/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-srY8z/oMPvh/t8axtO2DwrHajhFMH7tnqKildvYrVQIfICi8fOn3yIBWkVPAcrKmHMwvXRJ/XsQM3VMR6DOYfQ==",
-      "path": "xunit.v3.extensibility.core/3.2.2",
-      "hashPath": "xunit.v3.extensibility.core.3.2.2.nupkg.sha512"
+      "sha512": "sha512-+tTe9VX2vwrUHGI48FE4ly956Ry084wPH4I/7g5D36AkAMGjQRZZDVz8eH2GwX/CLS9PDQRSca534WyrAYsyzw==",
+      "path": "xunit.v3.extensibility.core/4.0.0",
+      "hashPath": "xunit.v3.extensibility.core.4.0.0.nupkg.sha512"
     },
-    "xunit.v3.mtp-v1/3.2.2": {
+    "xunit.v3.mtp-v2/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-O41aAzYKBT5PWqATa1oEWVNCyEUypFQ4va6K0kz37dduV3EKzXNMaV2UnEhufzU4Cce1I33gg0oldS8tGL5I0A==",
-      "path": "xunit.v3.mtp-v1/3.2.2",
-      "hashPath": "xunit.v3.mtp-v1.3.2.2.nupkg.sha512"
+      "sha512": "sha512-svYjct2c3VbLyUSB2r9VWiIkYwemwXHhOgIVAor8RvupcZBFcdiGdmq8G519ZCu30yjPCr0EP3Hy4mvgEXcXpQ==",
+      "path": "xunit.v3.mtp-v2/4.0.0",
+      "hashPath": "xunit.v3.mtp-v2.4.0.0.nupkg.sha512"
     },
-    "xunit.v3.runner.common/3.2.2": {
+    "xunit.v3.runner.common/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/hkHkQCzGrugelOAehprm7RIWdsUFVmIVaD6jDH/8DNGCymTlKKPTbGokD5czbAfqfex47mBP0sb0zbHYwrO/g==",
-      "path": "xunit.v3.runner.common/3.2.2",
-      "hashPath": "xunit.v3.runner.common.3.2.2.nupkg.sha512"
+      "sha512": "sha512-1IEIAVRgnPo9nihd9D0TvxxsLKVRySa+K0wLy/m0SJ4RMdveRCUj/mICFboruO+ILUJ10fUfCCyp7MC5/y7cGw==",
+      "path": "xunit.v3.runner.common/4.0.0",
+      "hashPath": "xunit.v3.runner.common.4.0.0.nupkg.sha512"
     },
-    "xunit.v3.runner.inproc.console/3.2.2": {
+    "xunit.v3.runner.inproc.console/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ulWOdSvCk+bPXijJZ73bth9NyoOHsAs1ZOvamYbCkD4DNLX/Bd29Ve2ZNUwBbK0MqfIYWXHZViy/HKrdEC/izw==",
-      "path": "xunit.v3.runner.inproc.console/3.2.2",
-      "hashPath": "xunit.v3.runner.inproc.console.3.2.2.nupkg.sha512"
+      "sha512": "sha512-Sp5AALIlZUf2U5pEt2LHs+ebn18eAPSFnXEouJTltLez5p+NQvBm7kzsKSkZOM6iyoS6nuN/wKdsJt2LvixjsQ==",
+      "path": "xunit.v3.runner.inproc.console/4.0.0",
+      "hashPath": "xunit.v3.runner.inproc.console.4.0.0.nupkg.sha512"
     },
     "ZXing.Net/0.16.11": {
       "type": "package",
@@ -6143,7 +6147,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Security.AccessControl/10.0.0.0": {
+    "System.Security.AccessControl.Reference/10.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -6650,6 +6654,13 @@
       "path": "system.diagnostics.eventlog/10.0.11",
       "hashPath": "system.diagnostics.eventlog.10.0.11.nupkg.sha512"
     },
+    "System.Security.AccessControl/6.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IQ4NXP/B3Ayzvw0rDQzVTYsCKyy0Jp9KI6aYcK7UnGVlR9+Awz++TIPCQtPYfLJfOpm8ajowMR09V7quD3sEHw==",
+      "path": "system.security.accesscontrol/6.0.1",
+      "hashPath": "system.security.accesscontrol.6.0.1.nupkg.sha512"
+    },
     "System.Security.Cryptography.Pkcs/9.0.13": {
       "type": "package",
       "serviceable": true,
@@ -6657,19 +6668,19 @@
       "path": "system.security.cryptography.pkcs/9.0.13",
       "hashPath": "system.security.cryptography.pkcs.9.0.13.nupkg.sha512"
     },
-    "xunit.analyzers/1.27.0": {
+    "xunit.analyzers/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-y/pxIQaLvk/kxAoDkZW9GnHLCEqzwl5TW0vtX3pweyQpjizB9y3DXhb9pkw2dGeUqhLjsxvvJM1k89JowU6z3g==",
-      "path": "xunit.analyzers/1.27.0",
-      "hashPath": "xunit.analyzers.1.27.0.nupkg.sha512"
+      "sha512": "sha512-2UtauxWDa9C6bT7MvFfZkNoFulfflb00jnDU2xeVO9Y58l4Ah2Mv/HiMs4b0zdpK/SfAxpajkgKNMN8zBKa+7Q==",
+      "path": "xunit.analyzers/2.0.0",
+      "hashPath": "xunit.analyzers.2.0.0.nupkg.sha512"
     },
-    "xunit.runner.visualstudio/3.1.5": {
+    "xunit.runner.visualstudio/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-tKi7dSTwP4m5m9eXPM2Ime4Kn7xNf4x4zT9sdLO/G4hZVnQCRiMTWoSZqI/pYTVeI27oPPqHBKYI/DjJ9GsYgA==",
-      "path": "xunit.runner.visualstudio/3.1.5",
-      "hashPath": "xunit.runner.visualstudio.3.1.5.nupkg.sha512"
+      "sha512": "sha512-kzLFyBYUnoidpGOXvpNOfIo8C92gVgVR6X8ncHwhcrDYugiOut5rrhDkr0L3cWHd7J2pKXf6LgaeXoBBDlx1ag==",
+      "path": "xunit.runner.visualstudio/4.0.0",
+      "hashPath": "xunit.runner.visualstudio.4.0.0.nupkg.sha512"
     }
   }
 }

@@ -608,7 +608,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.7.3, )"
+              "version": "[2026.8.0, )"
             },
             "SkiaSharp": {
               "target": "Package",
@@ -1331,7 +1331,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.7.3, )"
+              "version": "[2026.8.0, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",
@@ -1355,7 +1355,7 @@
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
-              "version": "[1.7.3, )"
+              "version": "[1.7.4, )"
             }
           },
           "imports": [
@@ -1853,7 +1853,7 @@
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[18.8.1, )"
+              "version": "[18.9.0, )"
             },
             "coverlet.collector": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -1865,11 +1865,11 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.5, )"
+              "version": "[4.0.0, )"
             },
             "xunit.v3": {
               "target": "Package",
-              "version": "[3.2.2, )"
+              "version": "[4.0.0, )"
             }
           },
           "imports": [

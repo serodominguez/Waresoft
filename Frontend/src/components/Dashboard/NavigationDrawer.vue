@@ -128,6 +128,7 @@ const linkStore: Link[] = [
   { icon: 'mdi-shape', text: 'Categorías', route: '/categorias', module: 'categorias' },
   { icon: 'mdi-warehouse', text: 'Inventario', route: '/inventario', module: 'inventario' },
   { icon: 'mdi-copyright', text: 'Marcas', route: '/marcas', module: 'marcas' },
+  { icon: 'mdi-archive', text: 'Periodos', route: '/periodo', module: 'periodo' },
   { icon: 'mdi-archive', text: 'Productos', route: '/productos', module: 'productos' },
   { icon: 'mdi-contacts', text: 'Proveedores', route: '/proveedores', module: 'proveedores' },
   { icon: 'mdi-store', text: 'Unidades', route: '/unidades', module: 'unidades' },
@@ -180,6 +181,9 @@ const hasModuleAccess = (module: string): boolean => {
 
   // Normaliza el nombre del módulo para comparación consistente
   const normalizedModule = normalize(module);
+
+    //console.log('Permisos del usuario:', currentUser.permissions.map((p: any) => normalize(p.module)));
+    //console.log('Buscando módulo:', normalizedModule);
 
   // Verifica si existe algún permiso del usuario que coincida con el módulo
   return currentUser.permissions.some(

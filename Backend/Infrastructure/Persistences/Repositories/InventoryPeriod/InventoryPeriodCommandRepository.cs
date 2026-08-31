@@ -40,7 +40,7 @@ namespace Infrastructure.Persistences.Repositories.InventoryPeriod
 
             if (period is null) return;
 
-            period.Status = "CLOSED";
+            period.Status = 2;
             period.ClosedByUser = closedByUser;
             period.ClosedDate = DateTime.Now;
 

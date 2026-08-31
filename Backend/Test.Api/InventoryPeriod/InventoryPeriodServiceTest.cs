@@ -254,7 +254,7 @@ namespace Test.Api.InventoryPeriod
                 });
             }
 
-            var hasOpenPeriod = list.Data!.Any(x => x.Status!.Trim().Equals("OPEN", StringComparison.OrdinalIgnoreCase));
+            var hasOpenPeriod = list.Data!.Any(x => x.StatusPeriod!.Trim().Equals("Abierto", StringComparison.OrdinalIgnoreCase));
 
             if (!hasOpenPeriod)
             {
@@ -354,7 +354,7 @@ namespace Test.Api.InventoryPeriod
                 });
             }
 
-            var current = list.Data!.FirstOrDefault(x => x.Status!.Trim().Equals("OPEN", StringComparison.OrdinalIgnoreCase));
+            var current = list.Data!.FirstOrDefault(x => x.StatusPeriod!.Trim().Equals("Abierto", StringComparison.OrdinalIgnoreCase));
 
             if (current is null)
             {
@@ -408,7 +408,7 @@ namespace Test.Api.InventoryPeriod
                 });
             }
 
-            var current = list.Data!.FirstOrDefault(x => x.Status!.Trim().Equals("OPEN", StringComparison.OrdinalIgnoreCase));
+            var current = list.Data!.FirstOrDefault(x => x.StatusPeriod!.Trim().Equals("Abierto", StringComparison.OrdinalIgnoreCase));
 
             if (current is null)
             {

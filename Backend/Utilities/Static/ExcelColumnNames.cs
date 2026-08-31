@@ -100,6 +100,22 @@
         }
         #endregion
 
+        #region InventoryPeriod
+        public static List<(string ColumnName, string PropertyName)> GetColumnsInventoryPeriod()
+        {
+            var columnsProperties = new List<(string ColumnName, string PropertyName)>
+            {
+                ("Unidad", "StoreName"),
+                ("Periodo", "PeriodName"),
+                ("Proveedor", "CompanyName"),
+                ("Fecha de Inicio.", "StartDate"),
+                ("Fecha de Fin", "EndDate"),
+                ("Estado", "StatusPeriod")
+            };
+            return columnsProperties;
+        }
+        #endregion
+
         #region ColumnsStoreInventory
         public static List<(string ColumnName, string PropertyName)> GetColumnsInventories()
         {

@@ -3,6 +3,8 @@ using Application.Dtos.Request.InventoryPeriod;
 using Application.Interfaces;
 using Application.Security;
 using Microsoft.AspNetCore.Mvc;
+using Utilities.Extensions;
+using Utilities.Static;
 using Web.Api.Controllers;
 
 namespace Api.Controllers
@@ -11,17 +13,49 @@ namespace Api.Controllers
     public class InventoryPeriodController : BaseApiController
     {
         private readonly IInventoryPeriodService _inventoryPeriodService;
+        private readonly IGenerateExcelService _generateExcelService;
+        private readonly IGeneratePdfService _generatePdfService;
 
-        public InventoryPeriodController(IInventoryPeriodService inventoryPeriodService)
+        public InventoryPeriodController(IInventoryPeriodService inventoryPeriodService, IGenerateExcelService generateExcelService, IGeneratePdfService generatePdfService)
         {
             _inventoryPeriodService = inventoryPeriodService;
+            _generateExcelService = generateExcelService;
+            _generatePdfService = generatePdfService;
         }
 
         [HttpGet]
         [RequirePermission("Periodo", "Leer")]
-        public async Task<IActionResult> ListPeriods([FromQuery] BaseFiltersRequest filters)
+        public async Task<IActionResult> ListPeriods([FromQuery] BaseFiltersRequest filters, [FromQuery] string? downloadType = "excel")
         {
             var response = await _inventoryPeriodService.ListPeriods(AuthenticatedUserStoreId, filters);
+
+            if((bool)filters.Download!)
+            {
+                if (downloadType?.ToLower() == "pdf")
+                {
+                    var columNames = PdfColumnNames.GetColumnsInventoryPeriod();
+                    var fileBytes = _generatePdfService.GenerateListPdf(
+                        response.Data!,
+                        columNames,
+                        "Reporte de Periodos",
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
+
+                    );
+                    return File(fileBytes, "application/pdf", $"Periodos_{DateTime.Now:yyyyMMdd}.pdf");
+                }
+                else
+                {
+                    var columnNames = ExcelColumnNames.GetColumnsInventoryPeriod();
+                    var fileBytes = _generateExcelService.GenerateToExcel(
+                        response!.Data!,
+                        columnNames,
+                        "Reporte de Entradas",
+                        subtitle: $"{AuthenticatedUserStoreType} {AuthenticatedUserStoreName?.ToTitleCase() ?? ""}"
+                    );
+                    return File(fileBytes, ContentType.ContentTypeExcel, $"Entradas_{DateTime.Now:yyyyMMdd}.xlsx");
+                }
+            }
+
             return Ok(response);
         }
 

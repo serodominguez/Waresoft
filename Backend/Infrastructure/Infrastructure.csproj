@@ -17,7 +17,7 @@
 	<ItemGroup>
 		<PackageReference Include="ClosedXML" Version="0.105.1" />
 		<PackageReference Include="Dapper" Version="2.1.79" />
-		<PackageReference Include="QuestPDF" Version="2026.7.3" />
+		<PackageReference Include="QuestPDF" Version="2026.8.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
 		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
 		<PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
@@ -25,7 +25,7 @@
 		<PackageReference Include="SkiaSharp" Version="4.151.1" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="4.151.1" Condition="'$(RuntimeIdentifier)' == 'win-x64'" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.151.1" Condition="'$(RuntimeIdentifier)' == 'linux-x64'" />
-		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.3" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.4" />
 	</ItemGroup>
 
 	<ItemGroup>

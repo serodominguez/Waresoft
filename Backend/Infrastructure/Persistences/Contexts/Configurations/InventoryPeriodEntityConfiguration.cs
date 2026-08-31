@@ -25,7 +25,6 @@ namespace Infrastructure.Persistences.Contexts.Configurations
                 .IsRequired();
 
             builder.Property(i => i.Status)
-                .HasMaxLength(15)
                 .IsRequired();
 
             builder.Property(i => i.OpenedByUser)

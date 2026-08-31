@@ -608,7 +608,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.7.3, )"
+              "version": "[2026.8.0, )"
             },
             "SkiaSharp": {
               "target": "Package",
@@ -1331,7 +1331,7 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.7.3, )"
+              "version": "[2026.8.0, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",
@@ -1355,7 +1355,7 @@
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
-              "version": "[1.7.3, )"
+              "version": "[1.7.4, )"
             }
           },
           "imports": [

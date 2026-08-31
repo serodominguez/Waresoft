@@ -194,7 +194,7 @@ namespace Application.Services
 
             var currentPeriod = await _unitOfWork.InventoryPeriodQuery
                 .GetPeriodListQueryable(requestDto.IdStoreOrigin)
-                .Where(p => p.Status == "OPEN")
+                .Where(p => p.Status == 1)
                 .FirstOrDefaultAsync();
 
             if (currentPeriod is null)

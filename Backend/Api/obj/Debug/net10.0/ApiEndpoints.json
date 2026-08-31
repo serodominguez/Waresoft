@@ -963,6 +963,11 @@
         "Name": "Records",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "downloadType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -8,7 +8,7 @@
         public string? PeriodName { get; init; }
         public DateTime? StartDate { get; init; }
         public DateTime? EndDate { get; init; }
-        public string? Status { get; init; }
+        public int Status { get; init; }
         public int OpenedByUser { get; init; }
         public DateTime OpenedDate { get; init; }
         public int? ClosedByUser { get; init; }
