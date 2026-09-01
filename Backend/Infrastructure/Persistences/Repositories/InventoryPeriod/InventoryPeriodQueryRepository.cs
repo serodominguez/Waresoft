@@ -37,48 +37,44 @@ namespace Infrastructure.Persistences.Repositories.InventoryPeriod
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<InventoryPeriodClosingReadModel>> GetClosingByPeriodAsync(int periodId)
-        {
-            const string sql = @"
-                            SELECT  pc.IdPeriod,
-                                    pc.IdProduct,
-                                    p.Code AS ProductCode,
-                                    p.Description AS ProductDescription,
-                                    p.UnitMeasure,
-                                    pc.SystemStock,
-                                    pc.PhysicalStock,
-                                    pc.Difference,
-                                    pc.ClosingStock
-                            FROM InventoryPeriodClosing pc
-                            INNER JOIN Products p ON p.IdProduct = pc.IdProduct
-                            WHERE pc.IdPeriod = @PeriodId
-                            ORDER BY p.Description ASC";
 
-            using var connection = new SqlConnection(_connectionString);
-            var result = await connection.QueryAsync<InventoryPeriodClosingReadModel>(sql, new { PeriodId = periodId });
-            return result.ToList();
+        public async Task<InventoryPeriodOpeningReadModel?> GetOpeningByPeriodAsync(int periodId)
+        {
+            return await _context.InventoryPeriod
+                .AsNoTracking()
+                .Where(p => p.IdPeriod == periodId)
+                .Select(InventoryPeriodProjection.ToOpeningSummary)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<List<InventoryPeriodOpeningReadModel>> GetOpeningByPeriodAsync(int periodId)
+        public async Task<InventoryPeriodClosingReadModel?> GetClosingByPeriodAsync(int periodId)
         {
-            const string sql = @"
-                            SELECT  po.IdPeriod,
-                                    po.IdProduct,
-                                    p.Code AS ProductCode,
-                                    p.Description AS ProductDescription,
-                                    p.UnitMeasure,
-                                    po.OpeningStock
-                            FROM InventoryPeriodOpening po
-                            INNER JOIN Products p ON p.IdProduct = po.IdProduct
-                            WHERE po.IdPeriod = @PeriodId
-                            ORDER BY p.Description ASC";
-
-            using var connection = new SqlConnection(_connectionString);
-            var result = await connection.QueryAsync<InventoryPeriodOpeningReadModel>(sql, new { PeriodId = periodId });
-            return result.ToList();
+            return await _context.InventoryPeriod
+                .AsNoTracking()
+                .Where(p => p.IdPeriod == periodId)
+                .Select(InventoryPeriodProjection.ToClosingSummary)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<List<InventoryPeriodClosingReadModel>> CalculateSystemStockAsync(int periodId)
+        public async Task<List<InventoryPeriodOpeningItemReadModel>> GetOpeningItemByPeriodAsync(int periodId)
+        {
+            return await _context.InventoryPeriodOpening
+                .AsNoTracking()
+                .Where(o => o.IdPeriod == periodId)
+                .Select(InventoryPeriodProjection.ToOpeningItem)
+                .ToListAsync();
+        }
+
+        public async Task<List<InventoryPeriodClosingItemReadModel>> GetClosingItemByPeriodAsync(int periodId)
+        {
+            return await _context.InventoryPeriodClosing
+                .AsNoTracking()
+                .Where(c => c.IdPeriod == periodId)
+                .Select(InventoryPeriodProjection.ToClosingItem)
+                .ToListAsync();
+        }
+
+        public async Task<List<InventoryPeriodClosingItemReadModel>> CalculateSystemStockAsync(int periodId)
         {
             const string sql = @"
                             SELECT  @PeriodId AS IdPeriod,
@@ -133,7 +129,7 @@ namespace Infrastructure.Persistences.Repositories.InventoryPeriod
                             ORDER BY p.Description ASC";
 
             using var connection = new SqlConnection(_connectionString);
-            var result = await connection.QueryAsync<InventoryPeriodClosingReadModel>(
+            var result = await connection.QueryAsync<InventoryPeriodClosingItemReadModel>(
                 sql, new { PeriodId = periodId });
             return result.ToList();
         }

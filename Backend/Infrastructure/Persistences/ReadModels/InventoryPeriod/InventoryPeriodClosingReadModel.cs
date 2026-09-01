@@ -3,13 +3,21 @@
     public record InventoryPeriodClosingReadModel
     {
         public int IdPeriod { get; init; }
-        public int IdProduct { get; init; }
-        public string? ProductCode { get; init; }
-        public string? ProductDescription { get; init; }
-        public string? UnitMeasure { get; init; }
-        public int SystemStock { get; init; }
-        public int? PhysicalStock { get; init; }
-        public int? Difference { get; init; }
-        public int ClosingStock { get; init; }
+        public int IdStore { get; init; }
+        public string? StoreName { get; init; }
+        public string? PeriodName { get; init; }
+        public DateTime? StartDate { get; init; }
+        public DateTime? EndDate { get; init; }
+        public int Status { get; init; }
+        public int OpenedByUser { get; init; }
+        public DateTime? OpenedDate { get; init; }
+        public int? ClosedByUser { get; init; }
+        public DateTime? ClosedDate { get; init; }
+        public int TotalProducts { get; init; }
+        public int TotalSystemStock { get; init; }
+        public int TotalPhysicalStock { get; init; }
+        public int TotalDifference { get; init; }
+
+        public List<InventoryPeriodClosingItemReadModel> Items { get; init; } = [];
     }
 }

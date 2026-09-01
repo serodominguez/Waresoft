@@ -6,8 +6,10 @@ namespace Infrastructure.Persistences.Interfaces.InventoryPeriod
     {
         IQueryable<InventoryPeriodReadModel> GetPeriodListQueryable(int storeId);
         Task<InventoryPeriodDetailReadModel?> GetPeriodDetailAsync(int periodId);
-        Task<List<InventoryPeriodClosingReadModel>> GetClosingByPeriodAsync(int periodId);
-        Task<List<InventoryPeriodOpeningReadModel>> GetOpeningByPeriodAsync(int periodId);
-        Task<List<InventoryPeriodClosingReadModel>> CalculateSystemStockAsync(int periodId);
+        Task<InventoryPeriodOpeningReadModel?> GetOpeningByPeriodAsync(int periodId);
+        Task<InventoryPeriodClosingReadModel?> GetClosingByPeriodAsync(int periodId);
+        Task<List<InventoryPeriodOpeningItemReadModel>> GetOpeningItemByPeriodAsync(int periodId);
+        Task<List<InventoryPeriodClosingItemReadModel>> GetClosingItemByPeriodAsync(int periodId);
+        Task<List<InventoryPeriodClosingItemReadModel>> CalculateSystemStockAsync(int periodId);
     }
 }

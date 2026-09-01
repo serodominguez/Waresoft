@@ -1,0 +1,46 @@
+2026-09-01T22:47:58.8433074+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 2.3.3+44aa76e6a61d4908f06dfd77a51d4b7e3e7ce40f
+2026-09-01T22:47:58.8529847+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-09-01T22:47:58.8539255+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-09-01T22:47:58.8539308+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 22:47:58.819
+2026-09-01T22:47:58.8540143+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 14424
+2026-09-01T22:47:58.8540434+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-09-01T22:47:58.8540584+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-09-01T22:47:58.8540685+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-09-01T22:47:58.8541499+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-09-01T22:47:58.8543146+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 51907'
+2026-09-01T22:47:58.8551615+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-09-01T22:47:58.8973090+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-09-01T22:47:58.9073967+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-09-01T22:47:59.1520288+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '4.0.0' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-09-01T22:47:59.1647904+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v4.0.0+8bf043c053 (64-bit .NET 10.0.11)
+2026-09-01T22:47:59.2234330+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-09-01T22:47:59.3003908+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-09-01T22:47:59.3209439+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-09-01T22:48:02.3905810+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.GetOpeningByPeriod_WhenPeriodNotExists_ReturnsNotFound [FAIL]
+2026-09-01T22:48:02.3912967+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-09-01T22:48:02.3913039+00:00 xUnit.net INFORMATION                        ↓ (pos 6)
+2026-09-01T22:48:02.3913054+00:00 xUnit.net INFORMATION       Expected: "No se encotrarón registros."
+2026-09-01T22:48:02.3913064+00:00 xUnit.net INFORMATION       Actual:   "No se realizarón cambios."
+2026-09-01T22:48:02.3913074+00:00 xUnit.net INFORMATION                        ↑ (pos 6)
+2026-09-01T22:48:02.3918901+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-09-01T22:48:02.3924600+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(168,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.GetOpeningByPeriod_WhenPeriodNotExists_ReturnsNotFound()
+2026-09-01T22:48:02.3924711+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-01T22:48:03.0623739+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.GetClosingByPeriod_WhenPeriodNotExists_ReturnsNotFound [FAIL]
+2026-09-01T22:48:03.0624017+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Strings differ
+2026-09-01T22:48:03.0624034+00:00 xUnit.net INFORMATION                        ↓ (pos 6)
+2026-09-01T22:48:03.0624044+00:00 xUnit.net INFORMATION       Expected: "No se encotrarón registros."
+2026-09-01T22:48:03.0624052+00:00 xUnit.net INFORMATION       Actual:   "No se realizarón cambios."
+2026-09-01T22:48:03.0624220+00:00 xUnit.net INFORMATION                        ↑ (pos 6)
+2026-09-01T22:48:03.0624544+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-09-01T22:48:03.0624774+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(138,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.GetClosingByPeriod_WhenPeriodNotExists_ReturnsNotFound()
+2026-09-01T22:48:03.0624818+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-01T22:48:03.0981110+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference [FAIL]
+2026-09-01T22:48:03.0981455+00:00 xUnit.net INFORMATION       Assert.Equal() Failure: Values differ
+2026-09-01T22:48:03.0981481+00:00 xUnit.net INFORMATION       Expected: 0
+2026-09-01T22:48:03.0981498+00:00 xUnit.net INFORMATION       Actual:   1
+2026-09-01T22:48:03.0981559+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-09-01T22:48:03.0981758+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(437,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference()
+2026-09-01T22:48:03.0981791+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-01T22:48:03.4160290+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-09-01T22:48:03.4216116+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-09-01T22:48:03.4265503+00:00 xUnit.net INFORMATION    Test.Api  Total: 265, Errors: 0, Failed: 3, Skipped: 0, Not Run: 0, Time: 4.099s

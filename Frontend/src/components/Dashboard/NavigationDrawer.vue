@@ -126,9 +126,9 @@ const authStore = useAuthStore();
 // Enlaces directos del menú de Almacén
 const linkStore: Link[] = [
   { icon: 'mdi-shape', text: 'Categorías', route: '/categorias', module: 'categorias' },
-  { icon: 'mdi-warehouse', text: 'Inventario', route: '/inventario', module: 'inventario' },
+  { icon: 'mdi-warehouse', text: 'Variaciones', route: '/inventario', module: 'inventario' },
   { icon: 'mdi-copyright', text: 'Marcas', route: '/marcas', module: 'marcas' },
-  { icon: 'mdi-archive', text: 'Periodos', route: '/periodo', module: 'periodo' },
+  { icon: 'mdi-calendar-clock', text: 'Periodos', route: '/periodo', module: 'periodo' },
   { icon: 'mdi-archive', text: 'Productos', route: '/productos', module: 'productos' },
   { icon: 'mdi-contacts', text: 'Proveedores', route: '/proveedores', module: 'proveedores' },
   { icon: 'mdi-store', text: 'Unidades', route: '/unidades', module: 'unidades' },

@@ -1,18 +1,18 @@
 <template>
-  <div>
-    <InventoryPeriodList :periods="periods" :loading="loading" :totalPeriods="totalPeriods" :canCreate="canCreate"
-      :canEdit="canEdit" :canDownload="canDownload" :items-per-page="itemsPerPage" :downloadingExcel="downloadingExcel"
-      :downloadingPdf="downloadingPdf" v-model:drawer="drawer" v-model:selectedFilter="selectedFilter"
-      v-model:state="state" v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm"
-      @open-close-modal="openCloseModal" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
-      @search-periods="searchPeriods" @download-excel="downloadExcel" @download-pdf="downloadPdf"
-      @clear-filters="clearFilters" />
+    <div>
+        <InventoryPeriodList :periods="periods" :loading="loading" :totalPeriods="totalPeriods" :canCreate="canCreate"
+            :canEdit="canEdit" :canDownload="canDownload" :items-per-page="itemsPerPage"
+            :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf" v-model:drawer="drawer"
+            v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
+            v-model:endDate="endDate" @open-form="openForm" @open-close-modal="openCloseModal"
+            @update-items-per-page="updateItemsPerPage" @change-page="changePage" @search-periods="searchPeriods"
+            @download-excel="downloadExcel" @download-pdf="downloadPdf" @clear-filters="clearFilters" />
 
-    <InventoryPeriodForm v-model="form" @saved="handleSaved" />
+        <InventoryPeriodForm v-model="form" @saved="handleSaved" />
 
-    <InventoryPeriodCloseModal v-model="closeModal" :period="selectedPeriod" @closed="handleClosed"
-      @go-to-physical-stock="handleGoToPhysicalStock" />
-  </div>
+        <InventoryPeriodCloseModal v-model="closeModal" :period="selectedPeriod" @closed="handleClosed"
+            @go-to-physical-stock="handleGoToPhysicalStock" />
+    </div>
 </template>
 
 <script setup lang="ts">

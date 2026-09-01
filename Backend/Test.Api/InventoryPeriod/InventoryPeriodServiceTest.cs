@@ -3,6 +3,7 @@ using Application.Commons.Bases.Response;
 using Application.Dtos.Request.InventoryPeriod;
 using Application.Dtos.Response.InventoryPeriod;
 using Application.Interfaces;
+using Infrastructure.Persistences.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Utilities.Static;
 
@@ -124,20 +125,20 @@ namespace Test.Api.InventoryPeriod
             Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
-            Assert.True(result.TotalRecords > 0);
+            Assert.True(result.Data!.Items.Count > 0);
         }
 
         [Fact]
-        public async Task GetClosingByPeriod_WhenPeriodNotExists_ReturnsEmptyList()
+        public async Task GetClosingByPeriod_WhenPeriodNotExists_ReturnsNotFound()
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IInventoryPeriodService>();
 
             var result = await context.GetClosingByPeriod(999999);
 
-            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
-            Assert.True(result.IsSuccess);
-            Assert.Empty(result.Data!);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Data!);
         }
 
         // ===================== GET OPENING BY PERIOD =====================
@@ -154,49 +155,20 @@ namespace Test.Api.InventoryPeriod
             Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
-            Assert.True(result.TotalRecords > 0);
+            Assert.True(result.Data!.Items.Count > 0);
         }
 
         [Fact]
-        public async Task GetOpeningByPeriod_WhenPeriodNotExists_ReturnsEmptyList()
+        public async Task GetOpeningByPeriod_WhenPeriodNotExists_ReturnsNotFound()
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<IInventoryPeriodService>();
 
             var result = await context.GetOpeningByPeriod(999999);
 
-            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
-            Assert.True(result.IsSuccess);
-            Assert.Empty(result.Data!);
-        }
-
-        // ===================== GET SYSTEM STOCK CALCULATED =====================
-
-        [Fact]
-        public async Task GetSystemStockCalculated_WhenPeriodExists_ReturnsData()
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<IInventoryPeriodService>();
-
-            // IdPeriod=2 está OPEN — tiene movimientos calculados
-            var result = await context.GetSystemStockCalculated(2);
-
-            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
-            Assert.True(result.IsSuccess);
-            Assert.NotNull(result.Data);
-        }
-
-        [Fact]
-        public async Task GetSystemStockCalculated_WhenPeriodNotExists_ReturnsEmptyList()
-        {
-            using var scope = _scopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<IInventoryPeriodService>();
-
-            var result = await context.GetSystemStockCalculated(999999);
-
-            Assert.Equal(ReplyMessage.MESSAGE_QUERY, result.Message);
-            Assert.True(result.IsSuccess);
-            Assert.Empty(result.Data!);
+            Assert.Equal(ReplyMessage.MESSAGE_NOT_FOUND, result.Message);
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Data!);
         }
 
         // ===================== OPEN PERIOD =====================
@@ -416,22 +388,23 @@ namespace Test.Api.InventoryPeriod
                 return;
             }
 
-            // Arrange — leer stock calculado
-            BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>> systemStock;
+            // Arrange — leer stock calculado desde repositorio
+            int firstProductId;
+            int firstProductSystemStock;
             using (var scope = _scopeFactory.CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<IInventoryPeriodService>();
-                systemStock = await context.GetSystemStockCalculated(current.IdPeriod);
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var systemStock = await unitOfWork.InventoryPeriodQuery.CalculateSystemStockAsync(current.IdPeriod);
+
+                if (!systemStock.Any())
+                    return;
+
+                var firstProduct = systemStock.First();
+                firstProductId = firstProduct.IdProduct;
+                firstProductSystemStock = firstProduct.SystemStock;
             }
 
-            if (!systemStock.Data!.Any())
-            {
-                return;
-            }
-
-            var firstProduct = systemStock.Data!.First();
-
-            // Act — scope propio para cerrar con conteo físico
+            // Act — cerrar con conteo físico
             BaseResponse<bool> result;
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -443,7 +416,7 @@ namespace Test.Api.InventoryPeriod
                     [
                         new InventoryPeriodPhysicalCountDto
                 {
-                    IdProduct = firstProduct.IdProduct,
+                    IdProduct = firstProductId,
                     PhysicalStock = 50
                 }
                     ]
@@ -454,20 +427,20 @@ namespace Test.Api.InventoryPeriod
             Assert.True(result.IsSuccess);
             Assert.True(result.Data);
 
-            // Assert — scope propio para verificar closing guardado
-            BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>> closing;
+            // Assert — verificar closing guardado
+            BaseResponse<InventoryPeriodClosingResponseDto> closing;
             using (var scope = _scopeFactory.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<IInventoryPeriodService>();
                 closing = await context.GetClosingByPeriod(current.IdPeriod);
             }
 
-            var entry = closing.Data!.First(x => x.IdProduct == firstProduct.IdProduct);
+            var entry = closing.Data!.Items.First(x => x.IdProduct == firstProductId);
             Assert.Equal(50, entry.PhysicalStock);
             Assert.Equal(50, entry.ClosingStock);
-            Assert.Equal(50 - firstProduct.SystemStock, entry.Difference);
+            Assert.Equal(50 - firstProductSystemStock, entry.Difference);
 
-            // Teardown — scope propio para reabrir
+            // Teardown — reabrir
             using (var scope = _scopeFactory.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<IInventoryPeriodService>();

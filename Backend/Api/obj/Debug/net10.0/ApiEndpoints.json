@@ -1022,22 +1022,6 @@
   },
   {
     "ContainingType": "Api.Controllers.InventoryPeriodController",
-    "Method": "GetSystemStockCalculated",
-    "RelativePath": "api/InventoryPeriod/{periodId}/SystemStock",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "periodId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Api.Controllers.InventoryPeriodController",
     "Method": "ClosePeriod",
     "RelativePath": "api/InventoryPeriod/Close",
     "HttpMethod": "PUT",

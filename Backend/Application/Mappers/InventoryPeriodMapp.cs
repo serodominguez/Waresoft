@@ -63,32 +63,62 @@ namespace Application.Mappers
             };
         }
 
-        public static InventoryPeriodClosingResponseDto InventoryPeriodClosingResponseMapping(InventoryPeriodClosingReadModel model)
-        {
-            return new InventoryPeriodClosingResponseDto
-            {
-                IdPeriod = model.IdPeriod,
-                IdProduct = model.IdProduct,
-                ProductCode = model.ProductCode,
-                ProductDescription = model.ProductDescription?.ToSentenceCase(),
-                UnitMeasure = model.UnitMeasure?.ToSentenceCase(),
-                SystemStock = model.SystemStock,
-                PhysicalStock = model.PhysicalStock,
-                Difference = model.Difference,
-                ClosingStock = model.ClosingStock
-            };
-        }
-
         public static InventoryPeriodOpeningResponseDto InventoryPeriodOpeningResponseMapping(InventoryPeriodOpeningReadModel model)
         {
             return new InventoryPeriodOpeningResponseDto
             {
                 IdPeriod = model.IdPeriod,
-                IdProduct = model.IdProduct,
-                ProductCode = model.ProductCode,
-                ProductDescription = model.ProductDescription?.ToSentenceCase(),
-                UnitMeasure = model.UnitMeasure?.ToSentenceCase(),
-                OpeningStock = model.OpeningStock
+                IdStore = model.IdStore,
+                StoreName = model.StoreName?.ToSentenceCase(),
+                PeriodName = model.PeriodName,
+                StartDate = model.StartDate.HasValue ? model.StartDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                EndDate = model.EndDate.HasValue ? model.EndDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusPeriod = ((Periods)(model.Status)).ToString(),
+                OpenedByUser = model.OpenedByUser,
+                OpenedDate = model.OpenedDate.HasValue ? model.OpenedDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                TotalProducts = model.TotalProducts,
+                TotalOpeningStock = model.TotalOpeningStock,
+                Items = model.Items.Select(o => new InventoryPeriodOpeningItemResponseDto
+                {
+                    IdProduct = o.IdProduct,
+                    ProductCode = o.ProductCode,
+                    ProductDescription = o.ProductDescription?.ToSentenceCase(),
+                    UnitMeasure = o.UnitMeasure?.ToSentenceCase(),
+                    OpeningStock = o.OpeningStock
+                }).ToList()
+            };
+        }
+
+        public static InventoryPeriodClosingResponseDto InventoryPeriodClosingResponseMapping(InventoryPeriodClosingReadModel model)
+        {
+            return new InventoryPeriodClosingResponseDto
+            {
+                IdPeriod = model.IdPeriod,
+                IdStore = model.IdStore,
+                StoreName = model.StoreName?.ToSentenceCase(),
+                PeriodName = model.PeriodName,
+                StartDate = model.StartDate.HasValue ? model.StartDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                EndDate = model.EndDate.HasValue ? model.EndDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                StatusPeriod = ((Periods)(model.Status)).ToString(),
+                OpenedByUser = model.OpenedByUser,
+                OpenedDate = model.OpenedDate.HasValue ? model.OpenedDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                ClosedByUser = model.ClosedByUser,
+                ClosedDate = model.ClosedDate.HasValue ? model.ClosedDate.Value.ToString("dd/MM/yyyy HH:mm") : null,
+                TotalProducts = model.TotalProducts,
+                TotalSystemStock = model.TotalSystemStock,
+                TotalPhysicalStock = model.TotalPhysicalStock,
+                TotalDifference = model.TotalDifference,
+                Items = model.Items.Select(c => new InventoryPeriodClosingItemResponseDto
+                {
+                    IdProduct = c.IdProduct,
+                    ProductCode = c.ProductCode,
+                    ProductDescription = c.ProductDescription?.ToSentenceCase(),
+                    UnitMeasure = c.UnitMeasure?.ToSentenceCase(),
+                    SystemStock = c.SystemStock,
+                    PhysicalStock = c.PhysicalStock,
+                    Difference = c.Difference,
+                    ClosingStock = c.ClosingStock
+                }).ToList()
             };
         }
     }

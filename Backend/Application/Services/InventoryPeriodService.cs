@@ -115,38 +115,22 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>>> GetClosingByPeriod(int periodId)
+        public async Task<BaseResponse<InventoryPeriodOpeningResponseDto>> GetOpeningByPeriod(int periodId)
         {
-            var response = new BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>>();
-            try
-            {
-                var closing = await _unitOfWork.InventoryPeriodQuery.GetClosingByPeriodAsync(periodId);
-
-                response.IsSuccess = true;
-                response.TotalRecords = closing.Count;
-                response.Data = closing.Select(InventoryPeriodMapp.InventoryPeriodClosingResponseMapping);
-                response.Message = ReplyMessage.MESSAGE_QUERY;
-            }
-            catch (Exception)
-            {
-                response.IsSuccess = false;
-                response.Message = ReplyMessage.MESSAGE_EXCEPTION;
-                throw;
-            }
-
-            return response;
-        }
-
-        public async Task<BaseResponse<IEnumerable<InventoryPeriodOpeningResponseDto>>> GetOpeningByPeriod(int periodId)
-        {
-            var response = new BaseResponse<IEnumerable<InventoryPeriodOpeningResponseDto>>();
+            var response = new BaseResponse<InventoryPeriodOpeningResponseDto>();
             try
             {
                 var opening = await _unitOfWork.InventoryPeriodQuery.GetOpeningByPeriodAsync(periodId);
 
+                if (opening is null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                    return response;
+                }
+
                 response.IsSuccess = true;
-                response.TotalRecords = opening.Count;
-                response.Data = opening.Select(InventoryPeriodMapp.InventoryPeriodOpeningResponseMapping);
+                response.Data = InventoryPeriodMapp.InventoryPeriodOpeningResponseMapping(opening);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception)
@@ -159,16 +143,22 @@ namespace Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>>> GetSystemStockCalculated(int periodId)
+        public async Task<BaseResponse<InventoryPeriodClosingResponseDto>> GetClosingByPeriod(int periodId)
         {
-            var response = new BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>>();
+            var response = new BaseResponse<InventoryPeriodClosingResponseDto>();
             try
             {
-                var systemStock = await _unitOfWork.InventoryPeriodQuery.CalculateSystemStockAsync(periodId);
+                var closing = await _unitOfWork.InventoryPeriodQuery.GetClosingByPeriodAsync(periodId);
+
+                if (closing is null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_NOT_FOUND;
+                    return response;
+                }
 
                 response.IsSuccess = true;
-                response.TotalRecords = systemStock.Count;
-                response.Data = systemStock.Select(InventoryPeriodMapp.InventoryPeriodClosingResponseMapping);
+                response.Data = InventoryPeriodMapp.InventoryPeriodClosingResponseMapping(closing);
                 response.Message = ReplyMessage.MESSAGE_QUERY;
             }
             catch (Exception)
@@ -180,6 +170,28 @@ namespace Application.Services
 
             return response;
         }
+
+        //public async Task<BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>>> GetSystemStockCalculated(int periodId)
+        //{
+        //    var response = new BaseResponse<IEnumerable<InventoryPeriodClosingResponseDto>>();
+        //    try
+        //    {
+        //        var systemStock = await _unitOfWork.InventoryPeriodQuery.CalculateSystemStockAsync(periodId);
+
+        //        response.IsSuccess = true;
+        //        response.TotalRecords = systemStock.Count;
+        //        response.Data = systemStock.Select(InventoryPeriodMapp.InventoryPeriodClosingResponseMapping);
+        //        response.Message = ReplyMessage.MESSAGE_QUERY;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        response.IsSuccess = false;
+        //        response.Message = ReplyMessage.MESSAGE_EXCEPTION;
+        //        throw;
+        //    }
+
+        //    return response;
+        //}
 
         public async Task<BaseResponse<bool>> OpenPeriod(int authenticatedUserId, int authenticatedStoreId, InventoryPeriodOpenRequestDto requestDto)
         {
@@ -241,7 +253,7 @@ namespace Application.Services
                 {
                     // Períodos posteriores — tomar desde InventoryPeriodClosing del último cerrado
                     var closingStock = await _unitOfWork.InventoryPeriodQuery
-                        .GetClosingByPeriodAsync(lastClosedPeriod.IdPeriod);
+                        .GetClosingItemByPeriodAsync(lastClosedPeriod.IdPeriod);
 
                     var opening = closingStock.Select(c => new InventoryPeriodOpeningEntity
                     {

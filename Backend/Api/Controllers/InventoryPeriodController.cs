@@ -83,13 +83,13 @@ namespace Api.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{periodId}/SystemStock")]
-        [RequirePermission("Periodo", "Leer")]
-        public async Task<IActionResult> GetSystemStockCalculated(int periodId)
-        {
-            var response = await _inventoryPeriodService.GetSystemStockCalculated(periodId);
-            return Ok(response);
-        }
+        //[HttpGet("{periodId}/SystemStock")]
+        //[RequirePermission("Periodo", "Leer")]
+        //public async Task<IActionResult> GetSystemStockCalculated(int periodId)
+        //{
+        //    var response = await _inventoryPeriodService.GetSystemStockCalculated(periodId);
+        //    return Ok(response);
+        //}
 
         [HttpPost("Open")]
         [RequirePermission("Periodo", "Crear")]
