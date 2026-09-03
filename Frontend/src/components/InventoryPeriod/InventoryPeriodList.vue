@@ -22,6 +22,27 @@
                             </v-chip>
                         </td>
                         <td class="text-center">
+                            <v-tooltip v-bind="tooltipProps" text="Imprimir Apertura" location="bottom">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
+                                        @click="$emit('print-opening-pdf', item)"
+                                        :loading="printingPdfId === (item as InventoryPeriod).idPeriod"
+                                        :disabled="printingPdfId === (item as InventoryPeriod).idPeriod">
+                                        <v-icon icon="mdi-file-lock-open-outline" size="24"></v-icon>
+                                    </v-btn>
+                                </template>
+                            </v-tooltip>
+                            <v-tooltip v-bind="tooltipProps" text="Imprimir Cierre" location="bottom"
+                                v-if="(item as InventoryPeriod).statusPeriod === 'Cerrado'">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn v-bind="props" icon variant="text" color="grey-darken-1" size="small"
+                                        @click="$emit('print-closing-pdf', item)"
+                                        :loading="printingPdfId === (item as InventoryPeriod).idPeriod"
+                                        :disabled="printingPdfId === (item as InventoryPeriod).idPeriod">
+                                        <v-icon icon="mdi-file-lock-outline" size="24"></v-icon>
+                                    </v-btn>
+                                </template>
+                            </v-tooltip>
                             <v-tooltip v-bind="tooltipProps" text="Cerrar Período" location="bottom">
                                 <template v-slot:activator="{ props }">
                                     <v-btn v-bind="props"
@@ -127,6 +148,7 @@ const props = withDefaults(defineProps<{
     itemsPerPage?: number;
     downloadingExcel?: boolean;
     downloadingPdf?: boolean;
+    printingPdfId?: number | null;
 }>(), {
     canDownload: false,
     drawer: false,
@@ -137,6 +159,7 @@ const props = withDefaults(defineProps<{
     itemsPerPage: 10,
     downloadingExcel: false,
     downloadingPdf: false,
+    printingPdfId: null,
 });
 
 const emit = defineEmits<{
@@ -159,6 +182,8 @@ const emit = defineEmits<{
     'update:startDate': [value: Date | null];
     'update:endDate': [value: Date | null];
     'clear-filters': [];
+    'print-opening-pdf': [period: InventoryPeriod];
+    'print-closing-pdf':  [period: InventoryPeriod];
 }>();
 
 const { tooltipProps } = useResponsiveTooltip();

@@ -2,11 +2,12 @@
     <div>
         <InventoryPeriodList :periods="periods" :loading="loading" :totalPeriods="totalPeriods" :canCreate="canCreate"
             :canEdit="canEdit" :canDownload="canDownload" :items-per-page="itemsPerPage"
-            :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf" v-model:drawer="drawer"
-            v-model:selectedFilter="selectedFilter" v-model:state="state" v-model:startDate="startDate"
-            v-model:endDate="endDate" @open-form="openForm" @open-close-modal="openCloseModal"
-            @update-items-per-page="updateItemsPerPage" @change-page="changePage" @search-periods="searchPeriods"
-            @download-excel="downloadExcel" @download-pdf="downloadPdf" @clear-filters="clearFilters" />
+            :printing-pdf-id="currentPrintingId" :downloadingExcel="downloadingExcel" :downloadingPdf="downloadingPdf"
+            v-model:drawer="drawer" v-model:selectedFilter="selectedFilter" v-model:state="state"
+            v-model:startDate="startDate" v-model:endDate="endDate" @open-form="openForm"
+            @open-close-modal="openCloseModal" @update-items-per-page="updateItemsPerPage" @change-page="changePage"
+            @search-periods="searchPeriods" @download-excel="downloadExcel" @download-pdf="downloadPdf"
+            @clear-filters="clearFilters" @print-opening-pdf="printOpeningPdf" @print-closing-pdf="printClosingPdf" />
 
         <InventoryPeriodForm v-model="form" @saved="handleSaved" />
 
@@ -46,6 +47,7 @@ const drawer          = ref(false);
 const form            = ref(false);
 const closeModal      = ref(false);
 const selectedPeriod  = ref<InventoryPeriod | null>(null);
+const currentPrintingId = ref<number | null>(null);
 const downloadingExcel = ref(false);
 const downloadingPdf   = ref(false);
 
@@ -156,6 +158,32 @@ const downloadPdf = async (params: { search: string | null }) => {
     } finally {
         downloadingPdf.value = false;
     }
+};
+
+const printOpeningPdf = async (period: InventoryPeriod) => {
+  if (!period.idPeriod) return;
+  currentPrintingId.value = period.idPeriod;
+  try {
+    await periodStore.openOpeningPdf(period.idPeriod);
+    toast.success('PDF de apertura abierto correctamente');
+  } catch (error) {
+    handleApiError(error, 'Error al abrir el PDF de apertura');
+  } finally {
+    currentPrintingId.value = null;
+  }
+};
+
+const printClosingPdf = async (period: InventoryPeriod) => {
+  if (!period.idPeriod) return;
+  currentPrintingId.value = period.idPeriod;
+  try {
+    await periodStore.openClosingPdf(period.idPeriod);
+    toast.success('PDF de cierre abierto correctamente');
+  } catch (error) {
+    handleApiError(error, 'Error al abrir el PDF de cierre');
+  } finally {
+    currentPrintingId.value = null;
+  }
 };
 
 const handleSaved  = () => fetchPeriods();

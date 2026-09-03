@@ -77,6 +77,64 @@ class InventoryPeriodService extends BaseService<InventoryPeriod> {
     );
     return response.data;
   }
+
+  async exportOpeningPdf(periodId: number): Promise<{ blob: Blob; filename: string }> {
+    const response = await axios.get(
+      `api/InventoryPeriod/ExportOpeningPdf/${periodId}`,
+      { responseType: 'blob' }
+    );
+
+    const contentDisposition =
+      response.headers['content-disposition'] ||
+      response.headers['Content-Disposition'] ||
+      response.headers.contentDisposition;
+
+    let filename = `Apertura_${periodId}.pdf`;
+
+    if (contentDisposition) {
+      const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+      if (utf8Match?.[1]) {
+        filename = decodeURIComponent(utf8Match[1]);
+      } else {
+        const standardMatch = contentDisposition.match(/filename[^;=\n]*=["']?([^"';\n]+)["']?/i);
+        if (standardMatch?.[1]) {
+          filename = standardMatch[1].replace(/^["']|["']$/g, '');
+        }
+      }
+    }
+
+    return { blob: response.data, filename };
+  }
+
+  // Exportar PDF de cierre
+  async exportClosingPdf(periodId: number): Promise<{ blob: Blob; filename: string }> {
+    const response = await axios.get(
+      `api/InventoryPeriod/ExportClosingPdf/${periodId}`,
+      { responseType: 'blob' }
+    );
+
+    const contentDisposition =
+      response.headers['content-disposition'] ||
+      response.headers['Content-Disposition'] ||
+      response.headers.contentDisposition;
+
+    let filename = `Cierre_${periodId}.pdf`;
+
+    if (contentDisposition) {
+      const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+      if (utf8Match?.[1]) {
+        filename = decodeURIComponent(utf8Match[1]);
+      } else {
+        const standardMatch = contentDisposition.match(/filename[^;=\n]*=["']?([^"';\n]+)["']?/i);
+        if (standardMatch?.[1]) {
+          filename = standardMatch[1].replace(/^["']|["']$/g, '');
+        }
+      }
+    }
+
+    return { blob: response.data, filename };
+  }
+
 }
 
 export const inventoryPeriodService = new InventoryPeriodService();

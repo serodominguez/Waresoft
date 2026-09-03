@@ -108,6 +108,20 @@ export const useInventoryPeriodStore = defineStore('inventory-period', () => {
     return result;
   }
 
+  async function openOpeningPdf(periodId: number) {
+    const { blob } = await inventoryPeriodService.exportOpeningPdf(periodId);
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    setTimeout(() => window.URL.revokeObjectURL(url), 100);
+  }
+
+  async function openClosingPdf(periodId: number) {
+    const { blob } = await inventoryPeriodService.exportClosingPdf(periodId);
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    setTimeout(() => window.URL.revokeObjectURL(url), 100);
+  }
+
   async function downloadPeriodsExcel(params?: FilterParams) {
     await base.downloadExcel(params);
   }
@@ -118,22 +132,22 @@ export const useInventoryPeriodStore = defineStore('inventory-period', () => {
 
   return {
     // Estado base
-    items, 
-    selectedItem, 
-    totalItems, 
-    loading, 
+    items,
+    selectedItem,
+    totalItems,
+    loading,
     lastFilterParams,
-    list, 
-    selected, 
+    list,
+    selected,
     total,
 
     // Estado extra
     periodDetail,
-    openingItems, 
+    openingItems,
     totalOpeningItems,
-    closingItems, 
+    closingItems,
     totalClosingItems,
-    systemStockItems, 
+    systemStockItems,
     totalSystemStockItems,
 
     // Acciones
@@ -144,6 +158,8 @@ export const useInventoryPeriodStore = defineStore('inventory-period', () => {
     fetchSystemStock,
     openPeriod,
     closePeriod,
+    openOpeningPdf,
+    openClosingPdf,
     downloadPeriodsExcel,
     downloadPeriodsPdf,
   };
