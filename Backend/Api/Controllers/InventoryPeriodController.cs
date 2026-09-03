@@ -106,5 +106,37 @@ namespace Api.Controllers
             var response = await _inventoryPeriodService.ClosePeriod(AuthenticatedUserId, AuthenticatedUserStoreId, requestDto);
             return Ok(response);
         }
+
+        [HttpGet("ExportOpeningPdf/{periodId:int}")]
+        [RequirePermission("Periodo", "Descargar")]
+        public async Task<IActionResult> ExportPdfInventoryPeriodOpening(int periodId)
+        {
+            var response = await _inventoryPeriodService.GetOpeningByPeriod(periodId);
+            if (!response.IsSuccess) return NotFound();
+
+            var fileBytes = _generatePdfService.InventoryPeriodOpeningGeneratePdf(
+                response.Data!,
+                AuthenticatedUserStoreType.ToTitleCase() ?? "",
+                AuthenticatedUserStoreName.ToTitleCase() ?? "");
+
+            var fileName = $"Apertura_{response.Data!.PeriodName}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            return File(fileBytes, "application/pdf", fileName);
+        }
+
+        [HttpGet("ExportClosingPdf/{periodId:int}")]
+        [RequirePermission("Periodo", "Descargar")]
+        public async Task<IActionResult> ExportPdfInventoryPeriodClosing(int periodId)
+        {
+            var response = await _inventoryPeriodService.GetClosingByPeriod(periodId);
+            if (!response.IsSuccess) return NotFound();
+
+            var fileBytes = _generatePdfService.InventoryPeriodClosingGeneratePdf(
+                response.Data!,
+                AuthenticatedUserStoreType.ToTitleCase() ?? "",
+                AuthenticatedUserStoreName.ToTitleCase() ?? "");
+
+            var fileName = $"Cierre_{response.Data!.PeriodName}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            return File(fileBytes, "application/pdf", fileName);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.Response.GoodsIssue;
 using Application.Dtos.Response.GoodsReceipt;
+using Application.Dtos.Response.InventoryPeriod;
 using Application.Dtos.Response.Product;
 using Application.Dtos.Response.StoreInventory;
 using Application.Dtos.Response.Transfer;
@@ -15,6 +16,8 @@ namespace Application.Interfaces
         byte[] PivotInventoryGeneratePdf(StoreInventoryPivotResponseDto pivot, string storeType, string storeName);
         byte[] ProductBarcodeGeneratePdf(ProductSelectResponseDto product, int quantity);
         byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName, string qrUrl);
+        byte[] InventoryPeriodOpeningGeneratePdf(InventoryPeriodOpeningResponseDto opening, string storeType, string storeName);
+        byte[] InventoryPeriodClosingGeneratePdf(InventoryPeriodClosingResponseDto closing, string storeType, string storeName);
         byte[] GenerateListPdf<T>(IEnumerable<T> data, List<(string ColumnName, string PropertyName)> columns, string title, string subtitle = "") where T : class;
     }
 }

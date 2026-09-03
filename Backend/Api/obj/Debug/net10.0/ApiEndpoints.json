@@ -1038,6 +1038,38 @@
   },
   {
     "ContainingType": "Api.Controllers.InventoryPeriodController",
+    "Method": "ExportPdfInventoryPeriodClosing",
+    "RelativePath": "api/InventoryPeriod/ExportClosingPdf/{periodId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "periodId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.InventoryPeriodController",
+    "Method": "ExportPdfInventoryPeriodOpening",
+    "RelativePath": "api/InventoryPeriod/ExportOpeningPdf/{periodId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "periodId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Api.Controllers.InventoryPeriodController",
     "Method": "OpenPeriod",
     "RelativePath": "api/InventoryPeriod/Open",
     "HttpMethod": "POST",

@@ -1,5 +1,6 @@
 ﻿using Application.Dtos.Response.GoodsIssue;
 using Application.Dtos.Response.GoodsReceipt;
+using Application.Dtos.Response.InventoryPeriod;
 using Application.Dtos.Response.Product;
 using Application.Dtos.Response.StoreInventory;
 using Application.Dtos.Response.Transfer;
@@ -61,6 +62,18 @@ namespace Application.Services
         public byte[] TransferGeneratePdf(TransferWithDetailsResponseDto transfer, string storeType, string storeName, string qrUrl)
         {
             var generator = new TransferPdfGenerator(transfer, storeType, storeName, qrUrl);
+            return generator.GeneratePdf();
+        }
+
+        public byte[] InventoryPeriodOpeningGeneratePdf(InventoryPeriodOpeningResponseDto opening, string storeType, string storeName)
+        {
+            var generator = new InventoryPeriodOpeningPdfGenerator(opening, storeType, storeName);
+            return generator.GeneratePdf();
+        }
+
+        public byte[] InventoryPeriodClosingGeneratePdf(InventoryPeriodClosingResponseDto closing, string storeType, string storeName)
+        {
+            var generator = new InventoryPeriodClosingPdfGenerator(closing, storeType, storeName);
             return generator.GeneratePdf();
         }
 
