@@ -194,10 +194,11 @@ namespace Infrastructure.Persistences.Repositories
             return (data, total);
         }
 
-        public async Task<(List<InventoryCalculatedReadModel> Data, int TotalRecords)> GetInventoryCalculatedAsync(int storeId, int? numberFilter, string? textFilter, bool? stateFilter, DateTime? startDate, DateTime? endDate, int pageNumber, int pageSize)
+        public async Task<(List<InventoryCalculatedReadModel> Data, int TotalRecords)> GetInventoryCalculatedAsync(int storeId, int periodId, int? numberFilter, string? textFilter,bool? stateFilter, DateTime? startDate, DateTime? endDate, int pageNumber, int pageSize)
         {
             var parameters = new DynamicParameters();
             parameters.Add("StoreId", storeId);
+            parameters.Add("IdPeriod", periodId);
 
             string productFilters = " AND p.AuditDeleteUser IS NULL AND p.AuditDeleteDate IS NULL";
 
@@ -250,29 +251,25 @@ namespace Infrastructure.Persistences.Repositories
             parameters.Add("PageSize", pageSize);
 
             var sql = $@"
-                            SELECT COUNT(*) 
-                            FROM StoresInventory si 
-                            INNER JOIN Products p ON si.IdProduct = p.IdProduct
-                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
-                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
-                            WHERE si.IdStore = @StoreId {productFilters};
+                        SELECT COUNT(*) FROM StoresInventory si 
+                        INNER JOIN Products p ON si.IdProduct = p.IdProduct
+                        LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
+                        LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
+                        WHERE si.IdStore = @StoreId {productFilters};
 
-                        -- B. OBTENER IDs DE LA PÁGINA ACTUAL
-                            DROP TABLE IF EXISTS #PagedIds;
-        
-                            SELECT si.IdProduct INTO #PagedIds
-                            FROM StoresInventory si
-                            INNER JOIN Products p ON si.IdProduct = p.IdProduct
-                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
-                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
-                            WHERE si.IdStore = @StoreId {productFilters}
-                            ORDER BY p.IdProduct DESC
-                            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+                        DROP TABLE IF EXISTS #PagedIds;
 
-                        -- C. SELECT FINAL con CTE de movimientos
-                            ;WITH TotalMovementCTE AS (
-                            SELECT IdProduct, SUM(Quantity) AS Total 
-                            FROM (
+                        SELECT si.IdProduct INTO #PagedIds
+                        FROM StoresInventory si
+                        INNER JOIN Products p ON si.IdProduct = p.IdProduct
+                        LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
+                        LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
+                        WHERE si.IdStore = @StoreId {productFilters}
+                        ORDER BY p.IdProduct DESC
+                        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
+
+                        ;WITH TotalMovementCTE AS (
+                        SELECT IdProduct, SUM(Quantity) AS Total FROM (
 
                         -- Entradas por recepción
                             SELECT d.IdProduct, d.Quantity 
@@ -281,19 +278,21 @@ namespace Infrastructure.Persistences.Repositories
                             WHERE r.IdStore = @StoreId 
                             AND r.IsActive = 1 
                             AND r.Status = 1
+                            AND r.IdPeriod = @IdPeriod
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)
                             UNION ALL
-                
+            
                         -- Salidas por despacho
                             SELECT d.IdProduct, -d.Quantity
                             FROM GoodsIssueDetails d 
                             INNER JOIN GoodsIssue i ON i.IdIssue = d.IdIssue 
                             WHERE i.IdStore = @StoreId 
-                            AND i.IsActive= 1 
+                            AND i.IsActive = 1 
                             AND i.Status = 1
+                            AND i.IdPeriod = @IdPeriod
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)
                             UNION ALL
-                
+            
                         -- Entradas por transferencia (destino)
                             SELECT d.IdProduct, d.Quantity 
                             FROM TransfersDetails d 
@@ -301,9 +300,10 @@ namespace Infrastructure.Persistences.Repositories
                             WHERE t.IdStoreDestination = @StoreId 
                             AND t.IsActive = 1 
                             AND t.Status != 0
+                            AND t.IdPeriod = @IdPeriod
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)
                             UNION ALL
-                
+            
                         -- Salidas por transferencia (origen)
                             SELECT d.IdProduct, -d.Quantity 
                             FROM TransfersDetails d 
@@ -311,25 +311,22 @@ namespace Infrastructure.Persistences.Repositories
                             WHERE t.IdStoreOrigin = @StoreId 
                             AND t.IsActive = 1 
                             AND t.Status != 0
+                            AND t.IdPeriod = @IdPeriod
                             AND d.IdProduct IN (SELECT IdProduct FROM #PagedIds)) t GROUP BY IdProduct)
-        
-                        -- D. SELECT FINAL
-                            SELECT  si.IdStore, si.IdProduct,
-                                    si.StockAvailable, si.StockInTransit, si.MinimumStock, si.Price,
-                                    p.Replenishment, p.Code, p.Description,
-                                    p.Material, p.Color, p.UnitMeasure,
-                                    b.BrandName, c.CategoryName, p.AuditCreateDate,
-                            COALESCE(cs.Total, 0) AS CalculatedStock
-                            FROM StoresInventory si
-                            INNER JOIN #PagedIds pi ON si.IdProduct = pi.IdProduct
-                            INNER JOIN Products p ON si.IdProduct = p.IdProduct
-                            LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
-                            LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
-                            LEFT JOIN TotalMovementCTE cs ON si.IdProduct = cs.IdProduct
-                            WHERE si.IdStore = @StoreId
-                            ORDER BY p.IdProduct DESC;
 
-                            DROP TABLE IF EXISTS #PagedIds;";
+                        SELECT  si.IdStore, si.IdProduct, si.StockAvailable, si.StockInTransit, si.MinimumStock, si.Price, p.Replenishment, p.Code, p.Description,
+                                p.Material, p.Color, p.UnitMeasure, b.BrandName, c.CategoryName, p.AuditCreateDate,
+                        COALESCE(cs.Total, 0) AS CalculatedStock
+                        FROM StoresInventory si
+                        INNER JOIN #PagedIds pi ON si.IdProduct = pi.IdProduct
+                        INNER JOIN Products p ON si.IdProduct = p.IdProduct
+                        LEFT JOIN Brands b ON p.IdBrand = b.IdBrand
+                        LEFT JOIN Categories c ON p.IdCategory = c.IdCategory
+                        LEFT JOIN TotalMovementCTE cs ON si.IdProduct = cs.IdProduct
+                        WHERE si.IdStore = @StoreId
+                        ORDER BY p.IdProduct DESC;
+
+                        DROP TABLE IF EXISTS #PagedIds;";
 
             using var connection = new SqlConnection(_connectionString);
             using var multi = await connection.QueryMultipleAsync(sql, parameters);

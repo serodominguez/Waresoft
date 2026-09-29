@@ -117,7 +117,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/KardexView.vue"),
     meta: {
       requiresAuth: true,
-      module: "kardex",
+      module: "kardex del producto",
     },
   },
   {

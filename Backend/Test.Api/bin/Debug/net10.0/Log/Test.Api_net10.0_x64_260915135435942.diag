@@ -1,0 +1,52 @@
+2026-09-15T13:54:35.9499947+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 2.4.0+a2a92fdb11ad38cd55b31223c4cfbb070fa01c05
+2026-09-15T13:54:35.9505647+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-09-15T13:54:35.9515670+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-09-15T13:54:35.9515708+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 13:54:35.928
+2026-09-15T13:54:35.9516345+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 7080
+2026-09-15T13:54:35.9516598+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-09-15T13:54:35.9516688+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-09-15T13:54:35.9516780+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-09-15T13:54:35.9517580+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-09-15T13:54:35.9517656+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 50293'
+2026-09-15T13:54:35.9525631+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-09-15T13:54:35.9971954+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-09-15T13:54:36.0074546+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-09-15T13:54:36.2814494+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '4.0.1' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-09-15T13:54:36.2939292+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v4.0.1+8ed8aa354c (64-bit .NET 10.0.11)
+2026-09-15T13:54:36.3533532+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-09-15T13:54:36.4316277+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-09-15T13:54:36.4514490+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-09-15T13:54:39.6387124+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenOpenPeriodExistsWithoutPhysicalCount_ClosesSuccessfully [FAIL]
+2026-09-15T13:54:39.6393362+00:00 xUnit.net INFORMATION       Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
+2026-09-15T13:54:39.6393454+00:00 xUnit.net INFORMATION       ---- Microsoft.Data.SqlClient.SqlException : Violation of PRIMARY KEY constraint 'PK_PERIOD_CLOSING'. Cannot insert duplicate key in object 'dbo.InventoryPeriodClosing'. The duplicate key value is (28, 1).
+2026-09-15T13:54:39.6393487+00:00 xUnit.net INFORMATION       The statement has been terminated.
+2026-09-15T13:54:39.6397708+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-09-15T13:54:39.6404068+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404258+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404352+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404439+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404523+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404609+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404693+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404799+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6404898+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6405070+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6405143+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6405348+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Infrastructure\Persistences\Repositories\InventoryPeriod\InventoryPeriodCommandRepository.cs(27,0): at Infrastructure.Persistences.Repositories.InventoryPeriod.InventoryPeriodCommandRepository.SaveClosingAsync(List`1 closing)
+2026-09-15T13:54:39.6405444+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Application\Services\InventoryPeriodService.cs(341,0): at Application.Services.InventoryPeriodService.ClosePeriod(Int32 authenticatedUserId, Int32 authenticatedStoreId, InventoryPeriodCloseRequestDto requestDto)
+2026-09-15T13:54:39.6405527+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(342,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenOpenPeriodExistsWithoutPhysicalCount_ClosesSuccessfully()
+2026-09-15T13:54:39.6405540+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-15T13:54:39.6405549+00:00 xUnit.net INFORMATION         ----- Inner Stack Trace -----
+2026-09-15T13:54:39.6405615+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+2026-09-15T13:54:39.6405657+00:00 xUnit.net INFORMATION            at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+2026-09-15T13:54:39.6405718+00:00 xUnit.net INFORMATION            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+2026-09-15T13:54:39.6405733+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-15T13:54:39.6405793+00:00 xUnit.net INFORMATION            at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+2026-09-15T13:54:39.6405850+00:00 xUnit.net INFORMATION            at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+2026-09-15T13:54:39.6405880+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-15T13:54:39.6405966+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6406082+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6406190+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+2026-09-15T13:54:39.6747549+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-09-15T13:54:39.6802208+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-09-15T13:54:39.6856147+00:00 xUnit.net INFORMATION    Test.Api  Total: 1, Errors: 0, Failed: 1, Skipped: 0, Not Run: 0, Time: 3.227s

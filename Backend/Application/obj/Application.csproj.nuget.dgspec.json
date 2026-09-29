@@ -68,11 +68,11 @@
             },
             "Microsoft.AspNetCore.Http.Abstractions": {
               "target": "Package",
-              "version": "[2.3.12, )"
+              "version": "[2.3.13, )"
             },
             "Microsoft.Extensions.Hosting.Abstractions": {
               "target": "Package",
-              "version": "[10.0.11, )"
+              "version": "[10.0.12, )"
             },
             "QRCoder": {
               "target": "Package",
@@ -80,11 +80,11 @@
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.8.0, )"
+              "version": "[2026.9.1, )"
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.151.1, )"
+              "version": "[4.152.1, )"
             },
             "ZXing.Net": {
               "target": "Package",
@@ -435,13 +435,13 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[10.0.11, )"
+              "version": "[10.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.11, )"
+              "version": "[10.0.12, )"
             }
           },
           "imports": [
@@ -799,11 +799,11 @@
             },
             "Dapper": {
               "target": "Package",
-              "version": "[2.1.79, )"
+              "version": "[2.1.89, )"
             },
             "QuestPDF": {
               "target": "Package",
-              "version": "[2026.8.0, )"
+              "version": "[2026.9.1, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",
@@ -823,7 +823,7 @@
             },
             "SkiaSharp": {
               "target": "Package",
-              "version": "[4.151.1, )"
+              "version": "[4.152.1, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",

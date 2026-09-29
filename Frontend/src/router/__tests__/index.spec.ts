@@ -144,7 +144,7 @@ describe('Router navigation guard', () => {
       { path: '/permisos',    name: 'permission',   module: 'permisos'              },
       { path: '/inventario',  name: 'inventory',    module: 'inventario'            },
       { path: '/consolidado', name: 'consolidated', module: 'inventario'            },
-      { path: '/kardex',      name: 'kardex',       module: 'inventario'            },
+      { path: '/kardex',      name: 'kardex',       module: 'kardex del producto'   },
       { path: '/salidas',     name: 'goodsissue',   module: 'salida de productos'   },
       { path: '/entradas',    name: 'goodsreceipt', module: 'entrada de productos'  },
       { path: '/traspasos',   name: 'transfer',     module: 'traspaso de productos' },

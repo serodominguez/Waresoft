@@ -100,6 +100,18 @@ namespace Application.Services
             var response = new BaseResponse<IEnumerable<StoreInventoryCalculatedResponseDto>>();
             try
             {
+                var currentPeriod = await _unitOfWork.InventoryPeriodQuery
+    .GetPeriodListQueryable(authenticatedStoreId)
+    .Where(p => p.Status == 1)
+    .FirstOrDefaultAsync();
+
+                if (currentPeriod is null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ReplyMessage.MESSAGE_PERIOD_NOT_FOUND;
+                    return response;
+                }
+
                 DateTime? startDate = string.IsNullOrEmpty(filters.StartDate)
                     ? null : Convert.ToDateTime(filters.StartDate).Date;
 
@@ -114,7 +126,7 @@ namespace Application.Services
                 int pageSize = isDownload ? int.MaxValue : filters.NumberRecordsPage;
 
                 var (items, total) = await _unitOfWork.StoreInventoryQuery.GetInventoryCalculatedAsync(
-                    authenticatedStoreId,
+                    authenticatedStoreId, currentPeriod.IdPeriod,
                     filters.NumberFilter,
                     filters.TextFilter,
                     stateFilter,

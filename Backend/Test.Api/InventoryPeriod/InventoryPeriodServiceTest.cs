@@ -357,8 +357,8 @@ namespace Test.Api.InventoryPeriod
                 await context.OpenPeriod(1, 1, new InventoryPeriodOpenRequestDto()
                 {
                     PeriodName = current.PeriodName,
-                    StartDate = DateTime.ParseExact(current.StartDate!, "dd/MM/yyyy HH:mm", null),
-                    EndDate = DateTime.ParseExact(current.EndDate!, "dd/MM/yyyy HH:mm", null)
+                    StartDate = DateTime.ParseExact(current.StartDate!,["dd/MM/yyyy HH:mm", "dd/MM/yyyy"], null),
+                    EndDate = DateTime.ParseExact(current.EndDate!,["dd/MM/yyyy HH:mm", "dd/MM/yyyy"], null)
                 });
             }
         }
@@ -447,8 +447,8 @@ namespace Test.Api.InventoryPeriod
                 await context.OpenPeriod(1, 1, new InventoryPeriodOpenRequestDto()
                 {
                     PeriodName = current.PeriodName,
-                    StartDate = DateTime.ParseExact(current.StartDate!, "dd/MM/yyyy HH:mm", null),
-                    EndDate = DateTime.ParseExact(current.EndDate!, "dd/MM/yyyy HH:mm", null)
+                    StartDate = DateTime.ParseExact(current.StartDate!, ["dd/MM/yyyy HH:mm", "dd/MM/yyyy"], null),
+                    EndDate = DateTime.ParseExact(current.EndDate!, ["dd/MM/yyyy HH:mm", "dd/MM/yyyy"], null)
                 });
             }
         }

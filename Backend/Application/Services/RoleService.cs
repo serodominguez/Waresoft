@@ -143,19 +143,29 @@ namespace Application.Services
         public async Task<BaseResponse<bool>> RegisterRole(int authenticatedUserId, RoleRequestDto requestDto)
         {
             var response = new BaseResponse<bool>();
-            using var transaction = _unitOfWork.BeginTransaction();
 
+            var validationResult = await _validator.ValidateAsync(requestDto);
+            if (!validationResult.IsValid)
+            {
+                response.IsSuccess = false;
+                response.Message = ReplyMessage.MESSAGE_VALIDATE;
+                response.Errors = validationResult.Errors;
+                return response;
+            }
+
+            var actions = await _unitOfWork.ActionQuery.GetActionsListQueryable()
+                .Where(x => x.IsActive == true)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var modules = await _unitOfWork.ModuleQuery.GetModuleListQueryable()
+                .Where(x => x.IsActive == true && x.Id != 1)
+                .AsNoTracking()
+                .ToListAsync();
+
+            using var transaction = _unitOfWork.BeginTransaction();
             try
             {
-                var validationResult = await _validator.ValidateAsync(requestDto);
-                if (!validationResult.IsValid)
-                {
-                    response.IsSuccess = false;
-                    response.Message = ReplyMessage.MESSAGE_VALIDATE;
-                    response.Errors = validationResult.Errors;
-                    return response;
-                }
-
                 var entity = RoleMapp.RolesMapping(requestDto);
                 entity.AuditCreateUser = authenticatedUserId;
                 entity.AuditCreateDate = DateTime.Now;
@@ -164,16 +174,7 @@ namespace Application.Services
                 await _unitOfWork.RoleCommand.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                var actions = (await _unitOfWork.ActionQuery.GetActionsListQueryable()
-                    .Where(x => x.IsActive == true)
-                    .ToListAsync());
-
-                var modules = (await _unitOfWork.ModuleQuery.GetModuleListQueryable()
-                    .Where(x => x.IsActive == true && x.Id != 1)
-                    .ToListAsync());
-
                 var permissions = new List<PermissionEntity>();
-
                 foreach (var module in modules)
                 {
                     foreach (var action in actions)

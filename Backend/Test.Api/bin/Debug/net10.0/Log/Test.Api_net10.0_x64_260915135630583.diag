@@ -1,0 +1,45 @@
+2026-09-15T13:56:30.6045958+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 2.4.0+a2a92fdb11ad38cd55b31223c4cfbb070fa01c05
+2026-09-15T13:56:30.6052033+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-09-15T13:56:30.6061853+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-09-15T13:56:30.6061886+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 13:56:30.568
+2026-09-15T13:56:30.6062703+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 12768
+2026-09-15T13:56:30.6062983+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-09-15T13:56:30.6063086+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-09-15T13:56:30.6063190+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-09-15T13:56:30.6064056+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-09-15T13:56:30.6064138+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 50374'
+2026-09-15T13:56:30.6071511+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-09-15T13:56:30.6511397+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-09-15T13:56:30.6614554+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-09-15T13:56:30.9403458+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '4.0.1' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-09-15T13:56:30.9529124+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v4.0.1+8ed8aa354c (64-bit .NET 10.0.11)
+2026-09-15T13:56:31.0122367+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-09-15T13:56:31.0916631+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-09-15T13:56:31.1133306+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-09-15T13:56:35.0053311+00:00 xUnit.net ERROR     Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference [FAIL]
+2026-09-15T13:56:35.0061663+00:00 xUnit.net INFORMATION       System.FormatException : String '01/09/2026' was not recognized as a valid DateTime.
+2026-09-15T13:56:35.0067960+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-09-15T13:56:35.0073977+00:00 xUnit.net INFORMATION            at System.DateTime.ParseExact(String s, String format, IFormatProvider provider)
+2026-09-15T13:56:35.0074794+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\InventoryPeriod\InventoryPeriodServiceTest.cs(447,0): at Test.Api.InventoryPeriod.InventoryPeriodServiceTest.ClosePeriod_WhenPhysicalCountProvided_PersistsPhysicalStockAndDifference()
+2026-09-15T13:56:35.0074924+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-15T13:56:36.6133581+00:00 xUnit.net ERROR     Test.Api.Role.RoleServiceTest.RegisterRole_WhenSendingCorrectValues_RegisteredSuccessfully [FAIL]
+2026-09-15T13:56:36.6133752+00:00 xUnit.net INFORMATION       Microsoft.Data.SqlClient.SqlException : Transaction (Process ID 57) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Rerun the transaction.
+2026-09-15T13:56:36.6134144+00:00 xUnit.net INFORMATION       Stack Trace:
+2026-09-15T13:56:36.6134369+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+2026-09-15T13:56:36.6134447+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.Connection.SqlConnectionInternal.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+2026-09-15T13:56:36.6134540+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+2026-09-15T13:56:36.6134643+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+2026-09-15T13:56:36.6134702+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+2026-09-15T13:56:36.6134889+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+2026-09-15T13:56:36.6134936+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+2026-09-15T13:56:36.6134997+00:00 xUnit.net INFORMATION            at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+2026-09-15T13:56:36.6135006+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-15T13:56:36.6135068+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-09-15T13:56:36.6135141+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+2026-09-15T13:56:36.6135227+00:00 xUnit.net INFORMATION            at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+2026-09-15T13:56:36.6135420+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Application\Services\RoleService.cs(171,0): at Application.Services.RoleService.RegisterRole(Int32 authenticatedUserId, RoleRequestDto requestDto)
+2026-09-15T13:56:36.6135500+00:00 xUnit.net INFORMATION         D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\Role\RoleServiceTest.cs(42,0): at Test.Api.Role.RoleServiceTest.RegisterRole_WhenSendingCorrectValues_RegisteredSuccessfully()
+2026-09-15T13:56:36.6135512+00:00 xUnit.net INFORMATION         --- End of stack trace from previous location ---
+2026-09-15T13:56:36.7244072+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-09-15T13:56:36.7298464+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-09-15T13:56:36.7349709+00:00 xUnit.net INFORMATION    Test.Api  Total: 265, Errors: 0, Failed: 2, Skipped: 0, Not Run: 0, Time: 5.616s

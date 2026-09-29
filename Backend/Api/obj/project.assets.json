@@ -35,7 +35,7 @@
           }
         }
       },
-      "Dapper/2.1.79": {
+      "Dapper/2.1.89": {
         "type": "package",
         "compile": {
           "lib/net10.0/Dapper.dll": {
@@ -700,7 +700,7 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.11": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.12": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "8.19.2"
@@ -719,10 +719,10 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Microsoft.AspNetCore.OpenApi/10.0.11": {
+      "Microsoft.AspNetCore.OpenApi/10.0.12": {
         "type": "package",
         "dependencies": {
-          "Microsoft.OpenApi": "[2.7.5, 3.0.0)"
+          "Microsoft.OpenApi": "[2.12.0, 3.0.0)"
         },
         "compile": {
           "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll": {
@@ -1492,11 +1492,11 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/10.0.11": {
+      "Microsoft.EntityFrameworkCore/10.0.12": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.11",
-          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.11"
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.12",
+          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.12"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
@@ -1512,7 +1512,7 @@
           "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/10.0.11": {
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.12": {
         "type": "package",
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
@@ -1525,10 +1525,10 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/10.0.11": {
+      "Microsoft.EntityFrameworkCore.Analyzers/10.0.12": {
         "type": "package"
       },
-      "Microsoft.EntityFrameworkCore.Design/10.0.11": {
+      "Microsoft.EntityFrameworkCore.Design/10.0.12": {
         "type": "package",
         "dependencies": {
           "Humanizer.Core": "2.14.1",
@@ -1536,8 +1536,8 @@
           "Microsoft.CodeAnalysis.CSharp": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "5.0.0",
           "Microsoft.CodeAnalysis.Workspaces.MSBuild": "5.0.0",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.11",
-          "Microsoft.Extensions.DependencyModel": "10.0.11",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.12",
+          "Microsoft.Extensions.DependencyModel": "10.0.12",
           "Mono.TextTemplating": "3.0.0",
           "Newtonsoft.Json": "13.0.4"
         },
@@ -1555,10 +1555,10 @@
           "build/net10.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/10.0.11": {
+      "Microsoft.EntityFrameworkCore.Relational/10.0.12": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.11"
+          "Microsoft.EntityFrameworkCore": "10.0.12"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
@@ -1571,11 +1571,11 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.SqlServer/10.0.11": {
+      "Microsoft.EntityFrameworkCore.SqlServer/10.0.12": {
         "type": "package",
         "dependencies": {
           "Microsoft.Data.SqlClient": "6.1.6",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.11"
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.12"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {
@@ -1599,7 +1599,7 @@
           "buildMultiTargeting/Microsoft.Extensions.ApiDescription.Server.targets": {}
         }
       },
-      "Microsoft.Extensions.DependencyModel/10.0.11": {
+      "Microsoft.Extensions.DependencyModel/10.0.12": {
         "type": "package",
         "compile": {
           "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
@@ -1723,7 +1723,7 @@
           }
         }
       },
-      "Microsoft.OpenApi/2.7.5": {
+      "Microsoft.OpenApi/2.12.0": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.OpenApi.dll": {
@@ -2210,7 +2210,7 @@
           }
         }
       },
-      "QuestPDF/2026.8.0": {
+      "QuestPDF/2026.9.1": {
         "type": "package",
         "compile": {
           "lib/net10.0/QuestPDF.dll": {
@@ -2523,11 +2523,11 @@
           }
         }
       },
-      "SkiaSharp/4.151.1": {
+      "SkiaSharp/4.152.1": {
         "type": "package",
         "dependencies": {
-          "SkiaSharp.NativeAssets.Win32": "4.151.1",
-          "SkiaSharp.NativeAssets.macOS": "4.151.1"
+          "SkiaSharp.NativeAssets.Win32": "4.152.1",
+          "SkiaSharp.NativeAssets.macOS": "4.152.1"
         },
         "compile": {
           "ref/net10.0/SkiaSharp.dll": {}
@@ -2538,7 +2538,7 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.macOS/4.151.1": {
+      "SkiaSharp.NativeAssets.macOS/4.152.1": {
         "type": "package",
         "compile": {
           "lib/net10.0/_._": {}
@@ -2553,7 +2553,7 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.Win32/4.151.1": {
+      "SkiaSharp.NativeAssets.Win32/4.152.1": {
         "type": "package",
         "compile": {
           "lib/net10.0/_._": {}
@@ -2958,8 +2958,8 @@
           "FluentValidation": "12.1.1",
           "Infrastructure": "1.0.0",
           "QRCoder": "1.8.0",
-          "QuestPDF": "2026.8.0",
-          "SkiaSharp": "4.151.1",
+          "QuestPDF": "2026.9.1",
+          "SkiaSharp": "4.152.1",
           "Utilities": "1.0.0",
           "ZXing.Net": "0.16.11"
         },
@@ -2974,7 +2974,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.11"
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.12"
         },
         "compile": {
           "bin/placeholder/Domain.dll": {}
@@ -2988,14 +2988,14 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "ClosedXML": "0.105.1",
-          "Dapper": "2.1.79",
+          "Dapper": "2.1.89",
           "Domain": "1.0.0",
-          "QuestPDF": "2026.8.0",
+          "QuestPDF": "2026.9.1",
           "Serilog.AspNetCore": "10.0.0",
           "Serilog.Enrichers.Environment": "3.0.1",
           "Serilog.Enrichers.Thread": "4.0.0",
           "Serilog.Sinks.MSSqlServer": "10.0.0",
-          "SkiaSharp": "4.151.1",
+          "SkiaSharp": "4.152.1",
           "System.Linq.Dynamic.Core": "1.7.4",
           "Utilities": "1.0.0"
         },
@@ -3056,15 +3056,15 @@
         "lib/netstandard2.1/ClosedXML.Parser.xml"
       ]
     },
-    "Dapper/2.1.79": {
-      "sha512": "8YijbzgTfmqmQOnVNorYM6K++pxqnW3nJ4aC1sRHzxUA2CcuoJ9gsTem3kgBnPRMc38zZHl4Esb6hAezXIEEuw==",
+    "Dapper/2.1.89": {
+      "sha512": "1VjFE664wnxvuhlgP8kS4PeFFF4jqD3VkbIHW6Zlc52zuibgcz5ICnIHcQXlTp6pURpPNGLV0ZpNe5x9KePJnA==",
       "type": "package",
-      "path": "dapper/2.1.79",
+      "path": "dapper/2.1.89",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Dapper.png",
-        "dapper.2.1.79.nupkg.sha512",
+        "dapper.2.1.89.nupkg.sha512",
         "dapper.nuspec",
         "lib/net10.0/Dapper.dll",
         "lib/net10.0/Dapper.xml",
@@ -3904,10 +3904,10 @@
         "logo.png"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.11": {
-      "sha512": "Dy9yElSej0rVQL8LBpCLatWTKXNH6h6VBVFmGndTCf1Wge0jSvH9U8mml6ddVDAQ089q1/fDYlhyukHSgx8unQ==",
+    "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.12": {
+      "sha512": "DeE+Bq2OqB3FikFkZk+7gFBeLOQhkSolejLrbi+a9zpfvXtW1Ff6Nd6DIvHXIm+pc4aM4+52vDy3jnuau0qoUQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/10.0.11",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3916,14 +3916,14 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
         "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.10.0.11.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.10.0.12.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.OpenApi/10.0.11": {
-      "sha512": "R/1EATnPLU+gRfB6lwVkMcymmyAY5ppBBdRN/5lhNEiT3xP1sWccuSFkU/f1lQvN/WgRq5Vn8AhCdE3fqgsL/w==",
+    "Microsoft.AspNetCore.OpenApi/10.0.12": {
+      "sha512": "7RnQ/UKn+kK3JDLmTpW+vVqNErWthGPAVAy1aIiBzv4ucQ6g9NFvOJUuT0PHcpvcJxGVxctMxj6t+NESWMrgHQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.openapi/10.0.11",
+      "path": "microsoft.aspnetcore.openapi/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3934,7 +3934,7 @@
         "build/Microsoft.AspNetCore.OpenApi.targets",
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll",
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.xml",
-        "microsoft.aspnetcore.openapi.10.0.11.nupkg.sha512",
+        "microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
         "microsoft.aspnetcore.openapi.nuspec"
       ]
     },
@@ -5447,10 +5447,10 @@
         "microsoft.dotnet.scaffolding.shared.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore/10.0.11": {
-      "sha512": "VOSGU8en6HZJs8t7UMFN+9vGcRgVOOn6fA44Ngcg2NyvJ3P1KE94iAb0XzaVaGhXGtt+qaM/VtEn0/hzluQJeg==",
+    "Microsoft.EntityFrameworkCore/10.0.12": {
+      "sha512": "e7OrVN8U5yr4kuwdTHWBHGVQIVsGfMkAr0Ej1/BnrS989Q0XBVANpIzNZ2bc1GvMZ0/XwMt5InTnmKskxGy99Q==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/10.0.11",
+      "path": "microsoft.entityframeworkcore/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5459,14 +5459,14 @@
         "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props",
         "lib/net10.0/Microsoft.EntityFrameworkCore.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.10.0.11.nupkg.sha512",
+        "microsoft.entityframeworkcore.10.0.12.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/10.0.11": {
-      "sha512": "6auJR+9+9VunznKfH7WGrHMrnrmA0F7JZ22EXzwXvVhjfnbu9Xq7NSIWaOf3KJsOanM2qf5ajJ2JR5TlcPZTLA==",
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.12": {
+      "sha512": "kDrux7T6C3V/YYYe2LXr7x6AEsVyq5Y2YoTE9er1SwbDtap3z1g8RgxNh5eKQVyB4T+DKvBBJ4Ezd/VZzJQJZg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/10.0.11",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5474,28 +5474,28 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.10.0.11.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.10.0.12.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/10.0.11": {
-      "sha512": "Bv7X4wSSnzCQED9WYXKJ8fwgyvKwf0xZM1GO8xkf6CF9zl+UBnvjxmcPnokJRy0JKjc1SlHSzzhx1HcL4jitTQ==",
+    "Microsoft.EntityFrameworkCore.Analyzers/10.0.12": {
+      "sha512": "Kd4o2oO1A6dfKxjz5LS16QyLtpCFTUiFWwmBABETAXRsSImBdRdWeKjSgbbRhAMiV3a3/nWr95ZtzClT4uaADQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/10.0.11",
+      "path": "microsoft.entityframeworkcore.analyzers/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "docs/PACKAGE.md",
-        "microsoft.entityframeworkcore.analyzers.10.0.11.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.10.0.12.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Design/10.0.11": {
-      "sha512": "0zlzPs/jtrp2jGNZSxHLd0bRgDB/TlCDT17pnt8hovTVgCmC6qbX1277/goAlnZbRip1mZp1TVjjG+tj9PQ/Uw==",
+    "Microsoft.EntityFrameworkCore.Design/10.0.12": {
+      "sha512": "I/IwEkUEUoa62UMJHh2+04oAs+gZz4QEunpZ3MGtAf12PZUcTduZLuGZEp3FAZ7wkmkSThZez41P8tgFj8QYKQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.design/10.0.11",
+      "path": "microsoft.entityframeworkcore.design/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5504,14 +5504,14 @@
         "build/net10.0/Microsoft.EntityFrameworkCore.Design.props",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Design.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Design.xml",
-        "microsoft.entityframeworkcore.design.10.0.11.nupkg.sha512",
+        "microsoft.entityframeworkcore.design.10.0.12.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Relational/10.0.11": {
-      "sha512": "grznnTJgEYxaWpdKAsTzg6j+89jHgCXWYp+QGtlX5O92+w/VuhWM6JLPYb+uw8M9VhGUvOTsO76dYOy9vNPd5Q==",
+    "Microsoft.EntityFrameworkCore.Relational/10.0.12": {
+      "sha512": "OiHmr8XzX96dbgMsYGe8qoqg4KxibdZG2r0QUVJBGktFInOp8IrABe8jvcbo5hrqeWfbwpK7fCEBiEPbY/ik4A==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.relational/10.0.11",
+      "path": "microsoft.entityframeworkcore.relational/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5519,14 +5519,14 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.xml",
-        "microsoft.entityframeworkcore.relational.10.0.11.nupkg.sha512",
+        "microsoft.entityframeworkcore.relational.10.0.12.nupkg.sha512",
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.SqlServer/10.0.11": {
-      "sha512": "LClSs5cNN6za2Uk7IeH7RAP4Qe5EMXxFsD9i53ncPx21TVg04IEjoFyxvvsSNkq2/Ux9HyJsJ2qEO8Tl7Gcrrg==",
+    "Microsoft.EntityFrameworkCore.SqlServer/10.0.12": {
+      "sha512": "Wt/JUrctpOPfv3DNcZ6oKeg+FouanIXnrLfB8WN8DdMoqS/bxi9yPrwTKIEFB32qcKTUb5i9AVTCdbQBUid6ZQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.sqlserver/10.0.11",
+      "path": "microsoft.entityframeworkcore.sqlserver/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5534,7 +5534,7 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.xml",
-        "microsoft.entityframeworkcore.sqlserver.10.0.11.nupkg.sha512",
+        "microsoft.entityframeworkcore.sqlserver.10.0.12.nupkg.sha512",
         "microsoft.entityframeworkcore.sqlserver.nuspec"
       ]
     },
@@ -5798,10 +5798,10 @@
         "tools/net462/netstandard.dll"
       ]
     },
-    "Microsoft.Extensions.DependencyModel/10.0.11": {
-      "sha512": "PJPtFYsZ+r+uz9qqXWUTEyKeJ1EiBGIJtqavkg9ZXijjGSFAk4Fgi5sqIxj+uAyLZwEKgexDUQXhWhvU6l3+og==",
+    "Microsoft.Extensions.DependencyModel/10.0.12": {
+      "sha512": "rDPQVTxh/zMTDF7wHlRqL/jjZbwjAP6315ydBxj51pZW7qkAwGwjoSiMutxYI91xmOE3ZXjAGHbYRqzyJV7Urw==",
       "type": "package",
-      "path": "microsoft.extensions.dependencymodel/10.0.11",
+      "path": "microsoft.extensions.dependencymodel/10.0.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5822,7 +5822,7 @@
         "lib/net9.0/Microsoft.Extensions.DependencyModel.xml",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyModel.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyModel.xml",
-        "microsoft.extensions.dependencymodel.10.0.11.nupkg.sha512",
+        "microsoft.extensions.dependencymodel.10.0.12.nupkg.sha512",
         "microsoft.extensions.dependencymodel.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -6012,10 +6012,10 @@
         "ref/netstandard2.0/Microsoft.NET.StringTools.xml"
       ]
     },
-    "Microsoft.OpenApi/2.7.5": {
-      "sha512": "0FA67RSnRM4tcBKqiqVu/HPdZ9+QOKbmeRjxRUGTCjPU4C0bmUhd97Dso7Yild5P7nOV6GxJ2xrK0Kv/O9xp0w==",
+    "Microsoft.OpenApi/2.12.0": {
+      "sha512": "0xB/be+f6qYOhvQPUrVsLrau+fkowYv6gt9RIkajMhwT7sZnqtcA797yW3bS5kgSje+AQW4xZgyLnW641YFioQ==",
       "type": "package",
-      "path": "microsoft.openapi/2.7.5",
+      "path": "microsoft.openapi/2.12.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6026,7 +6026,7 @@
         "lib/netstandard2.0/Microsoft.OpenApi.dll",
         "lib/netstandard2.0/Microsoft.OpenApi.pdb",
         "lib/netstandard2.0/Microsoft.OpenApi.xml",
-        "microsoft.openapi.2.7.5.nupkg.sha512",
+        "microsoft.openapi.2.12.0.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
     },
@@ -6831,10 +6831,10 @@
         "qrcoder.nuspec"
       ]
     },
-    "QuestPDF/2026.8.0": {
-      "sha512": "6c/YtDiZm8NgxnFdUDom+IWGVXKhiwBVJ3cvlyIXZYH7Wp0HaXWoR2XWj/RAsZfjpW7J5LMVc1EF6JnJFouoXQ==",
+    "QuestPDF/2026.9.1": {
+      "sha512": "i2BT/v+Ui6Hg9+BZbOci/VfsyvmtY8nlQqAOmFt8iOZ4Hm9aKZZRgZZ+LfrKWYXAHRb3l1EjDcMVfjRaZTt+Cw==",
       "type": "package",
-      "path": "questpdf/2026.8.0",
+      "path": "questpdf/2026.9.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6843,7 +6843,9 @@
         "Documentation.xml",
         "ExternalDependencyLicenses/emsdk.txt",
         "ExternalDependencyLicenses/expat.txt",
+        "ExternalDependencyLicenses/freetype.txt",
         "ExternalDependencyLicenses/harfbuzz.txt",
+        "ExternalDependencyLicenses/lato.txt",
         "ExternalDependencyLicenses/libgrapheme.txt",
         "ExternalDependencyLicenses/libjpeg-turbo.txt",
         "ExternalDependencyLicenses/libpng.txt",
@@ -6856,27 +6858,10 @@
         "ExternalDependencyLicenses/zlib.txt",
         "LICENSE.md",
         "LatinWords.txt",
-        "LatoFont/Lato-Black.ttf",
-        "LatoFont/Lato-BlackItalic.ttf",
-        "LatoFont/Lato-Bold.ttf",
-        "LatoFont/Lato-BoldItalic.ttf",
-        "LatoFont/Lato-ExtraBold.ttf",
-        "LatoFont/Lato-ExtraBoldItalic.ttf",
-        "LatoFont/Lato-ExtraLight.ttf",
-        "LatoFont/Lato-ExtraLightItalic.ttf",
-        "LatoFont/Lato-Italic.ttf",
-        "LatoFont/Lato-Light.ttf",
-        "LatoFont/Lato-LightItalic.ttf",
-        "LatoFont/Lato-Medium.ttf",
-        "LatoFont/Lato-MediumItalic.ttf",
-        "LatoFont/Lato-Regular.ttf",
-        "LatoFont/Lato-SemiBold.ttf",
-        "LatoFont/Lato-SemiBoldItalic.ttf",
-        "LatoFont/Lato-Thin.ttf",
-        "LatoFont/Lato-ThinItalic.ttf",
-        "LatoFont/OFL.txt",
         "Logo.png",
         "MimeTypes.csv",
+        "QuestPDF.Fonts.Lato.br",
+        "QuestPDF.Fonts.Lato.gz",
         "README.md",
         "ReleaseNotes.txt",
         "build/QuestPDF.targets",
@@ -6893,7 +6878,7 @@
         "lib/net8.0/QuestPDF.xml",
         "lib/netstandard2.0/QuestPDF.dll",
         "lib/netstandard2.0/QuestPDF.xml",
-        "questpdf.2026.8.0.nupkg.sha512",
+        "questpdf.2026.9.1.nupkg.sha512",
         "questpdf.nuspec",
         "runtimes/linux-arm64/native/libQuestPdfSkia.so",
         "runtimes/linux-arm64/native/libqpdf.so",
@@ -7239,10 +7224,10 @@
         "sixlabors.fonts.nuspec"
       ]
     },
-    "SkiaSharp/4.151.1": {
-      "sha512": "FNlVsGZ9to3o9pObVqhIZanHjUGOoPb/Zxk5svCSLMJnKwxPKV7sIJrjs9BpB/jF3j9OdsaMOb4cfwSJbjueSw==",
+    "SkiaSharp/4.152.1": {
+      "sha512": "p3rj8SVoa+2Tmx1EITE4jIwCDPcYjwXdZ3c9yM6l9wNn6572hwxzrth6WOBK0iGnAoTGoJBZuZpy8wYjbov6sw==",
       "type": "package",
-      "path": "skiasharp/4.151.1",
+      "path": "skiasharp/4.152.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7317,14 +7302,14 @@
         "ref/net9.0/SkiaSharp.dll",
         "ref/netstandard2.0/SkiaSharp.dll",
         "ref/netstandard2.1/SkiaSharp.dll",
-        "skiasharp.4.151.1.nupkg.sha512",
+        "skiasharp.4.152.1.nupkg.sha512",
         "skiasharp.nuspec"
       ]
     },
-    "SkiaSharp.NativeAssets.macOS/4.151.1": {
-      "sha512": "nLXwdhi0oB7pqqNLbSOLX+FIZQOMAU/yFPspzcDTJjTmPbMWyp0JWyeVj8sFJ/cweurEfT0J/lvfgdXX2EFHXA==",
+    "SkiaSharp.NativeAssets.macOS/4.152.1": {
+      "sha512": "gKaE2zNHsPLjlA88ZClRNmtZlHNGEa/W4iPy5GpP1TtUELIXzrSr2udCbl1GWYFuCdA36IycBk5YhUuK1xi9UA==",
       "type": "package",
-      "path": "skiasharp.nativeassets.macos/4.151.1",
+      "path": "skiasharp.nativeassets.macos/4.152.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7348,14 +7333,14 @@
         "lib/netstandard2.0/_._",
         "lib/netstandard2.1/_._",
         "runtimes/osx/native/libSkiaSharp.dylib",
-        "skiasharp.nativeassets.macos.4.151.1.nupkg.sha512",
+        "skiasharp.nativeassets.macos.4.152.1.nupkg.sha512",
         "skiasharp.nativeassets.macos.nuspec"
       ]
     },
-    "SkiaSharp.NativeAssets.Win32/4.151.1": {
-      "sha512": "G+nln30ZX2ZuhH+ungf6x/QMXCje38KTS0VTfQeMyeY8uyMBmsZwFz2D30ZxUjZqsVbEIcaC2bsYF65876s4Yg==",
+    "SkiaSharp.NativeAssets.Win32/4.152.1": {
+      "sha512": "MLDP6XT8CHLHF6gZlpW06iswGNBlL/JB2+SKuSLz0Y0k1zzsfofNyUY6J6FC32A4/F67E9S8MwovRBL+ELw0lw==",
       "type": "package",
-      "path": "skiasharp.nativeassets.win32/4.151.1",
+      "path": "skiasharp.nativeassets.win32/4.152.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7382,7 +7367,7 @@
         "runtimes/win-x64/native/libSkiaSharp.pdb",
         "runtimes/win-x86/native/libSkiaSharp.dll",
         "runtimes/win-x86/native/libSkiaSharp.pdb",
-        "skiasharp.nativeassets.win32.4.151.1.nupkg.sha512",
+        "skiasharp.nativeassets.win32.4.152.1.nupkg.sha512",
         "skiasharp.nativeassets.win32.nuspec"
       ]
     },
@@ -8065,9 +8050,9 @@
     "net10.0": [
       "Application >= 1.0.0",
       "Infrastructure >= 1.0.0",
-      "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.11",
-      "Microsoft.AspNetCore.OpenApi >= 10.0.11",
-      "Microsoft.EntityFrameworkCore.Design >= 10.0.11",
+      "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.12",
+      "Microsoft.AspNetCore.OpenApi >= 10.0.12",
+      "Microsoft.EntityFrameworkCore.Design >= 10.0.12",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 10.0.2",
       "NuGet.Packaging >= 7.9.0",
       "NuGet.Protocol >= 7.9.0",
@@ -8139,17 +8124,17 @@
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
-            "version": "[10.0.11, )"
+            "version": "[10.0.12, )"
           },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
-            "version": "[10.0.11, )"
+            "version": "[10.0.12, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[10.0.11, )"
+            "version": "[10.0.12, )"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

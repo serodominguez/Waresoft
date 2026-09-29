@@ -1,0 +1,21 @@
+2026-09-15T14:07:26.7319958+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Version: 2.4.0+a2a92fdb11ad38cd55b31223c4cfbb070fa01c05
+2026-09-15T14:07:26.7325653+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging mode: asynchronous
+2026-09-15T14:07:26.7334452+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Logging level: Information
+2026-09-15T14:07:26.7334484+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION CreateBuilderAsync entry time: 14:07:26.710
+2026-09-15T14:07:26.7335106+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION PID: 8604
+2026-09-15T14:07:26.7335364+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime information: win-x64 - .NET 10.0.11
+2026-09-15T14:07:26.7335456+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Runtime location: C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.11\System.Private.CoreLib.dll
+2026-09-15T14:07:26.7335552+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION IsDynamicCodeSupported: True
+2026-09-15T14:07:26.7336339+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Test module: D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Test.Api.dll
+2026-09-15T14:07:26.7336417+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION Command line arguments: '--server --diagnostic --diagnostic-verbosity Information --diagnostic-output-directory D:\Projects\IT Solutions\Waresoft\Backend\Test.Api\bin\Debug\net10.0\Log --results-directory D:\Projects\IT Solutions\Waresoft\Backend\TestResults --client-port 50482'
+2026-09-15T14:07:26.7344051+00:00 Microsoft.Testing.Platform.Builder.TestApplication INFORMATION TESTINGPLATFORM_DEFAULT_HANG_TIMEOUT: ''
+2026-09-15T14:07:26.7785331+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting RegisterEnvironmentVariablesConfigurationSource: 'True'
+2026-09-15T14:07:26.7886976+00:00 Microsoft.Testing.Platform.Hosts.TestHostBuilder INFORMATION Setting PlatformExitProcessOnUnhandledException: 'False', config file: False environment variable: 
+2026-09-15T14:07:27.0792851+00:00 Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker INFORMATION Test framework UID: '30ea7c6e-dd24-4152-a360-1387158cd41d' Version: '4.0.1' DisplayName: 'xUnit.net v3 Microsoft.Testing.Platform test framework' Description: 'xUnit.net v3 Microsoft.Testing.Platform test framework'
+2026-09-15T14:07:27.0917273+00:00 xUnit.net INFORMATION xUnit.net v3 In-Process Runner v4.0.1+8ed8aa354c (64-bit .NET 10.0.11)
+2026-09-15T14:07:27.1515230+00:00 xUnit.net INFORMATION   Discovering: Test.Api
+2026-09-15T14:07:27.2317787+00:00 xUnit.net INFORMATION   Discovered:  Test.Api
+2026-09-15T14:07:27.2527781+00:00 xUnit.net INFORMATION   Starting:    Test.Api
+2026-09-15T14:07:31.4628183+00:00 xUnit.net INFORMATION   Finished:    Test.Api (ID = '75287defd0f96adf891b03f2109a0c114485e6b9d605878a4ab20f83a03afa62')
+2026-09-15T14:07:31.4686866+00:00 xUnit.net INFORMATION === TEST EXECUTION SUMMARY ===
+2026-09-15T14:07:31.4737757+00:00 xUnit.net INFORMATION    Test.Api  Total: 265, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 4.215s
