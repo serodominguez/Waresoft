@@ -93,7 +93,7 @@
           }
         }
       },
-      "FluentValidation/12.1.1": {
+      "FluentValidation/12.2.0": {
         "type": "package",
         "compile": {
           "lib/net8.0/FluentValidation.dll": {
@@ -700,7 +700,7 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.12": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.14": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "8.19.2"
@@ -719,10 +719,10 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Microsoft.AspNetCore.OpenApi/10.0.12": {
+      "Microsoft.AspNetCore.OpenApi/10.0.14": {
         "type": "package",
         "dependencies": {
-          "Microsoft.OpenApi": "[2.12.0, 3.0.0)"
+          "Microsoft.OpenApi": "[2.12.2, 3.0.0)"
         },
         "compile": {
           "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll": {
@@ -1492,11 +1492,11 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/10.0.12": {
+      "Microsoft.EntityFrameworkCore/10.0.14": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.12",
-          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.12"
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.14",
+          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.14"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
@@ -1512,7 +1512,7 @@
           "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/10.0.12": {
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.14": {
         "type": "package",
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
@@ -1525,10 +1525,10 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/10.0.12": {
+      "Microsoft.EntityFrameworkCore.Analyzers/10.0.14": {
         "type": "package"
       },
-      "Microsoft.EntityFrameworkCore.Design/10.0.12": {
+      "Microsoft.EntityFrameworkCore.Design/10.0.14": {
         "type": "package",
         "dependencies": {
           "Humanizer.Core": "2.14.1",
@@ -1536,8 +1536,8 @@
           "Microsoft.CodeAnalysis.CSharp": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "5.0.0",
           "Microsoft.CodeAnalysis.Workspaces.MSBuild": "5.0.0",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.12",
-          "Microsoft.Extensions.DependencyModel": "10.0.12",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.14",
+          "Microsoft.Extensions.DependencyModel": "10.0.14",
           "Mono.TextTemplating": "3.0.0",
           "Newtonsoft.Json": "13.0.4"
         },
@@ -1555,10 +1555,10 @@
           "build/net10.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/10.0.12": {
+      "Microsoft.EntityFrameworkCore.Relational/10.0.14": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.12"
+          "Microsoft.EntityFrameworkCore": "10.0.14"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
@@ -1571,11 +1571,11 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.SqlServer/10.0.12": {
+      "Microsoft.EntityFrameworkCore.SqlServer/10.0.14": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Data.SqlClient": "6.1.6",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.12"
+          "Microsoft.Data.SqlClient": "6.1.7",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.14"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {
@@ -1599,7 +1599,7 @@
           "buildMultiTargeting/Microsoft.Extensions.ApiDescription.Server.targets": {}
         }
       },
-      "Microsoft.Extensions.DependencyModel/10.0.12": {
+      "Microsoft.Extensions.DependencyModel/10.0.14": {
         "type": "package",
         "compile": {
           "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
@@ -1723,7 +1723,7 @@
           }
         }
       },
-      "Microsoft.OpenApi/2.12.0": {
+      "Microsoft.OpenApi/2.12.2": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.OpenApi.dll": {
@@ -2194,7 +2194,7 @@
           }
         }
       },
-      "QRCoder/1.8.0": {
+      "QRCoder/1.8.1": {
         "type": "package",
         "dependencies": {
           "System.Drawing.Common": "6.0.0"
@@ -2523,22 +2523,24 @@
           }
         }
       },
-      "SkiaSharp/4.152.1": {
+      "SkiaSharp/4.154.0": {
         "type": "package",
         "dependencies": {
-          "SkiaSharp.NativeAssets.Win32": "4.152.1",
-          "SkiaSharp.NativeAssets.macOS": "4.152.1"
+          "SkiaSharp.NativeAssets.Win32": "4.154.0",
+          "SkiaSharp.NativeAssets.macOS": "4.154.0"
         },
         "compile": {
-          "ref/net10.0/SkiaSharp.dll": {}
+          "ref/net10.0/SkiaSharp.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
           "lib/net10.0/SkiaSharp.dll": {
-            "related": ".pdb"
+            "related": ".pdb;.xml"
           }
         }
       },
-      "SkiaSharp.NativeAssets.macOS/4.152.1": {
+      "SkiaSharp.NativeAssets.macOS/4.154.0": {
         "type": "package",
         "compile": {
           "lib/net10.0/_._": {}
@@ -2553,7 +2555,7 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.Win32/4.152.1": {
+      "SkiaSharp.NativeAssets.Win32/4.154.0": {
         "type": "package",
         "compile": {
           "lib/net10.0/_._": {}
@@ -2588,13 +2590,13 @@
           }
         }
       },
-      "Swashbuckle.AspNetCore/10.2.3": {
+      "Swashbuckle.AspNetCore/10.3.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "10.0.0",
-          "Swashbuckle.AspNetCore.Swagger": "10.2.3",
-          "Swashbuckle.AspNetCore.SwaggerGen": "10.2.3",
-          "Swashbuckle.AspNetCore.SwaggerUI": "10.2.3"
+          "Swashbuckle.AspNetCore.Swagger": "10.3.1",
+          "Swashbuckle.AspNetCore.SwaggerGen": "10.3.1",
+          "Swashbuckle.AspNetCore.SwaggerUI": "10.3.1"
         },
         "build": {
           "build/Swashbuckle.AspNetCore.props": {}
@@ -2603,7 +2605,7 @@
           "buildMultiTargeting/Swashbuckle.AspNetCore.props": {}
         }
       },
-      "Swashbuckle.AspNetCore.Swagger/10.2.3": {
+      "Swashbuckle.AspNetCore.Swagger/10.3.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.OpenApi": "2.7.5"
@@ -2622,10 +2624,10 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Swashbuckle.AspNetCore.SwaggerGen/10.2.3": {
+      "Swashbuckle.AspNetCore.SwaggerGen/10.3.1": {
         "type": "package",
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "10.2.3"
+          "Swashbuckle.AspNetCore.Swagger": "10.3.1"
         },
         "compile": {
           "lib/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
@@ -2638,7 +2640,7 @@
           }
         }
       },
-      "Swashbuckle.AspNetCore.SwaggerUI/10.2.3": {
+      "Swashbuckle.AspNetCore.SwaggerUI/10.3.1": {
         "type": "package",
         "compile": {
           "lib/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
@@ -2899,15 +2901,15 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "System.Security.Cryptography.Pkcs/9.0.13": {
+      "System.Security.Cryptography.Pkcs/10.0.14": {
         "type": "package",
         "compile": {
-          "lib/net9.0/System.Security.Cryptography.Pkcs.dll": {
+          "lib/net10.0/System.Security.Cryptography.Pkcs.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net9.0/System.Security.Cryptography.Pkcs.dll": {
+          "lib/net10.0/System.Security.Cryptography.Pkcs.dll": {
             "related": ".xml"
           }
         },
@@ -2915,7 +2917,7 @@
           "buildTransitive/net8.0/_._": {}
         },
         "runtimeTargets": {
-          "runtimes/win/lib/net9.0/System.Security.Cryptography.Pkcs.dll": {
+          "runtimes/win/lib/net10.0/System.Security.Cryptography.Pkcs.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -2955,11 +2957,12 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "Domain": "1.0.0",
-          "FluentValidation": "12.1.1",
+          "FluentValidation": "12.2.0",
           "Infrastructure": "1.0.0",
-          "QRCoder": "1.8.0",
+          "QRCoder": "1.8.1",
           "QuestPDF": "2026.9.1",
-          "SkiaSharp": "4.152.1",
+          "SkiaSharp": "4.154.0",
+          "System.Security.Cryptography.Pkcs": "10.0.14",
           "Utilities": "1.0.0",
           "ZXing.Net": "0.16.11"
         },
@@ -2974,7 +2977,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.12"
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.14",
+          "System.Security.Cryptography.Pkcs": "10.0.14"
         },
         "compile": {
           "bin/placeholder/Domain.dll": {}
@@ -2995,8 +2999,9 @@
           "Serilog.Enrichers.Environment": "3.0.1",
           "Serilog.Enrichers.Thread": "4.0.0",
           "Serilog.Sinks.MSSqlServer": "10.0.0",
-          "SkiaSharp": "4.152.1",
+          "SkiaSharp": "4.154.0",
           "System.Linq.Dynamic.Core": "1.7.4",
+          "System.Security.Cryptography.Pkcs": "10.0.14",
           "Utilities": "1.0.0"
         },
         "compile": {
@@ -3143,16 +3148,16 @@
         "lib/netstandard2.0/ExcelNumberFormat.xml"
       ]
     },
-    "FluentValidation/12.1.1": {
-      "sha512": "EPpkIe1yh1a0OXyC100oOA8WMbZvqUu5plwhvYcb7oSELfyUZzfxV48BLhvs3kKo4NwG7MGLNgy1RJiYtT8Dpw==",
+    "FluentValidation/12.2.0": {
+      "sha512": "DR3lFbdnKucaaj1/8zMNOACMz/64igzox1yVZSFVsLxYB5mxAB+wFP1WZ8fjwrZnbU1KA1DoMzHKYKxUfuZ4wQ==",
       "type": "package",
-      "path": "fluentvalidation/12.1.1",
+      "path": "fluentvalidation/12.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
         "fluent-validation-icon.png",
-        "fluentvalidation.12.1.1.nupkg.sha512",
+        "fluentvalidation.12.2.0.nupkg.sha512",
         "fluentvalidation.nuspec",
         "lib/net8.0/FluentValidation.dll",
         "lib/net8.0/FluentValidation.xml"
@@ -3904,10 +3909,10 @@
         "logo.png"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.12": {
-      "sha512": "DeE+Bq2OqB3FikFkZk+7gFBeLOQhkSolejLrbi+a9zpfvXtW1Ff6Nd6DIvHXIm+pc4aM4+52vDy3jnuau0qoUQ==",
+    "Microsoft.AspNetCore.Authentication.JwtBearer/10.0.14": {
+      "sha512": "DaTs32NtRkTabidrvhLhcXpa+Uguw0rN5FaX8Q1HmzbYtcI72iSauYlN4WmqbrXp6QQoB8fmZlHk5/bjiMTY7A==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/10.0.12",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3916,14 +3921,14 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
         "lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.10.0.12.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.10.0.14.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.OpenApi/10.0.12": {
-      "sha512": "7RnQ/UKn+kK3JDLmTpW+vVqNErWthGPAVAy1aIiBzv4ucQ6g9NFvOJUuT0PHcpvcJxGVxctMxj6t+NESWMrgHQ==",
+    "Microsoft.AspNetCore.OpenApi/10.0.14": {
+      "sha512": "3M6yO4nv8fmvM/1X7DqQcMxw/ptNLBcUzZt19SBEyfZF32gqZuwoPNnYd1xlDnFvQOGOkZDncf7p9E24blcTkQ==",
       "type": "package",
-      "path": "microsoft.aspnetcore.openapi/10.0.12",
+      "path": "microsoft.aspnetcore.openapi/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3934,7 +3939,7 @@
         "build/Microsoft.AspNetCore.OpenApi.targets",
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.dll",
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.xml",
-        "microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+        "microsoft.aspnetcore.openapi.10.0.14.nupkg.sha512",
         "microsoft.aspnetcore.openapi.nuspec"
       ]
     },
@@ -5447,10 +5452,10 @@
         "microsoft.dotnet.scaffolding.shared.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore/10.0.12": {
-      "sha512": "e7OrVN8U5yr4kuwdTHWBHGVQIVsGfMkAr0Ej1/BnrS989Q0XBVANpIzNZ2bc1GvMZ0/XwMt5InTnmKskxGy99Q==",
+    "Microsoft.EntityFrameworkCore/10.0.14": {
+      "sha512": "vY3931PYPIDBbKovGHbACmpOWvURvKNyRXfCjMh5yLW+FH6vLWeqUu2xzSCRo4Oz4tgx9GYpd0JlV5LDyAoQdg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/10.0.12",
+      "path": "microsoft.entityframeworkcore/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5459,14 +5464,14 @@
         "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props",
         "lib/net10.0/Microsoft.EntityFrameworkCore.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.10.0.12.nupkg.sha512",
+        "microsoft.entityframeworkcore.10.0.14.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/10.0.12": {
-      "sha512": "kDrux7T6C3V/YYYe2LXr7x6AEsVyq5Y2YoTE9er1SwbDtap3z1g8RgxNh5eKQVyB4T+DKvBBJ4Ezd/VZzJQJZg==",
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.14": {
+      "sha512": "/SaznoTTFfKzxYEbCPAwwKBR3XT92DZgH4jJ3/cqs2skP3o2D+TL6i9Aaj+8Azwtu6/sRd0ve4P2mN12nfVmCw==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/10.0.12",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5474,28 +5479,28 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.10.0.12.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.10.0.14.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/10.0.12": {
-      "sha512": "Kd4o2oO1A6dfKxjz5LS16QyLtpCFTUiFWwmBABETAXRsSImBdRdWeKjSgbbRhAMiV3a3/nWr95ZtzClT4uaADQ==",
+    "Microsoft.EntityFrameworkCore.Analyzers/10.0.14": {
+      "sha512": "gaANlGNTxkgODX2eeVT8jjd3AmlFilQV4DFf8qoW30+wUCm2o4N7nEHtZvnHIwfhaJni2DqcjE47Au7tC0Q5jA==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/10.0.12",
+      "path": "microsoft.entityframeworkcore.analyzers/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "docs/PACKAGE.md",
-        "microsoft.entityframeworkcore.analyzers.10.0.12.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.10.0.14.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Design/10.0.12": {
-      "sha512": "I/IwEkUEUoa62UMJHh2+04oAs+gZz4QEunpZ3MGtAf12PZUcTduZLuGZEp3FAZ7wkmkSThZez41P8tgFj8QYKQ==",
+    "Microsoft.EntityFrameworkCore.Design/10.0.14": {
+      "sha512": "hRaYw8yzhpGq3Yz9apZrr/tp6FeBDUiAq4zJELRxQH1J1PfSBb2uGZoXlOL6EoSB3/M+OMpIjHDH0aOfgwyUUQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.design/10.0.12",
+      "path": "microsoft.entityframeworkcore.design/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5504,14 +5509,14 @@
         "build/net10.0/Microsoft.EntityFrameworkCore.Design.props",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Design.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Design.xml",
-        "microsoft.entityframeworkcore.design.10.0.12.nupkg.sha512",
+        "microsoft.entityframeworkcore.design.10.0.14.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Relational/10.0.12": {
-      "sha512": "OiHmr8XzX96dbgMsYGe8qoqg4KxibdZG2r0QUVJBGktFInOp8IrABe8jvcbo5hrqeWfbwpK7fCEBiEPbY/ik4A==",
+    "Microsoft.EntityFrameworkCore.Relational/10.0.14": {
+      "sha512": "Ut0kgtfoKX9QElQVEXSEAgdQc79jISWStVWSOhfPDDHNSKMwFzSXG3gtdYFTAbsBoV+8NtXdVaj4xwdqeky8UA==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.relational/10.0.12",
+      "path": "microsoft.entityframeworkcore.relational/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5519,14 +5524,14 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.xml",
-        "microsoft.entityframeworkcore.relational.10.0.12.nupkg.sha512",
+        "microsoft.entityframeworkcore.relational.10.0.14.nupkg.sha512",
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.SqlServer/10.0.12": {
-      "sha512": "Wt/JUrctpOPfv3DNcZ6oKeg+FouanIXnrLfB8WN8DdMoqS/bxi9yPrwTKIEFB32qcKTUb5i9AVTCdbQBUid6ZQ==",
+    "Microsoft.EntityFrameworkCore.SqlServer/10.0.14": {
+      "sha512": "S3zuzJE5qcl4jjBwSI1x1WZp/GiwzBk1qlFjI77O1E/FZ0mtXNYRBDCfAY0x7nly2zZjM2U5XIkw7AD3DsSpEQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.sqlserver/10.0.12",
+      "path": "microsoft.entityframeworkcore.sqlserver/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5534,7 +5539,7 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.xml",
-        "microsoft.entityframeworkcore.sqlserver.10.0.12.nupkg.sha512",
+        "microsoft.entityframeworkcore.sqlserver.10.0.14.nupkg.sha512",
         "microsoft.entityframeworkcore.sqlserver.nuspec"
       ]
     },
@@ -5798,10 +5803,10 @@
         "tools/net462/netstandard.dll"
       ]
     },
-    "Microsoft.Extensions.DependencyModel/10.0.12": {
-      "sha512": "rDPQVTxh/zMTDF7wHlRqL/jjZbwjAP6315ydBxj51pZW7qkAwGwjoSiMutxYI91xmOE3ZXjAGHbYRqzyJV7Urw==",
+    "Microsoft.Extensions.DependencyModel/10.0.14": {
+      "sha512": "N8OcqM0370wSXMJ3ZxO66rSElHrIgxvpfUn0vV7zRj7NvKo0nfwgEoTmC3Yz3860o60IaQ4KIPyeLIGX9EeNWA==",
       "type": "package",
-      "path": "microsoft.extensions.dependencymodel/10.0.12",
+      "path": "microsoft.extensions.dependencymodel/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5822,7 +5827,7 @@
         "lib/net9.0/Microsoft.Extensions.DependencyModel.xml",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyModel.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyModel.xml",
-        "microsoft.extensions.dependencymodel.10.0.12.nupkg.sha512",
+        "microsoft.extensions.dependencymodel.10.0.14.nupkg.sha512",
         "microsoft.extensions.dependencymodel.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -6012,10 +6017,10 @@
         "ref/netstandard2.0/Microsoft.NET.StringTools.xml"
       ]
     },
-    "Microsoft.OpenApi/2.12.0": {
-      "sha512": "0xB/be+f6qYOhvQPUrVsLrau+fkowYv6gt9RIkajMhwT7sZnqtcA797yW3bS5kgSje+AQW4xZgyLnW641YFioQ==",
+    "Microsoft.OpenApi/2.12.2": {
+      "sha512": "ZkT7qiJe0Kj0+DTZOZo+xrDy1kNmdsWFQVPIQLNx9ZJ0T9cB2LG7r+Bi60so8/+yg1nkS7QCPadrzsTG4VPKrA==",
       "type": "package",
-      "path": "microsoft.openapi/2.12.0",
+      "path": "microsoft.openapi/2.12.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6026,7 +6031,7 @@
         "lib/netstandard2.0/Microsoft.OpenApi.dll",
         "lib/netstandard2.0/Microsoft.OpenApi.pdb",
         "lib/netstandard2.0/Microsoft.OpenApi.xml",
-        "microsoft.openapi.2.12.0.nupkg.sha512",
+        "microsoft.openapi.2.12.2.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
     },
@@ -6803,10 +6808,10 @@
         "nuget.versioning.nuspec"
       ]
     },
-    "QRCoder/1.8.0": {
-      "sha512": "RuvX3PEXU6pbY/I5ItAk800jm62r+YnoPLgyS2WTgwxkOnGkOfU9ORiipHUF0LkLyqM8rlroUCA319JjRYfRFQ==",
+    "QRCoder/1.8.1": {
+      "sha512": "aGfRFpU/IPexAtEOEXCNxC3fMCAqgn6kqALRvXt6LxVAW0VolSDGHiyrY+o2CJgTITOsMpsrsDi7svMJaJ9Vfg==",
       "type": "package",
-      "path": "qrcoder/1.8.0",
+      "path": "qrcoder/1.8.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6827,7 +6832,7 @@
         "lib/netstandard2.1/QRCoder.dll",
         "lib/netstandard2.1/QRCoder.xml",
         "nuget-icon.png",
-        "qrcoder.1.8.0.nupkg.sha512",
+        "qrcoder.1.8.1.nupkg.sha512",
         "qrcoder.nuspec"
       ]
     },
@@ -7224,10 +7229,10 @@
         "sixlabors.fonts.nuspec"
       ]
     },
-    "SkiaSharp/4.152.1": {
-      "sha512": "p3rj8SVoa+2Tmx1EITE4jIwCDPcYjwXdZ3c9yM6l9wNn6572hwxzrth6WOBK0iGnAoTGoJBZuZpy8wYjbov6sw==",
+    "SkiaSharp/4.154.0": {
+      "sha512": "R3BuszJ3tUFmni37nZIRawXL0yx+XHyx7xi1716/0TybuEQFhnBx48Ig3rFpeVFQVytpGpJZZ+NLW9d9UPG7EA==",
       "type": "package",
-      "path": "skiasharp/4.152.1",
+      "path": "skiasharp/4.154.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7239,77 +7244,119 @@
         "lib/net10.0-android36.0/SkiaSharp.xml",
         "lib/net10.0-ios26.0/SkiaSharp.dll",
         "lib/net10.0-ios26.0/SkiaSharp.pdb",
+        "lib/net10.0-ios26.0/SkiaSharp.xml",
         "lib/net10.0-maccatalyst26.0/SkiaSharp.dll",
         "lib/net10.0-maccatalyst26.0/SkiaSharp.pdb",
+        "lib/net10.0-maccatalyst26.0/SkiaSharp.xml",
         "lib/net10.0-macos26.0/SkiaSharp.dll",
         "lib/net10.0-macos26.0/SkiaSharp.pdb",
+        "lib/net10.0-macos26.0/SkiaSharp.xml",
         "lib/net10.0-tizen10.0/SkiaSharp.dll",
         "lib/net10.0-tizen10.0/SkiaSharp.pdb",
+        "lib/net10.0-tizen10.0/SkiaSharp.xml",
         "lib/net10.0-tvos26.0/SkiaSharp.dll",
         "lib/net10.0-tvos26.0/SkiaSharp.pdb",
+        "lib/net10.0-tvos26.0/SkiaSharp.xml",
         "lib/net10.0-windows10.0.19041/SkiaSharp.dll",
         "lib/net10.0-windows10.0.19041/SkiaSharp.pdb",
+        "lib/net10.0-windows10.0.19041/SkiaSharp.xml",
         "lib/net10.0/SkiaSharp.dll",
         "lib/net10.0/SkiaSharp.pdb",
+        "lib/net10.0/SkiaSharp.xml",
         "lib/net462/SkiaSharp.dll",
         "lib/net462/SkiaSharp.pdb",
+        "lib/net462/SkiaSharp.xml",
         "lib/net48/SkiaSharp.dll",
         "lib/net48/SkiaSharp.pdb",
+        "lib/net48/SkiaSharp.xml",
         "lib/net6.0-tizen8.0/SkiaSharp.dll",
         "lib/net6.0-tizen8.0/SkiaSharp.pdb",
+        "lib/net6.0-tizen8.0/SkiaSharp.xml",
         "lib/net6.0/SkiaSharp.dll",
         "lib/net6.0/SkiaSharp.pdb",
+        "lib/net6.0/SkiaSharp.xml",
         "lib/net9.0-android35.0/SkiaSharp.dll",
         "lib/net9.0-android35.0/SkiaSharp.pdb",
         "lib/net9.0-android35.0/SkiaSharp.xml",
         "lib/net9.0-ios18.0/SkiaSharp.dll",
         "lib/net9.0-ios18.0/SkiaSharp.pdb",
+        "lib/net9.0-ios18.0/SkiaSharp.xml",
         "lib/net9.0-maccatalyst18.0/SkiaSharp.dll",
         "lib/net9.0-maccatalyst18.0/SkiaSharp.pdb",
+        "lib/net9.0-maccatalyst18.0/SkiaSharp.xml",
         "lib/net9.0-macos15.0/SkiaSharp.dll",
         "lib/net9.0-macos15.0/SkiaSharp.pdb",
+        "lib/net9.0-macos15.0/SkiaSharp.xml",
         "lib/net9.0-tizen8.0/SkiaSharp.dll",
         "lib/net9.0-tizen8.0/SkiaSharp.pdb",
+        "lib/net9.0-tizen8.0/SkiaSharp.xml",
         "lib/net9.0-tvos18.0/SkiaSharp.dll",
         "lib/net9.0-tvos18.0/SkiaSharp.pdb",
+        "lib/net9.0-tvos18.0/SkiaSharp.xml",
         "lib/net9.0-windows10.0.19041/SkiaSharp.dll",
         "lib/net9.0-windows10.0.19041/SkiaSharp.pdb",
+        "lib/net9.0-windows10.0.19041/SkiaSharp.xml",
         "lib/net9.0/SkiaSharp.dll",
         "lib/net9.0/SkiaSharp.pdb",
+        "lib/net9.0/SkiaSharp.xml",
         "lib/netstandard2.0/SkiaSharp.dll",
         "lib/netstandard2.0/SkiaSharp.pdb",
+        "lib/netstandard2.0/SkiaSharp.xml",
         "lib/netstandard2.1/SkiaSharp.dll",
         "lib/netstandard2.1/SkiaSharp.pdb",
+        "lib/netstandard2.1/SkiaSharp.xml",
         "ref/net10.0-android36.0/SkiaSharp.dll",
+        "ref/net10.0-android36.0/SkiaSharp.xml",
         "ref/net10.0-ios26.0/SkiaSharp.dll",
+        "ref/net10.0-ios26.0/SkiaSharp.xml",
         "ref/net10.0-maccatalyst26.0/SkiaSharp.dll",
+        "ref/net10.0-maccatalyst26.0/SkiaSharp.xml",
         "ref/net10.0-macos26.0/SkiaSharp.dll",
+        "ref/net10.0-macos26.0/SkiaSharp.xml",
         "ref/net10.0-tizen10.0/SkiaSharp.dll",
+        "ref/net10.0-tizen10.0/SkiaSharp.xml",
         "ref/net10.0-tvos26.0/SkiaSharp.dll",
+        "ref/net10.0-tvos26.0/SkiaSharp.xml",
         "ref/net10.0-windows10.0.19041/SkiaSharp.dll",
+        "ref/net10.0-windows10.0.19041/SkiaSharp.xml",
         "ref/net10.0/SkiaSharp.dll",
+        "ref/net10.0/SkiaSharp.xml",
         "ref/net462/SkiaSharp.dll",
+        "ref/net462/SkiaSharp.xml",
         "ref/net48/SkiaSharp.dll",
+        "ref/net48/SkiaSharp.xml",
         "ref/net6.0-tizen8.0/SkiaSharp.dll",
+        "ref/net6.0-tizen8.0/SkiaSharp.xml",
         "ref/net6.0/SkiaSharp.dll",
+        "ref/net6.0/SkiaSharp.xml",
         "ref/net9.0-android35.0/SkiaSharp.dll",
+        "ref/net9.0-android35.0/SkiaSharp.xml",
         "ref/net9.0-ios18.0/SkiaSharp.dll",
+        "ref/net9.0-ios18.0/SkiaSharp.xml",
         "ref/net9.0-maccatalyst18.0/SkiaSharp.dll",
+        "ref/net9.0-maccatalyst18.0/SkiaSharp.xml",
         "ref/net9.0-macos15.0/SkiaSharp.dll",
+        "ref/net9.0-macos15.0/SkiaSharp.xml",
         "ref/net9.0-tizen8.0/SkiaSharp.dll",
+        "ref/net9.0-tizen8.0/SkiaSharp.xml",
         "ref/net9.0-tvos18.0/SkiaSharp.dll",
+        "ref/net9.0-tvos18.0/SkiaSharp.xml",
         "ref/net9.0-windows10.0.19041/SkiaSharp.dll",
+        "ref/net9.0-windows10.0.19041/SkiaSharp.xml",
         "ref/net9.0/SkiaSharp.dll",
+        "ref/net9.0/SkiaSharp.xml",
         "ref/netstandard2.0/SkiaSharp.dll",
+        "ref/netstandard2.0/SkiaSharp.xml",
         "ref/netstandard2.1/SkiaSharp.dll",
-        "skiasharp.4.152.1.nupkg.sha512",
+        "ref/netstandard2.1/SkiaSharp.xml",
+        "skiasharp.4.154.0.nupkg.sha512",
         "skiasharp.nuspec"
       ]
     },
-    "SkiaSharp.NativeAssets.macOS/4.152.1": {
-      "sha512": "gKaE2zNHsPLjlA88ZClRNmtZlHNGEa/W4iPy5GpP1TtUELIXzrSr2udCbl1GWYFuCdA36IycBk5YhUuK1xi9UA==",
+    "SkiaSharp.NativeAssets.macOS/4.154.0": {
+      "sha512": "GgYL4ML3HT4CW33oXMHdp7BSRU87bPUfWBXdYgNduGlt4GAbAM/3eXcjjUdilS0H1r2R5iBhwvExCfSYGwFKlw==",
       "type": "package",
-      "path": "skiasharp.nativeassets.macos/4.152.1",
+      "path": "skiasharp.nativeassets.macos/4.154.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7333,14 +7380,14 @@
         "lib/netstandard2.0/_._",
         "lib/netstandard2.1/_._",
         "runtimes/osx/native/libSkiaSharp.dylib",
-        "skiasharp.nativeassets.macos.4.152.1.nupkg.sha512",
+        "skiasharp.nativeassets.macos.4.154.0.nupkg.sha512",
         "skiasharp.nativeassets.macos.nuspec"
       ]
     },
-    "SkiaSharp.NativeAssets.Win32/4.152.1": {
-      "sha512": "MLDP6XT8CHLHF6gZlpW06iswGNBlL/JB2+SKuSLz0Y0k1zzsfofNyUY6J6FC32A4/F67E9S8MwovRBL+ELw0lw==",
+    "SkiaSharp.NativeAssets.Win32/4.154.0": {
+      "sha512": "GXgoY77GCXdPcveNAmy8o3gVit8sp6YtnI88h5camLPfihjulwJUajZXKhgVuZ8RhuwSTgfyt/00Dx8HRUSeAA==",
       "type": "package",
-      "path": "skiasharp.nativeassets.win32/4.152.1",
+      "path": "skiasharp.nativeassets.win32/4.154.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7367,28 +7414,28 @@
         "runtimes/win-x64/native/libSkiaSharp.pdb",
         "runtimes/win-x86/native/libSkiaSharp.dll",
         "runtimes/win-x86/native/libSkiaSharp.pdb",
-        "skiasharp.nativeassets.win32.4.152.1.nupkg.sha512",
+        "skiasharp.nativeassets.win32.4.154.0.nupkg.sha512",
         "skiasharp.nativeassets.win32.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore/10.2.3": {
-      "sha512": "8KNh1RWvofdU6DVLyBs4Z/OpUMnmf8oNvJQc0QxpwySRbi42bwLfdVMMrXZWANg5U5KQGQq1xW6r/hlcqw99tQ==",
+    "Swashbuckle.AspNetCore/10.3.1": {
+      "sha512": "aCaJQAUxU2SZhN0lXqTfa+6/hJ7RdofjtbWu4oXSmsQ+z7WFJQvAAPrvn5rQI/ly8M/Vu381wtlbA1FUYseHPg==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore/10.2.3",
+      "path": "swashbuckle.aspnetcore/10.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "build/Swashbuckle.AspNetCore.props",
         "buildMultiTargeting/Swashbuckle.AspNetCore.props",
         "docs/package-readme.md",
-        "swashbuckle.aspnetcore.10.2.3.nupkg.sha512",
+        "swashbuckle.aspnetcore.10.3.1.nupkg.sha512",
         "swashbuckle.aspnetcore.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.Swagger/10.2.3": {
-      "sha512": "1jUUs3WQnrS0FUtaZPLSy1yYMEwS1zlvDmvQ2/eldPHUANX0LJSLVZecCMgSMdeGiRqeaRrIXLtSz++TCiTMww==",
+    "Swashbuckle.AspNetCore.Swagger/10.3.1": {
+      "sha512": "ZBsi9PZbuy25lUIs+4/V8pmuMqospRAX9zVmxzCm1ZRyKiXjsUL9YCyqdi7ezfDwxKuef6P0fUgVan9sLRcDJA==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swagger/10.2.3",
+      "path": "swashbuckle.aspnetcore.swagger/10.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7402,14 +7449,14 @@
         "lib/net9.0/Swashbuckle.AspNetCore.Swagger.pdb",
         "lib/net9.0/Swashbuckle.AspNetCore.Swagger.xml",
         "package-readme.md",
-        "swashbuckle.aspnetcore.swagger.10.2.3.nupkg.sha512",
+        "swashbuckle.aspnetcore.swagger.10.3.1.nupkg.sha512",
         "swashbuckle.aspnetcore.swagger.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.SwaggerGen/10.2.3": {
-      "sha512": "y7t4coDRAeFYChmvlMRiH2OjbiRrm9AVIDgt17fQfs3x9PVAI5PiwWYOhg+4F13R4Q36WDc9lqfoOnNa3tNbGg==",
+    "Swashbuckle.AspNetCore.SwaggerGen/10.3.1": {
+      "sha512": "DMamYj+m40rOgnGdAp+4iQ+NXIMup2oYVs/zIOZtal0Dar6CXjCF9/SkepEn42TKNO29wAx0xyLfOXj1VjEIXg==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggergen/10.2.3",
+      "path": "swashbuckle.aspnetcore.swaggergen/10.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7423,14 +7470,14 @@
         "lib/net9.0/Swashbuckle.AspNetCore.SwaggerGen.pdb",
         "lib/net9.0/Swashbuckle.AspNetCore.SwaggerGen.xml",
         "package-readme.md",
-        "swashbuckle.aspnetcore.swaggergen.10.2.3.nupkg.sha512",
+        "swashbuckle.aspnetcore.swaggergen.10.3.1.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggergen.nuspec"
       ]
     },
-    "Swashbuckle.AspNetCore.SwaggerUI/10.2.3": {
-      "sha512": "nthWONRs/FJ4yyG206g1cC52WEG8EqrjuMWjGdR+5XG7lbjFto6NqcI9EMICgVFom/UivIjUVwI76ZHbHwTPfQ==",
+    "Swashbuckle.AspNetCore.SwaggerUI/10.3.1": {
+      "sha512": "kXuMIVJBDD6qMwG78VUrKy4x5Ke98HU0Q023Sf2iSBO/x45c5BuByYPAExIs9UeVsjdGGgvLWU5jK8l6MO2Z0Q==",
       "type": "package",
-      "path": "swashbuckle.aspnetcore.swaggerui/10.2.3",
+      "path": "swashbuckle.aspnetcore.swaggerui/10.3.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7444,7 +7491,7 @@
         "lib/net9.0/Swashbuckle.AspNetCore.SwaggerUI.pdb",
         "lib/net9.0/Swashbuckle.AspNetCore.SwaggerUI.xml",
         "package-readme.md",
-        "swashbuckle.aspnetcore.swaggerui.10.2.3.nupkg.sha512",
+        "swashbuckle.aspnetcore.swaggerui.10.3.1.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
@@ -7870,20 +7917,21 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Security.Cryptography.Pkcs/9.0.13": {
-      "sha512": "dxJhkuoaelvWy588wPXjShNks+ZMiSgXnN75/u+DPbER5PqKrLPDftE0BvGM7nDK/scQAVlD+gRXlCAAjWi58Q==",
+    "System.Security.Cryptography.Pkcs/10.0.14": {
+      "sha512": "Wz+IgL2xpg8KJ4i2VWj6uz1PmZNu4Q0Ljlwd73P9Vze5NcOBtctLii3itV0PB2MpOqwqDEGfB6RCdv94A4E5yQ==",
       "type": "package",
-      "path": "system.security.cryptography.pkcs/9.0.13",
+      "path": "system.security.cryptography.pkcs/10.0.14",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
-        "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "buildTransitive/net461/System.Security.Cryptography.Pkcs.targets",
         "buildTransitive/net462/_._",
         "buildTransitive/net8.0/_._",
         "buildTransitive/netcoreapp2.0/System.Security.Cryptography.Pkcs.targets",
+        "lib/net10.0/System.Security.Cryptography.Pkcs.dll",
+        "lib/net10.0/System.Security.Cryptography.Pkcs.xml",
         "lib/net462/System.Security.Cryptography.Pkcs.dll",
         "lib/net462/System.Security.Cryptography.Pkcs.xml",
         "lib/net8.0/System.Security.Cryptography.Pkcs.dll",
@@ -7894,11 +7942,13 @@
         "lib/netstandard2.0/System.Security.Cryptography.Pkcs.xml",
         "lib/netstandard2.1/System.Security.Cryptography.Pkcs.dll",
         "lib/netstandard2.1/System.Security.Cryptography.Pkcs.xml",
+        "runtimes/win/lib/net10.0/System.Security.Cryptography.Pkcs.dll",
+        "runtimes/win/lib/net10.0/System.Security.Cryptography.Pkcs.xml",
         "runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll",
         "runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.xml",
         "runtimes/win/lib/net9.0/System.Security.Cryptography.Pkcs.dll",
         "runtimes/win/lib/net9.0/System.Security.Cryptography.Pkcs.xml",
-        "system.security.cryptography.pkcs.9.0.13.nupkg.sha512",
+        "system.security.cryptography.pkcs.10.0.14.nupkg.sha512",
         "system.security.cryptography.pkcs.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -8050,13 +8100,14 @@
     "net10.0": [
       "Application >= 1.0.0",
       "Infrastructure >= 1.0.0",
-      "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.12",
-      "Microsoft.AspNetCore.OpenApi >= 10.0.12",
-      "Microsoft.EntityFrameworkCore.Design >= 10.0.12",
+      "Microsoft.AspNetCore.Authentication.JwtBearer >= 10.0.14",
+      "Microsoft.AspNetCore.OpenApi >= 10.0.14",
+      "Microsoft.EntityFrameworkCore.Design >= 10.0.14",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 10.0.2",
       "NuGet.Packaging >= 7.9.0",
       "NuGet.Protocol >= 7.9.0",
-      "Swashbuckle.AspNetCore >= 10.2.3",
+      "Swashbuckle.AspNetCore >= 10.3.1",
+      "System.Security.Cryptography.Pkcs >= 10.0.14",
       "Utilities >= 1.0.0"
     ]
   },
@@ -8124,17 +8175,17 @@
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
-            "version": "[10.0.12, )"
+            "version": "[10.0.14, )"
           },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
-            "version": "[10.0.12, )"
+            "version": "[10.0.14, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[10.0.12, )"
+            "version": "[10.0.14, )"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -8152,7 +8203,11 @@
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
-            "version": "[10.2.3, )"
+            "version": "[10.3.1, )"
+          },
+          "System.Security.Cryptography.Pkcs": {
+            "target": "Package",
+            "version": "[10.0.14, )"
           }
         },
         "imports": [
@@ -8174,7 +8229,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.403/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
